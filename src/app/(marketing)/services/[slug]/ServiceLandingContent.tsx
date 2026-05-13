@@ -4,9 +4,8 @@ import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Service } from '@/data/services';
 import { BentoGrid } from '@/components/ui/bento/BentoGrid';
-import { BentoCard } from '@/components/ui/bento/BentoCard';
 import { PriceCalculator } from '@/components/features/calculator/PriceCalculator';
-import { gsap, useGSAP, ScrollTrigger } from '@/lib/gsap';
+import { gsap, useGSAP } from '@/lib/gsap';
 import { tracker } from '@/lib/analytics/tracker';
 import { 
   Zap, 
@@ -38,6 +37,10 @@ export function ServiceLandingContent({ service }: ServiceLandingContentProps) {
   const openModal = useModalStore((state) => state.openModal);
   const { locale } = useLanguage();
   const icons = [Zap, ShieldCheck, Target, Box, Layers, Truck];
+  const sessionKey = React.useMemo(() => {
+    const normalizedId = service.id.replace(/[^a-z0-9]/gi, '').toUpperCase();
+    return `EXP-${normalizedId.slice(0, 6).padEnd(6, 'X')}`;
+  }, [service.id]);
 
   // Specific videos based on service type
   const getServiceVideo = () => {
@@ -247,7 +250,7 @@ export function ServiceLandingContent({ service }: ServiceLandingContentProps) {
                 </div>
                 
                 <div className="absolute top-8 right-8 text-[9px] font-mono text-white/30 uppercase tracking-tighter text-right flex flex-col gap-1">
-                  <span>Timestamp: {new Date().toISOString().slice(0, 10)}</span>
+                  <span>Timestamp: LIVE_FEED</span>
                   <span className="text-accent">Auth: SECURE_CORE</span>
                 </div>
 
@@ -376,7 +379,7 @@ export function ServiceLandingContent({ service }: ServiceLandingContentProps) {
                       
                       {/* Decorative Technical Overlay */}
                       <div className="absolute top-6 right-6 font-mono text-[8px] text-on-surface-variant/20 uppercase tracking-[0.4em] pointer-events-none">
-                        Feature_ID: 0{idx + 1} // SYS_CORE
+                        Feature_ID: 0{idx + 1} / SYS_CORE
                       </div>
                    </div>
 
@@ -560,7 +563,7 @@ export function ServiceLandingContent({ service }: ServiceLandingContentProps) {
                                  <span className="text-[9px] font-mono text-on-surface-variant/40 uppercase tracking-widest">Status: Verified_Core</span>
                                </div>
                                <div className="text-[9px] font-mono text-on-surface-variant/40 uppercase tracking-widest">
-                                 Updated: {new Date().toLocaleDateString('ru-RU')}
+                                 Updated: VERIFIED_RELEASE
                                 </div>
                              </div>
                            </div>
@@ -598,7 +601,7 @@ export function ServiceLandingContent({ service }: ServiceLandingContentProps) {
            {/* Industrial Metadata Corners */}
            <div className="absolute top-12 left-12 hidden lg:flex flex-col gap-1 text-[8px] font-mono text-white/20 uppercase tracking-[0.4em]">
              <span>Terminal_ID: EXP-CTR-09</span>
-             <span>Session_Key: {Math.random().toString(36).substring(7).toUpperCase()}</span>
+             <span>Session_Key: {sessionKey}</span>
            </div>
            <div className="absolute bottom-12 right-12 hidden lg:flex flex-col items-end gap-1 text-[8px] font-mono text-white/20 uppercase tracking-[0.4em]">
              <span>Security_Level: ENCRYPTED</span>

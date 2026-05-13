@@ -5,6 +5,15 @@ import { Activity, AlertTriangle, CheckCircle2, Terminal } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
+function getPayloadAction(payload: unknown): string | null {
+  if (!payload || typeof payload !== "object") {
+    return null;
+  }
+
+  const action = (payload as { action?: unknown }).action;
+  return typeof action === "string" ? action : null;
+}
+
 export default async function LaboratoryDashboard() {
   const latestSignals = await db.select()
     .from(behavioralSignals)
@@ -13,7 +22,10 @@ export default async function LaboratoryDashboard() {
 
   const stats = {
     total: latestSignals.length,
-    frictionEvents: latestSignals.filter(s => s.payload && (s.payload as any).action?.includes("detected")).length,
+    frictionEvents: latestSignals.filter((signal) => {
+      const action = getPayloadAction(signal.payload);
+      return action?.includes("detected") ?? false;
+    }).length,
     conversions: latestSignals.filter(s => s.topic === "conversion").length,
   };
 
@@ -68,8 +80,8 @@ export default async function LaboratoryDashboard() {
             </thead>
             <tbody className="divide-y divide-outline">
               {latestSignals.map(signal => {
-                const payload = signal.payload as any;
-                const action = payload?.action || "unknown";
+                const payload = signal.payload;
+                const action = getPayloadAction(payload) ?? "unknown";
                 
                 return (
                   <tr key={signal.signalId} className="hover:bg-accent/5 transition-colors font-mono text-xs">

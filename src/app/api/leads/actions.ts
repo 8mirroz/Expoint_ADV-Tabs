@@ -1,6 +1,7 @@
 "use server";
 
 import { z } from "zod";
+import { notifyAll } from "@/lib/services/notifications/orchestrator";
 
 const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY;
 
@@ -51,9 +52,14 @@ export async function submitLead(formData: LeadFormData) {
     // 3. Log 152-FZ Compliance
     console.log(`[ASH] Lead received. 152-FZ Consent Logged: ${validatedData.name} (${validatedData.phone})`);
 
-    // 4. Send to CRM (Mock)
-    // Here we would call a CRM API or a Webhook
-    console.log(`[CRM] Dispatching lead for service: ${validatedData.service}`);
+    // 4. Dispatch to all notification channels (Telegram, Email, CRM)
+    await notifyAll({
+      name: validatedData.name,
+      phone: validatedData.phone,
+      source: validatedData.service,
+      type: 'consultation',
+      message: validatedData.message,
+    });
 
     return {
       success: true,

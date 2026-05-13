@@ -1,7 +1,10 @@
 "use client";
+import type { SVGProps } from 'react';
 import { MapPin, ArrowUpRight, MessageCircle, Send } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/LanguageProvider';
+import { t } from '@/i18n/site';
 
-const Linkedin = (props: any) => (
+const Linkedin = (props: SVGProps<SVGSVGElement>) => (
   <svg 
     {...props}
     xmlns="http://www.w3.org/2000/svg" 
@@ -19,9 +22,6 @@ const Linkedin = (props: any) => (
     <circle cx="4" cy="4" r="2"/>
   </svg>
 );
-
-import { useLanguage } from '@/components/i18n/LanguageProvider';
-import { t } from '@/i18n/site';
 
 const copy = {
   description: { ru: 'Промышленное производство визуальных коммуникаций. Проектируем будущее вашего бренда в городском ландшафте.', be: 'Прамысловая вытворчасць візуальных камунікацый. Праектуем будучыню вашага брэнда ў гарадскім ландшафце.', kk: 'Көрнекі коммуникациялардың өнеркәсіптік өндірісі. Қалалық ортада брендіңіздің болашағын жобалаймыз.', en: 'Industrial production of visual communications. We engineer your brand future in the urban landscape.', zh: '工业级视觉 коммуникация 生产。我们在城市空间中设计您的品牌未来。', ce: 'Визуалан коммуникацин промышленни кхоллам. Шун брендан кхана шаьржин ландшафта проект йо.', tt: 'Визуаль коммуникацияләрнең индустриаль производствосы. Шәһәр мохитендә брендыгызның киләчәген проектлыйбыз.' },

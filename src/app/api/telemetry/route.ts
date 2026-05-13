@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     // body.events?.forEach((e: any) => console.log(' -> Event:', e.event, e.metadata));
 
     return NextResponse.json({ status: 'ok' });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ status: 'error' }, { status: 500 });
   }
 }

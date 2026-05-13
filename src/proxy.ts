@@ -22,7 +22,8 @@ export function proxy(request: NextRequest) {
   const enableHsts = process.env.ENABLE_HSTS === 'true';
 
   // Rate Limiting for Leads API
-  if (request.nextUrl.pathname.startsWith('/api/leads')) {
+  // Skip rate limiting on localhost for development convenience
+  if (request.nextUrl.pathname.startsWith('/api/leads') && !isLocalHost) {
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? 'anonymous';
     const now = Date.now();
     const userData = ipCache.get(ip) || { count: 0, lastReset: now };
@@ -82,15 +83,9 @@ export function proxy(request: NextRequest) {
   return response;
 }
 
-// Specify which routes this middleware should run on
+// Specify which routes this proxy should run on
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
     {
       source: '/((?!_next/static|_next/image|favicon.ico).*)',
       missing: [
@@ -100,4 +95,3 @@ export const config = {
     },
   ],
 };
-

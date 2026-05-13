@@ -1,7 +1,8 @@
 import React from 'react';
+import type { Service } from '@/data/services';
 
 interface JsonLdProps {
-  data: any;
+  data: Record<string, unknown>;
 }
 
 export const JsonLd: React.FC<JsonLdProps> = ({ data }) => {
@@ -13,7 +14,9 @@ export const JsonLd: React.FC<JsonLdProps> = ({ data }) => {
   );
 };
 
-export const generateServiceSchema = (service: any) => {
+type ServiceSchemaInput = Pick<Service, 'title' | 'fullDescription' | 'basePrice' | 'priceUnit'>;
+
+export const generateServiceSchema = (service: ServiceSchemaInput) => {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',

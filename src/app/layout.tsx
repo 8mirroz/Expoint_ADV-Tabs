@@ -65,7 +65,7 @@ export default function RootLayout({
       <body className={`${outfit.variable} ${inter.variable} font-inter`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >

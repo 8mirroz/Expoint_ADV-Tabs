@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { behavioralSignals } from "@/db/schema";
-import { verifySignature } from "@/lib/services/security";
 import { desc } from "drizzle-orm";
 
 /**
