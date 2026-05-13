@@ -11,6 +11,9 @@ const SECRET = process.env.LOG_INGRESS_SECRET;
  * Sign a payload with HMAC SHA-256
  */
 export function signPayload(payload: string): string {
+  if (!SECRET) {
+    throw new Error("LOG_INGRESS_SECRET is not defined");
+  }
   return createHmac("sha256", SECRET).update(payload).digest("hex");
 }
 

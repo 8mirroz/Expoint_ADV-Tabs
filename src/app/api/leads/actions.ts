@@ -22,6 +22,10 @@ export async function submitLead(formData: LeadFormData) {
     const validatedData = LeadSchema.parse(formData);
 
     // 2. Verify Turnstile Token
+    if (!TURNSTILE_SECRET_KEY) {
+      throw new Error("TURNSTILE_SECRET_KEY is not defined");
+    }
+
     const verifyResponse = await fetch(
       "https://challenges.cloudflare.com/turnstile/v0/siteverify",
       {
