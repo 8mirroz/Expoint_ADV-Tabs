@@ -1,0 +1,27 @@
+{
+  "version": "v3.0.0",
+  "project_id": "expoint-adv",
+  "profile": "luxury",
+  "input": {
+    "target_url": "http://localhost:3005",
+    "objective": "Audit the premium industrial UI responsiveness and accessibility, focusing on the new navigation system and light theme contrast.",
+    "assets": [
+      "media__1778583277728.png"
+    ]
+  },
+  "constraints": {
+    "deterministic": true,
+    "max_duration_ms": 60000,
+    "budget_tier": "quality-first"
+  },
+  "routing_context": {
+    "task_type": "T6",
+    "complexity": "C4",
+    "routing_source": "configs/orchestrator/router.yaml"
+  },
+  "metadata": {
+    "requested_by": "antigravity-executor",
+    "requested_at": "2026-05-12T13:34:37Z",
+    "trace_id": "antiq.lux.20260512.001"
+  }
+}

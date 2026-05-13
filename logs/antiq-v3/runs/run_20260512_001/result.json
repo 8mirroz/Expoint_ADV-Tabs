@@ -1,0 +1,80 @@
+{
+  "run_id": "run_20260512_001",
+  "request_fingerprint": "expoint-adv-audit-20260512-fingerprint",
+  "profile": "luxury",
+  "scores": {
+    "overall": 9.2,
+    "dimensions": [
+      {
+        "name": "Cinematic Aesthetics",
+        "score": 9.5
+      },
+      {
+        "name": "Technical Integrity",
+        "score": 9.0
+      },
+      {
+        "name": "User Perception",
+        "score": 9.0
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "title": "Sub-optimal Navigation Font Size",
+      "severity": "P2",
+      "evidence": "text-[11px] used in Header.tsx navigation links.",
+      "impact": "Reduced readability for users with low vision or on non-high-DPI screens.",
+      "fix": "Increase font size to text-[12px] or text-[13px].",
+      "owner_role": "UI Engineer",
+      "acceptance_check": "Nav links font-size is at least 12px."
+    },
+    {
+      "id": "F-002",
+      "title": "Light Theme Navigation Contrast",
+      "severity": "P2",
+      "evidence": "text-on-surface-variant on white surface in light mode.",
+      "impact": "Potential WCAG contrast violation for active navigation elements.",
+      "fix": "Use a darker slate color for default nav text in light mode.",
+      "owner_role": "UI Engineer",
+      "acceptance_check": "Contrast ratio of at least 4.5:1 for nav text."
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "R-001",
+      "priority": "medium",
+      "action": "Increase nav items font size to 12px.",
+      "expected_outcome": "Improved legibility without compromising the industrial aesthetic."
+    },
+    {
+      "id": "R-002",
+      "priority": "medium",
+      "action": "Audit contrast ratios for all small UI elements in light mode.",
+      "expected_outcome": "Full accessibility compliance (WCAG AA)."
+    }
+  ],
+  "execution": {
+    "routing_source": "configs/orchestrator/router.yaml@v4.2",
+    "orchestration_path": "Quality Path",
+    "model_tier": "quality",
+    "cost_estimate": 0.05,
+    "duration_ms": 15400
+  },
+  "determinism": {
+    "determinism_hash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "schema_version": "v3.0.0",
+    "normalization_rules": [
+      "sort_findings_by_severity_then_id",
+      "sort_recommendations_by_priority_then_id",
+      "round_scores_to_single_decimal",
+      "canonical_json_sorted_keys",
+      "sha256_on_canonical_payload"
+    ]
+  },
+  "artifacts": {
+    "result_path": "logs/antiq-v3/runs/run_20260512_001/result.json",
+    "report_path": "logs/antiq-v3/runs/run_20260512_001/report.md"
+  }
+}

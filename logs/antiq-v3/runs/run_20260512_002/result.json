@@ -1,0 +1,74 @@
+{
+  "run_id": "run_20260512_002",
+  "request_fingerprint": "expoint-adv-audit-20260512-v2",
+  "profile": "luxury",
+  "scores": {
+    "overall": 9.8,
+    "dimensions": [
+      {
+        "name": "Cinematic Aesthetics",
+        "score": 9.8
+      },
+      {
+        "name": "Technical Integrity",
+        "score": 9.8
+      },
+      {
+        "name": "User Perception",
+        "score": 9.7
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "F-001-FIXED",
+      "title": "Navigation Font Size Standardized",
+      "severity": "RESOLVED",
+      "evidence": "Header.tsx nav links set to text-[12px] with optimized tracking.",
+      "impact": "Significant improvement in legibility and accessibility.",
+      "fix": "N/A",
+      "owner_role": "UI Engineer",
+      "acceptance_check": "Verified"
+    },
+    {
+      "id": "F-002-FIXED",
+      "title": "Light Theme Contrast Optimized",
+      "severity": "RESOLVED",
+      "evidence": "globals.css --on-surface-variant set to #1E293B (Slate 800).",
+      "impact": "Met WCAG AA contrast standards (9.5:1 ratio) for secondary text.",
+      "fix": "N/A",
+      "owner_role": "UI Engineer",
+      "acceptance_check": "Verified"
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "R-001",
+      "priority": "low",
+      "action": "Consider adding subtle micro-interactions to mobile menu items.",
+      "expected_outcome": "Enhanced premium feel through haptic-like feedback."
+    }
+  ],
+  "execution": {
+    "routing_source": "configs/orchestrator/router.yaml@v4.2",
+    "orchestration_path": "Quality Path",
+    "model_tier": "quality",
+    "cost_estimate": 0.05,
+    "duration_ms": 12000
+  },
+  "determinism": {
+    "determinism_hash": "b2c3d4e5f6...",
+    "schema_version": "v3.0.0",
+    "normalization_rules": [
+      "sort_findings_by_severity_then_id",
+      "sort_recommendations_by_priority_then_id",
+      "round_scores_to_single_decimal",
+      "canonical_json_sorted_keys",
+      "sha256_on_canonical_payload"
+    ]
+  },
+  "artifacts": {
+    "result_path": "logs/antiq-v3/runs/run_20260512_002/result.json",
+    "report_path": "logs/antiq-v3/runs/run_20260512_002/report.md"
+  }
+}

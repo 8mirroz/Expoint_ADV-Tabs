@@ -1,0 +1,192 @@
+[
+  {
+    "source_doc_id": "NB-001",
+    "source_title": "Market Map 2026: Outdoor Signage Moscow",
+    "category": "market",
+    "covered_sections": ["Hero", "Services", "Cases"],
+    "covered_components": ["Hero.tsx", "Services.tsx", "Cases.tsx"],
+    "covered_data_files": ["services.ts", "cases.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "content-team"
+  },
+  {
+    "source_doc_id": "NB-002",
+    "source_title": "Competitive Intelligence: Premium Signage Players",
+    "category": "competitive",
+    "covered_sections": ["Services", "Pricing", "Cases"],
+    "covered_components": ["Services.tsx", "Pricing.tsx", "Cases.tsx"],
+    "covered_data_files": ["services.ts", "cases.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "content-team"
+  },
+  {
+    "source_doc_id": "NB-003",
+    "source_title": "Pricing Bands by Product Type",
+    "category": "pricing",
+    "covered_sections": ["Calculator", "Services"],
+    "covered_components": ["CalculatorContainer.tsx", "PriceCalculator.tsx"],
+    "covered_data_files": ["pricing-matrix.ts", "services.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "growth-team"
+  },
+  {
+    "source_doc_id": "NB-004",
+    "source_title": "Material Standards and Durability",
+    "category": "materials",
+    "covered_sections": ["Services", "MaterialComparison"],
+    "covered_components": ["ServiceLandingContent.tsx", "MaterialComparison.tsx"],
+    "covered_data_files": ["materials.ts", "services.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "engineering-team"
+  },
+  {
+    "source_doc_id": "NB-005",
+    "source_title": "Lighting Scenarios and Visibility",
+    "category": "materials",
+    "covered_sections": ["Calculator", "Services"],
+    "covered_components": ["CalculatorContainer.tsx", "ServiceLandingContent.tsx"],
+    "covered_data_files": ["materials.ts", "services.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "engineering-team"
+  },
+  {
+    "source_doc_id": "NB-006",
+    "source_title": "902-PP Regulation: Core Rules",
+    "category": "compliance",
+    "covered_sections": ["Compliance", "Academy"],
+    "covered_components": ["ComplianceChecker.tsx", "AuditWizard.tsx"],
+    "covered_data_files": ["rules_902pp.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "legal-team"
+  },
+  {
+    "source_doc_id": "NB-007",
+    "source_title": "Historic Center Constraints",
+    "category": "compliance",
+    "covered_sections": ["Compliance", "Services"],
+    "covered_components": ["ComplianceChecker.tsx", "ServiceLandingContent.tsx"],
+    "covered_data_files": ["rules_902pp.ts", "services.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "legal-team"
+  },
+  {
+    "source_doc_id": "NB-008",
+    "source_title": "Facade Placement and Mounting Restrictions",
+    "category": "compliance",
+    "covered_sections": ["Compliance", "Academy"],
+    "covered_components": ["ComplianceChecker.tsx", "AcademyClient.tsx"],
+    "covered_data_files": ["rules_902pp.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "legal-team"
+  },
+  {
+    "source_doc_id": "NB-009",
+    "source_title": "Conversion Psychology for B2B Landing Pages",
+    "category": "conversion",
+    "covered_sections": ["Hero", "Quiz", "Footer"],
+    "covered_components": ["Hero.tsx", "Quiz.tsx", "Footer.tsx"],
+    "covered_data_files": ["segments.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "growth-team"
+  },
+  {
+    "source_doc_id": "NB-010",
+    "source_title": "Segment Messaging Matrix",
+    "category": "positioning",
+    "covered_sections": ["Segments", "Services"],
+    "covered_components": ["Hero.tsx", "Benefits.tsx", "Services.tsx"],
+    "covered_data_files": ["segments.ts", "services.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "content-team"
+  },
+  {
+    "source_doc_id": "NB-011",
+    "source_title": "Case-study Storytelling Framework",
+    "category": "case-studies",
+    "covered_sections": ["Cases", "Academy"],
+    "covered_components": ["Cases.tsx", "AcademyClient.tsx"],
+    "covered_data_files": ["cases.ts", "portfolio.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "content-team"
+  },
+  {
+    "source_doc_id": "NB-012",
+    "source_title": "ROI Model for Signage Projects",
+    "category": "finance",
+    "covered_sections": ["Cases", "Pricing"],
+    "covered_components": ["Cases.tsx", "Pricing.tsx"],
+    "covered_data_files": ["cases.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "finance-team"
+  },
+  {
+    "source_doc_id": "NB-013",
+    "source_title": "SEO/GEO Content Strategy",
+    "category": "seo",
+    "covered_sections": ["Academy", "LLM-TXT"],
+    "covered_components": ["AcademyClient.tsx", "llm.txt/route.ts"],
+    "covered_data_files": ["services.ts", "cases.ts", "materials.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "seo-team"
+  },
+  {
+    "source_doc_id": "NB-014",
+    "source_title": "AI Assistant Prompting Blueprint",
+    "category": "ai",
+    "covered_sections": ["Assistant", "Calculator"],
+    "covered_components": ["AssistantWidget.tsx", "useAssistantContext.ts"],
+    "covered_data_files": ["services.ts", "materials.ts", "pricing-matrix.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "ai-team"
+  },
+  {
+    "source_doc_id": "NB-015",
+    "source_title": "Knowledge Grounding and Citation Rules",
+    "category": "ai",
+    "covered_sections": ["Assistant", "Knowledge API"],
+    "covered_components": ["AssistantWidget.tsx", "api/knowledge/query"],
+    "covered_data_files": ["nbllm-research-registry.json"],
+    "last_verified_at": "2026-05-12",
+    "owner": "ai-team"
+  },
+  {
+    "source_doc_id": "NB-016",
+    "source_title": "Customer FAQ Objection Handling",
+    "category": "content",
+    "covered_sections": ["Services", "FAQ", "Academy"],
+    "covered_components": ["ServiceLandingContent.tsx", "FAQ.tsx"],
+    "covered_data_files": ["services.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "content-team"
+  },
+  {
+    "source_doc_id": "NB-017",
+    "source_title": "Production Workflow and SLA Benchmarks",
+    "category": "operations",
+    "covered_sections": ["Process", "Cases"],
+    "covered_components": ["Process.tsx", "Cases.tsx"],
+    "covered_data_files": ["cases.ts", "services.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "operations-team"
+  },
+  {
+    "source_doc_id": "NB-018",
+    "source_title": "Legal Risk and Penalty Map (RF)",
+    "category": "compliance",
+    "covered_sections": ["Compliance", "Academy"],
+    "covered_components": ["ComplianceChecker.tsx", "academy/[slug]/page.tsx"],
+    "covered_data_files": ["rules_902pp.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "legal-team"
+  },
+  {
+    "source_doc_id": "NB-019",
+    "source_title": "Growth Experiment Backlog",
+    "category": "growth",
+    "covered_sections": ["Quiz", "Assistant", "Cases"],
+    "covered_components": ["Quiz.tsx", "AssistantWidget.tsx", "Cases.tsx"],
+    "covered_data_files": ["cases.ts", "segments.ts"],
+    "last_verified_at": "2026-05-12",
+    "owner": "growth-team"
+  }
+]

@@ -1,0 +1,504 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: EX
+        - generic [ref=e7]: Expoint ADV
+      - navigation [ref=e8]:
+        - link "Production" [ref=e9] [cursor=pointer]:
+          - /url: "#production"
+        - link "Bento" [ref=e10] [cursor=pointer]:
+          - /url: "#bento"
+        - link "Configurator" [ref=e11] [cursor=pointer]:
+          - /url: "#configurator"
+        - link "Contact" [ref=e12] [cursor=pointer]:
+          - /url: "#contact"
+      - generic [ref=e13]:
+        - link "+7 (495) 000-00-00" [ref=e14] [cursor=pointer]:
+          - /url: tel:+74950000000
+        - generic [ref=e16]:
+          - button "Switch to light theme" [pressed] [ref=e17]:
+            - img [ref=e18]
+          - button "Request Audit" [ref=e26]
+  - main [ref=e27]:
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e35]: Moscow Industrial Lab
+        - heading "Engineering Visibility" [level=1] [ref=e36]:
+          - text: Engineering
+          - text: Visibility
+        - paragraph [ref=e37]:
+          - text: Мы не просто делаем вывески. Мы проектируем визуальный капитал вашего бизнеса. Собственное производство в Москве, полное соблюдение 902-ПП и промышленный стандарт качества.
+          - generic [ref=e38]: Проектирование от 45 000 ₽ • Изготовление от 3 рабочих дней
+        - generic [ref=e39]:
+          - button "Конфигуратор 3D" [ref=e40]:
+            - text: Конфигуратор 3D
+            - img [ref=e41]
+          - button "Смотреть проекты" [ref=e43]
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - paragraph [ref=e46]: 24ч
+            - paragraph [ref=e47]: 3D Макет
+          - generic [ref=e48]:
+            - paragraph [ref=e49]: 100%
+            - paragraph [ref=e50]: Legal (902-ПП)
+          - generic [ref=e51]:
+            - paragraph [ref=e52]: 2Y
+            - paragraph [ref=e53]: Гарантия
+      - generic [ref=e55]:
+        - generic [ref=e58]:
+          - generic [ref=e59]:
+            - generic [ref=e60]: Live Stream
+            - generic [ref=e61]: 00:43:21:04
+          - paragraph [ref=e63]: SCANNING_GEOMETRY...
+        - generic [ref=e66]:
+          - paragraph [ref=e67]: V.02
+          - paragraph [ref=e68]: Edition
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - img [ref=e73]
+          - generic [ref=e76]: Project Estimation Engine
+        - heading "Calculate." [level=2] [ref=e77]
+        - paragraph [ref=e78]: Параметрический расчет стоимости и 3D-моделирование объекта.
+      - generic [ref=e80]:
+        - generic [ref=e82]:
+          - generic [ref=e83]: Phase 01 / 04
+          - generic [ref=e84]: 0% Synchronized
+        - generic [ref=e86]:
+          - heading "Technical Requirements" [level=3] [ref=e87]
+          - generic [ref=e88]:
+            - button "Наружная вывеска (объемные буквы / короб)" [ref=e89]
+            - button "Интерьерная вывеска (ресепшн / ТЦ)" [ref=e90]
+            - button "Гибкий неон / Декоративная подсветка" [ref=e91]
+            - button "Комплексное фасадное решение" [ref=e92]
+    - generic [ref=e93]:
+      - generic [ref=e94]:
+        - generic [ref=e95]:
+          - generic [ref=e98]: Production Units
+          - heading "Hardware Solutions" [level=2] [ref=e99]:
+            - text: Hardware
+            - text: Solutions
+        - paragraph [ref=e101]: Мы проектируем конструкции, которые выдерживают климат Москвы и требования 902-ПП, сохраняя премиальный вид годами.
+      - generic [ref=e102]:
+        - generic [ref=e107]:
+          - generic [ref=e108]:
+            - text: Premium Category
+            - heading "Объемные Световые Буквы" [level=3] [ref=e109]:
+              - text: Объемные
+              - text: Световые Буквы
+            - paragraph [ref=e110]: Стандарт для фасадов в Москве. Полное соответствие закону и максимальный охват аудитории.
+          - generic [ref=e111]:
+            - generic [ref=e112]: от 120 ₽/см
+            - button "Конфигурация" [ref=e113]:
+              - text: Конфигурация
+              - img [ref=e114]
+        - generic [ref=e120]:
+          - img [ref=e122]
+          - generic [ref=e124]:
+            - heading "Гибкий Неон" [level=3] [ref=e125]:
+              - text: Гибкий
+              - text: Неон
+            - paragraph [ref=e126]: Интерьерные решения для HoReCa и офисов.
+        - generic [ref=e131]:
+          - img [ref=e133]
+          - generic [ref=e137]:
+            - heading "Лайтбоксы" [level=3] [ref=e138]
+            - paragraph [ref=e139]: Эффективный и бюджетный способ заявить о себе.
+        - generic [ref=e140]:
+          - generic [ref=e141]:
+            - heading "Нужен индивидуальный проект?" [level=3] [ref=e142]
+            - paragraph [ref=e143]: Наш инженер свяжется с вами для уточнения технических деталей.
+          - button "Заказать аудит фасада" [ref=e144]
+    - generic [ref=e146]:
+      - generic [ref=e148]:
+        - generic [ref=e151]: Real-time Configuration
+        - heading "Build Your Identity" [level=2] [ref=e152]:
+          - text: Build Your
+          - text: Identity
+        - paragraph [ref=e153]: Проектируйте свою вывеску в реальном времени. Наш 3D-движок мгновенно рассчитывает стоимость с учетом материалов, сложности монтажа и требований 902-ПП.
+      - generic [ref=e157]:
+        - generic [ref=e158]:
+          - generic [ref=e159]:
+            - img [ref=e161]
+            - generic [ref=e164]: Конфигурация
+          - generic [ref=e165]:
+            - img [ref=e166]
+            - generic [ref=e170]: Технические ТТХ
+          - generic [ref=e171]:
+            - img [ref=e172]
+            - generic [ref=e174]: Материалы и Свет
+          - generic [ref=e175]:
+            - img [ref=e176]
+            - generic [ref=e179]: Спецификация
+        - generic [ref=e180]:
+          - generic [ref=e181]:
+            - generic [ref=e183]:
+              - heading "Базовые параметры" [level=3] [ref=e184]
+              - generic [ref=e185]:
+                - generic [ref=e186]:
+                  - generic [ref=e187]: Текст вашей вывески
+                  - textbox "Текст вашей вывески" [ref=e189]:
+                    - /placeholder: Введите название компании...
+                    - text: EXPOINT
+                - generic [ref=e190]:
+                  - generic [ref=e191]:
+                    - text: Символов
+                    - generic [ref=e192]: "7"
+                  - generic [ref=e193]:
+                    - text: Тип конструкции
+                    - generic [ref=e194]: Объемные буквы
+            - generic [ref=e195]:
+              - button "Назад" [disabled]:
+                - img
+                - text: Назад
+              - button "Конфигурация" [ref=e196]:
+                - text: Конфигурация
+                - img [ref=e197]
+          - generic [ref=e199]:
+            - generic [ref=e200]:
+              - generic [ref=e201]:
+                - generic:
+                  - generic: Live Renderer Engine v2.0
+              - generic [ref=e207]:
+                - img [ref=e208]
+                - paragraph [ref=e210]:
+                  - generic [ref=e211]: Industrial Intelligence
+                  - text: Ваш проект соответствует стандартам ГОСТ и нормам наружной рекламы г. Москвы (902-ПП).
+            - generic [ref=e212]: Expoint Engineering Unit
+    - generic [ref=e214]:
+      - generic [ref=e215]:
+        - generic [ref=e216]:
+          - img [ref=e217]
+          - generic [ref=e220]: Compliance Protocol
+        - heading "Согласование без компромиссов." [level=2] [ref=e221]:
+          - text: Согласование
+          - text: без компромиссов.
+        - paragraph [ref=e222]: В Москве действуют жесткие регламенты 902-ПП. Мы проводим предварительный аудит вашего фасада, гарантируя соответствие архитектурному коду города до начала производства.
+        - button "Check Property Compliance" [ref=e223]:
+          - img [ref=e224]
+          - text: Check Property Compliance
+      - generic [ref=e228]:
+        - generic [ref=e232]:
+          - paragraph [ref=e233]: Legal Risk Mitigation
+          - paragraph [ref=e234]: Исключаем штрафы до 500 000 ₽ через точное соблюдение архитектурных границ и дизайн-кода.
+        - generic [ref=e239]:
+          - paragraph [ref=e240]: Architectural Integrity
+          - paragraph [ref=e241]: Сохраняем эстетику здания, интегрируя рекламные конструкции как часть фасадного решения.
+    - generic [ref=e243]:
+      - generic [ref=e245]:
+        - heading "Workflow." [level=2] [ref=e246]
+        - paragraph [ref=e247]: От концепции до инсталляции — 5 этапов безупречного исполнения.
+      - generic [ref=e249]:
+        - generic [ref=e250]:
+          - generic: "01"
+          - img [ref=e252]
+          - heading "Заявка" [level=3] [ref=e255]
+          - paragraph [ref=e256]: Анализ фото фасада, брендбука и первичных требований.
+        - generic [ref=e257]:
+          - generic: "02"
+          - img [ref=e259]
+          - heading "3D-макет (24ч)" [level=3] [ref=e263]
+          - paragraph [ref=e264]: Бесплатная визуализация конструкций на вашем объекте.
+        - generic [ref=e265]:
+          - generic: "03"
+          - img [ref=e267]
+          - heading "Смета" [level=3] [ref=e269]
+          - paragraph [ref=e270]: Прозрачный расчет материалов, электрики и монтажных работ.
+        - generic [ref=e271]:
+          - generic: "04"
+          - img [ref=e273]
+          - heading "Производство" [level=3] [ref=e275]
+          - paragraph [ref=e276]: Изготовление в собственном цеху с контролем качества.
+        - generic [ref=e277]:
+          - generic: "05"
+          - img [ref=e279]
+          - heading "Монтаж" [level=3] [ref=e281]
+          - paragraph [ref=e282]: Чистая инсталляция и пусконаладка электрической части.
+    - generic [ref=e284]:
+      - generic [ref=e285]:
+        - generic [ref=e286]:
+          - heading "Archive." [level=2] [ref=e287]
+          - paragraph [ref=e288]: Визуальные кейсы и технические спецификации реализованных проектов.
+        - button "View Full Index" [ref=e289]:
+          - text: View Full Index
+          - img [ref=e290]
+      - generic [ref=e292]:
+        - generic [ref=e293]:
+          - generic [ref=e297]: retail
+          - generic [ref=e298]:
+            - heading "Stitch - Neon Branding" [level=3] [ref=e299]
+            - generic [ref=e300]:
+              - generic [ref=e301]:
+                - generic [ref=e302]: Challenge
+                - generic [ref=e303]: Комплексное оформление витрины гибким неоном для премиального бренда одежды.
+              - generic [ref=e304]:
+                - generic [ref=e305]: Financials
+                - generic [ref=e306]: 120 000 ₽
+            - button "Technical Specs" [ref=e307]
+        - generic [ref=e308]:
+          - generic [ref=e311]: horeca
+          - generic [ref=e312]:
+            - heading "Кофейня 'Зерно'" [level=3] [ref=e313]
+            - generic [ref=e314]:
+              - generic [ref=e315]:
+                - generic [ref=e316]: Challenge
+                - generic [ref=e317]: Привлечь поток в кофейню с низкой видимостью, согласовать с ТЦ.
+              - generic [ref=e318]:
+                - generic [ref=e319]: Financials
+                - generic [ref=e320]: 54 000 ₽
+            - button "Technical Specs" [ref=e321]
+        - generic [ref=e322]:
+          - generic [ref=e325]: clinics
+          - generic [ref=e326]:
+            - heading "Стоматология 'Смайл'" [level=3] [ref=e327]
+            - generic [ref=e328]:
+              - generic [ref=e329]:
+                - generic [ref=e330]: Challenge
+                - generic [ref=e331]: Заменить устаревшую вывеску на фасаде жилого дома без жалоб жильцов.
+              - generic [ref=e332]:
+                - generic [ref=e333]: Financials
+                - generic [ref=e334]: 115 000 ₽
+            - button "Technical Specs" [ref=e335]
+    - generic [ref=e337]:
+      - generic [ref=e339]:
+        - generic [ref=e341]: Production Archive
+        - heading "Наши будни." [level=2] [ref=e342]
+      - generic [ref=e344]:
+        - generic [ref=e346]:
+          - img "Project 1" [ref=e347]
+          - generic [ref=e349]: IMG_REF_1024
+        - generic [ref=e351]:
+          - img "Project 2" [ref=e352]
+          - generic [ref=e354]: IMG_REF_1025
+        - generic [ref=e356]:
+          - img "Project 3" [ref=e357]
+          - generic [ref=e359]: IMG_REF_1026
+        - generic [ref=e361]:
+          - img "Project 4" [ref=e362]
+          - generic [ref=e364]: IMG_REF_1027
+        - generic [ref=e366]:
+          - img "Project 5" [ref=e367]
+          - generic [ref=e369]: IMG_REF_1028
+        - generic [ref=e371]:
+          - img "Project 6" [ref=e372]
+          - generic [ref=e374]: IMG_REF_1029
+        - generic [ref=e376]:
+          - img "Project 7" [ref=e377]
+          - generic [ref=e379]: IMG_REF_1030
+        - generic [ref=e381]:
+          - img "Project 8" [ref=e382]
+          - generic [ref=e384]: IMG_REF_1031
+        - generic [ref=e386]:
+          - img "Project 9" [ref=e387]
+          - generic [ref=e389]: IMG_REF_1032
+        - generic [ref=e391]:
+          - img "Project 10" [ref=e392]
+          - generic [ref=e394]: IMG_REF_1033
+        - generic [ref=e396]:
+          - img "Project 11" [ref=e397]
+          - generic [ref=e399]: IMG_REF_1034
+        - generic [ref=e401]:
+          - img "Project 12" [ref=e402]
+          - generic [ref=e404]: IMG_REF_1035
+        - generic [ref=e406]:
+          - img "Project 13" [ref=e407]
+          - generic [ref=e409]: IMG_REF_1036
+        - generic [ref=e411]:
+          - img "Project 14" [ref=e412]
+          - generic [ref=e414]: IMG_REF_1037
+        - generic [ref=e416]:
+          - img "Project 15" [ref=e417]
+          - generic [ref=e419]: IMG_REF_1038
+        - generic [ref=e421]:
+          - img "Project 16" [ref=e422]
+          - generic [ref=e424]: IMG_REF_1039
+        - generic [ref=e426]:
+          - img "Project 17" [ref=e427]
+          - generic [ref=e429]: IMG_REF_1040
+        - generic [ref=e431]:
+          - img "Project 18" [ref=e432]
+          - generic [ref=e434]: IMG_REF_1041
+        - generic [ref=e436]:
+          - img "Project 19" [ref=e437]
+          - generic [ref=e439]: IMG_REF_1042
+        - generic [ref=e441]:
+          - img "Project 20" [ref=e442]
+          - generic [ref=e444]: IMG_REF_1043
+        - generic [ref=e446]:
+          - img "Project 21" [ref=e447]
+          - generic [ref=e449]: IMG_REF_1044
+        - generic [ref=e451]:
+          - img "Project 22" [ref=e452]
+          - generic [ref=e454]: IMG_REF_1045
+    - generic [ref=e456]:
+      - generic [ref=e458]:
+        - heading "Execution." [level=2] [ref=e459]
+        - paragraph [ref=e460]: Выбор промышленного стандарта под масштаб вашего бизнеса.
+      - generic [ref=e462]:
+        - generic [ref=e463]:
+          - generic [ref=e464]:
+            - generic [ref=e465]: Кофейни, небольшие магазины, ПВЗ. Tier
+            - heading "Старт (B2B Baseline)" [level=3] [ref=e466]
+            - paragraph [ref=e467]: Надежное решение для малого бизнеса.
+          - generic [ref=e468]:
+            - paragraph [ref=e469]: Entry Price Point
+            - paragraph [ref=e470]: 25 000 ₽
+          - list [ref=e472]:
+            - listitem [ref=e473]:
+              - img [ref=e474]
+              - generic [ref=e477]: ПВХ + Акрил 3мм
+            - listitem [ref=e478]:
+              - img [ref=e479]
+              - generic [ref=e482]: Стандартные диоды
+            - listitem [ref=e483]:
+              - img [ref=e484]
+              - generic [ref=e487]: Гарантия 1 год
+          - button "Initialize Старт (B2B Baseline)" [ref=e488]:
+            - text: Initialize Старт (B2B Baseline)
+            - img [ref=e489]
+        - generic [ref=e491]:
+          - generic [ref=e492]: Market Recommended
+          - generic [ref=e493]:
+            - generic [ref=e494]: Рестораны, клиники, бутики. Tier
+            - heading "Бизнес (Premium Choice)" [level=3] [ref=e495]
+            - paragraph [ref=e496]: Золотой стандарт качества и долговечности.
+          - generic [ref=e497]:
+            - paragraph [ref=e498]: Entry Price Point
+            - paragraph [ref=e499]: 65 000 ₽
+          - list [ref=e501]:
+            - listitem [ref=e502]:
+              - img [ref=e503]
+              - generic [ref=e506]: AISI 304 Металл
+            - listitem [ref=e507]:
+              - img [ref=e508]
+              - generic [ref=e511]: Samsung LEDs
+            - listitem [ref=e512]:
+              - img [ref=e513]
+              - generic [ref=e516]: Гарантия 3 года
+          - button "Initialize Бизнес (Premium Choice)" [ref=e517]:
+            - text: Initialize Бизнес (Premium Choice)
+            - img [ref=e518]
+    - generic [ref=e521]:
+      - generic [ref=e522]:
+        - heading "Questions." [level=2] [ref=e523]
+        - paragraph [ref=e524]: Технические подробности и регламенты производства.
+      - generic [ref=e525]:
+        - generic [ref=e526]:
+          - button "А что если вывеску не разрешат?" [ref=e527]:
+            - generic [ref=e528]: А что если вывеску не разрешат?
+            - img [ref=e530]
+          - generic [ref=e535]: Мы проводим аудит вашего фасада на соответствие 902-ПП (или дизайн-коду Московской области) еще до начала производства. Если есть риск отказа, мы сразу предлагаем альтернативные варианты, которые 100% пройдут согласование.
+        - button "Есть ли гарантия на электрику?" [ref=e537]:
+          - generic [ref=e538]: Есть ли гарантия на электрику?
+          - img [ref=e540]
+        - button "Сколько времени занимает производство?" [ref=e543]:
+          - generic [ref=e544]: Сколько времени занимает производство?
+          - img [ref=e546]
+        - button "Делаете ли вы монтаж на высоте (автовышка)?" [ref=e549]:
+          - generic [ref=e550]: Делаете ли вы монтаж на высоте (автовышка)?
+          - img [ref=e552]
+  - contentinfo [ref=e554]:
+    - generic [ref=e555]:
+      - generic [ref=e556]:
+        - generic [ref=e557]:
+          - generic [ref=e558]: EX
+          - generic [ref=e559]: Expoint ADV
+        - paragraph [ref=e560]:
+          - text: Промышленное производство визуальных коммуникаций.
+          - text: Проектируем будущее вашего бренда в городском ландшафте.
+        - generic [ref=e561]:
+          - link "Te" [ref=e562] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e563]: Te
+          - link "Wh" [ref=e564] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e565]: Wh
+          - link "Li" [ref=e566] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e567]: Li
+      - generic [ref=e568]:
+        - heading "Hardware" [level=4] [ref=e569]
+        - list [ref=e570]:
+          - listitem [ref=e571]:
+            - link "Letters Solutions" [ref=e572] [cursor=pointer]:
+              - /url: "#"
+              - text: Letters Solutions
+              - img [ref=e573]
+          - listitem [ref=e576]:
+            - link "Neon Solutions" [ref=e577] [cursor=pointer]:
+              - /url: "#"
+              - text: Neon Solutions
+              - img [ref=e578]
+          - listitem [ref=e581]:
+            - link "Boxes Solutions" [ref=e582] [cursor=pointer]:
+              - /url: "#"
+              - text: Boxes Solutions
+              - img [ref=e583]
+          - listitem [ref=e586]:
+            - link "Custom Solutions" [ref=e587] [cursor=pointer]:
+              - /url: "#"
+              - text: Custom Solutions
+              - img [ref=e588]
+      - generic [ref=e591]:
+        - heading "System" [level=4] [ref=e592]
+        - list [ref=e593]:
+          - listitem [ref=e594]:
+            - link "Portfolio" [ref=e595] [cursor=pointer]:
+              - /url: "#"
+              - text: Portfolio
+              - img [ref=e596]
+          - listitem [ref=e599]:
+            - link "Process" [ref=e600] [cursor=pointer]:
+              - /url: "#"
+              - text: Process
+              - img [ref=e601]
+          - listitem [ref=e604]:
+            - link "Legal 902" [ref=e605] [cursor=pointer]:
+              - /url: "#"
+              - text: Legal 902
+              - img [ref=e606]
+          - listitem [ref=e609]:
+            - link "Bento" [ref=e610] [cursor=pointer]:
+              - /url: "#"
+              - text: Bento
+              - img [ref=e611]
+      - generic [ref=e614]:
+        - heading "Headquarters" [level=4] [ref=e615]
+        - generic [ref=e616]:
+          - img [ref=e618]
+          - paragraph [ref=e621]:
+            - text: г. Москва, ул. Производственная, д. 15, стр. 2
+            - generic [ref=e622]: Industrial Zone "West"
+        - generic [ref=e623]:
+          - link "+7 (495) 000-00-00" [ref=e624] [cursor=pointer]:
+            - /url: tel:+749****0000
+          - link "hello@expoint.pro" [ref=e625] [cursor=pointer]:
+            - /url: mailto:hello@expoint.pro
+    - generic [ref=e626]:
+      - generic [ref=e627]:
+        - paragraph [ref=e628]: © 2026 EXPOINT ADV LABS
+        - generic [ref=e631]: Build_v.2.1.0_GENESIS
+      - generic [ref=e632]:
+        - link "Privacy_Protocol" [ref=e633] [cursor=pointer]:
+          - /url: "#"
+        - link "Service_Terms" [ref=e634] [cursor=pointer]:
+          - /url: "#"
+  - button [ref=e635]:
+    - img [ref=e636]
+  - button "Open Next.js Dev Tools" [ref=e644] [cursor=pointer]:
+    - img [ref=e645]
+  - alert [ref=e648]
+  - generic [ref=e654]:
+    - generic [ref=e655]:
+      - img [ref=e657]
+      - generic [ref=e659]:
+        - heading "Конфиденциальность и файлы Cookie" [level=3] [ref=e660]
+        - paragraph [ref=e661]: Мы используем файлы cookie для улучшения работы сайта и обеспечения безопасности в соответствии с 152-ФЗ.
+    - generic [ref=e662]:
+      - button "Принять всё" [ref=e663]:
+        - text: Принять всё
+        - img [ref=e664]
+      - button "Настроить" [ref=e666]:
+        - img [ref=e667]
+        - text: Настроить

@@ -1,0 +1,43 @@
+{
+  "version": "6.0",
+  "domain": "Premium Advertising Production B2B",
+  "entities": [
+    {
+      "name": "ServiceLandingPage",
+      "attributes": ["slug", "seoMetadata", "conversionFunnel", "gsapMotionProfile", "trustIndicators", "dynamicPricingModule"],
+      "relationships": ["hasMany(CaseStudies)", "belongsTo(ServiceCategory)"]
+    },
+    {
+      "name": "ConversionEngine",
+      "attributes": ["psychologicalTriggers", "b2bLeadScoring", "frictionlessForms", "exitIntentLogic"],
+      "relationships": ["integratesWith(AnalyticsHub)"]
+    },
+    {
+      "name": "SecurityAnalyticsHub",
+      "attributes": ["152-fz-compliance", "botProtection", "telemetryPipeline", "conversionTracking"],
+      "relationships": ["monitors(ServiceLandingPage)"]
+    },
+    {
+      "name": "MotionSystem",
+      "attributes": ["gsapTimelines", "lenisSmoothScroll", "performanceOptimized", "microInteractions"],
+      "relationships": ["enhances(ServiceLandingPage)"]
+    }
+  ],
+  "flows": [
+    {
+      "name": "B2B User Acquisition",
+      "steps": [
+        "Organic/Paid entry to specific ServiceLandingPage via SEO-optimized semantic core",
+        "High-performance First Contentful Paint with GSAP premium entry animation",
+        "Psychological anchoring via competitor-superior B2B value proposition",
+        "Interactive exploration of cases and dynamic pricing calculator",
+        "Conversion via frictionless, 152-FZ compliant analytics-tracked form"
+      ]
+    }
+  ],
+  "dark_matter": [
+    "Content mapping for 12+ individual service landing pages",
+    "Specific GSAP timelines for each service archetype (e.g., neon vs volumetric letters)",
+    "Integration points for server-side telemetry without impacting Core Web Vitals"
+  ]
+}

@@ -1,0 +1,7 @@
+services:
+  web:
+    ports:
+      - "${APP_PORT:-3005}:3000"
+
+  proxy:
+    profiles: ["prod"]

@@ -1,0 +1,41 @@
+{
+  "version": "5.0",
+  "domain": "AI-Ready Behavioral Analytics",
+  "entities": [
+    {
+      "name": "InteractionEvent",
+      "properties": ["timestamp", "type", "target_id", "value", "context_id"],
+      "description": "Any atomic user interaction on the frontend."
+    },
+    {
+      "name": "UserContext",
+      "properties": ["session_id", "segment", "compliance_state", "viewport_size", "device_type"],
+      "description": "Rich metadata attached to every interaction event."
+    },
+    {
+      "name": "BehaviorPattern",
+      "properties": ["pattern_type", "duration", "intensity", "conversion_impact"],
+      "description": "Inferred sequences of interaction events for AI analysis."
+    },
+    {
+      "name": "DataSink",
+      "properties": ["provider", "retention", "format", "privacy_level"],
+      "description": "Destination for analytics data (PostHog, Custom Vector Store, etc.)."
+    }
+  ],
+  "flows": [
+    {
+      "name": "EventCaptureFlow",
+      "steps": ["Detect Interaction", "Enrich with UserContext", "Validate PII/Compliance", "Transmit to DataSink"]
+    },
+    {
+      "name": "AIEvaluationFlow",
+      "steps": ["Fetch Batch Logs", "Pre-process/Normalize", "Run AI Scoring", "Generate Optimization Insights"]
+    }
+  ],
+  "dark_matter": [
+    "How to handle PII (Personal Identifiable Information) in AI logs without violating 152-FZ?",
+    "Should AI evaluation happen in real-time or via periodic batches?",
+    "Which behavioral metrics are most predictive for Expoint's B2B segments?"
+  ]
+}

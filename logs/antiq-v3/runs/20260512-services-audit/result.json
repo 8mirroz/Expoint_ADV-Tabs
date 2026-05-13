@@ -1,0 +1,46 @@
+{
+  "version": "v6",
+  "project_id": "Expoint_ADV",
+  "profile": "luxury",
+  "run_id": "20260512-services-audit",
+  "timestamp": "2026-05-12T13:31:00Z",
+  "score": 76,
+  "status": "NEEDS_IMPROVEMENT",
+  "summary": "Services section integrated high-fidelity videos but lacks architectural unity and data-driven rendering. Redundancy between Services.tsx and ServiceCard.tsx detected.",
+  "findings": [
+    {
+      "id": "AUD-001",
+      "category": "ARCHITECTURE",
+      "severity": "MEDIUM",
+      "title": "Data-UI Coupling",
+      "description": "Services.tsx hardcodes video paths and descriptions that already exist in src/data/services.ts. This leads to out-of-sync content and maintenance debt.",
+      "recommendation": "Refactor Services.tsx to map over the services data array."
+    },
+    {
+      "id": "AUD-002",
+      "category": "UX",
+      "severity": "LOW",
+      "title": "Component Inconsistency",
+      "description": "The ServiceCard component is bypassed in the main Services grid in favor of ad-hoc motion.div elements. This fragments the design system.",
+      "recommendation": "Unify card rendering logic into a single high-fidelity ServiceCard component supporting multiple bento-grid variants."
+    },
+    {
+      "id": "AUD-003",
+      "category": "VISUAL",
+      "severity": "MEDIUM",
+      "title": "Luxury Profile Alignment",
+      "description": "The CTA banner uses a static background image which contrasts too sharply with the video-driven grid above. Typography spacing in CTA needs 'Quiet Luxury' refinement (increased tracking, subtle letter-spacing).",
+      "recommendation": "Apply cinematic video background to CTA or use a more abstract, premium gradient-mesh with blueprint overlays."
+    },
+    {
+      "id": "AUD-004",
+      "category": "PERFORMANCE",
+      "severity": "LOW",
+      "title": "Video Resource Management",
+      "description": "Multiple auto-playing videos are loaded regardless of scroll position.",
+      "recommendation": "Implement Intersection Observer to play/pause videos based on visibility."
+    }
+  ],
+  "routing_alignment": "ALIGNED_V4",
+  "deterministic_hash": "a1b2c3d4e5f6g7h8i9j0"
+}

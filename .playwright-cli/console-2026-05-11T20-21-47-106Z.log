@@ -1,0 +1,40 @@
+[    1564ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[    1659ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[    2554ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[    3699ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[    3739ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/favicon.ico:0
+[    7314ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[    8168ms] [LOG] [Fast Refresh] done in 954ms @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   11979ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   24742ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   27862ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   29878ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   40157ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   40294ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   43129ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   56516ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   57545ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   80150ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322
+[   81152ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322
+[   82155ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322
+[   83158ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322
+[   83445ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   83481ms] [ERROR] WebSocket is already in CLOSING or CLOSED state. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2836
+[   84161ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322
+[   85761ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   85779ms] [ERROR] WebSocket is already in CLOSING or CLOSED state. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2836
+[   89163ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322
+[   94167ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322
+[   98211ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   98230ms] [ERROR] WebSocket is already in CLOSING or CLOSED state. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2836
+[   99170ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322
+[   99729ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   99746ms] [ERROR] WebSocket is already in CLOSING or CLOSED state. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2836
+[   99910ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[   99929ms] [ERROR] WebSocket is already in CLOSING or CLOSED state. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2836
+[  100128ms] [WARNING] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2477
+[  100146ms] [ERROR] WebSocket is already in CLOSING or CLOSED state. @ http://localhost:3000/_next/static/chunks/04b5_next_dist_101co4u._.js:2836
+[  104175ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322
+[  109179ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322
+[  114184ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322
+[  119201ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=cEqpW47xW0jkRqHhLriFy' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/04b5_next_dist_client_0116rlz._.js:13322

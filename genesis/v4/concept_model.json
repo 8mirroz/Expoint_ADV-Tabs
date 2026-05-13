@@ -1,0 +1,28 @@
+{
+  "domain_concepts": {
+    "ComplianceHub": "The centralized system for managing legal compliance and data privacy in Russia.",
+    "ConsentLog": "A database record mapping user consent for personal data and advertising.",
+    "DataLocalization": "Ensuring personal data is processed and stored on servers within the Russian Federation.",
+    "SecurityHardening": "A set of protocols and configurations applied to the server, admin panel, and APIs to mitigate threats.",
+    "RKN_Notification": "Notification to Roskomnadzor regarding the processing of personal data."
+  },
+  "core_entities": [
+    {
+      "name": "ConsentRecord",
+      "attributes": ["form_id", "consent_type", "consent_version", "timestamp", "ip", "user_agent", "page_url", "submitted_fields"]
+    },
+    {
+      "name": "LegalDocument",
+      "attributes": ["type", "url", "version", "status"]
+    },
+    {
+      "name": "SecurityPolicy",
+      "attributes": ["type", "status", "last_verified"]
+    }
+  ],
+  "key_flows": [
+    "User submits form -> System captures consent -> Consent is logged in DB -> Form data is sent to localized CRM.",
+    "User visits site -> Cookie banner appears -> User accepts/customizes -> Analytics loaded conditionally based on consent.",
+    "System backup -> Nightly snapshot taken -> Weekly restoration tested."
+  ]
+}

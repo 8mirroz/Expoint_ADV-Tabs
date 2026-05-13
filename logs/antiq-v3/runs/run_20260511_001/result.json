@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "project_id": "expoint_adv_v2",
+  "profile": "luxury",
+  "hash": "abc123def456",
+  "scorecard": {
+    "total_score": 85,
+    "aesthetics": 90,
+    "performance": 80,
+    "ux": 85
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "severity": "high",
+      "category": "aesthetics",
+      "description": "2D SVG preview lacks premium depth and dynamic lighting expected in luxury signage.",
+      "recommendation": "Implement Three.js/React-Three-Fiber for 3D real-time visualization."
+    },
+    {
+      "id": "F-002",
+      "severity": "critical",
+      "category": "ux",
+      "description": "Calculator lacks seamless CRM integration, risking lead drop-off.",
+      "recommendation": "Integrate backend webhook pipeline for AmoCRM/Bitrix24."
+    }
+  ],
+  "metadata": {
+    "routing_source": "configs/orchestrator/router.yaml",
+    "timestamp": "2026-05-11T05:50:00Z"
+  }
+}

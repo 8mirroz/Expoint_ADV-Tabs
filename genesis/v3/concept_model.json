@@ -1,0 +1,40 @@
+{
+  "version": "3.0",
+  "domain": "Industrial B2B Signage Engine",
+  "entities": [
+    {
+      "name": "Segment",
+      "properties": ["id", "title", "painPoints", "solutions", "usps"],
+      "instances": ["retail", "horeca", "corporate", "clinics"]
+    },
+    {
+      "name": "ComplianceStandard",
+      "properties": ["id", "region", "legalCode", "requirements", "penaltyRisk"],
+      "instances": ["902-PP_Moscow"]
+    },
+    {
+      "name": "AcademyContent",
+      "properties": ["id", "title", "category", "body", "technicalSpecs"],
+      "instances": ["material_durability", "lighting_engineering", "legal_compliance"]
+    }
+  ],
+  "flows": [
+    {
+      "name": "SegmentedOnboarding",
+      "steps": ["Path Selection", "Contextual Hero", "Tailored Configurator"]
+    },
+    {
+      "name": "ComplianceValidation",
+      "steps": ["Location Input", "Photo Upload (Placeholder)", "Legal Match Check", "Risk Report"]
+    },
+    {
+      "name": "ValueSelling",
+      "steps": ["Material Selection", "Cost Comparison", "TCO Calculation"]
+    }
+  ],
+  "darkMatter": [
+    "Regional variations of 902-PP",
+    "Live API for compliance check",
+    "Real-time TCO calculation logic"
+  ]
+}

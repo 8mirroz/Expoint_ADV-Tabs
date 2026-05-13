@@ -1,0 +1,64 @@
+{
+  "entities": [
+    {
+      "name": "Service",
+      "description": "A core offering of the business, such as 3D letters, neon signs, or facade decoration.",
+      "attributes": ["id", "slug", "title", "shortDescription", "description", "benefits", "variants", "priceFactors", "relatedSegments", "relatedCases", "faq"]
+    },
+    {
+      "name": "ProductPack",
+      "description": "Pre-packaged solutions targeted at specific business needs (e.g., Start Pack, Premium Pack)."
+    },
+    {
+      "name": "Segment",
+      "description": "A target audience category, such as cafes, clinics, or franchises.",
+      "attributes": ["id", "slug", "title", "painPoints", "recommendedServices", "decisionCriteria", "objections", "cta"]
+    },
+    {
+      "name": "CaseStudy",
+      "description": "A portfolio project demonstrating a completed job.",
+      "attributes": ["id", "title", "segment", "task", "solution", "materials", "timeline", "result", "images"]
+    },
+    {
+      "name": "Calculator",
+      "description": "A pricing engine module to generate cost estimates based on parameters.",
+      "attributes": ["productType", "width", "height", "length", "material", "lighting", "mountingComplexity", "urgency", "designNeeded", "approvalNeeded"]
+    },
+    {
+      "name": "Estimate",
+      "description": "The output of the calculator providing a price range and recommendations.",
+      "attributes": ["minPrice", "maxPrice", "confidence", "included", "recommendations"]
+    },
+    {
+      "name": "AIAssistantSession",
+      "description": "An interactive chat session for gathering user requirements and providing automated recommendations.",
+      "attributes": ["id", "userIntent", "businessType", "answers", "recommendedServices", "estimate", "leadCaptured"]
+    },
+    {
+      "name": "ClientAccount",
+      "description": "A future portal for clients to manage projects, estimates, and files."
+    }
+  ],
+  "flows": [
+    {
+      "name": "Visitor to Lead Conversion",
+      "steps": [
+        "Visitor lands on Premium Homepage or Segment Page",
+        "Visitor views relevant Case Studies and Service details",
+        "Visitor uses Calculator (or AI Assistant) to get an estimate",
+        "Visitor submits Lead form with project details"
+      ]
+    },
+    {
+      "name": "AI Assistant Consultation",
+      "steps": [
+        "User interacts with AI Assistant (mocked for now)",
+        "Assistant asks diagnostic questions (business type, task)",
+        "Assistant recommends a Service or Product Pack",
+        "Assistant provides a rough Estimate",
+        "Assistant captures Lead info and hands off to manager"
+      ]
+    }
+  ],
+  "missing_or_vague": []
+}

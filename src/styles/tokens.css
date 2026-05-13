@@ -1,0 +1,92 @@
+/**
+ * Design Tokens - Expoint ADV v4
+ * Semantic tokens following Material Design 3 conventions
+ */
+
+/* ===========================================
+ * GLOBAL TOKENS (Design decisions)
+ * =========================================== */
+
+:root {
+  /* Color Tokens */
+  --background: #F5F5F7;
+  --surface: #FFFFFF;
+  --on-surface: #1C1C1E;
+  --on-surface-variant: #3A3A3C;
+  --primary: #000000;
+  --on-primary: #FFFFFF;
+  --secondary: #E5E5E7;
+  --accent: #FF6B00;
+  --accent-rgb: 255, 107, 0;
+  --on-accent: #FFFFFF;
+  --outline: rgba(0, 0, 0, 0.08);
+  --error: #FF3B30;
+  --success: #34C759;
+  --warning: #FF9500;
+
+  /* Geometry Tokens */
+  --radius-industrial: 0px;
+
+  /* Spacing Scale (Alias tokens) */
+  --space-0: 0px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Layout System */
+  --container-max: 87.5rem;
+  --container-px: 2rem;
+  --container-px-lg: 3rem;
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"], .dark {
+  --background: #000000;
+  --surface: #1C1C1E;
+  --on-surface: #F5F5F7;
+  --on-surface-variant: #8E8E93;
+  --primary: #FFFFFF;
+  --on-primary: #000000;
+  --secondary: #2C2C2E;
+  --accent: #FF9F0A;
+  --accent-rgb: 255, 159, 10;
+  --on-accent: #FFFFFF;
+  --outline: rgba(255, 255, 255, 0.1);
+  --error: #FF453A;
+  --success: #30D158;
+  --warning: #FF9F0A;
+}
+
+/* ===========================================
+ * ALIAS TOKENS (Semantic mappings)
+ * =========================================== */
+
+:root {
+  /* Status colors */
+  --status-success: var(--success);
+  --status-success-rgb: 52, 199, 89;
+  --status-error: var(--error);
+  --status-error-rgb: 255, 59, 48;
+  --status-warning: var(--warning);
+  --status-warning-rgb: 255, 149, 0;
+
+  /* Component states */
+  --state-hover: var(--accent);
+  --state-focus: var(--accent);
+  --state-active: var(--accent);
+  --state-disabled: var(--on-surface-variant);
+
+  /* Border widths */
+  --border-thin: 1px;
+  --border-medium: 2px;
+  --border-thick: 3px;
+}
