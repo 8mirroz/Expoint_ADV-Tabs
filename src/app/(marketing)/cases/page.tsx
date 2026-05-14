@@ -1,30 +1,56 @@
-import Header from '../../../components/sections/Header';
-import Footer from '../../../components/sections/Footer';
-import ProductionDaily from '../../../components/sections/ProductionDaily';
-import AssistantWidget from '../../../components/ai/AssistantWidget';
+import { Metadata } from 'next';
+import PageShell from '@/components/framework/PageShell';
+import HeroGeneric from '@/components/sections/HeroGeneric';
+import CasesArchive from '@/components/sections/CasesArchive';
+import CTASection from '@/components/sections/CTASection';
+import { CASE_STUDIES } from '@/data/cases';
 
-import { generateLocalBusinessSchema, generateFAQSchema } from '../../../lib/seo/schema';
-
-export const metadata = {
-  title: 'Архив кейсов и Будни производства | Expoint ADV',
-  description: 'Архив реализованных проектов и ежедневный инженерный журнал производства рекламных конструкций.',
+export const metadata: Metadata = {
+  title: 'Кейсы | Expoint ADV',
+  description: 'Реальные кейсы Expoint ADV: задачи, решения, метрики. Ритейл, HoReCa, корпоративный сегмент, клиники, франшизы.',
+  openGraph: {
+    title: 'Кейсы | Expoint ADV Engineering',
+    description: 'Портфолио кейсов с метриками: ROI, сроки, бюджеты.',
+  },
 };
 
-export default function CasesPage() {
-  const schemas = [generateLocalBusinessSchema(), generateFAQSchema()];
+const caseFilters = [
+  { id: 'retail', label: 'Ритейл' },
+  { id: 'horeca', label: 'HoReCa' },
+  { id: 'corporate', label: 'Корпоративные' },
+  { id: 'clinics', label: 'Клиники' },
+  { id: 'franchise', label: 'Франшизы' },
+];
 
+export default function CasesPage() {
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
+    <PageShell
+      headerVariant="default"
+      breadcrumbs={[{ label: 'Кейсы', href: '/cases' }]}
+    >
+      <HeroGeneric
+        subtitle="Кейсы"
+        title="Реальные"
+        titleAccent="результаты"
+        description="Каждый кейс — это задача клиента, наше решение и измеримые метрики. Изучите наш опыт, чтобы оценить подход."
+        compact
       />
-      <Header />
-      <main className="pt-24">
-        <ProductionDaily />
-      </main>
-      <Footer />
-      <AssistantWidget />
-    </>
+
+      <CasesArchive
+        subtitle="Архив проектов"
+        title="Все кейсы"
+        cases={CASE_STUDIES}
+        filters={caseFilters}
+      />
+
+      <CTASection
+        title="Нужно аналогичное"
+        titleAccent="решение?"
+        description="Мы подготовим индивидуальный расчёт на основе вашей задачи."
+        buttonText="Рассчитать проект"
+        buttonHref="/calculator"
+        variant="secondary"
+      />
+    </PageShell>
   );
 }

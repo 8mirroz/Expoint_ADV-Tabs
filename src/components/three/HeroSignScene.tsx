@@ -2,7 +2,7 @@
 
 import { Suspense, useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Center, Environment, Float, Text3D } from '@react-three/drei';
+import { AdaptiveDpr, Center, Environment, Float, Text3D } from '@react-three/drei';
 import * as THREE from 'three';
 import { useTheme } from 'next-themes';
 
@@ -34,12 +34,12 @@ function SceneLabel({
           font="/fonts/helvetiker_bold.typeface.json"
           size={size}
           height={height}
-          curveSegments={12}
+          curveSegments={4}
           bevelEnabled
           bevelThickness={0.03}
           bevelSize={0.018}
           bevelOffset={0}
-          bevelSegments={4}
+          bevelSegments={2}
         >
           {text}
           <meshStandardMaterial
@@ -251,12 +251,12 @@ function HeroSceneGeometry() {
               font="/fonts/helvetiker_bold.typeface.json"
               size={1.1}
               height={0.44}
-              curveSegments={12}
+              curveSegments={6}
               bevelEnabled
               bevelThickness={0.045}
               bevelSize={0.025}
               bevelOffset={0}
-              bevelSegments={5}
+              bevelSegments={3}
             >
               EX
               <primitive object={rimMaterial} attach="material" />
@@ -293,12 +293,12 @@ function HeroSceneGeometry() {
               font="/fonts/helvetiker_bold.typeface.json"
               size={1.1}
               height={0.36}
-              curveSegments={12}
+              curveSegments={6}
               bevelEnabled
               bevelThickness={0.04}
               bevelSize={0.024}
               bevelOffset={0}
-              bevelSegments={5}
+              bevelSegments={3}
             >
               ADV
               <meshStandardMaterial
@@ -350,11 +350,16 @@ export default function HeroSignScene() {
   return (
     <div className="absolute inset-0">
       <Canvas
-        dpr={[1, 1.5]}
+        dpr={[1, 1.2]}
         camera={{ position: [0, 0, 7.2], fov: 32 }}
-        gl={{ antialias: true, alpha: true }}
+        gl={{ 
+          antialias: false,
+          alpha: true,
+          powerPreference: "high-performance"
+        }}
         className="pointer-events-auto"
       >
+        <AdaptiveDpr pixelated />
         <color attach="background" args={[isDark ? '#020617' : '#F8F8F8']} />
 
         <HeroCameraRig />

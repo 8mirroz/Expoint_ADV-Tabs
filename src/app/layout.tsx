@@ -30,7 +30,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: '#131313', // Canvas Black
+  themeColor: '#ffffff',
 };
 
 export const metadata: Metadata = {
@@ -67,12 +67,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="scroll-smooth dark" suppressHydrationWarning>
+    <html lang="ru" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${oswald.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-polysans bg-background text-on-surface`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          forcedTheme="dark"
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <LanguageProvider>

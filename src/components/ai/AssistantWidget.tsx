@@ -38,7 +38,7 @@ export default function AssistantWidget() {
 
   useGSAP(() => {
     if (!isOpen && container.current) {
-      gsap.to(container.current, {
+      const floatAnim = gsap.to(container.current, {
         y: -10,
         duration: 2,
         repeat: -1,
@@ -46,7 +46,7 @@ export default function AssistantWidget() {
         ease: "power1.inOut"
       });
       
-      gsap.to(".assistant-glow", {
+      const glowAnim = gsap.to(".assistant-glow", {
         opacity: 0.8,
         scale: 1.2,
         duration: 1.5,
@@ -54,6 +54,11 @@ export default function AssistantWidget() {
         yoyo: true,
         ease: "sine.inOut"
       });
+
+      return () => {
+        floatAnim.kill();
+        glowAnim.kill();
+      };
     }
   }, [isOpen]);
 

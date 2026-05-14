@@ -10,31 +10,31 @@ const PROCESS_STEPS = [
     icon: Send,
     time: '01',
     title: 'Заявка & Анализ',
-    description: 'Анализ фото фасада, брендбука и первичных требований. Устанавливаем изначальные рамки проекта.'
+    description: 'Анализ фасада и брендбука. Определение рамок проекта.'
   },
   {
     icon: ImageIcon,
     time: '02',
-    title: '3D-макет & Рендеринг',
-    description: 'Бесплатная визуализация конструкций на вашем объекте с учетом требований 902-ПП.'
+    title: '3D-Рендеринг',
+    description: 'Визуализация конструкций на объекте по нормам 902-ПП.'
   },
   {
     icon: Calculator,
     time: '03',
-    title: 'Прозрачная Смета',
-    description: 'Точный расчет материалов, электрики и монтажных работ. Никаких скрытых платежей.'
+    title: 'Честная Смета',
+    description: 'Точный расчет материалов и работ без скрытых платежей.'
   },
   {
     icon: Factory,
     time: '04',
     title: 'Производство',
-    description: 'Изготовление в собственном цеху с многоступенчатым контролем качества и тестированием электроники.'
+    description: 'Собственный цех с контролем качества электроники.'
   },
   {
     icon: Wrench,
     time: '05',
     title: 'Монтаж & Запуск',
-    description: 'Чистая инсталляция и пусконаладка. Сдача объекта с гарантией и закрывающими документами.'
+    description: 'Чистый монтаж, пусконаладка и гарантийные документы.'
   }
 ];
 
@@ -77,83 +77,78 @@ export default function Process() {
     <section 
       id="process" 
       ref={containerRef}
-      className="py-32 bg-background border-b border-outline relative overflow-hidden"
+      className="py-24 bg-background border-b border-outline relative overflow-hidden"
     >
-      {/* Background accents */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[120px] pointer-events-none" />
+      {/* Background accents - more subtle */}
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/3 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="section-container max-w-[1200px] mx-auto relative z-10 px-6">
-        <header className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-10 border-b border-outline/30 pb-16">
+      <div className="section-container max-w-[1100px] mx-auto relative z-10 px-6">
+        <header className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-outline/20 pb-10">
           <motion.h2 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="font-headline text-[60px] md:text-[100px] leading-[0.8] uppercase text-on-surface m-0"
+            className="font-headline text-5xl md:text-7xl leading-[0.9] uppercase text-on-surface m-0"
           >
             {t(locale, title)}<span className="text-primary">.</span>
           </motion.h2>
           <motion.p 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-on-surface-variant font-sans text-xl md:text-2xl max-w-md leading-snug"
+            className="text-on-surface-variant font-sans text-lg md:text-xl max-w-md leading-snug md:text-right"
           >
             {t(locale, intro)}
           </motion.p>
         </header>
 
         <div className="relative">
-          {/* Vertical Progress Line */}
-          <div className="absolute left-0 md:left-12 top-0 bottom-0 w-px bg-outline/20" />
+          {/* Vertical Progress Line - more subtle */}
+          <div className="absolute left-0 md:left-8 top-0 bottom-0 w-px bg-outline/15" />
           <motion.div 
             style={{ scaleY }}
-            className="absolute left-0 md:left-12 top-0 bottom-0 w-[2px] bg-primary origin-top shadow-[0_0_10px_rgba(var(--primary-rgb),0.5)]"
+            className="absolute left-0 md:left-8 top-0 bottom-0 w-px bg-primary origin-top shadow-[0_0_8px_rgba(var(--primary-rgb),0.3)]"
           />
 
-          <div className="space-y-4">
+          <div className="space-y-0">
             {PROCESS_STEPS.map((step, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.7, delay: index * 0.1 }}
-                className="group relative grid grid-cols-1 md:grid-cols-[100px_1fr_400px] items-start gap-8 py-16 md:pl-0 pl-8 border-b border-outline/10 last:border-0 hover:bg-primary/[0.01] transition-colors duration-500 rounded-lg"
+                viewport={{ once: true, margin: "-20px" }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="group relative grid grid-cols-1 md:grid-cols-[60px_1fr_300px] items-center gap-4 py-8 md:pl-0 pl-8 border-b border-outline/5 last:border-0 hover:bg-white/[0.02] transition-all duration-300"
               >
                 {/* Step Number */}
-                <div className="flex flex-col items-center justify-start pt-1">
-                  <span className="verge-mono-label text-4xl md:text-5xl text-on-surface-variant/20 group-hover:text-primary transition-colors duration-500">
+                <div className="hidden md:flex justify-start">
+                  <span className="font-mono text-xl text-on-surface-variant/20 group-hover:text-primary/40 transition-colors duration-300">
                     {step.time}
                   </span>
                 </div>
 
-                {/* Step Content */}
-                <div className="space-y-6">
-                  <div className="flex items-center gap-5">
-                    <div className="w-12 h-12 border border-outline/50 flex items-center justify-center text-on-surface group-hover:border-primary/50 group-hover:bg-primary/5 group-hover:text-primary transition-all duration-500">
-                      <step.icon size={24} />
-                    </div>
-                    <h3 className="font-headline text-3xl md:text-5xl uppercase leading-[0.9] text-on-surface group-hover:translate-x-2 transition-transform duration-500">
-                      {step.title}
-                    </h3>
-                  </div>
+                {/* Step Title & Icon */}
+                <div className="flex items-center gap-4">
+                  <step.icon size={20} className="text-primary/60 group-hover:text-primary transition-colors duration-300 shrink-0" />
+                  <h3 className="font-headline text-xl md:text-2xl uppercase tracking-tight text-on-surface group-hover:text-primary transition-colors duration-300">
+                    {step.title}
+                  </h3>
                 </div>
 
                 {/* Description */}
-                <div className="md:pt-2">
-                  <p className="text-on-surface-variant text-lg md:text-xl leading-relaxed">
+                <div className="md:border-l md:border-outline/10 md:pl-6">
+                  <p className="text-on-surface-variant/70 text-sm md:text-base leading-relaxed max-w-sm">
                     {step.description}
                   </p>
                 </div>
-
-                {/* Decorative glow on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
               </motion.div>
             ))}
           </div>
+
         </div>
       </div>
     </section>
+
   );
 }

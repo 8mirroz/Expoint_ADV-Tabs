@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, ArrowRight, Sparkles, ShoppingCart } from 'lucide-react';
+import { Menu, X, Phone, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { usePathname } from 'next/navigation';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
@@ -10,11 +11,11 @@ import { useCartStore } from '@/store/useCartStore';
 import { CartIndicator } from '@/components/sections/CartIndicator';
 
 const navItems = [
-  { id: 'services', label: { ru: 'Производство', be: 'Вытворчасць', kk: 'Өндіріс', en: 'Production', zh: '生产', ce: 'Кхоллам', tt: 'Җитештерү' } },
-  { id: 'audit', label: { ru: 'Аудит', be: 'Аўдыт', kk: 'Аудит', en: 'Audit', zh: '审计', ce: 'Аудит', tt: 'Аудит' } },
-  { id: 'process', label: { ru: 'Процесс', be: 'Працэс', kk: 'Процесс', en: 'Process', zh: '流程', ce: 'Процесс', tt: 'Процесс' } },
-  { id: 'cases', label: { ru: 'Кейсы', be: 'Кейсы', kk: 'Кейстер', en: 'Cases', zh: '案例', ce: 'Кхинсаш', tt: 'Кейслар' } },
-  { id: 'footer', label: { ru: 'Контакты', be: 'Кантакты', kk: 'Байланыс', en: 'Contact', zh: '联系', ce: 'Байланыш', tt: 'Контактлар' } },
+  { id: 'services', href: '/services', label: { ru: 'Услуги', be: 'Паслугі', kk: 'Қызметтер', en: 'Services', zh: '服务', ce: 'ГIуллакхаш', tt: 'Хезмәтләр' } },
+  { id: 'prices', href: '/prices', label: { ru: 'Цены', be: 'Цэны', kk: 'Бағалар', en: 'Prices', zh: '价格', ce: 'Баьхнаш', tt: 'Бәяләр' } },
+  { id: 'cases', href: '/cases', label: { ru: 'Кейсы', be: 'Кейсы', kk: 'Кейстер', en: 'Cases', zh: '案例', ce: 'Кхинсаш', tt: 'Кейслар' } },
+  { id: 'about', href: '/about', label: { ru: 'О нас', be: 'Пра нас', kk: 'Біз туралы', en: 'About', zh: '关于', ce: 'Тхуьга дуьйцу', tt: 'Без турында' } },
+  { id: 'contacts', href: '/contacts', label: { ru: 'Контакты', be: 'Кантакты', kk: 'Байланыс', en: 'Contact', zh: '联系', ce: 'Байланыш', tt: 'Контактлар' } },
 ] as const;
 
 const copy = {
@@ -26,6 +27,7 @@ const copy = {
 
 export default function Header({ variant = 'default' }: { variant?: 'default' | 'immersive' }) {
   const { locale } = useLanguage();
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isImmersive = variant === 'immersive';
@@ -62,15 +64,20 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
 
           {/* Desktop Navigation */}
           <nav className="hidden xl:flex items-center gap-8">
-            {navItems.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                className="verge-mono-label text-[11px] uppercase tracking-widest text-on-surface/80 transition-all duration-200 hover:text-primary hover:tracking-[0.15em]"
-              >
-                {item.label[locale]}
-              </a>
-            ))}
+            {navItems.map((item) => {
+              const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className={`verge-mono-label text-[11px] uppercase tracking-widest transition-all duration-200 hover:text-primary hover:tracking-[0.15em] ${
+                    isActive ? 'text-primary' : 'text-on-surface/80'
+                  }`}
+                >
+                  {item.label[locale]}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Actions Section */}
@@ -89,7 +96,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
               <CartIndicator />
               <button
                 onClick={() => document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-5 py-2.5 bg-primary border border-primary text-on-primary font-mono font-bold uppercase tracking-[1px] text-[10px] rounded-[var(--radius-4)] transition-all hover:bg-transparent hover:text-primary flex items-center gap-2 active:scale-95"
+                className="px-5 py-2.5 bg-primary border border-primary text-on-primary font-mono font-bold uppercase tracking-[1px] text-[10px] rounded-[var(--radius-8)] transition-all hover:opacity-90 flex items-center gap-2 active:scale-95"
               >
                 {copy.requestAudit[locale]}
                 <ArrowRight className="w-3 h-3" />
@@ -163,19 +170,19 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
 
               <div className="flex flex-col gap-6 mb-auto overflow-y-auto pb-8">
                 {navItems.map((item, index) => (
-                  <motion.a
-                    key={item.id}
-                    href={`#${item.id}`}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-3xl font-black uppercase tracking-tight text-on-surface hover:text-accent transition-all flex items-center justify-between group"
-                  >
-                    <span>{item.label[locale]}</span>
-                    <div className="h-[2px] flex-grow mx-4 bg-outline/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-                    <ArrowRight className="w-6 h-6 text-accent" />
-                  </motion.a>
+                  <motion.div key={item.id}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`text-3xl font-black uppercase tracking-tight transition-all flex items-center justify-between group ${
+                        pathname === item.href ? 'text-primary' : 'text-on-surface hover:text-primary'
+                      }`}
+                    >
+                      <span>{item.label[locale]}</span>
+                      <div className="h-[2px] flex-grow mx-4 bg-outline/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                      <ArrowRight className="w-6 h-6 text-primary" />
+                    </Link>
+                  </motion.div>
                 ))}
               </div>
 

@@ -32,21 +32,25 @@
   --radius-2: var(--radius-2);
   --radius-3: var(--radius-3);
   --radius-4: var(--radius-4);
+  --radius-8: var(--radius-8);
+  --radius-12: var(--radius-12);
+  --radius-16: var(--radius-16);
   --radius-20: var(--radius-20);
   --radius-24: var(--radius-24);
   --radius-30: var(--radius-30);
   --radius-40: var(--radius-40);
   --radius-full: 50%;
   
-  --radius-DEFAULT: var(--radius-20);
-  --radius-md: var(--radius-24);
-  --radius-lg: var(--radius-30);
+  --radius-DEFAULT: var(--radius-12);
+  --radius-md: var(--radius-16);
+  --radius-lg: var(--radius-24);
 
-  /* Flat Shadows */
+  /* Light-appropriate Shadows */
   --shadow-none: none;
   --shadow-sm: var(--elevation-1);
-  --shadow-premium: var(--elevation-1);
-  --shadow-neon: none;
+  --shadow-md: var(--elevation-2);
+  --shadow-lg: var(--elevation-3);
+  --shadow-premium: var(--elevation-2);
 
   @keyframes marquee {
     from { transform: translateX(0); }
@@ -60,7 +64,7 @@
   --animate-marquee: marquee 40s linear infinite;
   --animate-marquee-vertical: marquee-vertical 40s linear infinite;
 
-/* Fluid Typography Scale (Kept for compatibility, though Verge uses fixed steps) */
+/* Fluid Typography Scale */
    --text-xs: clamp(0.7rem, 0.6rem + 0.5vw, 0.8rem);
    --text-sm: clamp(0.8rem, 0.7rem + 0.5vw, 0.95rem);
    --text-base: clamp(0.95rem, 0.85rem + 0.5vw, 1.1rem);
@@ -75,16 +79,14 @@
 
 @layer base {
   * {
-    /* Flat design by default, no borders unless explicitly asked */
     border-color: var(--outline);
   }
   body {
-    @apply font-sans antialiased text-on-surface bg-background selection:bg-primary/30 selection:text-primary transition-colors duration-[180ms];
+    @apply font-sans antialiased text-on-surface bg-background selection:bg-primary/20 selection:text-primary transition-colors duration-[200ms];
   }
 
   h1, h2, h3, h4 {
-    /* Manuka defaults for display headlines */
-    @apply font-headline font-black tracking-normal text-on-surface leading-[0.80];
+    @apply font-headline font-black tracking-normal text-on-surface leading-[0.85];
   }
   
   p {
@@ -93,7 +95,7 @@
 
   /* Universal link hover state */
   a {
-    @apply transition-colors duration-150 hover:text-[var(--state-hover-link)];
+    @apply transition-colors duration-150 hover:text-primary;
   }
 
   :focus-visible {
@@ -113,24 +115,22 @@
 
 @layer utilities {
   .verge-kicker {
-    @apply font-sans font-light text-[19px] uppercase tracking-[1.9px] leading-[1.2];
+    @apply font-sans font-medium text-[14px] uppercase tracking-[2.5px] leading-[1.2];
   }
   .verge-mono-label {
     @apply font-mono font-medium text-[11px] uppercase tracking-[1.1px] leading-[1.2];
   }
   .glass-panel {
-    /* Replaced glass with flat slate container */
-    @apply bg-surface border border-outline;
+    @apply bg-surface/80 backdrop-blur-sm border border-outline;
   }
   .bento-card {
-    /* Replaced with StoryStream tile base */
-    @apply relative overflow-hidden bg-background border border-outline rounded-[var(--radius-20)] transition-colors duration-150;
+    @apply relative overflow-hidden bg-background border border-outline rounded-[var(--radius-12)] shadow-sm transition-all duration-200 hover:shadow-md;
   }
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
   
-  /* Contrast-safe utility classes using semantic variables */
+  /* Contrast-safe utility classes */
   .text-muted {
     @apply text-on-surface-variant;
   }
@@ -141,5 +141,10 @@
   /* Unified Layout System */
   .section-container {
     @apply mx-auto w-full max-w-[var(--container-max)] px-6 md:px-12 lg:px-[var(--container-px-lg)];
+  }
+
+  /* Section spacing */
+  .section-padding {
+    @apply py-20 md:py-28 lg:py-32;
   }
 }
