@@ -4,7 +4,6 @@ import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Service } from '@/data/services';
 import { BentoGrid } from '@/components/ui/bento/BentoGrid';
-import { PriceCalculator } from '@/components/features/calculator/PriceCalculator';
 import { gsap, useGSAP } from '@/lib/gsap';
 import { tracker } from '@/lib/analytics/tracker';
 import { 
@@ -472,9 +471,30 @@ export function ServiceLandingContent({ service }: ServiceLandingContentProps) {
          </div>
          <div className="calculator-container relative p-1 bg-outline rounded-[2px] overflow-hidden group">
            <div className="absolute inset-0 industrial-grid opacity-5 group-hover:opacity-10 transition-opacity" />
-           <div className="relative bg-surface p-6 md:p-12">
+           <div className="relative bg-surface p-12 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-accent/40 via-accent to-accent/40 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <PriceCalculator />
+              
+              <div className="space-y-4">
+                <span className="text-accent font-black uppercase tracking-[0.3em] text-[10px]">Base_Rate</span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-sm text-on-surface-variant mr-1">от</span>
+                  <span className="text-6xl md:text-8xl font-black text-white tracking-tighter">{service.basePrice.toLocaleString('ru-RU')}</span>
+                  <span className="text-accent ml-2 text-xl font-bold">{service.priceUnit}</span>
+                </div>
+                <p className="text-on-surface-variant font-light max-w-sm">
+                  {locale === 'ru' 
+                    ? 'Финальная стоимость зависит от габаритов, материалов и сложности монтажа.' 
+                    : 'The final cost depends on dimensions, materials, and installation complexity.'}
+                </p>
+              </div>
+
+              <a 
+                href={`/calculator?type=${service.id}`}
+                className="w-full md:w-auto px-12 py-8 bg-accent text-white font-black uppercase tracking-[0.4em] text-[11px] hover:scale-105 transition-transform text-center flex items-center justify-center gap-3 shadow-[0_0_80px_rgba(255,107,0,0.2)]"
+              >
+                {locale === 'ru' ? 'Перейти в калькулятор' : 'Open Calculator'}
+                <Zap className="w-5 h-5" />
+              </a>
            </div>
          </div>
       </section>

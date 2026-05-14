@@ -3,7 +3,7 @@
 interface TelemetryEvent {
   event: string;
   path: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   timestamp: number;
 }
 
@@ -26,7 +26,7 @@ class TelemetryTracker {
     return TelemetryTracker.instance;
   }
 
-  public track(event: string, metadata?: Record<string, any>) {
+  public track(event: string, metadata?: Record<string, unknown>) {
     const telemetryEvent: TelemetryEvent = {
       event,
       path: typeof window !== 'undefined' ? window.location.pathname : '',

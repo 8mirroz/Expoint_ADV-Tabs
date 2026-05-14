@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface FrictionConfig {
@@ -16,7 +16,7 @@ export function useFrictionMonitor(componentId: string, config?: FrictionConfig)
 
   const clickCount = useRef(0);
   const lastClickTime = useRef(0);
-  const mountTime = useRef(Date.now());
+  const mountTime = useRef(0);
   const hasHesitated = useRef(false);
 
   useEffect(() => {

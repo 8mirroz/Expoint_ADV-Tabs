@@ -1,37 +1,91 @@
-export type SignType = 'channel-letters' | 'flexible-neon' | 'lightbox';
-export type SizeMultiplier = 'small' | 'medium' | 'large';
+import { Service, SERVICES } from '@/data/services';
 
-export interface PricingParams {
-  type: SignType;
-  size: SizeMultiplier;
-  textLength: number;
-  hasInstallation: boolean;
+export interface PricingParameters {
+  size: 'small' | 'medium' | 'large';
+  material?: 'standard' | 'premium' | 'exclusive';
+  installation?: boolean;
+  customModifications?: number; // Additional cost for custom work
 }
 
-const BASE_RATES: Record<SignType, number> = {
-  'channel-letters': 1500, // per letter base
-  'flexible-neon': 800, // per character base
-  'lightbox': 15000, // flat base
-};
+export interface PriceBreakdown {
+  base: number;
+  materialMultiplier: number;
+  installationFee: number;
+  customModifications: number;
+  total: number;
+}
 
-const SIZE_MULTIPLIERS: Record<SizeMultiplier, number> = {
-  small: 1,
-  medium: 1.5,
-  large: 2.2,
-};
-
-export function calculatePrice(params: PricingParams): number {
-  const { type, size, textLength, hasInstallation } = params;
-  
-  let basePrice = 0;
-  if (type === 'lightbox') {
-    basePrice = BASE_RATES[type] * SIZE_MULTIPLIERS[size];
-  } else {
-    basePrice = (BASE_RATES[type] * Math.max(1, textLength)) * SIZE_MULTIPLIERS[size];
+/**
+ * Calculate price for a service based on parameters
+ * @param serviceId - Service identifier
+ * @param params - Pricing parameters
+ * @returns Price breakdown with total
+ */
+export function calculatePrice(serviceId: string, params: PricingParameters): PriceBreakdown {
+  const service = SERVICES.find(s => s.id === serviceId);
+  if (!service) {
+    throw new Error(`Service with id "${serviceId}" not found`);
   }
 
-  // Installation is roughly 20% of the price or minimum 5000
-  const installCost = hasInstallation ? Math.max(5000, basePrice * 0.2) : 0;
-  
-  return Math.round(basePrice + installCost);
+  // Base price from service configuration
+  let basePrice = service.basePrice;
+
+  // Apply size multiplier
+  const sizeMultipliers = {
+    small: 1,
+    medium: 1.5,
+    large: 2.2
+  };
+
+  const sizePrice = basePrice * sizeMultipliers[params.size];
+
+  // Material multipliers
+  const materialMultipliers = {
+    standard: 1,
+    premium: 1.3,
+    exclusive: 1.7
+  };
+
+  const materialPrice = sizePrice * (materialMultipliers[params.material || 'standard'] - 1);
+
+  // Installation fee (20% of total)
+  const installationFee = params.installation ? (sizePrice + materialPrice) * 0.2 : 0;
+
+  // Calculate totals
+  const materialCost = materialPrice;
+  const total = sizePrice + materialCost + installationFee + (params.customModifications || 0);
+
+  return {
+    base: basePrice,
+    materialMultiplier: materialCost,
+    installationFee,
+    customModifications: params.customModifications || 0,
+    total: Math.round(total)
+  };
+}
+
+/**
+ * Get price range for a service
+ * @param serviceId - Service identifier
+ * @returns Min and max price range
+ */
+export function getPriceRange(serviceId: string): { min: number; max: number } {
+  const service = SERVICES.find(s => s.id === serviceId);
+  if (!service) {
+    throw new Error(`Service with id "${serviceId}" not found`);
+  }
+
+  // Min price: small size, standard material, no installation
+  const minParams: PricingParameters = { size: 'small' };
+  const minPrice = calculatePrice(serviceId, minParams).total;
+
+  // Max price: large size, exclusive material, with installation
+  const maxParams: PricingParameters = {
+    size: 'large',
+    material: 'exclusive',
+    installation: true
+  };
+  const maxPrice = calculatePrice(serviceId, maxParams).total;
+
+  return { min: minPrice, max: maxPrice };
 }

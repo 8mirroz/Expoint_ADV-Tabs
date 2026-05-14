@@ -2,6 +2,7 @@
 import { Building2, Coffee, HeartPulse, Sparkles, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
+import { DirectionPricing } from '@/components/ui/DirectionPricing';
 
 const SEGMENTS = [
   {
@@ -111,6 +112,10 @@ export default function Segmentation() {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        <div className="mt-32">
+          <DirectionPricing />
         </div>
       </div>
     </section>

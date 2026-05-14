@@ -46,7 +46,7 @@ function resolveDocTitle(sourceDocId: string): string {
 }
 
 function buildKnowledgeChunks(): KnowledgeChunk[] {
-  const serviceChunks: KnowledgeChunk[] = SERVICES.map((service, idx) => ({
+  const serviceChunks: KnowledgeChunk[] = SERVICES.map((service) => ({
     id: `svc-${service.id}`,
     title: service.title,
     snippet: `${service.fullDescription}. Базовая цена: ${service.basePrice} ${service.priceUnit}.`,

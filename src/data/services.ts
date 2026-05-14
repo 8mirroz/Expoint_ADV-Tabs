@@ -272,6 +272,11 @@ export interface ProductPack {
   priceStart: string;
   features: string[];
   isPopular?: boolean;
+  gallery?: {
+    id: string | number;
+    title: string;
+    imageUrl: string;
+  }[];
 }
 
 export const PRODUCT_PACKS: ProductPack[] = [
@@ -285,6 +290,11 @@ export const PRODUCT_PACKS: ProductPack[] = [
       'ПВХ + Акрил 3мм',
       'Стандартные диоды',
       'Гарантия 1 год'
+    ],
+    gallery: [
+      { id: 1, title: 'ПВХ Буквы', imageUrl: 'https://images.unsplash.com/photo-1628258334105-2a0b3d6efee1?q=80&w=1974&auto=format&fit=crop' },
+      { id: 2, title: 'Акрил', imageUrl: 'https://images.unsplash.com/photo-1677756119517-756a188d2d94?q=80&w=2070&auto=format&fit=crop' },
+      { id: 3, title: 'Монтаж', imageUrl: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1974&auto=format&fit=crop' }
     ]
   },
   {
@@ -298,6 +308,11 @@ export const PRODUCT_PACKS: ProductPack[] = [
       'Samsung LEDs',
       'Гарантия 3 года'
     ],
-    isPopular: true
+    isPopular: true,
+    gallery: [
+      { id: 1, title: 'AISI 304', imageUrl: 'https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2070&auto=format&fit=crop' },
+      { id: 2, title: 'Samsung LED', imageUrl: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=2090&auto=format&fit=crop' },
+      { id: 3, title: 'Premium Finish', imageUrl: 'https://images.unsplash.com/photo-1628258334105-2a0b3d6efee1?q=80&w=1974&auto=format&fit=crop' }
+    ]
   }
 ];

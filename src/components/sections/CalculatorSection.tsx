@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
-import CalculatorContainer from '../calculator/CalculatorContainer';
+import { CalculatorContainer } from '../calculator/CalculatorContainer';
 import { t } from '@/i18n/site';
 
 const copy = {

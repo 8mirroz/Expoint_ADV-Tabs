@@ -6,6 +6,7 @@ import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
 import { SERVICES } from '@/data/services';
 import { ServiceCard } from '@/components/ui/ServiceCard';
+import { Timeline, TimelineItem } from '@/components/ui/Timeline';
 
 const copy = {
   eyebrow: { ru: 'Производственные блоки', be: 'Вытворчыя блокі', kk: 'Өндіріс блоктары', en: 'Production Units', zh: '生产单元', ce: 'Кхолламан блокаш', tt: 'Җитештерү блоклары' },
@@ -39,7 +40,7 @@ export default function Services() {
                 {t(locale, copy.eyebrow)}
               </span>
             </div>
-            <h2 className="text-[42px] md:text-[72px] font-black uppercase leading-[0.9] tracking-tighter">
+            <h2 className="text-(--text-2xl) md:text-(--text-3xl) font-black uppercase leading-[0.9] tracking-tighter">
               {t(locale, copy.titleTop)} <br /> 
               <span className="text-on-surface-variant/40">{t(locale, copy.titleBottom)}</span>
             </h2>
@@ -51,124 +52,112 @@ export default function Services() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[360px] md:auto-rows-[420px] items-stretch">
-          {/* Large Featured Card */}
-          {featuredService && (
-            <ServiceCard 
-              service={featuredService} 
-              variant="featured"
-              className="md:col-span-8 row-span-1 md:row-span-2 shadow-2xl"
-            />
-          )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-16">
+          {SERVICES.map((service, idx) => (
+            <motion.div 
+              key={service.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              className="relative group/grid-item pt-4"
+            >
+              {/* MOD Label - Blueprint Style */}
+              <div className="absolute top-0 left-8 z-30 flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_var(--primary)]" />
+                <span className="text-[10px] font-mono font-black text-on-surface-variant uppercase tracking-widest bg-surface px-2 py-0.5 border border-outline/10 rounded-sm">
+                   MOD-{(idx + 1).toString().padStart(2, '0')}
+                </span>
+              </div>
 
-          {/* Medium Card 1 */}
-          {neonService && (
-            <ServiceCard 
-              service={neonService} 
-              variant="standard"
-              icon={<Coffee className="w-6 h-6 text-accent" />}
-              className="md:col-span-4"
-            />
-          )}
-
-          {/* Medium Card 2 */}
-          {lightboxService && (
-            <ServiceCard 
-              service={lightboxService} 
-              variant="standard"
-              icon={<Store className="w-6 h-6 text-accent" />}
-              className="md:col-span-4"
-            />
-          )}
+              <ServiceCard 
+                service={service} 
+                variant="standard"
+                className="w-full shadow-lg h-full"
+              />
+            </motion.div>
+          ))}
         </div>
 
-        {/* CTA Card - Redesigned with Cinematic Video and Blueprint Aesthetic */}
+        {/* CTA Card - Redesigned as a Widescreen Technical Strip */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-12 bento-card min-h-[560px] relative overflow-hidden group border-none shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)]"
+          className="mt-16 bento-card min-h-[320px] relative overflow-hidden group border-none shadow-2xl"
         >
-            {/* Background Video for CTA */}
+            {/* Background Video - Blueprint Look */}
             <video
               src="/videos/signage/3d-letters-preview.mp4"
               autoPlay
               loop
               muted
               playsInline
-              className="absolute inset-0 h-full w-full object-cover opacity-60 grayscale transition-all duration-1000 group-hover:scale-105 group-hover:grayscale-0"
+              className="absolute inset-0 h-full w-full object-cover opacity-40 grayscale brightness-50 transition-all duration-1000 group-hover:scale-105"
             />
             
-            {/* Blueprint Grid Overlay */}
-            <div className="absolute inset-0 z-10 opacity-20 bg-[url('/img/patterns/grid.svg')] bg-repeat mix-blend-overlay" />
+            {/* Blueprint Grid & Technical Overlays */}
+            <div className="absolute inset-0 z-10 opacity-30 bg-[url('/img/patterns/grid.svg')] bg-[length:40px_40px] mix-blend-screen pointer-events-none" />
+            <div className="absolute inset-0 bg-linear-to-r from-background via-background/80 to-transparent z-10" />
             
-            {/* Sophisticated Gradients */}
-            <div className="absolute inset-0 bg-linear-to-r from-black via-black/80 to-transparent z-10" />
-            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-black/40 z-10" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,77,0,0.15),transparent_50%)] z-10" />
+            {/* Scanned Line Animation */}
+            <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-primary/20 shadow-[0_0_15px_var(--primary)] animate-[scan_4s_linear_infinite]" />
+            </div>
             
-            {/* Content Layer */}
-            <div className="relative z-20 h-full p-10 md:p-24 flex flex-col justify-between">
-              <div className="max-w-4xl">
-                <div className="flex items-center gap-4 mb-10">
-                  <div className="h-px w-16 bg-accent shadow-neon animate-pulse" />
-                  <span className="text-accent font-bold uppercase tracking-[0.5em] text-[10px] drop-shadow-sm">
-                    {t(locale, copy.customProduction)}
+            <style jsx>{`
+              @keyframes scan {
+                0% { transform: translateY(-100%); }
+                100% { transform: translateY(1000%); }
+              }
+            `}</style>
+            
+            {/* Content Layer - Widescreen Layout */}
+            <div className="relative z-20 h-full p-8 md:p-12 lg:px-20 flex flex-col md:flex-row items-center justify-between gap-10">
+              <div className="max-w-2xl flex-1">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
+                  <span className="text-primary font-mono font-bold uppercase tracking-[0.4em] text-[9px]">
+                    Engineering Bureau / Custom
                   </span>
                 </div>
                 
-                <h3 className="text-6xl md:text-[110px] font-black uppercase tracking-tighter leading-[0.8] text-white">
-                  {t(locale, copy.customQuestion).split('\n')[0]} <br/> 
-                  <span className="text-accent inline-block mt-4">{t(locale, copy.customQuestion).split('\n')[1]}</span> <br/> 
-                  <span className="inline-block mt-4">{t(locale, copy.customQuestion).split('\n')[2]}</span>
+                <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none text-white mb-4">
+                  {t(locale, copy.customQuestion).replace(/\n/g, ' ')}
                 </h3>
                 
-                <p className="mt-12 text-white/50 font-light text-2xl max-w-xl leading-relaxed border-l-4 border-accent/30 pl-8 transition-colors group-hover:text-white/80">
+                <p className="text-white/40 font-light text-sm md:text-base max-w-xl leading-relaxed border-l-2 border-primary/20 pl-6">
                   {t(locale, copy.customDesc)}
                 </p>
               </div>
 
-              <div className="flex flex-col md:flex-row items-end justify-between gap-16 mt-16">
-                {/* Technical Specs Visualization (Blueprint Style) */}
-                <div className="hidden lg:flex items-center gap-12 border-t border-white/10 pt-8 w-full mr-20">
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[10px] text-white/30 uppercase tracking-widest font-mono">Precision</span>
-                    <span className="text-xl font-mono text-white/80">0.01mm</span>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[10px] text-white/30 uppercase tracking-widest font-mono">Reliability</span>
-                    <span className="text-xl font-mono text-white/80">5Y+ WARN</span>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[10px] text-white/30 uppercase tracking-widest font-mono">Standards</span>
-                    <span className="text-xl font-mono text-white/80">902-PP OK</span>
-                  </div>
-                </div>
-
-                {/* Main Call to Action Wrapper */}
-                <div className="flex flex-col items-center md:items-end gap-8 w-full md:w-auto shrink-0">
-                  <button className="relative overflow-hidden bg-accent text-white px-20 py-10 font-bold uppercase tracking-[0.3em] text-base shadow-[0_20px_50px_rgba(255,77,0,0.3)] transition-all duration-500 hover:scale-105 active:scale-95 group/cta w-full md:w-auto">
-                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/cta:translate-y-0 transition-transform duration-500" />
-                    <span className="relative z-10 flex items-center justify-center gap-4">
-                      {t(locale, copy.contactUs)} 
-                      <ArrowRight className="w-6 h-6 group-hover/cta:translate-x-3 transition-transform duration-500" />
-                    </span>
-                  </button>
-                  
-                  <div className="flex items-center gap-4 opacity-30 group-hover:opacity-60 transition-opacity">
-                    <div className="h-px w-8 bg-white" />
-                    <p className="text-white text-[10px] uppercase tracking-[0.4em] font-medium">
-                      {t(locale, copy.freeEstimate)}
-                    </p>
-                  </div>
+              <div className="flex flex-col items-center md:items-end gap-6 shrink-0">
+                <button className="relative overflow-hidden bg-primary text-on-primary px-12 py-5 font-black uppercase tracking-[0.2em] text-[11px] shadow-lg transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1 active:translate-y-0 group/cta">
+                  <div className="absolute inset-0 bg-white/30 -translate-x-full group-hover/cta:translate-x-0 transition-transform duration-500" />
+                  <span className="relative z-10 flex items-center justify-center gap-3">
+                    {t(locale, copy.contactUs)} 
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </button>
+                
+                <div className="flex items-center gap-4 opacity-40">
+                   <div className="flex -space-x-2">
+                     {[1,2,3].map(i => (
+                       <div key={i} className="w-6 h-6 rounded-full border border-background bg-surface-elevated" />
+                     ))}
+                   </div>
+                   <p className="text-white text-[9px] uppercase tracking-widest font-mono">
+                     5 Engineers Online
+                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Decorative Corner Elements */}
-            <div className="absolute top-0 right-0 w-32 h-32 border-r border-t border-white/5 z-0" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 border-l border-b border-white/5 z-0" />
+            {/* Technical Corner Decals */}
+            <div className="absolute top-4 right-4 text-[8px] font-mono text-white/10 select-none uppercase tracking-[0.5em] vertical-rl">
+              Spec-V7.04
+            </div>
         </motion.div>
       </div>
     </section>

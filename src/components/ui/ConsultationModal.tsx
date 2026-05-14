@@ -72,7 +72,7 @@ export default function ConsultationModal() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeModal}
-            className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+            className="absolute inset-0 bg-background/80 backdrop-blur-md"
           />
 
           {/* Modal panel — theme-aware via CSS variables */}
@@ -80,7 +80,7 @@ export default function ConsultationModal() {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg bg-surface border border-outline p-8 shadow-premium overflow-hidden"
+            className="relative w-full max-w-lg rounded-2xl bg-surface-elevated border border-outline p-8 shadow-premium overflow-hidden"
           >
             {/* Industrial accent line */}
             <div className="absolute top-0 left-0 w-full h-1 bg-accent" />
@@ -95,7 +95,7 @@ export default function ConsultationModal() {
 
             {isSuccess ? (
               <div className="text-center py-12">
-                <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-6" />
+                <CheckCircle2 className="w-16 h-16 text-success mx-auto mb-6" />
                 <h3 className="text-2xl font-bold text-on-surface mb-2">
                   {locale === 'ru' ? 'Заявка принята' : locale === 'en' ? 'Request Received' : 'Заявка принята'}
                 </h3>
@@ -119,7 +119,7 @@ export default function ConsultationModal() {
                     <label className="block text-sm font-medium text-on-surface mb-2">Имя</label>
                     <input
                       {...register('name')}
-                      className="w-full bg-background border border-outline p-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-accent transition-colors"
+                      className="w-full rounded-xl bg-surface border border-outline p-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-accent transition-colors"
                       placeholder="Иван Иванов"
                     />
                     {errors.name && <p className="text-error text-sm mt-1">{errors.name.message}</p>}
@@ -130,7 +130,7 @@ export default function ConsultationModal() {
                     <label className="block text-sm font-medium text-on-surface mb-2">Телефон</label>
                     <input
                       {...register('phone')}
-                      className="w-full bg-background border border-outline p-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-accent transition-colors"
+                      className="w-full rounded-xl bg-surface border border-outline p-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-accent transition-colors"
                       placeholder="+7 (999) 000-00-00"
                     />
                     {errors.phone && <p className="text-error text-sm mt-1">{errors.phone.message}</p>}
@@ -145,7 +145,7 @@ export default function ConsultationModal() {
                           {...register('consent')}
                           className="peer sr-only"
                         />
-                        <div className="w-5 h-5 border border-outline bg-background peer-checked:bg-accent peer-checked:border-accent transition-all flex items-center justify-center">
+                        <div className="w-5 h-5 rounded-sm border border-outline bg-surface peer-checked:bg-accent peer-checked:border-accent transition-all flex items-center justify-center">
                           <CheckCircle2 className="w-3 h-3 text-on-accent opacity-0 peer-checked:opacity-100 transition-opacity" />
                         </div>
                       </div>
@@ -168,8 +168,8 @@ export default function ConsultationModal() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-accent hover:bg-accent/90 text-on-accent p-4 font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-2 transition-all disabled:opacity-50 shadow-neon active:scale-[0.98]"
-                  >
+                  className="w-full rounded-xl bg-primary hover:bg-accent text-on-primary hover:text-on-accent p-4 font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-2 transition-all disabled:opacity-50 shadow-neon active:scale-[0.98]"
+                >
                     {isSubmitting ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (

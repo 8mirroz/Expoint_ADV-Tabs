@@ -1,4 +1,4 @@
-import { LocalBusiness, FAQPage, AggregateRating, BreadcrumbList, WithContext } from 'schema-dts';
+import { LocalBusiness, FAQPage, BreadcrumbList, WithContext } from 'schema-dts';
 
 export const generateLocalBusinessSchema = (): WithContext<LocalBusiness> => ({
   "@context": "https://schema.org",

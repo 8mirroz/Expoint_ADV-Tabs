@@ -1,5 +1,6 @@
 "use client";
 import { ShieldCheck } from 'lucide-react';
+import { motion } from 'motion/react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
 
@@ -19,48 +20,70 @@ export default function Safety() {
   const { locale } = useLanguage();
 
   return (
-    <section id="audit" className="bg-secondary py-32 text-on-surface relative overflow-hidden border-y border-outline">
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-accent/5 transform -skew-x-12 translate-x-32 pointer-events-none"></div>
-      <div className="section-container relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-        <div>
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-surface border border-outline text-[10px] font-black uppercase tracking-[0.3em] text-accent mb-8 shadow-sm">
-            <ShieldCheck className="w-4 h-4" />
-            <span>{t(locale, copy.badge)}</span>
+    <section id="audit" className="relative scroll-mt-28 py-12 lg:py-16 overflow-hidden">
+      <div className="section-container">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="bento-card min-h-[340px] relative overflow-hidden group border-none shadow-2xl bg-secondary"
+        >
+          {/* Blueprint Grid & Technical Overlays */}
+          <div className="absolute inset-0 z-10 opacity-20 bg-[url('/img/patterns/grid.svg')] bg-[length:30px_30px] mix-blend-overlay pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-r from-secondary via-secondary/90 to-transparent z-10" />
+          
+          {/* Technical Elements */}
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-white/5 skew-x-[-20deg] translate-x-20 z-10" />
+          
+          {/* Content Layer - Widescreen Layout */}
+          <div className="relative z-20 h-full p-8 md:p-12 lg:px-20 flex flex-col lg:flex-row items-center justify-between gap-12">
+            <div className="max-w-2xl flex-1">
+              <div className="inline-flex items-center gap-3 px-4 py-2 bg-black/40 border border-white/10 text-[9px] font-black uppercase tracking-[0.4em] text-accent mb-6 backdrop-blur-sm">
+                <ShieldCheck className="w-4 h-4" />
+                <span>{t(locale, copy.badge)}</span>
+              </div>
+              
+              <h2 className="text-3xl md:text-5xl font-headline font-black uppercase tracking-tighter leading-none text-white mb-6">
+                {t(locale, copy.titleTop)} <span className="text-white/40">{t(locale, copy.titleBottom)}</span>
+              </h2>
+              
+              <p className="text-white/60 font-light text-base max-w-xl leading-relaxed border-l-2 border-accent/40 pl-6">
+                {t(locale, copy.body)}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 flex-1 lg:max-w-xl">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 bg-accent shadow-neon" />
+                  <p className="font-mono font-bold text-white uppercase tracking-wider text-[10px]">{t(locale, copy.riskTitle)}</p>
+                </div>
+                <p className="text-white/40 text-[12px] font-light leading-relaxed pl-4 border-l border-white/10">{t(locale, copy.riskBody)}</p>
+              </div>
+              
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 bg-white/20" />
+                  <p className="font-mono font-bold text-white uppercase tracking-wider text-[10px]">{t(locale, copy.architectureTitle)}</p>
+                </div>
+                <p className="text-white/40 text-[12px] font-light leading-relaxed pl-4 border-l border-white/10">{t(locale, copy.architectureBody)}</p>
+              </div>
+
+              <div className="md:col-span-2 pt-4">
+                <button className="w-full md:w-auto bg-on-surface hover:bg-accent text-surface px-10 py-5 font-black uppercase tracking-widest text-[10px] transition-all hover:text-on-accent flex items-center justify-center gap-4 shadow-xl active:scale-95 group/btn">
+                  <ShieldCheck className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  {t(locale, copy.cta)}
+                </button>
+              </div>
+            </div>
           </div>
-          <h2 className="text-4xl lg:text-6xl font-headline font-black uppercase tracking-tighter leading-[0.9] mb-10 text-on-surface">
-            {t(locale, copy.titleTop)} <br/><span className="text-on-surface-variant/60">{t(locale, copy.titleBottom)}</span>
-          </h2>
-          <p className="text-lg font-light text-on-surface-variant leading-relaxed mb-12 max-w-xl">
-            {t(locale, copy.body)}
-          </p>
-          <button className="bg-on-surface hover:bg-accent text-surface px-10 py-5 font-black uppercase tracking-widest text-xs transition-all hover:text-on-accent flex items-center gap-4 shadow-premium">
-            <ShieldCheck className="w-5 h-5" />
-            {t(locale, copy.cta)}
-          </button>
-        </div>
-        <div className="relative border border-outline bg-surface p-12 shadow-premium">
-           <div className="space-y-10">
-              <div className="flex gap-6 items-start">
-                 <div className="w-12 h-12 border border-accent/20 flex items-center justify-center shrink-0">
-                    <div className="w-2 h-2 bg-accent shadow-neon"></div>
-                 </div>
-                 <div>
-                   <p className="font-headline font-black text-on-surface uppercase tracking-wider text-sm mb-2">{t(locale, copy.riskTitle)}</p>
-                   <p className="text-on-surface-variant text-sm font-light leading-relaxed">{t(locale, copy.riskBody)}</p>
-                 </div>
-              </div>
-              <div className="h-px bg-outline w-full"></div>
-              <div className="flex gap-6 items-start">
-                 <div className="w-12 h-12 border border-outline flex items-center justify-center shrink-0">
-                    <div className="w-2 h-2 bg-on-surface/20"></div>
-                 </div>
-                 <div>
-                   <p className="font-headline font-black text-on-surface uppercase tracking-wider text-sm mb-2">{t(locale, copy.architectureTitle)}</p>
-                   <p className="text-on-surface-variant text-sm font-light leading-relaxed">{t(locale, copy.architectureBody)}</p>
-                 </div>
-              </div>
-           </div>
-        </div>
+
+          {/* Technical Corner Decals */}
+          <div className="absolute bottom-4 left-4 text-[7px] font-mono text-white/20 select-none uppercase tracking-[0.5em]">
+            Protocol: 902-PP / Compliance-Audit-V2
+          </div>
+        </motion.div>
       </div>
     </section>
   );

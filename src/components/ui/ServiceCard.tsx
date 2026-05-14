@@ -15,8 +15,8 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
 
   return (
     <Card 
-      variant="glass" 
-      className={`group flex flex-col h-full hover:-translate-y-1 transition-all duration-700 overflow-hidden relative border-white/5 ${className}`}
+      variant="story" 
+      className={`group flex flex-col h-full hover:border-primary transition-all duration-300 overflow-hidden relative ${className}`}
     >
       {service.previewVideo && (
         <>
@@ -30,40 +30,52 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
           />
           <div className={`absolute inset-0 z-0 transition-all duration-700 ${
             isFeatured 
-              ? 'bg-linear-to-r from-black/95 via-black/40 to-transparent group-hover:via-black/20' 
-              : 'bg-linear-to-b from-background/80 via-background/40 to-background'
+              ? 'bg-gradient-to-r from-black/95 via-black/40 to-transparent group-hover:via-black/20' 
+              : 'bg-gradient-to-b from-background/90 via-background/60 to-background'
           }`} />
-          {isFeatured && (
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,77,0,0.18),transparent_35%)] z-0" />
-          )}
         </>
       )}
 
-      <div className="relative z-10 h-full p-8 md:p-10 flex flex-col justify-between flex-1">
+      <div className="relative z-10 h-full p-6 lg:p-8 flex flex-col justify-between flex-1">
         <div>
-          {isFeatured ? (
-            <span className="bg-accent text-on-accent px-3 py-1 text-[10px] font-bold uppercase tracking-widest shadow-neon">
-              Премиум-категория
-            </span>
-          ) : (
-            <div className="w-12 h-12 border border-white/10 flex items-center justify-center bg-black/30 backdrop-blur-sm mb-6">
+          <div className="flex items-center justify-between mb-8">
+            <div className="w-10 h-10 border border-outline/20 rounded-lg flex items-center justify-center bg-surface/20 backdrop-blur-md">
               {icon}
             </div>
-          )}
+            {isFeatured && (
+              <span className="bg-primary text-on-primary px-3 py-1 text-[9px] font-mono font-black uppercase tracking-widest rounded-full">
+                Premium
+              </span>
+            )}
+          </div>
           
-          <CardTitle className={`mb-3 text-white group-hover:text-accent transition-colors uppercase tracking-tight ${isFeatured ? 'text-4xl md:text-5xl font-black mt-6' : 'text-2xl font-black'}`}>
+          <CardTitle className={`mb-3 text-white group-hover:text-primary transition-colors ${isFeatured ? 'text-3xl md:text-4xl mt-4' : 'text-xl md:text-2xl'}`}>
             {service.title}
           </CardTitle>
           
-          <p className={`text-white/70 font-light leading-relaxed max-w-sm ${isFeatured ? 'text-base mt-4' : 'text-sm'}`}>
+          <p className="text-on-surface-variant text-sm font-light leading-relaxed max-w-sm">
             {service.shortDescription}
           </p>
 
-          {!isFeatured && (
-            <ul className="space-y-2 mt-6">
+          {/* Infographics Section */}
+          <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-outline/10">
+            {service.technicalSpecs?.slice(0, 4).map((spec, idx) => (
+              <div key={idx} className="flex flex-col gap-1">
+                <span className="text-[9px] uppercase tracking-wider text-on-surface-variant font-mono">
+                  {spec.label}
+                </span>
+                <span className="text-[11px] text-on-surface font-medium truncate">
+                  {spec.value}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {!isFeatured && !service.technicalSpecs && (
+            <ul className="space-y-3 mt-8">
               {service.features.slice(0, 3).map((feature, idx) => (
-                <li key={idx} className="flex items-center text-xs text-on-surface-variant/80">
-                  <span className="w-1 h-1 rounded-full bg-accent/50 mr-2" />
+                <li key={idx} className="flex items-center text-[11px] font-medium text-on-surface-variant group-hover:text-on-surface transition-colors">
+                  <span className="w-1 h-1 rounded-full bg-primary mr-3" />
                   {feature}
                 </li>
               ))}
@@ -71,13 +83,16 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
           )}
         </div>
 
-        <div className="flex items-center justify-between mt-8">
-          <div className={`font-mono text-accent ${isFeatured ? 'text-2xl neon-text' : 'text-lg'}`}>
-            от {service.basePrice.toLocaleString('ru-RU')} {service.priceUnit}
+        <div className="flex items-center justify-between mt-12">
+          <div className="font-headline text-3xl text-on-surface flex items-baseline gap-1">
+            <span className="text-primary">{service.basePrice.toLocaleString('ru-RU')}</span>
+            <span className="text-[11px] font-mono uppercase tracking-wider text-on-surface-variant">
+              {service.priceUnit}
+            </span>
           </div>
           
-          <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white hover:gap-4 transition-all group/btn">
-            Подробнее <ArrowRight className="w-4 h-4 text-accent" />
+          <button className="flex items-center gap-2 text-[11px] font-mono font-black uppercase tracking-[1.1px] text-on-surface hover:text-primary transition-all group/btn">
+            В РАЗДЕЛ <ArrowRight className="w-4 h-4 text-primary group-hover/btn:translate-x-1 transition-transform" />
           </button>
         </div>
       </div>

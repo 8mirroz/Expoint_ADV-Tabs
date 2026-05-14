@@ -32,8 +32,8 @@ export function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => setIsOpen((value) => !value)}
-        className={`relative h-11 min-w-[90px] flex items-center justify-between gap-2 rounded-xl bg-secondary/50 px-4 text-on-surface hover:bg-secondary transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:scale-95 group ${
-          isOpen ? 'bg-secondary ring-2 ring-accent/20' : ''
+        className={`relative h-11 min-w-[90px] flex items-center justify-between gap-2 rounded-xl border border-outline bg-surface-elevated px-4 text-on-surface hover:bg-surface-variant transition-all duration-[var(--motion-duration-base)] ease-[var(--motion-ease-standard)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:scale-95 group ${
+          isOpen ? 'bg-surface-variant ring-2 ring-accent/20' : ''
         }`}
         aria-expanded={isOpen}
         aria-label={t(locale, uiCopy.languageLabel)}
@@ -53,7 +53,7 @@ export function LanguageSwitcher() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute right-0 mt-3 w-64 overflow-hidden rounded-2xl border border-outline bg-surface/95 backdrop-blur-2xl shadow-premium z-50 p-2"
+            className="absolute right-0 mt-3 w-64 overflow-hidden rounded-2xl border border-outline bg-surface-elevated/95 backdrop-blur-2xl shadow-premium z-50 p-2"
           >
             <div className="px-3 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface/40 mb-2">
               {t(locale, uiCopy.languageLabel)}
@@ -79,7 +79,7 @@ export function LanguageSwitcher() {
                   >
                     <div className="flex items-center gap-3">
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-[10px] ${
-                        isActive ? 'bg-accent text-white' : 'bg-secondary/50 text-on-surface/70'
+                        isActive ? 'bg-accent text-white' : 'bg-surface-variant text-on-surface/70'
                       }`}>
                         {item.shortLabel}
                       </div>

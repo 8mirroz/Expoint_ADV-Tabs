@@ -1,16 +1,19 @@
 import React from 'react';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'glass' | 'outlined';
+  variant?: 'story' | 'saturated' | 'outlined';
 }
 
-export function Card({ className = '', variant = 'default', children, ...props }: CardProps) {
-  const baseStyles = 'rounded-none overflow-hidden transition-all duration-500 relative';
+export function Card({ className = '', variant = 'story', children, ...props }: CardProps) {
+  const baseStyles = 'rounded-[var(--radius-20)] overflow-hidden transition-colors duration-150 relative block';
   
   const variants = {
-    default: 'bg-secondary/50 border border-outline hover:border-accent/30',
-    glass: 'bg-secondary/30 backdrop-blur-xl border border-outline shadow-premium',
-    outlined: 'bg-transparent border border-outline',
+    // Standard Dark Canvas tile with 1px hairline border
+    story: 'bg-background border border-outline hover:border-primary group',
+    // Full bleed color block (like acid mint or ultraviolet)
+    saturated: 'bg-primary border border-transparent text-on-primary',
+    // Minimal outlined variant
+    outlined: 'bg-transparent border border-outline-strong',
   };
 
   return (

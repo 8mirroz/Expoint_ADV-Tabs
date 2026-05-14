@@ -14,19 +14,22 @@ export function Button({
   children,
   ...props
 }: ButtonProps) {
-  const baseStyles = 'inline-flex items-center justify-center rounded-none font-bold uppercase tracking-widest transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 border';
+  const baseStyles = 'inline-flex items-center justify-center border font-mono uppercase tracking-[1.1px] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]';
   
   const variants = {
-    primary: 'bg-accent border-accent text-on-accent hover:bg-accent/90 shadow-neon',
-    secondary: 'bg-secondary border-outline text-on-surface hover:bg-secondary/80',
-    outline: 'border-outline bg-transparent text-on-surface hover:bg-secondary/20',
-    ghost: 'border-transparent hover:bg-secondary/20 text-on-surface',
+    // Primary Jelly Pill
+    primary: 'rounded-[var(--radius-24)] bg-primary border-primary text-on-primary hover:bg-white/20 hover:border-[#c2c2c2] hover:text-white',
+    // Secondary Slate Pill
+    secondary: 'rounded-[var(--radius-24)] bg-surface border-surface text-on-surface hover:bg-surface-elevated hover:border-outline-strong',
+    // Outlined
+    outline: 'rounded-[var(--radius-40)] border-outline bg-transparent text-on-surface hover:border-primary hover:text-primary',
+    ghost: 'rounded-[var(--radius-24)] border-transparent text-on-surface hover:text-[var(--state-hover-link)]',
   };
 
   const sizes = {
-    sm: 'h-10 px-4 text-[10px]',
-    md: 'h-12 px-8 text-xs',
-    lg: 'h-16 px-10 text-sm',
+    sm: 'h-10 px-6 text-[10px]',
+    md: 'h-12 px-8 text-[11px]',
+    lg: 'h-[60px] px-10 text-[13px]',
   };
 
   return (

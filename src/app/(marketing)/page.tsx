@@ -3,9 +3,9 @@ import Hero from '../../components/sections/Hero';
 import Services from '../../components/sections/Services';
 import Safety from '../../components/sections/Safety';
 import Process from '../../components/sections/Process';
-import Cases from '../../components/sections/Cases';
 import Clients from '../../components/sections/Clients';
 import Footer from '../../components/sections/Footer';
+import MapSection from '../../components/sections/MapSection';
 import AssistantWidget from '../../components/ai/AssistantWidget';
 
 import { generateLocalBusinessSchema, generateFAQSchema } from '../../lib/seo/schema';
@@ -26,7 +26,7 @@ export default function MarketingPage() {
         <Services />
         <Safety />
         <Process />
-        <Cases />
+        <MapSection />
       </main>
       <Footer />
       <AssistantWidget />

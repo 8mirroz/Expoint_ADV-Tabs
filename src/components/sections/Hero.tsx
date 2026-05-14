@@ -36,76 +36,73 @@ export default function Hero({ segment }: { segment?: SegmentData }) {
   const segmentTitle = segment ? t(locale, segment.title) : '';
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-background text-on-surface">
+    <section className="relative min-h-screen overflow-hidden bg-background text-on-surface border-b border-outline">
+      {/* 3D Scene in the background */}
       <HeroSignScene />
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(var(--accent-rgb),0.12),transparent_30%),radial-gradient(circle_at_82%_32%,rgba(var(--accent-rgb),0.08),transparent_28%)]" />
-      <div className="absolute inset-0 bg-linear-to-r from-background via-background/80 to-transparent" />
-      <div className="absolute inset-0 bg-linear-to-b from-background/40 via-transparent to-background" />
-      <div className="relative z-10 industrial-grid opacity-5 dark:opacity-10" />
-      <div className="absolute inset-y-0 left-0 w-[45vw] bg-linear-to-r from-background via-background/90 to-transparent" />
+      {/* Strict flat background mask instead of glowing gradients */}
+      <div className="absolute inset-0 bg-background/80" />
+      <div className="relative z-10 industrial-grid opacity-20" />
+      <div className="absolute inset-y-0 left-0 w-[55vw] bg-background/95" />
 
-      <div className="section-container relative z-10 flex min-h-screen items-center pb-18 pt-32 lg:pt-36">
-        <div className="grid w-full gap-10 px-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] lg:items-center">
+      <div className="section-container relative z-10 flex min-h-screen items-center pb-16 pt-32 lg:pt-36">
+        <div className="grid w-full gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center">
           <motion.div
-            initial={{ opacity: 0, y: 28 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-3xl"
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="max-w-4xl"
           >
-            <div className="inline-flex items-center gap-3 border border-accent/20 bg-accent/5 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.3em] text-accent backdrop-blur-md">
-              <span className="h-px w-8 bg-accent/50" />
+            <div className="verge-kicker text-primary mb-8">
               {segment ? t(locale, segment.subtitle) : t(locale, copy.subtitle)}
             </div>
 
-            <h1 className="mt-8 max-w-4xl text-[46px] font-bold uppercase leading-[0.85] tracking-tighter text-on-surface md:text-[72px] lg:text-[92px]">
+            <h1 className="font-headline text-[60px] md:text-[80px] lg:text-[107px] uppercase leading-[0.80] text-on-surface tracking-normal break-words">
               {segment ? (
                 <>
-                  {segmentTitle.split(' ')[0]}
-                  <br />
-                  <span className="text-accent">{segmentTitle.split(' ').slice(1).join(' ')}</span>
+                  {segmentTitle.split(' ')[0]}<br />
+                  <span className="text-primary">{segmentTitle.split(' ').slice(1).join(' ')}</span>
                 </>
               ) : (
                 <>
-                  {t(locale, copy.titlePrimary)}
-                  <br />
-                  <span className="text-accent">{t(locale, copy.titleAccent)}</span>
+                  {t(locale, copy.titlePrimary)}<br />
+                  <span className="text-primary">{t(locale, copy.titleAccent)}</span>
                 </>
               )}
             </h1>
 
-            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-on-surface-variant md:text-xl">
+            <p className="mt-8 max-w-2xl text-[16px] md:text-[18px] leading-[1.6] text-on-surface-variant">
               {segment ? t(locale, segment.description) : t(locale, copy.description)}
             </p>
 
-            <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.26em] text-accent/80">
+            <p className="mt-6 verge-mono-label text-primary">
               {t(locale, copy.projectMeta)}
             </p>
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <button
                 onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group inline-flex h-16 items-center justify-center gap-3 bg-primary px-10 text-[10px] font-bold uppercase tracking-[0.2em] text-on-primary transition-all duration-300 hover:bg-accent hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="bg-primary border border-primary text-on-primary rounded-[var(--radius-24)] h-[60px] px-10 flex items-center justify-center gap-3 font-mono font-medium uppercase tracking-[1.1px] text-[13px] hover:bg-white/20 hover:border-[#c2c2c2] hover:text-white transition-colors"
               >
                 <span>{t(locale, copy.servicesAndPricing)}</span>
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="h-4 w-4" />
               </button>
 
               <a
                 href="/catalog.pdf"
                 download
-                className="group inline-flex h-16 items-center justify-center gap-3 border border-outline bg-surface/50 px-10 text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="bg-transparent border border-outline text-on-surface rounded-[var(--radius-40)] h-[60px] px-10 flex items-center justify-center gap-3 font-mono font-medium uppercase tracking-[1.1px] text-[13px] hover:border-primary hover:text-primary transition-colors"
               >
                 <span>{t(locale, copy.downloadCatalog)}</span>
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="h-4 w-4" />
               </a>
             </div>
 
-            <div className="mt-12 grid gap-4 border-t border-outline pt-8 sm:grid-cols-3">
-              {metrics.map((metric) => (
-                <div key={metric.value} className="border border-outline bg-surface/50 px-6 py-6 backdrop-blur-sm group hover:border-accent/30 transition-colors">
-                  <p className="text-4xl font-bold tracking-tighter text-on-surface">{metric.value}</p>
-                  <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.18em] text-on-surface-variant">
+            <div className="mt-16 grid grid-cols-3 border-t border-outline">
+              {metrics.map((metric, index) => (
+                <div key={metric.value} className={`py-8 px-4 ${index !== 2 ? 'border-r border-outline' : ''} bg-background group hover:bg-surface transition-colors`}>
+                  <p className="font-headline text-[40px] md:text-[60px] leading-[0.8] text-on-surface">{metric.value}</p>
+                  <p className="mt-4 verge-mono-label text-on-surface-variant">
                     {t(locale, copy[metric.labelKey])}
                   </p>
                 </div>
@@ -114,23 +111,19 @@ export default function Hero({ segment }: { segment?: SegmentData }) {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.95, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
             className="relative hidden min-h-[540px] lg:block"
           >
-            <div className="absolute inset-x-[8%] top-[12%] h-px bg-linear-to-r from-transparent via-accent/30 to-transparent" />
-            <div className="absolute right-[4%] top-[18%] border border-outline bg-surface px-6 py-4 text-right backdrop-blur-md shadow-premium">
-              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-accent">{t(locale, copy.metricTwoLabel)}</p>
+            {/* Minimal flat badges instead of glassmorphism */}
+            <div className="absolute right-[4%] top-[18%] border border-outline bg-background px-6 py-4 text-right">
+              <p className="verge-mono-label text-primary">{t(locale, copy.metricTwoLabel)}</p>
               <p className="mt-2 text-2xl font-bold text-on-surface">902-ПП</p>
             </div>
-            <div className="absolute bottom-[14%] left-[4%] border border-outline bg-surface px-6 py-4 backdrop-blur-md shadow-premium">
-              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-accent">{t(locale, copy.metricOneLabel)}</p>
+            <div className="absolute bottom-[14%] left-[4%] border border-outline bg-background px-6 py-4">
+              <p className="verge-mono-label text-primary">{t(locale, copy.metricOneLabel)}</p>
               <p className="mt-2 text-2xl font-bold text-on-surface">24ч</p>
-            </div>
-            <div className="absolute bottom-[8%] right-[8%] border border-accent/20 bg-accent/5 px-6 py-5 backdrop-blur-md shadow-premium">
-              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-accent">{t(locale, copy.metricThreeLabel)}</p>
-              <p className="mt-2 text-3xl font-bold text-on-surface">2Y</p>
             </div>
           </motion.div>
         </div>

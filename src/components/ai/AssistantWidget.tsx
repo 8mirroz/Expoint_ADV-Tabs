@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MessageSquare, X, Send, Bot, AlertTriangle } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, AlertTriangle, Cpu, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { useAssistantContext } from '../../hooks/useAssistantContext';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import type { KnowledgeCitation, KnowledgeFallbackReason } from '@/lib/knowledge/types';
 
 interface AssistantMessage {
@@ -18,6 +20,8 @@ interface AssistantMessage {
 export default function AssistantWidget() {
   const { locale } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
+  const container = useRef<HTMLButtonElement>(null);
+  
   const [messages, setMessages] = useState<AssistantMessage[]>([
     {
       role: 'assistant',
@@ -31,6 +35,27 @@ export default function AssistantWidget() {
   const [loading, setLoading] = useState(false);
 
   const assistantContext = useAssistantContext();
+
+  useGSAP(() => {
+    if (!isOpen && container.current) {
+      gsap.to(container.current, {
+        y: -10,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut"
+      });
+      
+      gsap.to(".assistant-glow", {
+        opacity: 0.8,
+        scale: 1.2,
+        duration: 1.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+    }
+  }, [isOpen]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,17 +110,22 @@ export default function AssistantWidget() {
   return (
     <>
       {!isOpen && (
-        <motion.button
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+        <button
+          ref={container}
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-8 right-8 w-16 h-16 bg-accent shadow-[0_0_20px_rgba(255,102,0,0.4)] text-white rounded-none flex items-center justify-center transition-all z-50 group"
+          className="fixed bottom-8 right-8 w-20 h-20 bg-secondary border-2 border-accent/30 text-white rounded-full flex items-center justify-center shadow-2xl z-50 group hover:border-accent transition-colors"
         >
-          <MessageSquare className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-          <div className="absolute inset-0 border border-white/20 animate-pulse" />
-        </motion.button>
+          <div className="absolute inset-0 bg-accent/10 rounded-full animate-ping opacity-20" />
+          <div className="assistant-glow absolute inset-0 bg-accent/20 rounded-full blur-xl opacity-40 scale-75" />
+          
+          <div className="relative z-10 flex flex-col items-center">
+            <Cpu className="w-8 h-8 text-accent group-hover:scale-110 transition-transform" />
+            <Sparkles className="w-3 h-3 text-primary absolute -top-1 -right-1 animate-pulse" />
+          </div>
+
+          {/* Technical Ring */}
+          <div className="absolute inset-[2px] border border-white/5 rounded-full border-dashed animate-[spin_10s_linear_infinite]" />
+        </button>
       )}
 
       <AnimatePresence>

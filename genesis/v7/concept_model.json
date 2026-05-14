@@ -1,0 +1,59 @@
+{
+  "version": "v7",
+  "domain": "Expoint ADV — производство наружной и интерьерной рекламы",
+  "entities": {
+    "Service": {
+      "description": "Тип рекламной конструкции (объёмные буквы, лайтбокс, неон, стела)",
+      "attributes": ["id", "title", "basePrice", "priceUnit", "features", "segments"],
+      "relations": ["belongs_to_ProductPack", "configurable_via_Calculator"]
+    },
+    "ProductPack": {
+      "description": "Готовое комплексное решение 'под ключ' с фиксированной ценой входа",
+      "attributes": ["id", "name", "description", "target", "priceStart", "features", "isPopular"],
+      "relations": ["contains_Services", "addable_to_Cart"]
+    },
+    "CalculatorConfig": {
+      "description": "Параметры конфигурации заказа: тип изделия, размеры, материалы, монтаж",
+      "attributes": ["productType", "text", "heightCm", "count", "complexity", "mounting", "urgency", "materialId", "lightingId"],
+      "relations": ["produces_PriceRange", "convertible_to_CartItem"]
+    },
+    "PriceRange": {
+      "description": "Диапазон расчётной стоимости (min–max, RUB)",
+      "attributes": ["min", "max", "currency"],
+      "relations": ["derived_from_CalculatorConfig"]
+    },
+    "CartItem": {
+      "description": "Позиция в корзине: ProductPack или CalculatorConfig",
+      "attributes": ["id", "type (pack|custom)", "title", "price", "quantity", "config?"],
+      "relations": ["belongs_to_Cart"]
+    },
+    "Cart": {
+      "description": "Корзина пользователя с набором позиций",
+      "attributes": ["items[]", "totalPrice", "contactInfo"],
+      "relations": ["submits_to_LeadsAPI"]
+    },
+    "PriceTier": {
+      "description": "Ценовая сетка по высоте буквы (₽/см)",
+      "attributes": ["minHeightCm", "maxHeightCm", "ratePerCm"],
+      "relations": ["used_by_CalculatorConfig"]
+    },
+    "Lead": {
+      "description": "Заявка клиента, отправленная через корзину или форму",
+      "attributes": ["name", "phone", "message", "source", "cartSnapshot"],
+      "relations": ["created_from_Cart"]
+    }
+  },
+  "flows": {
+    "browse_catalog": "User → CatalogPage → filters ProductPacks → selects Pack → opens ConfiguratorDrawer",
+    "calculate_price": "User → CalculatorPage → inputs params → sees live 3D preview → gets PriceRange → adds to Cart",
+    "view_prices": "User → PricesPage → sees service tiers → clicks CTA → goes to CalculatorPage",
+    "checkout": "User → CartPage → reviews items → fills ContactForm → submits → Lead created → confirmation email"
+  },
+  "dark_matter": {
+    "cart_persistence": "Корзина должна сохраняться в localStorage между сессиями",
+    "cart_quote_format": "При отправке заявки из корзины нужен человекочитаемый snapshot (для email/телеграм)",
+    "pack_configurator": "ProductPack может иметь вариативность (например, выбор подсветки), требует мини-конфигуратор внутри карточки",
+    "price_page_tiers": "Страница цен нужна не просто как список — она должна быть воронкой с CTA на каждом уровне",
+    "slug_pages_link": "Каждый Service имеет свою страницу /services/[slug] — ценовая информация должна быть синхронизирована"
+  }
+}

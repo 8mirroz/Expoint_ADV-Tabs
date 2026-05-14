@@ -205,7 +205,12 @@ export default function Quiz() {
                 <div className="border border-white/5 p-8 max-w-md mx-auto bg-white/1">
                    <p className="text-[10px] font-black uppercase tracking-widest text-accent mb-4">{t(locale, copy.bonus)}</p>
                    <p className="text-sm font-light text-on-surface-variant mb-8">Пришлите фото фасада в WhatsApp, и мы активируем приоритетное 3D-моделирование.</p>
-                   <a href="#" className="w-full bg-white text-secondary hover:bg-accent hover:text-white font-black uppercase tracking-widest text-[10px] py-5 px-8 transition-all block">
+                   <a
+                     href="https://wa.me/74950000000"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     className="w-full bg-white text-secondary hover:bg-accent hover:text-white font-black uppercase tracking-widest text-[10px] py-5 px-8 transition-all block"
+                   >
                      {t(locale, copy.whatsapp)}
                    </a>
                 </div>

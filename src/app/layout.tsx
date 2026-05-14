@@ -5,26 +5,32 @@ import SmoothScroll from "@/components/motion/SmoothScroll";
 import { LanguageProvider } from "@/components/i18n/LanguageProvider";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import GSAPProvider from "@/components/motion/GSAPProvider";
-import { Outfit, Inter } from "next/font/google";
+import { Oswald, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import ConsultationModal from "@/components/ui/ConsultationModal";
 import { CookieBanner } from "@/components/compliance/CookieBanner";
 import { PostHogProvider } from "@/components/analytics/PostHogProvider";
 import "./globals.css";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-outfit",
+const oswald = Oswald({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-manuka", // Using semantic variable names matching the design system
   display: "swap",
 });
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-polysans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-polysans-mono",
   display: "swap",
 });
 
 export const viewport: Viewport = {
-  themeColor: '#020617',
+  themeColor: '#131313', // Canvas Black
 };
 
 export const metadata: Metadata = {
@@ -61,12 +67,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${outfit.variable} ${inter.variable} font-inter`}>
+    <html lang="ru" className="scroll-smooth dark" suppressHydrationWarning>
+      <body className={`${oswald.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-polysans bg-background text-on-surface`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
-          enableSystem
+          defaultTheme="dark"
+          forcedTheme="dark"
           disableTransitionOnChange
         >
           <LanguageProvider>

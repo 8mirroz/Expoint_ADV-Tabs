@@ -1,5 +1,5 @@
 import React from 'react';
-import CalculatorContainer from '@/components/calculator/CalculatorContainer';
+import { CalculatorContainer } from '@/components/calculator/CalculatorContainer';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

@@ -3,6 +3,7 @@ import type { SVGProps } from 'react';
 import { MapPin, ArrowUpRight, MessageCircle, Send } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
+import Link from 'next/link';
 
 const Linkedin = (props: SVGProps<SVGSVGElement>) => (
   <svg 
@@ -33,8 +34,19 @@ const copy = {
   terms: { ru: 'Условия сервиса', be: 'Умовы сэрвісу', kk: 'Қызмет шарттары', en: 'Service Terms', zh: '服务条款', ce: 'Сервисан шарт', tt: 'Сервис шартлары' },
 } as const;
 
-const hardwareItems = ['Объемные буквы', 'Неон', 'Лайтбоксы', 'Индивидуальные решения'];
-const systemItems = ['Портфолио', 'Процесс', '902-ПП', 'Конфигуратор'];
+const hardwareItems = [
+  { label: 'Объемные буквы', href: '/services/volumetric-letters' },
+  { label: 'Неон', href: '/services/flex-neon' },
+  { label: 'Лайтбоксы', href: '/services/lightbox' },
+  { label: 'Индивидуальные решения', href: '/services' },
+] as const;
+
+const systemItems = [
+  { label: 'Портфолио', href: '/#cases' },
+  { label: 'Процесс', href: '/#process' },
+  { label: '902-ПП', href: '/compliance' },
+  { label: 'Конфигуратор', href: '/calculator' },
+] as const;
 const socialLinks = [
   { name: 'Telegram', href: 'https://t.me/', icon: Send },
   { name: 'WhatsApp', href: 'https://wa.me/74950000000', icon: MessageCircle },
@@ -45,20 +57,20 @@ export default function Footer() {
   const { locale } = useLanguage();
 
   return (
-    <footer id="footer" className="bg-surface text-on-surface-variant py-32 border-t border-outline">
-      <div className="section-container grid grid-cols-1 md:grid-cols-12 gap-16 lg:gap-24 mb-32">
+    <footer id="footer" className="bg-surface text-on-surface-variant py-24 lg:py-40 border-t border-outline/30">
+      <div className="section-container grid grid-cols-1 md:grid-cols-12 gap-16 lg:gap-24 mb-24 lg:mb-32">
         
-        <div className="md:col-span-4 flex flex-col gap-10">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-accent flex items-center justify-center font-black text-on-accent text-2xl shadow-neon">EX</div>
-            <div className="font-headline text-2xl font-black uppercase tracking-tighter text-on-surface">
+        <div className="md:col-span-4 flex flex-col gap-8">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary flex items-center justify-center rounded-xl font-black text-on-primary text-xl shadow-premium">EX</div>
+            <div className="font-headline text-xl font-black uppercase tracking-tight text-on-surface">
               Expoint <span className="text-accent">ADV</span>
             </div>
           </div>
-          <p className="text-base font-light leading-relaxed max-w-sm text-on-surface-variant">
+          <p className="text-sm font-light leading-relaxed max-w-sm text-on-surface-variant/80">
             {t(locale, copy.description)}
           </p>
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             {socialLinks.map(({ name, href, icon: Icon }) => (
               <a 
                 key={name} 
@@ -66,7 +78,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={name}
-                className="w-14 h-14 border border-outline flex items-center justify-center hover:bg-accent hover:border-accent hover:text-on-accent transition-all text-[10px] font-black uppercase tracking-widest text-on-surface-variant group"
+                className="w-12 h-12 border border-outline/30 rounded-xl flex items-center justify-center hover:bg-accent hover:border-accent hover:text-on-accent transition-all group"
               >
                 <Icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
               </a>
@@ -75,74 +87,65 @@ export default function Footer() {
         </div>
 
         <div className="md:col-span-2">
-          <h4 className="text-on-surface font-black uppercase tracking-[0.3em] text-[10px] mb-10">{t(locale, copy.hardware)}</h4>
-          <ul className="space-y-5">
-            {hardwareItems.map(item => (
-              <li key={item}>
-                <a href="#" className="text-sm font-medium text-on-surface-variant hover:text-accent transition-colors flex items-center group">
-                  {item}
+          <h4 className="verge-mono-label mb-8 opacity-40">{t(locale, copy.hardware)}</h4>
+          <ul className="space-y-4">
+            {hardwareItems.map((item) => (
+              <li key={item.label}>
+                <Link href={item.href} className="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors flex items-center group">
+                  {item.label}
                   <ArrowUpRight className="w-3 h-3 ml-2 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all" />
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
         </div>
 
         <div className="md:col-span-2">
-          <h4 className="text-on-surface font-black uppercase tracking-[0.3em] text-[10px] mb-10">{t(locale, copy.system)}</h4>
-          <ul className="space-y-5">
-            {systemItems.map(item => (
-              <li key={item}>
-                <a href="#" className="text-sm font-medium text-on-surface-variant hover:text-accent transition-colors flex items-center group">
-                  {item}
+          <h4 className="verge-mono-label mb-8 opacity-40">{t(locale, copy.system)}</h4>
+          <ul className="space-y-4">
+            {systemItems.map((item) => (
+              <li key={item.label}>
+                <Link href={item.href} className="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors flex items-center group">
+                  {item.label}
                   <ArrowUpRight className="w-3 h-3 ml-2 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all" />
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="md:col-span-4 flex flex-col gap-10">
-          <h4 className="text-on-surface font-black uppercase tracking-[0.3em] text-[10px] mb-10">{t(locale, copy.headquarters)}</h4>
-          <div className="rounded-2xl border border-outline bg-surface-variant/20 p-6 md:p-7 flex flex-col gap-7">
-            <div className="flex items-start gap-5">
-              <div className="w-10 h-10 border border-outline bg-surface flex items-center justify-center shrink-0">
-                <MapPin className="w-5 h-5 text-accent" />
+        <div className="md:col-span-4 flex flex-col gap-8">
+          <h4 className="verge-mono-label mb-8 opacity-40">{t(locale, copy.headquarters)}</h4>
+          <div className="border border-outline/10 bg-surface/30 p-8 flex flex-col gap-8 rounded-24">
+            <div className="flex items-start gap-6">
+              <div className="w-12 h-12 bg-primary flex items-center justify-center rounded-sm shrink-0">
+                <MapPin className="w-6 h-6 text-on-primary" />
               </div>
-              <p className="text-sm font-light leading-relaxed text-on-surface-variant">
-                г. Москва, ул. Полимерная, д. 8 <br/>
-                <span className="text-[10px] text-on-surface-variant uppercase tracking-[0.2em] mt-2 block font-mono">{t(locale, copy.industrialZone)}</span>
-              </p>
+              <div>
+                <p className="text-lg font-headline uppercase leading-none mb-2">Москва, Полимерная 8</p>
+                <p className="verge-mono-label text-on-surface-variant">{t(locale, copy.industrialZone)}</p>
+              </div>
             </div>
-            <div className="w-full h-72 md:h-80 border border-outline overflow-hidden rounded-xl">
-              <iframe
-                title="Яндекс Карта: Москва, Полимерная, 8"
-                src="https://yandex.ru/map-widget/v1/?mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%9F%D0%BE%D0%BB%D0%B8%D0%BC%D0%B5%D1%80%D0%BD%D0%B0%D1%8F%2C%208&z=16"
-                className="w-full h-full"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+            <div className="flex flex-col gap-4 pt-8 border-t border-outline/10">
+              <a href="tel:+74950000000" className="text-3xl font-headline text-on-surface hover:text-primary transition-colors tracking-tight">+7 (495) 000-00-00</a>
+              <a href="mailto:hello@expoint.pro" className="verge-mono-label text-primary hover:text-on-surface transition-colors tracking-[0.2em]">hello@expoint.pro</a>
             </div>
-          </div>
-          <div className="flex flex-col gap-6 pt-4 border-t border-outline">
-            <a href="tel:+74950000000" className="text-3xl font-black text-on-surface hover:text-accent transition-colors font-mono tracking-tighter">+7 (495) 000-00-00</a>
-            <a href="mailto:hello@expoint.pro" className="text-sm font-medium text-on-surface-variant hover:text-accent transition-colors uppercase tracking-[0.3em]">hello@expoint.pro</a>
           </div>
         </div>
 
       </div>
       
-      <div className="section-container pt-16 border-t border-outline flex flex-col md:flex-row justify-between items-center gap-10">
+      <div className="section-container pt-16 border-t border-outline/10 flex flex-col md:flex-row justify-between items-center gap-10">
         <div className="flex gap-12 items-center">
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-on-surface-variant">© 2026 EXPOINT ADV LABS</p>
+          <p className="verge-mono-label text-on-surface-variant">© 2026 EXPOINT ADV LABS</p>
           <div className="hidden md:flex gap-6 items-center">
-            <div className="h-px w-12 bg-outline" />
+            <div className="h-px w-12 bg-outline/20" />
             <span className="text-[10px] font-mono text-on-surface-variant/40 uppercase tracking-widest">Build_v.2.1.0_GENESIS</span>
           </div>
         </div>
         <div className="flex gap-10 text-[10px] font-black uppercase tracking-[0.2em]">
-          <a href="#" className="text-on-surface-variant hover:text-on-surface transition-colors">{t(locale, copy.privacy)}</a>
-          <a href="#" className="text-on-surface-variant hover:text-on-surface transition-colors">{t(locale, copy.terms)}</a>
+          <Link href="/privacy" className="text-on-surface-variant hover:text-on-surface transition-colors">{t(locale, copy.privacy)}</Link>
+          <Link href="/terms" className="text-on-surface-variant hover:text-on-surface transition-colors">{t(locale, copy.terms)}</Link>
         </div>
       </div>
     </footer>

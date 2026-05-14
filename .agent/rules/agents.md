@@ -1,47 +1,25 @@
-# Agent Tracking & Status
-
-## 📍 Current Status
-- **Latest Arch Version**: `genesis/v6`
-- **Active Task List**: `Pending` (Wait for /blueprint)
-- **Last Updated**: `2026-05-12`
-
-## 🌳 Project Structure
-
-> **Note**: Maintained by `/genesis`.
-
-```text
-/Users/user/projects/Expoint_ADV Tabs/
-├── genesis/v6/           # Arch Docs
-├── src/                  # Application code
-```
-
-## 🧭 Navigation Guide
-
-- **Arch Overview**: `genesis/v6/02_ARCHITECTURE_OVERVIEW.md`
-- **ADR**: See `genesis/v6/03_ADR/`
-- **Detailed Design**: Update after `/design-system`
-- **Task List**: Update after `/blueprint`
-
-## 🎯 Active Skills
+# 🎯 Active Skills
 
 > **Note**: Maintained by `/skill-install`.
 
-### Core Development (5)
+### Core Development (6)
 - [react-typescript-pro](../skills/active/react-typescript-pro.md)
 - [tailwind-enterprise](../skills/active/tailwind-enterprise.md)
-- [nextjs-app-router](../skills/active/nextjs-app-router.md)
-- [frontend-motion-director](../skills/active/frontend-motion-director.md)
-- [nextjs-seo-architect](../skills/active/nextjs-seo-architect.md)
+- [nextjs-app-router](../skills/active/nextjs-app-router.md) (Restored)
+- [frontend-motion-director](../skills/active/frontend-motion-director.md) (Restored)
+- [nextjs-seo-architect](../skills/active/nextjs-seo-architect.md) (Restored)
+- [ui-premium](../skills/active/ui-premium.md) (New)
 
 ### Analytics & Compliance (4)
-- [sec-ops-guard](../skills/active/sec-ops-guard.md)
-- [telemetry-engineer](../skills/active/telemetry-engineer.md)
-- [b2b-conversion-strategist](../skills/active/b2b-conversion-strategist.md)
+- [sec-ops-guard](../skills/active/sec-ops-guard.md) (Restored)
+- [telemetry-engineer](../skills/active/telemetry-engineer.md) (Restored)
+- [b2b-conversion-strategist](../skills/active/b2b-conversion-strategist.md) (Restored)
 - [pii-redaction-152fz](../skills/active/pii-redaction-152fz.md)
 
-### Specialized (2)
+### Specialized (3)
 - [ai-sdk-streaming](../skills/active/ai-sdk-streaming.md)
-- [threejs-react-fiber](../skills/active/threejs-react-fiber.md)
+- [threejs-react-fiber](../skills/active/threejs-react-fiber.md) (Restored)
+- [zustand-state-management](../skills/active/zustand-state-management.md)
 
-**Total Skills**: 11
-**Last Updated**: `2026-05-12`
+**Total Skills**: 13
+**Last Updated**: 2026-05-13

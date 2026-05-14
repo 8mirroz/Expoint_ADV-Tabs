@@ -16,6 +16,12 @@ interface BentoCardProps {
   cta: string;
 }
 
+type IconElement = React.ReactElement<{ className?: string }>;
+
+function isIconElement(value: React.ReactNode): value is IconElement {
+  return React.isValidElement<{ className?: string }>(value);
+}
+
 export function BentoCard({
   name,
   className,
@@ -42,9 +48,9 @@ export function BentoCard({
       
       <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-1 p-8 transition-all duration-500 group-hover:-translate-y-10">
         <div className="flex h-12 w-12 items-center justify-center rounded-none bg-secondary/30 backdrop-blur-sm transition-all duration-500 group-hover:bg-accent group-hover:scale-110">
-           {React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<any>, { 
+           {isIconElement(icon) ? React.cloneElement(icon, {
              className: cn(
-               (icon as React.ReactElement<any>).props.className, 
+               icon.props.className,
                "transition-colors duration-500 group-hover:text-white"
              )
            }) : icon}
