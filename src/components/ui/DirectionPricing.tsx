@@ -78,7 +78,7 @@ export function DirectionPricing({
   const [locations, setLocations] = useState(1);
 
   return (
-    <div className="w-full bg-canvas py-24 px-4 border-t border-outline/10">
+    <div className="w-full bg-canvas section-padding px-4 border-t border-outline/10">
       <div className="max-w-6xl mx-auto mb-16 text-center">
         <h2 className="text-3xl lg:text-5xl font-headline font-black uppercase tracking-tighter text-on-surface mb-6">
           {title}<span className="text-accent">.</span>

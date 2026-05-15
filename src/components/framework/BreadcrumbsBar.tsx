@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Script from 'next/script';
 import { ChevronRight, Home } from 'lucide-react';
 import type { BreadcrumbItem } from './types';
 
@@ -34,7 +35,8 @@ export function BreadcrumbsBar({ items }: BreadcrumbsBarProps) {
 
   return (
     <>
-      <script
+      <Script
+        id="json-ld-breadcrumbs"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />

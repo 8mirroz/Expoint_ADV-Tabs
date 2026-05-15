@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import PageShell from '@/components/framework/PageShell';
+import Script from 'next/script';
 import HeroGeneric from '@/components/sections/HeroGeneric';
 import StatsSection from '@/components/sections/StatsSection';
 import ValuesSection from '@/components/sections/ValuesSection';
@@ -24,6 +25,7 @@ export default function AboutPage() {
     <PageShell
       headerVariant="default"
       breadcrumbs={[{ label: 'О компании', href: '/about' }]}
+      withMesh
     >
       <HeroGeneric
         subtitle="О компании"
@@ -83,7 +85,8 @@ export default function AboutPage() {
         buttonHref="/contacts"
       />
 
-      <script
+      <Script
+        id="json-ld-about"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({

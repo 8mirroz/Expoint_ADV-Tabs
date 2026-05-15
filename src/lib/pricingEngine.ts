@@ -28,7 +28,7 @@ export function calculatePrice(serviceId: string, params: PricingParameters): Pr
   }
 
   // Base price from service configuration
-  let basePrice = service.basePrice;
+  const basePrice = service.basePrice;
 
   // Apply size multiplier
   const sizeMultipliers = {

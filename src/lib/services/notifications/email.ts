@@ -33,11 +33,10 @@ export const sendToEmail = async (lead: LeadPayload): Promise<boolean> => {
       <h3>Данные конфигуратора:</h3>
       <ul>
         <li>Текст: ${lead.calculatorData.text}</li>
-        <li>Тип: ${lead.calculatorData.type}</li>
-        <li>Размер: ${lead.calculatorData.size}</li>
-        <li>Цвет: ${lead.calculatorData.glowColor}</li>
-        <li>Монтаж: ${lead.calculatorData.hasInstallation ? 'Да' : 'Нет'}</li>
-        <li><b>Сумма: ~${lead.calculatorData.totalPrice?.toLocaleString('ru-RU')} ₽</b></li>
+        <li>Высота: ${lead.calculatorData.heightCm} см</li>
+        <li>Материал: ${lead.calculatorData.materialId}</li>
+        <li>Подсветка: ${lead.calculatorData.lightingId}</li>
+        <li><b>Бюджет: ${lead.calculatorData.priceRange.min.toLocaleString('ru-RU')} - ${lead.calculatorData.priceRange.max.toLocaleString('ru-RU')} ${lead.calculatorData.priceRange.currency}</b></li>
       </ul>
     ` : ''}
   `;

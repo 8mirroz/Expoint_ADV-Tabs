@@ -13,16 +13,22 @@ export function DeliveryCalendar({ onDateChange }: DeliveryCalendarProps) {
   // Default delivery is 7 days from now
   const [selectedOffset, setSelectedOffset] = useState(7);
   
-  const now = new Date();
-  const currentMonthName = now.toLocaleString("ru-RU", { month: "long" });
+  const now = React.useMemo(() => new Date(), []);
+  const currentMonthName = React.useMemo(() => now.toLocaleString("ru-RU", { month: "long" }), [now]);
   const currentYear = now.getFullYear();
 
   // Calculate dates based on offset
-  const readyDate = new Date();
-  readyDate.setDate(now.getDate() + selectedOffset - 2);
+  const readyDate = React.useMemo(() => {
+    const d = new Date(now);
+    d.setDate(now.getDate() + selectedOffset - 2);
+    return d;
+  }, [now, selectedOffset]);
   
-  const deliveryDate = new Date();
-  deliveryDate.setDate(now.getDate() + selectedOffset);
+  const deliveryDate = React.useMemo(() => {
+    const d = new Date(now);
+    d.setDate(now.getDate() + selectedOffset);
+    return d;
+  }, [now, selectedOffset]);
 
   // Notify parent of initial dates
   useEffect(() => {
@@ -30,7 +36,7 @@ export function DeliveryCalendar({ onDateChange }: DeliveryCalendarProps) {
       readiness: readyDate,
       delivery: deliveryDate
     });
-  }, []);
+  }, [onDateChange, readyDate, deliveryDate]);
 
   const firstDayOfMonth = new Date(currentYear, now.getMonth(), 1);
   const firstDayOfWeek = firstDayOfMonth.getDay();

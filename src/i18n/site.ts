@@ -2,12 +2,12 @@ export type SiteLocale = 'ru' | 'be' | 'kk' | 'en' | 'zh' | 'ce' | 'tt';
 
 export interface LocalizedText {
   ru: string;
-  be: string;
-  kk: string;
   en: string;
-  zh: string;
-  ce: string;
-  tt: string;
+  be?: string;
+  kk?: string;
+  zh?: string;
+  ce?: string;
+  tt?: string;
 }
 
 export const DEFAULT_LOCALE: SiteLocale = 'ru';

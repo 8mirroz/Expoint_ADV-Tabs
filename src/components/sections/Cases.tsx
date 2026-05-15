@@ -22,7 +22,7 @@ export default function Cases() {
   const { locale } = useLanguage();
 
   return (
-    <section id="cases" className="scroll-mt-28 py-24 lg:py-48 bg-background relative overflow-hidden">
+    <section id="cases" className="scroll-mt-28 section-padding bg-background relative overflow-hidden">
       {/* Background Decorative Grid */}
       <div className="absolute inset-0 z-0 opacity-[0.03] bg-[url('/img/patterns/grid.svg')] bg-size-[40px_40px] pointer-events-none" />
       

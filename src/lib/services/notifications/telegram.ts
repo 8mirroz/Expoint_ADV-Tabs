@@ -7,15 +7,18 @@ export interface LeadPayload {
   type: 'lead' | 'quote' | 'consultation';
   message?: string;
   calculatorData?: {
-    text?: string;
-    type?: string;
-    size?: string;
-    glowColor?: string;
-    hasInstallation?: boolean;
-    totalPrice?: number;
-    priceRange?: { min: number; max: number };
-    material?: string;
-    lighting?: string;
+    text: string;
+    productType?: string;
+    heightCm: number;
+    materialId: string;
+    lightingId: string;
+    priceRange: { min: number; max: number; currency: string };
+    count?: number;
+    complexity?: string;
+    mounting?: string;
+    urgency?: string;
+    faceColor?: string;
+    sideColor?: string;
   };
 }
 
@@ -48,18 +51,16 @@ ${lead.email ? `📧 <b>Email:</b> ${lead.email}` : ''}
   if (lead.calculatorData) {
     const calc = lead.calculatorData;
     message += `\n\n<b>🛠 Данные расчета:</b>
-🏷 <b>Текст:</b> ${calc.text || '-'}
-📐 <b>Тип:</b> ${calc.type || '-'}
-📏 <b>Высота:</b> ${calc.size || '-'}
-✨ <b>Свет:</b> ${calc.lighting || '-'}
-🏗 <b>Материал:</b> ${calc.material || '-'}
-🎨 <b>Цвет:</b> ${calc.glowColor || '-'}
-🔧 <b>Монтаж:</b> ${calc.hasInstallation ? 'Да' : 'Нет'}`;
+🏷 <b>Текст:</b> ${calc.text}
+📐 <b>Тип:</b> ${calc.productType || '-'}
+📏 <b>Высота:</b> ${calc.heightCm} см
+✨ <b>Подсветка:</b> ${calc.lightingId}
+🏗 <b>Материал:</b> ${calc.materialId}
+🎨 <b>Цвета:</b> ${calc.faceColor || '-'}/${calc.sideColor || '-'}
+🔧 <b>Монтаж:</b> ${calc.mounting || '-'}`;
 
-    if (calc.totalPrice) {
-      message += `\n\n<b>💰 Сумма: ~${calc.totalPrice.toLocaleString('ru-RU')} ₽</b>`;
-    } else if (calc.priceRange) {
-      message += `\n\n<b>💰 Бюджет: ${calc.priceRange.min.toLocaleString('ru-RU')} - ${calc.priceRange.max.toLocaleString('ru-RU')} ₽</b>`;
+    if (calc.priceRange) {
+      message += `\n\n<b>💰 Бюджет: ${calc.priceRange.min.toLocaleString('ru-RU')} - ${calc.priceRange.max.toLocaleString('ru-RU')} ${calc.priceRange.currency}</b>`;
     }
   }
 

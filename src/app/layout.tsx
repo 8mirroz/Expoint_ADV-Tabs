@@ -1,31 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { GoogleAnalytics } from '@next/third-parties/google';
-import { MotionProvider } from "@/components/motion/MotionProvider";
+import Script from 'next/script';
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import { LanguageProvider } from "@/components/i18n/LanguageProvider";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import GSAPProvider from "@/components/motion/GSAPProvider";
-import { Oswald, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import ConsultationModal from "@/components/ui/ConsultationModal";
 import { CookieBanner } from "@/components/compliance/CookieBanner";
 import { PostHogProvider } from "@/components/analytics/PostHogProvider";
 import "./globals.css";
 
-const oswald = Oswald({
+const inter = Inter({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-manuka", // Using semantic variable names matching the design system
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-polysans",
+  variable: "--font-sans",
   display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-polysans-mono",
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -66,9 +59,34 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="ru" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${oswald.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-polysans bg-background text-on-surface`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans bg-background text-on-surface`} suppressHydrationWarning>
+        {gaId && (
+          <>
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+            />
+            <Script
+              id="google-analytics-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${gaId}', {
+                    page_path: window.location.pathname,
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -78,17 +96,12 @@ export default function RootLayout({
           <LanguageProvider>
             <SmoothScroll>
               <GSAPProvider>
-                <MotionProvider>
-                  <PostHogProvider>
-                    {children}
-                    <ConsultationModal />
-                    <CookieBanner />
-                  </PostHogProvider>
-                </MotionProvider>
+                <PostHogProvider>
+                  {children}
+                </PostHogProvider>
               </GSAPProvider>
             </SmoothScroll>
           </LanguageProvider>
-          <GoogleAnalytics gaId="G-XYZ1234567" />
         </ThemeProvider>
       </body>
     </html>

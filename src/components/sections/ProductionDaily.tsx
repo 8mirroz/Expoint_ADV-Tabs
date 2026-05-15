@@ -24,7 +24,7 @@ export default function ProductionDaily() {
   const dailyEntries = CASE_STUDIES.slice(0, 6);
 
   return (
-    <section id="daily" className="py-24 lg:py-40 bg-background relative overflow-hidden border-t border-outline">
+    <section id="daily" className="section-padding bg-background relative overflow-hidden border-t border-outline">
       {/* Blueprint Grid Background */}
       <div className="absolute inset-0 z-0 opacity-[0.02] bg-[url('/img/patterns/grid.svg')] bg-[length:40px_40px] pointer-events-none" />
       

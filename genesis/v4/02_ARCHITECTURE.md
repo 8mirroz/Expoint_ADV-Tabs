@@ -1,7 +1,7 @@
 # Architecture Specification
 **Project:** Expoint ADV - Premium AI-Ready B2B Sales Engine
 **Version:** 1.0.0
-**Status:** DRAFT
+**Status:** STABLE
 
 ## 1. System Overview
 The system is designed as a modern, decoupled web application. It follows a 5-layer conceptual architecture:
@@ -12,11 +12,12 @@ The system is designed as a modern, decoupled web application. It follows a 5-la
 5. **Knowledge Layer:** NotebookLM integration, static content, SEO metadata.
 
 ## 2. Technology Stack
-- **Frontend Framework:** Next.js (App Router recommended) or Vite/React (depending on SSR/SEO requirements). *Pending confirmation based on current demo site stack.*
-- **Styling:** CSS Modules / Vanilla CSS with design tokens, or Tailwind CSS (if standard).
-- **State Management:** React Context / Zustand for local state (calculators, UI).
-- **Integration:** Python/Node.js backend or Serverless functions for AI/CRM communication.
-- **Knowledge Base:** Google NotebookLM (Strictly used as internal context for the development agent, NOT connected to the live site).
+- **Frontend Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS + Design Tokens ( Geist System )
+- **State Management:** Zustand (Cart, Consent, UI state)
+- **Database / ORM:** Drizzle ORM + PostgreSQL
+- **Security:** Cloudflare Turnstile, custom Edge Middleware (CSP, Rate Limiting)
+- **Knowledge Base:** Internal Markdown-based storage with NotebookLM-ready prompts. (Live integration via `src/lib/notebooklm.ts` is currently STUBBED).
 
 ## 3. Data Flow & Integrations
 

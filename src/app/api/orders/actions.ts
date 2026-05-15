@@ -1,11 +1,11 @@
-import { submitLead } from '@/app/api/leads/actions';
+import { submitLead } from '@/app/api/lead/actions';
 
 interface OrderItem {
     id: string;
     name: string;
     price: number;
     description: string;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
 }
 
 interface OrderData {

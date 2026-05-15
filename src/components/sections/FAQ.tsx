@@ -47,7 +47,7 @@ export default function FAQ() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section className="py-32 bg-secondary relative border-t border-outline">
+    <section className="section-padding bg-secondary relative border-t border-outline">
       <div className="section-container">
         <div className="mb-24">
           <h2 className="text-4xl lg:text-7xl font-headline font-black uppercase tracking-tighter leading-[0.8] text-on-surface">{t(locale, title)}<span className="text-accent">.</span></h2>

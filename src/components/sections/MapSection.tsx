@@ -1,21 +1,26 @@
 "use client";
+import { useRef } from 'react';
 import { MapPin, ExternalLink, Navigation } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, useInView } from 'motion/react';
 
 export default function MapSection() {
   const mapUrl = "https://yandex.ru/map-widget/v1/?mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%9F%D0%BE%D0%BB%D0%B8%D0%BC%D0%B5%D1%80%D0%BD%D0%B0%D1%8F%2C%208&z=15";
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "200px" });
 
   return (
-    <section className="w-full h-[50vh] min-h-[450px] relative overflow-hidden bg-surface border-y border-outline">
+    <section ref={sectionRef} className="w-full h-[50vh] min-h-[450px] relative overflow-hidden bg-surface border-y border-outline">
       {/* Full Background Map */}
       <div className="absolute inset-0 z-0">
-        <iframe
-          title="Яндекс Карта: Москва, Полимерная, 8"
-          src={mapUrl}
-          className="w-full h-full grayscale-[0.3] pointer-events-none transition-opacity duration-700"
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        />
+        {isInView && (
+          <iframe
+            title="Яндекс Карта: Москва, Полимерная, 8"
+            src={mapUrl}
+            className="w-full h-full grayscale-[0.3] pointer-events-none transition-opacity duration-700 animate-in fade-in"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        )}
         {/* Subtle overlay to blend map edges */}
         <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-background/20 pointer-events-none" />
       </div>

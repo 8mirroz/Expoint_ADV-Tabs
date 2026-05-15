@@ -27,6 +27,7 @@ export default function CasesPage() {
     <PageShell
       headerVariant="default"
       breadcrumbs={[{ label: 'Кейсы', href: '/cases' }]}
+      withMesh
     >
       <HeroGeneric
         subtitle="Кейсы"

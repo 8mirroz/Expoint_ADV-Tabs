@@ -4,6 +4,7 @@ import { ChevronRight, ArrowLeft, CheckCircle2, ShieldCheck } from 'lucide-react
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
+import { MeshBackground } from '@/components/ui/MeshBackground';
 
 const QUIZ_QUESTIONS = [
   {
@@ -53,6 +54,7 @@ export default function Quiz() {
     bonus: { ru: 'Бонус разблокирован:', be: 'Бонус адкрыты:', kk: 'Бонус ашылды:', en: 'Bonus Asset Unlocked:', zh: '奖励已解锁：', ce: 'Бонус дIакхоьллина:', tt: 'Бонус ачылды:' },
     whatsapp: { ru: 'Открыть WhatsApp', be: 'Адкрыць WhatsApp', kk: 'WhatsApp ашу', en: 'Launch Direct WhatsApp Channel', zh: '打开 WhatsApp', ce: 'WhatsApp дIаайаккха', tt: 'WhatsApp ачу' },
   } as const;
+  
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -75,32 +77,32 @@ export default function Quiz() {
   };
 
   return (
-    <section id="quiz" className="py-32 bg-secondary relative overflow-hidden border-y border-white/5">
-      <div className="absolute inset-0 industrial-grid opacity-5 pointer-events-none" />
+    <section id="quiz" className="section-padding bg-background relative overflow-hidden border-y border-outline">
+      <MeshBackground opacity={0.1} />
       
       <div className="section-container relative z-10">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 text-[10px] font-black uppercase tracking-[0.3em] text-accent mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-outline rounded-full verge-mono-label text-primary mb-6">
             <ShieldCheck className="w-4 h-4" />
             <span>{t(locale, copy.badge)}</span>
           </div>
-          <h2 className="text-4xl lg:text-7xl font-headline font-black uppercase tracking-tighter leading-[0.8] text-white mb-6">
-            {t(locale, copy.title)}<span className="text-accent">.</span>
+          <h2 className="geist-display-lg text-on-surface mb-6">
+            {t(locale, copy.title)}<span className="text-primary">.</span>
           </h2>
-          <p className="text-on-surface-variant font-light text-lg">Параметрический расчет стоимости и 3D-моделирование объекта.</p>
+          <p className="text-on-surface-variant text-[18px] leading-[28px] max-w-2xl mx-auto">Параметрический расчет стоимости и 3D-моделирование объекта.</p>
         </div>
 
-        <div className="glass-panel border border-white/10 overflow-hidden shadow-premium">
+        <div className="bg-surface border border-outline overflow-hidden rounded-2xl shadow-elevation-1">
           {!isSubmitted ? (
             <div className="p-8 md:p-16">
               <div className="mb-12">
-                <div className="flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-4">
-                  <span className="text-slate-500">{t(locale, copy.phase)} 0{currentStep + 1} / 0{QUIZ_QUESTIONS.length + 1}</span>
-                  <span className="text-accent">{Math.round((currentStep / (QUIZ_QUESTIONS.length + 1)) * 100)}% {t(locale, copy.synced)}</span>
+                <div className="flex justify-between verge-mono-label text-on-surface-variant mb-4">
+                  <span>{t(locale, copy.phase)} 0{currentStep + 1} / 0{QUIZ_QUESTIONS.length + 1}</span>
+                  <span className="text-primary">{Math.round((currentStep / (QUIZ_QUESTIONS.length + 1)) * 100)}% {t(locale, copy.synced)}</span>
                 </div>
-                <div className="w-full bg-white/5 h-1 overflow-hidden">
+                <div className="w-full bg-outline h-1.5 rounded-full overflow-hidden">
                   <motion.div 
-                    className="bg-accent h-full shadow-[0_0_10px_rgba(255,102,0,0.8)]"
+                    className="bg-primary h-full"
                     animate={{ width: `${((currentStep) / (QUIZ_QUESTIONS.length + 1)) * 100}%` }}
                   />
                 </div>
@@ -115,7 +117,7 @@ export default function Quiz() {
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    <h3 className="text-2xl font-headline font-black text-white uppercase tracking-tight mb-8">
+                    <h3 className="geist-display-sm text-on-surface mb-8">
                       {QUIZ_QUESTIONS[currentStep].question}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -123,12 +125,12 @@ export default function Quiz() {
                         <button
                           key={idx}
                           onClick={() => handleOptionSelect(option)}
-                          className={`text-left w-full p-6 border transition-all duration-300 group
+                          className={`text-left w-full p-6 border transition-all duration-300 group rounded-xl
                             ${answers[currentStep] === option 
-                              ? 'border-accent bg-accent/10' 
-                              : 'border-white/5 hover:border-white/20 bg-white/2'}`}
+                              ? 'border-primary bg-primary/5 shadow-sm' 
+                              : 'border-outline hover:border-primary/20 bg-surface'}`}
                         >
-                          <span className={`text-sm font-light transition-colors ${answers[currentStep] === option ? 'text-white' : 'text-on-surface-variant'}`}>{option}</span>
+                          <span className={`text-[16px] font-medium transition-colors ${answers[currentStep] === option ? 'text-primary' : 'text-on-surface-variant'}`}>{option}</span>
                         </button>
                       ))}
                     </div>
@@ -140,28 +142,28 @@ export default function Quiz() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4 }}
                   >
-                    <h3 className="text-2xl font-headline font-black text-white uppercase tracking-tight mb-4">{t(locale, copy.finalData)}</h3>
-                    <p className="text-on-surface-variant text-sm font-light mb-10">Введите данные для формирования технического задания и 3D-макета.</p>
+                    <h3 className="geist-display-sm text-on-surface mb-4">{t(locale, copy.finalData)}</h3>
+                    <p className="text-on-surface-variant text-[16px] font-light mb-10">Введите данные для формирования технического задания и 3D-макета.</p>
                     
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2 block">{t(locale, copy.nameLabel)}</label>
+                        <label className="verge-mono-label text-on-surface-variant mb-2 block">{t(locale, copy.nameLabel)}</label>
                         <input 
                           type="text" 
                           required
-                          placeholder="IDENTIFY YOURSELF"
-                          className="w-full bg-white/3 border border-white/10 p-5 focus:outline-none focus:border-accent text-white font-mono text-sm transition-all"
+                          placeholder="Имя / Компания"
+                          className="w-full bg-surface border border-outline p-5 focus:outline-none focus:border-primary text-on-surface font-sans text-[16px] transition-all rounded-xl"
                           value={contactInfo.name}
                           onChange={(e) => setContactInfo({...contactInfo, name: e.target.value})}
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2 block">{t(locale, copy.phoneLabel)}</label>
+                        <label className="verge-mono-label text-on-surface-variant mb-2 block">{t(locale, copy.phoneLabel)}</label>
                         <input 
                           type="tel" 
                           required
                           placeholder="+7 (___) ___-__-__"
-                          className="w-full bg-white/3 border border-white/10 p-5 focus:outline-none focus:border-accent text-white font-mono text-sm transition-all"
+                          className="w-full bg-surface border border-outline p-5 focus:outline-none focus:border-primary text-on-surface font-sans text-[16px] transition-all rounded-xl"
                           value={contactInfo.phone}
                           onChange={(e) => setContactInfo({...contactInfo, phone: e.target.value})}
                         />
@@ -169,10 +171,10 @@ export default function Quiz() {
                       <div className="md:col-span-2">
                         <button 
                           type="submit"
-                          className="w-full bg-accent hover:bg-white text-white hover:text-secondary font-black uppercase tracking-widest text-xs p-6 transition-all shadow-premium flex justify-center items-center gap-4"
+                          className="geist-button-primary w-full justify-center gap-4 group"
                         >
                           {t(locale, copy.submit)}
-                          <ChevronRight className="w-4 h-4" />
+                          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </button>
                       </div>
                     </form>
@@ -183,7 +185,7 @@ export default function Quiz() {
               {currentStep > 0 && (
                 <button 
                   onClick={handleBack}
-                  className="mt-12 text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-accent flex items-center gap-2 transition-colors"
+                  className="mt-12 verge-mono-label text-on-surface-variant hover:text-primary flex items-center gap-2 transition-colors"
                 >
                   <ArrowLeft className="w-4 h-4" /> {t(locale, copy.back)}
                 </button>
@@ -195,21 +197,21 @@ export default function Quiz() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="p-16 text-center flex flex-col items-center justify-center min-h-[500px]"
              >
-                <div className="w-20 h-20 bg-accent/10 border border-accent/20 flex items-center justify-center mb-8">
-                  <CheckCircle2 className="w-10 h-10 text-accent" />
+                <div className="w-20 h-20 bg-primary/5 border border-primary/20 rounded-full flex items-center justify-center mb-8">
+                  <CheckCircle2 className="w-10 h-10 text-primary" />
                 </div>
-                <h3 className="text-4xl font-headline font-black text-white uppercase tracking-tighter mb-4">{t(locale, copy.success)}</h3>
-                <p className="text-on-surface-variant text-base font-light max-w-md mx-auto mb-12">
+                <h3 className="geist-display-md text-on-surface mb-4">{t(locale, copy.success)}</h3>
+                <p className="text-on-surface-variant text-lg font-light max-w-md mx-auto mb-12">
                   Инженерный отдел получил ваши данные. Предварительный расчет будет готов в течение 15 минут.
                 </p>
-                <div className="border border-white/5 p-8 max-w-md mx-auto bg-white/1">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-accent mb-4">{t(locale, copy.bonus)}</p>
-                   <p className="text-sm font-light text-on-surface-variant mb-8">Пришлите фото фасада в WhatsApp, и мы активируем приоритетное 3D-моделирование.</p>
+                <div className="border border-outline p-8 max-w-md mx-auto bg-surface rounded-2xl">
+                   <p className="verge-mono-label text-primary mb-4">{t(locale, copy.bonus)}</p>
+                   <p className="text-[15px] font-light text-on-surface-variant mb-8">Пришлите фото фасада в WhatsApp, и мы активируем приоритетное 3D-моделирование.</p>
                    <a
                      href="https://wa.me/74950000000"
                      target="_blank"
                      rel="noopener noreferrer"
-                     className="w-full bg-white text-secondary hover:bg-accent hover:text-white font-black uppercase tracking-widest text-[10px] py-5 px-8 transition-all block"
+                     className="geist-button-primary w-full justify-center"
                    >
                      {t(locale, copy.whatsapp)}
                    </a>

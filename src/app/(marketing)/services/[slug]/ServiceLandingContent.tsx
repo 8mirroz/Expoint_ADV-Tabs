@@ -6,7 +6,6 @@ import { useGSAP } from '@/lib/gsap';
 import { gsap } from '@/lib/gsap';
 import { tracker } from '@/lib/analytics/tracker';
 import { useModalStore } from '@/store/useModalStore';
-import ConsultationModal from '@/components/ui/ConsultationModal';
 import { MaterialComparison } from '@/components/sections/MaterialComparison';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 
@@ -144,7 +143,6 @@ export function ServiceLandingContent({ service }: ServiceLandingContentProps) {
         openModal={openModal} 
       />
 
-      <ConsultationModal />
     </div>
   );
 }

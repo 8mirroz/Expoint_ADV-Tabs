@@ -7,6 +7,7 @@ export const leadSchema = z.object({
   segment: z.string().optional(),
   source: z.string().optional(),
   context: z.string().optional(),
+  turnstileToken: z.string().min(1, 'Ошибка безопасности (Turnstile)'),
 });
 
 export type LeadFormData = z.infer<typeof leadSchema>;

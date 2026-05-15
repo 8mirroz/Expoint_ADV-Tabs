@@ -7,37 +7,45 @@ export const metadata: Metadata = {
   description: 'Рассчитайте стоимость изготовления объемных букв и наружной рекламы в режиме реального времени. Профессиональная конфигурация по стандартам Reklamastroy.',
 };
 
+import { MeshBackground } from '@/components/ui/MeshBackground';
+
 export default function CalculatorPage() {
   return (
-    <main className="min-h-screen bg-slate-950 pt-24 pb-12 px-4">
-      <div className="max-w-7xl mx-auto mb-12">
+    <main className="min-h-screen bg-background pt-32 pb-24 px-6 relative overflow-hidden">
+      <MeshBackground opacity={0.1} />
+      <div className="section-container relative z-10 mb-20">
         <div className="max-w-4xl">
-          <p className="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-6">
-            Конфигурация в реальном времени
-          </p>
-          <h1 className="text-4xl md:text-6xl font-black font-outfit text-white mb-6 uppercase tracking-tighter leading-[0.9]">
-            Соберите свою <span className="text-orange-500">Айдентику</span>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-px w-8 bg-primary" />
+            <p className="text-primary verge-mono-label">
+              Конфигурация в реальном времени
+            </p>
+          </div>
+          <h1 className="geist-display-2xl text-on-surface mb-8">
+            Соберите свою <span className="text-primary">Айдентику</span>
           </h1>
-          <p className="text-slate-400 max-w-3xl text-base md:text-lg leading-relaxed">
+          <p className="text-on-surface-variant text-[18px] md:text-[22px] leading-relaxed max-w-2xl font-light">
             Проектируйте свою вывеску в реальном времени. Наш 3D-движок мгновенно рассчитывает стоимость с учетом материалов, сложности монтажа и требований 902-ПП.
           </p>
         </div>
       </div>
       
-      <CalculatorContainer />
+      <div className="section-container relative z-10">
+        <CalculatorContainer />
+      </div>
       
-      <div className="max-w-5xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="p-6 border border-slate-900 bg-slate-900/20">
-          <h4 className="text-white font-bold text-sm uppercase mb-2">Точность расчета</h4>
-          <p className="text-xs text-slate-500">Алгоритм базируется на актуальной стоимости материалов и нормо-часах производства.</p>
+      <div className="section-container relative z-10 mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="p-8 bg-surface border border-outline rounded-2xl shadow-sm group hover:border-primary/20 transition-all">
+          <h4 className="geist-display-sm !text-[16px] text-on-surface mb-3 uppercase">Точность расчета</h4>
+          <p className="text-[14px] text-on-surface-variant leading-relaxed">Алгоритм базируется на актуальной стоимости материалов и нормо-часах производства.</p>
         </div>
-        <div className="p-6 border border-slate-900 bg-slate-900/20">
-          <h4 className="text-white font-bold text-sm uppercase mb-2">Build Sheet</h4>
-          <p className="text-xs text-slate-500">После завершения вы получите PDF-спецификацию для согласования внутри компании.</p>
+        <div className="p-8 bg-surface border border-outline rounded-2xl shadow-sm group hover:border-primary/20 transition-all">
+          <h4 className="geist-display-sm !text-[16px] text-on-surface mb-3 uppercase">Build Sheet</h4>
+          <p className="text-[14px] text-on-surface-variant leading-relaxed">После завершения вы получите PDF-спецификацию для согласования внутри компании.</p>
         </div>
-        <div className="p-6 border border-slate-900 bg-slate-900/20">
-          <h4 className="text-white font-bold text-sm uppercase mb-2">Прямая интеграция</h4>
-          <p className="text-xs text-slate-500">Данные мгновенно передаются в производственный отдел для подтверждения сроков.</p>
+        <div className="p-8 bg-surface border border-outline rounded-2xl shadow-sm group hover:border-primary/20 transition-all">
+          <h4 className="geist-display-sm !text-[16px] text-on-surface mb-3 uppercase">Прямая интеграция</h4>
+          <p className="text-[14px] text-on-surface-variant leading-relaxed">Данные мгновенно передаются в производственный отдел для подтверждения сроков.</p>
         </div>
       </div>
     </main>

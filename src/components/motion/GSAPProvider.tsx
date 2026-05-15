@@ -3,9 +3,14 @@
 import { useLayoutEffect } from 'react';
 import gsap from '@/lib/gsap';
 import { ScrollTrigger } from '@/lib/gsap';
+import { motionPolicy } from '../../config/motion-policy';
 
 export default function GSAPProvider({ children }: { children: React.ReactNode }) {
   useLayoutEffect(() => {
+    if (motionPolicy.prefersReducedMotion) {
+      gsap.ticker.fps(0);
+    }
+
     // Global GSAP configuration for premium feel
     gsap.config({
       nullTargetWarn: false,

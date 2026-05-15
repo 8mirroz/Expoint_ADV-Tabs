@@ -86,9 +86,11 @@ export default function CasesArchive({ title, subtitle, cases, filters }: CasesA
                   <span className="verge-mono-label text-on-surface-variant">{caseStudy.budget}</span>
                 </div>
 
-                <h3 className="font-sans font-bold text-[20px] md:text-[24px] text-on-surface mb-2">
-                  {caseStudy.title}
-                </h3>
+                <Link href={`/cases/${caseStudy.id}`}>
+                  <h3 className="font-sans font-bold text-[20px] md:text-[24px] text-on-surface mb-2 hover:text-primary transition-colors">
+                    {caseStudy.title}
+                  </h3>
+                </Link>
 
                 <p className="text-[14px] leading-[1.7] text-on-surface-variant mb-1">
                   <strong className="text-on-surface">Задача:</strong> {caseStudy.description}
@@ -112,7 +114,7 @@ export default function CasesArchive({ title, subtitle, cases, filters }: CasesA
               <div className="p-6 pt-4 flex items-center justify-between">
                 <span className="verge-mono-label text-on-surface-variant">Срок: {caseStudy.term}</span>
                 <Link
-                  href={`/calculator`}
+                  href={`/cases/${caseStudy.id}`}
                   className="flex items-center gap-2 text-[12px] font-mono font-semibold text-primary hover:gap-3 transition-all"
                 >
                   Заказать аналогичное

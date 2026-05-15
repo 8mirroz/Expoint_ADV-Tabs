@@ -30,9 +30,9 @@ export async function POST(req: Request) {
       source: 'Expoint ADV Configurator',
       calculatorData: {
         text: data.text,
-        size: `${data.heightCm} см`,
-        material: data.materialId,
-        lighting: data.lightingId,
+        heightCm: data.heightCm,
+        materialId: data.materialId,
+        lightingId: data.lightingId,
         priceRange: data.priceRange,
       }
     });

@@ -42,34 +42,34 @@ graph TD
 
 ### Phase 1: Foundation (Infrastructure & Styling)
 
-*   [ ] **[INF-01] Implement Theme System**
+*   [x] **[INF-01] Implement Theme System**
     *   **Goal**: Setup `next-themes`, CSS variables, and light/dark toggle.
     *   **Input**: `04_SYSTEM_DESIGN/theme-styling-system.md`
     *   **Output**: `app/layout.tsx` (ThemeProvider), `app/globals.css` (variables), `tailwind.config.ts`, `components/ThemeToggle.tsx`.
     *   **Verification**: Toggling theme changes background/foreground without FOUC.
     *   **Dependencies**: None
 
-*   [ ] **[SEC-01] Configure Security Middleware**
-    *   **Goal**: Implement strict Content Security Policy (CSP) with nonces and standard security headers.
-    *   **Input**: `04_SYSTEM_DESIGN/infrastructure-security.md`
-    *   **Output**: `middleware.ts`, `next.config.ts` (if applicable).
-    *   **Verification**: Inspect network tab; `Content-Security-Policy` and `Strict-Transport-Security` headers are present.
+*   [x] **[SEC-01] Security Middleware & CSP**
+    *   **Goal**: Global request/response interception for security headers and rate limiting.
+    *   **Input**: `04_SYSTEM_DESIGN/security-architecture.md`
+    *   **Output**: `src/proxy.ts` (interceptors), `middleware.ts` (edge runtime).
+    *   **Verification**: `securityheaders.com` Grade A rating.
     *   **Dependencies**: None
 
 ### Phase 2: Data Layer (Logging)
 
-*   [ ] **[DB-01] Initialize Consent DB Schema**
-    *   **Goal**: Create an append-only table for consent logs located in the RF.
-    *   **Input**: `04_SYSTEM_DESIGN/data-logging-layer.md`
-    *   **Output**: SQL migration file or Prisma schema.
-    *   **Verification**: Database instance accepts the schema without errors.
+*   [x] **[DB-01] Consent Log Schema**
+    *   **Goal**: Drizzle schema for granular consent storage.
+    *   **Input**: `04_SYSTEM_DESIGN/data-governance.md`
+    *   **Output**: `src/db/schema.ts` (consent_logs table).
+    *   **Verification**: Table exists in database.
     *   **Dependencies**: None
 
-*   [ ] **[API-01] Create Consent Logging API Endpoint**
-    *   **Goal**: Build a secure Next.js Route Handler to receive and store consent records.
-    *   **Input**: `04_SYSTEM_DESIGN/data-logging-layer.md`
-    *   **Output**: `app/api/consent/route.ts`
-    *   **Verification**: POST request with valid payload returns 201 Created and inserts into DB.
+*   [x] **[API-01] Consent Logging API**
+    *   **Goal**: Public endpoint for frontend to log consent events.
+    *   **Input**: `04_SYSTEM_DESIGN/data-governance.md`
+    *   **Output**: `src/app/api/compliance/consent/route.ts`.
+    *   **Verification**: `POST /api/compliance/consent` returns 201.
     *   **Dependencies**: [DB-01]
 
 ### Phase 3: Frontend Compliance Hub

@@ -66,21 +66,21 @@ export default function Segmentation() {
   };
 
   return (
-    <section className="py-32 bg-background border-b border-outline overflow-hidden">
+    <section className="section-padding bg-background border-b border-outline overflow-hidden">
       <div className="section-container">
         <div className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="max-w-2xl">
-            <h2 className="text-4xl lg:text-7xl font-headline font-black uppercase tracking-tighter leading-[0.8] text-on-surface mb-6">
-              {isEn ? title.en : title.ru}<span className="text-accent">.</span>
+            <h2 className="geist-display-lg text-on-surface mb-6">
+              {isEn ? title.en : title.ru}<span className="text-primary">.</span>
             </h2>
-            <p className="text-on-surface-variant font-light text-lg">
+            <p className="text-on-surface-variant text-[18px] md:text-[22px] leading-[28px] font-light">
               {isEn ? subtitle.en : subtitle.ru}
             </p>
           </div>
           <div className="h-px grow bg-outline mx-12 hidden md:block mb-4" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-outline">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-outline rounded-2xl overflow-hidden shadow-elevation-1">
           {SEGMENTS.map((segment, index) => (
             <motion.div
               key={index}
@@ -88,26 +88,26 @@ export default function Segmentation() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group p-10 border-r border-b border-outline hover:bg-surface transition-all duration-500 cursor-pointer relative overflow-hidden"
+              className="group p-10 border-r border-b border-outline hover:bg-surface-variant transition-all duration-500 cursor-pointer relative overflow-hidden"
             >
-              <div className="w-12 h-12 bg-accent/5 text-accent flex items-center justify-center mb-10 group-hover:bg-accent group-hover:text-on-accent transition-all duration-500">
+              <div className="w-12 h-12 bg-primary/5 text-primary flex items-center justify-center rounded-xl mb-10 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm">
                 <segment.icon className="w-6 h-6" />
               </div>
               
-              <h3 className="text-xl font-headline font-black text-on-surface uppercase tracking-tight mb-4">
+              <h3 className="geist-display-sm !text-[18px] text-on-surface mb-4">
                 {isEn ? segment.title.en : segment.title.ru}
               </h3>
               
-              <p className="text-sm font-light text-on-surface-variant leading-relaxed mb-10">
+              <p className="text-[15px] font-light text-on-surface-variant leading-relaxed mb-10">
                 {isEn ? segment.description.en : segment.description.ru}
               </p>
 
-              <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-accent opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-[-10px] group-hover:translate-x-0">
+              <div className="flex items-center gap-2 verge-mono-label text-primary opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-[-10px] group-hover:translate-x-0">
                 {isEn ? 'View Solutions' : 'Смотреть решения'} <ArrowRight className="w-3 h-3" />
               </div>
 
               {/* Decorative background element */}
-              <div className="absolute -bottom-4 -right-4 text-on-surface/2 font-headline font-black text-8xl group-hover:text-accent/5 transition-colors duration-500 pointer-events-none">
+              <div className="absolute -bottom-4 -right-4 text-on-surface/5 geist-display-xl group-hover:text-primary/5 transition-colors duration-500 pointer-events-none">
                 0{index + 1}
               </div>
             </motion.div>

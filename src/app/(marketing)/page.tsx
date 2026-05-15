@@ -6,6 +6,7 @@ import Process from '../../components/sections/Process';
 import Clients from '../../components/sections/Clients';
 import MapSection from '../../components/sections/MapSection';
 import AssistantWidget from '../../components/ai/AssistantWidget';
+import Script from 'next/script';
 
 import { generateLocalBusinessSchema, generateFAQSchema } from '../../lib/seo/schema';
 
@@ -14,7 +15,8 @@ export default function MarketingPage() {
 
   return (
     <PageShell headerVariant="immersive">
-      <script
+      <Script
+        id="json-ld-marketing"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />

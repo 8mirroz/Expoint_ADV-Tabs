@@ -23,7 +23,7 @@ export function proxy(request: NextRequest) {
 
   // Rate Limiting for Leads API
   // Skip rate limiting on localhost for development convenience
-  if (request.nextUrl.pathname.startsWith('/api/leads') && !isLocalHost) {
+  if (request.nextUrl.pathname.startsWith('/api/lead') && !isLocalHost) {
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ?? 'anonymous';
     const now = Date.now();
     const userData = ipCache.get(ip) || { count: 0, lastReset: now };

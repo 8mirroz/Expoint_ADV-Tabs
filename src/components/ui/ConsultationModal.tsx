@@ -1,30 +1,44 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Send, Loader2, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { useModalStore } from '@/store/useModalStore';
-import { leadSchema, LeadFormData } from '@/lib/validators/lead';
-import { useState } from 'react';
+import { leadSchema, type LeadFormData } from '@/lib/validators/lead';
+import { TurnstileWidget } from './TurnstileWidget';
 
 export default function ConsultationModal() {
   const { locale } = useLanguage();
   const { isOpen, closeModal, context, source } = useModalStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<LeadFormData>({
     resolver: zodResolver(leadSchema),
   });
 
+  // Keep turnstileToken synced with react-hook-form
+  useEffect(() => {
+    if (turnstileToken) {
+      setValue('turnstileToken', turnstileToken);
+    }
+  }, [turnstileToken, setValue]);
+
   const onSubmit = async (data: LeadFormData) => {
+    if (!data.turnstileToken) {
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       // 1. Log Consent (152-FZ)
@@ -160,6 +174,16 @@ export default function ConsultationModal() {
                     {errors.consent && (
                       <p className="text-error text-[10px] mt-1 uppercase font-bold">
                         {errors.consent.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Security Check */}
+                  <div className="py-2">
+                    <TurnstileWidget onVerify={setTurnstileToken} />
+                    {errors.turnstileToken && (
+                      <p className="text-error text-[10px] mt-1 uppercase font-bold">
+                        {errors.turnstileToken.message}
                       </p>
                     )}
                   </div>

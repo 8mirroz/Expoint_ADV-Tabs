@@ -32,7 +32,7 @@ const IMAGES = [
 
 export default function PortfolioGallery() {
   return (
-    <section className="py-32 px-6 lg:px-20 bg-slate-950 border-t border-white/5">
+    <section className="section-padding px-6 lg:px-20 bg-slate-950 border-t border-white/5">
       <div className="max-w-7xl w-full mx-auto">
         <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="max-w-2xl">

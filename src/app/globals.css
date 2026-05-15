@@ -4,9 +4,9 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-sans: var(--font-polysans), ui-sans-serif, system-ui, sans-serif;
-  --font-headline: var(--font-manuka), Impact, sans-serif;
-  --font-mono: var(--font-polysans-mono), Courier New, monospace;
+  --font-sans: var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
+  --font-headline: var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono, "JetBrains Mono"), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* Use CSS variables for colors */
   --color-background: var(--background);
@@ -86,16 +86,16 @@
   }
 
   h1, h2, h3, h4 {
-    @apply font-headline font-black tracking-normal text-on-surface leading-[0.85];
+    @apply font-headline font-semibold text-on-surface leading-[1.15] tracking-[-0.02em] text-balance;
   }
   
   p {
-    @apply font-sans leading-relaxed;
+    @apply font-sans leading-relaxed text-on-surface text-base md:text-lg;
   }
 
   /* Universal link hover state */
   a {
-    @apply transition-colors duration-150 hover:text-primary;
+    @apply transition-colors duration-150;
   }
 
   :focus-visible {
@@ -114,28 +114,61 @@
 }
 
 @layer utilities {
+  /* Geist Display Hierarchy */
+  .geist-display-2xl {
+    @apply text-[64px] md:text-[80px] lg:text-[clamp(80px,8vw,120px)] font-semibold leading-[1.0] tracking-[-0.04em] text-balance;
+  }
+  .geist-display-xl {
+    @apply text-[48px] font-semibold leading-[1.1] tracking-[-0.03em] text-balance;
+  }
+  .geist-display-lg {
+    @apply text-[32px] font-semibold leading-[1.2] tracking-[-0.02em] text-balance;
+  }
+  .geist-display-md {
+    @apply text-[24px] font-semibold leading-[1.3] tracking-[-0.01em] text-balance;
+  }
+  .geist-display-sm {
+    @apply text-[20px] font-semibold leading-[1.4] tracking-normal text-balance;
+  }
+
+  /* Labels & Technical Layer */
   .verge-kicker {
-    @apply font-sans font-medium text-[14px] uppercase tracking-[2.5px] leading-[1.2];
+    @apply font-mono font-medium text-[12px] text-primary uppercase tracking-[0.05em] leading-[1.2];
   }
   .verge-mono-label {
-    @apply font-mono font-medium text-[11px] uppercase tracking-[1.1px] leading-[1.2];
+    @apply font-mono font-normal text-[12px] text-on-surface-variant tracking-normal leading-[1.2];
   }
+
+  /* Buttons - Premium Style */
+  .geist-button-primary {
+    @apply inline-flex items-center justify-center px-8 h-[52px] rounded-xl bg-primary text-on-primary font-sans font-medium text-[16px] tracking-wide transition-all duration-300 hover:shadow-[0_4px_14px_0_rgba(0,0,0,0.25)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98];
+  }
+  .geist-button-secondary {
+    @apply inline-flex items-center justify-center px-8 h-[52px] rounded-xl bg-surface/80 backdrop-blur-md border border-outline/80 text-on-surface font-sans font-medium text-[16px] tracking-wide transition-all duration-300 hover:bg-surface hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98];
+  }
+  .geist-button-sm {
+    @apply h-8 px-4 text-[14px] rounded-[6px];
+  }
+
+  /* Decorative Chrome */
+  .geist-mesh-gradient {
+    background-image: 
+      radial-gradient(at 0% 0%, var(--gradient-develop-start) 0, transparent 50%),
+      radial-gradient(at 50% 0%, var(--gradient-preview-start) 0, transparent 50%),
+      radial-gradient(at 100% 0%, var(--gradient-ship-start) 0, transparent 50%);
+    @apply opacity-30 blur-[100px];
+  }
+
   .glass-panel {
     @apply bg-surface/80 backdrop-blur-sm border border-outline;
   }
   .bento-card {
-    @apply relative overflow-hidden bg-background border border-outline rounded-[var(--radius-12)] shadow-sm transition-all duration-200 hover:shadow-md;
-  }
-  .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    @apply relative overflow-hidden bg-background border border-outline rounded-[var(--radius-8)] shadow-sm transition-all duration-200 hover:shadow-md;
   }
   
   /* Contrast-safe utility classes */
   .text-muted {
     @apply text-on-surface-variant;
-  }
-  .text-label {
-    @apply text-on-surface font-medium text-sm;
   }
 
   /* Unified Layout System */
@@ -145,6 +178,25 @@
 
   /* Section spacing */
   .section-padding {
-    @apply py-20 md:py-28 lg:py-32;
+    @apply py-12 md:py-16 lg:py-24;
   }
+}
+
+@layer utilities {
+  .animate-assistant-float {
+    animation: assistant-float 4s ease-in-out infinite alternate;
+  }
+  .animate-assistant-glow {
+    animation: assistant-glow 3s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes assistant-float {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+@keyframes assistant-glow {
+  0% { opacity: 0.4; transform: scale(0.75); }
+  100% { opacity: 0.8; transform: scale(1.2); }
 }

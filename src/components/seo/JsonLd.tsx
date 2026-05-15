@@ -1,4 +1,5 @@
 import React from 'react';
+import Script from 'next/script';
 import type { Service } from '@/data/services';
 
 interface JsonLdProps {
@@ -6,8 +7,11 @@ interface JsonLdProps {
 }
 
 export const JsonLd: React.FC<JsonLdProps> = ({ data }) => {
+  // Use a stable ID based on the content or a fixed prefix if there's only one per type
+  const id = React.useId();
   return (
-    <script
+    <Script
+      id={`json-ld-${id}`}
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />

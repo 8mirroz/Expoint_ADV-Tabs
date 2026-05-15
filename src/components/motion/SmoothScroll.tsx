@@ -24,6 +24,7 @@ function LenisGSAPSync() {
 
     return () => {
       gsap.ticker.remove(update);
+      lenis.off('scroll', ScrollTrigger.update);
     };
   }, [lenis]);
 

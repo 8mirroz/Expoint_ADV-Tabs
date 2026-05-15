@@ -5,8 +5,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, X, Send, Bot, AlertTriangle, Cpu, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { useAssistantContext } from '../../hooks/useAssistantContext';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
 import type { KnowledgeCitation, KnowledgeFallbackReason } from '@/lib/knowledge/types';
 
 interface AssistantMessage {
@@ -35,32 +33,6 @@ export default function AssistantWidget() {
   const [loading, setLoading] = useState(false);
 
   const assistantContext = useAssistantContext();
-
-  useGSAP(() => {
-    if (!isOpen && container.current) {
-      const floatAnim = gsap.to(container.current, {
-        y: -10,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut"
-      });
-      
-      const glowAnim = gsap.to(".assistant-glow", {
-        opacity: 0.8,
-        scale: 1.2,
-        duration: 1.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
-
-      return () => {
-        floatAnim.kill();
-        glowAnim.kill();
-      };
-    }
-  }, [isOpen]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,10 +90,10 @@ export default function AssistantWidget() {
         <button
           ref={container}
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-8 right-8 w-20 h-20 bg-secondary border-2 border-accent/30 text-white rounded-full flex items-center justify-center shadow-2xl z-50 group hover:border-accent transition-colors"
+          className="fixed bottom-8 right-8 w-20 h-20 bg-secondary border-2 border-accent/30 text-white rounded-full flex items-center justify-center shadow-2xl z-50 group hover:border-accent transition-colors animate-assistant-float"
         >
           <div className="absolute inset-0 bg-accent/10 rounded-full animate-ping opacity-20" />
-          <div className="assistant-glow absolute inset-0 bg-accent/20 rounded-full blur-xl opacity-40 scale-75" />
+          <div className="absolute inset-0 bg-accent/20 rounded-full blur-xl animate-assistant-glow" />
           
           <div className="relative z-10 flex flex-col items-center">
             <Cpu className="w-8 h-8 text-accent group-hover:scale-110 transition-transform" />

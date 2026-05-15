@@ -5,8 +5,9 @@ import { notifyAll } from '@/lib/services/notifications/orchestrator';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY;
     
-    // Validate payload
+    // 1. Validate payload
     const validatedData = leadSchema.safeParse(body);
 
     if (!validatedData.success) {
@@ -19,9 +20,35 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, phone, source, context } = validatedData.data;
+    const { name, phone, source, context, turnstileToken } = validatedData.data;
 
-    // Call orchestrator to fan out notifications
+    // 2. Verify Turnstile Token
+    if (!TURNSTILE_SECRET_KEY) {
+      console.error('[API/Lead] TURNSTILE_SECRET_KEY is missing');
+    } else {
+      const verifyResponse = await fetch(
+        "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `secret=${encodeURIComponent(TURNSTILE_SECRET_KEY)}&response=${encodeURIComponent(turnstileToken)}`,
+        }
+      );
+
+      const verifyData = await verifyResponse.json();
+
+      if (!verifyData.success) {
+        return NextResponse.json(
+          { success: false, message: 'Ошибка проверки безопасности (Turnstile)' },
+          { status: 403 }
+        );
+      }
+    }
+
+    // 3. 152-FZ Compliance Logging
+    console.log(`[ASH] Lead received. 152-FZ Consent Logged: ${name} (${phone})`);
+
+    // 4. Call orchestrator to fan out notifications
     await notifyAll({
       name,
       phone,

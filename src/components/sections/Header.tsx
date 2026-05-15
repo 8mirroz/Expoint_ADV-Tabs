@@ -42,36 +42,36 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-          ? 'bg-background/90 backdrop-blur-md border-b border-outline py-0 shadow-lg'
-          : 'bg-background/40 backdrop-blur-sm border-b border-outline/10 py-2'
+      className={`fixed top-0 left-0 right-0 z-50 h-16 transition-all duration-300 ${isScrolled
+          ? 'bg-background/80 backdrop-blur-md border-b border-outline shadow-sm'
+          : 'bg-background/0 border-b border-transparent'
         }`}
     >
-      <div className="section-container px-4">
-        <div className="flex items-center justify-between transition-all duration-300 ease-in-out relative w-full py-2">
+      <div className="section-container h-full px-6">
+        <div className="flex items-center justify-between h-full relative w-full">
           {/* Logo Section */}
-          <Link href="/" className="flex items-center gap-4 group relative z-10 shrink-0">
-            <div className="flex items-center gap-3">
-              <span className="font-headline text-xl lg:text-2xl font-black uppercase tracking-tight text-on-surface leading-none">
-                EXPOINT <span className="text-primary">ADV</span>
-              </span>
-              <div className="hidden xs:flex items-center gap-3">
-                <div className="w-[1px] h-4 bg-outline/20" />
-                <span className="text-[8px] lg:text-[9px] uppercase tracking-[0.3em] font-mono opacity-40">Engineering</span>
-              </div>
+          <Link href="/" className="flex items-center gap-3 group relative z-10 shrink-0">
+            <span className="font-sans text-[22px] font-semibold tracking-[-1.1px] text-on-surface leading-none">
+              Expoint <span className="text-primary-light font-normal">Adv</span>
+            </span>
+            <div className="hidden sm:flex items-center gap-2">
+              <div className="w-[1px] h-3 bg-outline" />
+              <span className="text-[11px] font-mono text-on-surface-variant uppercase tracking-wider">Engineering</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-8">
+          <nav className="hidden xl:flex items-center gap-1">
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
               return (
                 <Link
                   key={item.id}
                   href={item.href}
-                  className={`verge-mono-label text-[11px] uppercase tracking-widest transition-all duration-200 hover:text-primary hover:tracking-[0.15em] ${
-                    isActive ? 'text-primary' : 'text-on-surface/80'
+                  className={`px-3 py-1.5 rounded-full text-[14px] transition-all duration-200 ${
+                    isActive 
+                      ? 'text-primary font-medium' 
+                      : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50'
                   }`}
                 >
                   {item.label[locale]}
@@ -81,54 +81,38 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
           </nav>
 
           {/* Actions Section */}
-          <div className="hidden lg:flex items-center gap-8 relative z-10">
-            <div className="flex flex-col items-end">
-              <a
-                href="tel:+74950000000"
-                className="flex items-center gap-2 text-[14px] font-black transition-colors font-mono text-on-surface hover:text-primary group"
-              >
-                <Phone className="w-3.5 h-3.5 text-primary" />
-                <span>+7 (495) 000-00-00</span>
-              </a>
-            </div>
+          <div className="hidden lg:flex items-center gap-6 relative z-10">
+            <a
+              href="tel:+74950000000"
+              className="text-[14px] text-on-surface-variant hover:text-on-surface transition-colors font-sans"
+            >
+              +7 (495) 000-00-00
+            </a>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <CartIndicator />
               <button
                 onClick={() => document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-5 py-2.5 bg-primary border border-primary text-on-primary font-mono font-bold uppercase tracking-[1px] text-[10px] rounded-[var(--radius-8)] transition-all hover:opacity-90 flex items-center gap-2 active:scale-95"
+                className="geist-button-primary geist-button-sm px-4 h-9 text-[13px] rounded-[6px]"
               >
                 {copy.requestAudit[locale]}
-                <ArrowRight className="w-3 h-3" />
               </button>
+            </div>
+            
+            <div className="flex items-center h-8 gap-2 px-2 border border-outline rounded-[6px] bg-surface">
+              <LanguageSwitcher />
             </div>
           </div>
 
-          {/* Fixed Top Right Corner Switcher Placeholder or Container */}
-          <div className="fixed top-6 right-6 z-[60] hidden lg:block">
-            <LanguageSwitcher />
-          </div>
-
-          {/* Mobile Menu Toggle & Phone */}
-          <div className="lg:hidden flex items-center gap-3">
-            <a
-              href="tel:+74950000000"
-              className="flex items-center gap-2 px-2 py-2 rounded-lg bg-surface/50 border border-outline/10 text-on-surface transition-all active:scale-95"
-              aria-label="Call us"
-            >
-              <Phone className="w-4 h-4 text-primary" />
-              <span className="font-mono text-[10px] font-bold tracking-tighter">+7 495 000-0000</span>
-            </a>
+          {/* Mobile Menu Toggle & Actions */}
+          <div className="lg:hidden flex items-center gap-4">
             <CartIndicator />
             <button
-              className={`p-2 rounded-[var(--radius-4)] transition-all ${isScrolled
-                ? 'bg-surface border border-outline'
-                : 'bg-surface/50 border border-outline/20'
-                }`}
+              className="p-1.5 rounded-[6px] border border-outline bg-surface transition-all active:scale-95"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? copy.closeMenu[locale] : copy.openMenu[locale]}
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6 text-on-surface" /> : <Menu className="w-6 h-6 text-on-surface" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>

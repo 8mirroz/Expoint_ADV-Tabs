@@ -52,7 +52,7 @@ export default function Footer() {
   const { locale } = useLanguage();
 
   return (
-    <footer id="footer" className="bg-surface text-on-surface-variant py-20 lg:py-32 border-t border-outline/20">
+    <footer id="footer" className="bg-surface text-on-surface-variant section-padding border-t border-outline/20">
       <div className="section-container">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-0 border-x border-b border-outline/10">
           

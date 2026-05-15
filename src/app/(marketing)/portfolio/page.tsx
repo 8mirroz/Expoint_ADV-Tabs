@@ -46,6 +46,7 @@ export default function PortfolioPage() {
     <PageShell
       headerVariant="default"
       breadcrumbs={[{ label: 'Портфолио', href: '/portfolio' }]}
+      withMesh
     >
       <HeroGeneric
         subtitle="Портфолио"

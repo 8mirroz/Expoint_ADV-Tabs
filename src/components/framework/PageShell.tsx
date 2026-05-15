@@ -11,23 +11,31 @@ import type { PageShellProps } from './types';
  * 
  * Server Component — delegates client interactivity to child components.
  */
+import { MeshBackground } from '@/components/ui/MeshBackground';
+
 export default function PageShell({
   children,
   headerVariant = 'default',
   breadcrumbs,
   showFooter = true,
   showAssistant = true,
+  withMesh = false,
 }: PageShellProps) {
   return (
-    <>
+    <div className="relative min-h-screen flex flex-col">
       <Header variant={headerVariant} />
-      {breadcrumbs && breadcrumbs.length > 0 && (
-        <BreadcrumbsBar items={breadcrumbs} />
-      )}
-      <main>{children}</main>
+      {withMesh && <MeshBackground className="fixed inset-0" opacity={0.3} />}
+      
+      <div className="flex-grow flex flex-col relative z-10">
+        {breadcrumbs && breadcrumbs.length > 0 && (
+          <BreadcrumbsBar items={breadcrumbs} />
+        )}
+        <main className="flex-grow">{children}</main>
+      </div>
+
       {showFooter && <Footer />}
       <ConsultationModal />
       <CookieBanner />
-    </>
+    </div>
   );
 }

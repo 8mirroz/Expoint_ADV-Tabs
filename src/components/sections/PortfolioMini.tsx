@@ -17,24 +17,24 @@ export default function PortfolioMini() {
   const { locale } = useLanguage();
 
   return (
-    <section className="py-24 bg-background border-y border-outline relative overflow-hidden">
-      {/* Subtle grid background */}
-      <div className="absolute inset-0 industrial-grid opacity-[0.05] dark:opacity-[0.1] pointer-events-none" />
+    <section className="section-padding bg-background border-y border-outline relative overflow-hidden">
+      {/* Mesh Background for atmosphere */}
+      <div className="absolute top-0 right-0 w-[40%] h-[60%] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
       
       <div className="section-container relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
-          <div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-surface border border-outline text-[10px] font-black uppercase tracking-[0.3em] text-accent mb-6 shadow-sm">
+          <div className="max-w-xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-outline rounded-full verge-mono-label mb-6">
               <span>{locale === 'ru' ? 'Избранные проекты' : locale === 'en' ? 'Selected Projects' : 'Избранные проекты'}</span>
             </div>
-            <h2 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-4 text-on-surface">
-              {locale === 'ru' ? 'Лучшие' : locale === 'en' ? 'Featured' : 'Лучшие'} <span className="text-accent">{locale === 'ru' ? 'Работы' : locale === 'en' ? 'Works' : 'Работы'}</span>
+            <h2 className="geist-display-lg mb-4 text-on-surface">
+              {locale === 'ru' ? 'Лучшие' : locale === 'en' ? 'Featured' : 'Лучшие'} <span className="text-primary">{locale === 'ru' ? 'Работы' : locale === 'en' ? 'Works' : 'Работы'}</span>
             </h2>
-            <p className="text-on-surface-variant font-light max-w-xl">
+            <p className="text-on-surface-variant text-[18px] leading-[28px]">
               Галерея реализованных проектов. Каждая вывеска — результат точного инженерного расчета и премиального дизайна.
             </p>
           </div>
-          <button className="border border-outline bg-surface hover:bg-secondary text-on-surface px-8 py-4 font-bold uppercase tracking-widest text-xs transition-all shrink-0 hover:border-accent/40">
+          <button className="geist-button-secondary">
             {locale === 'ru' ? 'Смотреть все проекты' : locale === 'en' ? 'View All Projects' : 'Смотреть все проекты'}
           </button>
         </div>
@@ -58,8 +58,8 @@ export default function PortfolioMini() {
               />
               <div className="absolute inset-0 bg-linear-to-t from-background/90 via-background/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
               <div className="absolute bottom-6 left-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                <p className="text-white font-bold uppercase tracking-widest text-sm drop-shadow-md">{item.alt}</p>
-                <div className="w-8 h-1 bg-accent mt-2 shadow-neon" />
+                <p className="text-white font-bold uppercase tracking-widest text-xs">{item.alt}</p>
+                <div className="w-6 h-0.5 bg-primary mt-2" />
               </div>
             </motion.div>
           ))}
@@ -68,4 +68,3 @@ export default function PortfolioMini() {
     </section>
   );
 }
-

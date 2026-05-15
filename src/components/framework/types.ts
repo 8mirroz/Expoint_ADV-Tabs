@@ -59,4 +59,5 @@ export interface PageShellProps {
   breadcrumbs?: BreadcrumbItem[];
   showFooter?: boolean;
   showAssistant?: boolean;
+  withMesh?: boolean;
 }

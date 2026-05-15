@@ -114,7 +114,7 @@ export const AcademyClient: React.FC<AcademyClientProps> = ({ articles }) => {
           ))}
 
           {articles.length === 0 && (
-            <div className="py-20 text-center border border-dashed border-white/10 rounded-4xl">
+            <div className="section-padding text-center border border-dashed border-white/10 rounded-4xl">
               <p className="text-neutral-500 text-lg">Статьи в процессе подготовки...</p>
             </div>
           )}

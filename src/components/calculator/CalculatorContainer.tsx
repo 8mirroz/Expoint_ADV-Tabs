@@ -13,7 +13,7 @@ interface CalculatorContainerProps {
 }
 
 export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
-  const [service, setService] = useState('');
+  const [service, setService] = useState(serviceId && SERVICES.some(s => s.id === serviceId) ? serviceId : '');
   const [width, setWidth] = useState('1000');
   const [height, setHeight] = useState('500');
   const [depth, setDepth] = useState('100');
@@ -21,13 +21,6 @@ export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
   const [addToCart, setAddToCart] = useState(false);
   const [isCalculating, setIsCalculating] = useState(false);
   const { addItem } = useCartStore();
-
-  // Initialize with the provided serviceId if available
-  useEffect(() => {
-    if (serviceId && SERVICES.some(s => s.id === serviceId)) {
-      setService(serviceId);
-    }
-  }, [serviceId]);
 
   const calculate = () => {
     if (!service) return;
@@ -64,8 +57,7 @@ export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
             }
           }
         };
-        // @ts-ignore - ignoring type mismatch for simplicity
-        addCartItem(item);
+        addItem(item);
         setAddToCart(true);
       }
     }
@@ -75,80 +67,83 @@ export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
     <div className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div>
-          <label className="block text-sm font-mono text-gray-400 mb-2">Тип конструкции</label>
+          <label className="block verge-mono-label mb-2">Тип конструкции</label>
           <select
             value={service}
             onChange={(e) => setService(e.target.value)}
-            className="w-full bg-white/10 border border-white/30 p-4 rounded"
+            className="w-full bg-surface border border-outline p-4 rounded-xl text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
           >
             <option value="">Выберите тип</option>
             {SERVICES.map((s) => (
-              <option key={s.id} value={s.id} className="bg-canvas">
+              <option key={s.id} value={s.id} className="bg-surface text-on-surface">
                 {s.title}
               </option>
             ))}
           </select>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-mono text-gray-400 mb-2">Ширина (мм)</label>
+            <label className="block verge-mono-label mb-2">Ширина (мм)</label>
             <Input
               type="number"
               value={width}
               onChange={(e) => setWidth(e.target.value)}
-              className="w-full"
+              className="w-full bg-surface border-outline rounded-xl"
             />
           </div>
           <div>
-            <label className="block text-sm font-mono text-gray-400 mb-2">Высота (мм)</label>
+            <label className="block verge-mono-label mb-2">Высота (мм)</label>
             <Input
               type="number"
               value={height}
               onChange={(e) => setHeight(e.target.value)}
-              className="w-full"
+              className="w-full bg-surface border-outline rounded-xl"
             />
           </div>
           <div>
-            <label className="block text-sm font-mono text-gray-400 mb-2">Глубина (мм)</label>
+            <label className="block verge-mono-label mb-2">Глубина (мм)</label>
             <Input
               type="number"
               value={depth}
               onChange={(e) => setDepth(e.target.value)}
-              className="w-full"
+              className="w-full bg-surface border-outline rounded-xl"
             />
           </div>
         </div>
 
         <div className="flex gap-4">
-          <Button onClick={calculate} className="flex-1">
+          <button onClick={calculate} className="geist-button-primary flex-1 h-14">
             Рассчитать
-          </Button>
+          </button>
           {result && (
-            <Button
+            <button
               onClick={handleAddToCart}
-              className="flex-1"
+              className="geist-button-secondary flex-1 h-14"
               disabled={!addToCart}
             >
               В корзину
-            </Button>
+            </button>
           )}
         </div>
       </div>
 
       {result && (
-        <div className="p-6 bg-white/10 border border-white/20">
-          <h3 className="text-xl font-bold text-jelly-mint mb-4">Результаты расчета</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-gray-400">Ориентировочная стоимость:</p>
-              <p className="text-2xl font-bold">
+        <div className="p-8 bg-surface-variant/30 border border-outline rounded-2xl shadow-elevation-1">
+          <h3 className="geist-display-sm !text-[18px] text-on-surface mb-6 flex items-center gap-2">
+            <Calculator className="w-5 h-5 text-primary" />
+            Результаты расчета
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-1">
+              <p className="verge-mono-label">Ориентировочная стоимость:</p>
+              <p className="geist-display-md text-primary">
                 {result.min.toLocaleString('ru-RU')} - {result.max.toLocaleString('ru-RU')} ₽
               </p>
             </div>
-            <div>
-              <p className="text-gray-400">Размер НДС:</p>
-              <p className="text-2xl font-bold">0 ₽</p>
+            <div className="space-y-1">
+              <p className="verge-mono-label">Размер НДС:</p>
+              <p className="geist-display-md text-on-surface">0 ₽</p>
             </div>
           </div>
         </div>

@@ -48,7 +48,7 @@ export default function BenefitsAndWorkflow({ segment }: { segment?: SegmentData
 
   return (
     <>
-      <section className="py-40 bg-secondary relative overflow-hidden border-y border-outline">
+      <section className="section-padding bg-secondary relative overflow-hidden border-y border-outline">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-accent/5 transform -skew-x-12 translate-x-32 pointer-events-none"></div>
         <div className="section-container relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <div>
@@ -112,7 +112,7 @@ export default function BenefitsAndWorkflow({ segment }: { segment?: SegmentData
         </div>
       </section>
 
-      <section className="py-40 bg-surface relative border-b border-outline">
+      <section className="section-padding bg-surface relative border-b border-outline">
         <div className="section-container">
           <div className="mb-32 flex flex-col md:flex-row md:items-end justify-between gap-12">
             <div className="max-w-2xl">

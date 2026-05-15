@@ -23,25 +23,25 @@ export function ServiceFeatures({ service, previewVideo }: ServiceFeaturesProps)
   const icons = [Zap, ShieldCheck, Target, Box, Layers, Truck];
 
   return (
-    <section className="bento-grid-section py-24 px-6 max-w-7xl mx-auto">
+    <section className="bento-grid-section section-padding px-6 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <div className="h-px w-8 bg-accent" />
-            <span className="text-accent font-black uppercase tracking-[0.3em] text-[10px]">Quality Vector</span>
+            <div className="h-px w-8 bg-primary" />
+            <span className="text-primary verge-mono-label">Quality Vector</span>
           </div>
-          <h2 className="section-title text-5xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9]">
+          <h2 className="geist-display-lg text-on-surface">
             {locale === 'ru' ? 'Преимущества' : 'Advantages'} <br/> 
             <span className="text-on-surface-variant/40">{locale === 'ru' ? 'Решения' : 'Solutions'}</span>
           </h2>
         </div>
-        <div className="flex items-center gap-6 text-[10px] font-mono text-on-surface-variant/40 uppercase tracking-widest border-l border-outline pl-8">
+        <div className="flex items-center gap-6 verge-mono-label text-on-surface-variant/40 border-l border-outline pl-8">
           <div className="space-y-1">
-            <div className="text-on-surface font-black">ISO-9001:2015</div>
+            <div className="text-on-surface font-semibold">ISO-9001:2015</div>
             <div>CERTIFIED_WORKFLOW</div>
           </div>
           <div className="space-y-1">
-            <div className="text-on-surface font-black">902-PP</div>
+            <div className="text-on-surface font-semibold">902-PP</div>
             <div>COMPLIANCE_GATE</div>
           </div>
         </div>
@@ -54,8 +54,8 @@ export function ServiceFeatures({ service, previewVideo }: ServiceFeaturesProps)
           
           return (
             <div key={idx} className="bento-card-wrapper h-full group min-h-[450px]">
-              <div className="relative h-full bg-surface border border-outline transition-all duration-700 group-hover:border-accent/40 rounded-none overflow-hidden flex flex-col justify-between">
-                 {/* Background Visual (Video or Industrial Grid) */}
+              <div className="relative h-full bg-surface border border-outline transition-all duration-700 group-hover:border-primary/40 rounded-2xl overflow-hidden flex flex-col justify-between shadow-elevation-1">
+                 {/* Background Visual (Video or Gradient) */}
                  <div className="absolute inset-0 z-0">
                     {hasVideo ? (
                       <>
@@ -71,27 +71,26 @@ export function ServiceFeatures({ service, previewVideo }: ServiceFeaturesProps)
                         <div className="absolute inset-0 bg-linear-to-b from-transparent via-surface/40 to-surface" />
                       </>
                     ) : (
-                      <div className="absolute inset-0 industrial-grid opacity-10 group-hover:opacity-20 transition-opacity" />
+                      <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                     )}
                     
-                    <div className="absolute top-6 right-6 font-mono text-[8px] text-on-surface-variant/20 uppercase tracking-[0.4em] pointer-events-none">
-                      Feature_ID: 0{idx + 1} / SYS_CORE
+                    <div className="absolute top-6 right-6 verge-mono-label text-on-surface-variant/20 pointer-events-none">
+                      Feature_ID: 0{idx + 1}
                     </div>
                  </div>
 
-                 <div className="relative z-10 p-10 flex flex-col justify-between h-full">
+                  <div className="relative z-10 p-10 flex flex-col justify-between h-full">
                    <div className="space-y-8">
-                     <div className="w-14 h-14 bg-accent/5 border border-accent/10 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-all duration-700 rounded-none relative">
-                       <Icon className="w-6 h-6 text-accent group-hover:text-white transition-colors" />
-                       <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-accent opacity-0 group-hover:opacity-100 transition-opacity" />
+                     <div className="w-14 h-14 bg-surface border border-outline flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all duration-700 rounded-xl relative shadow-sm">
+                       <Icon className="w-6 h-6 text-primary group-hover:text-white transition-colors" />
                      </div>
                      
                      <div className="space-y-4">
-                       <h3 className="text-2xl font-black uppercase tracking-tighter leading-none group-hover:text-accent transition-colors">
+                       <h3 className="geist-display-sm text-on-surface group-hover:text-primary transition-colors">
                          {feature}
                        </h3>
-                       <div className="h-px w-12 bg-accent/20 group-hover:w-full transition-all duration-700" />
-                       <p className="text-on-surface-variant text-sm leading-relaxed font-light">
+                       <div className="h-px w-12 bg-primary/20 group-hover:w-full transition-all duration-700" />
+                       <p className="text-on-surface-variant text-[15px] leading-relaxed font-light">
                          {locale === 'ru' 
                            ? 'Высокотехнологичный процесс производства с использованием сертифицированных материалов и многоуровневым контролем качества на каждом этапе сборки.' 
                            : 'High-tech production process using certified materials and multi-level quality control at every stage of assembly.'}
@@ -103,14 +102,14 @@ export function ServiceFeatures({ service, previewVideo }: ServiceFeaturesProps)
                      <div className="space-y-2">
                        <div className="flex gap-1">
                          {[1,2,3,4].map(i => (
-                           <div key={i} className={`w-3 h-1 ${i <= (idx + 2) ? 'bg-accent/40' : 'bg-outline'} transition-colors duration-500`} />
+                           <div key={i} className={`w-3 h-1 ${i <= (idx + 2) ? 'bg-primary/40' : 'bg-outline'} transition-colors duration-500`} />
                          ))}
                        </div>
-                       <span className="block text-[9px] font-mono text-on-surface-variant/40 uppercase tracking-widest">Efficiency_Index: 0.9{idx + 5}</span>
+                       <span className="block verge-mono-label text-on-surface-variant/40">Efficiency_Index: 0.9{idx + 5}</span>
                      </div>
                      
                      <div className="text-right">
-                       <div className="text-[10px] font-black text-on-surface uppercase tracking-widest">V5_PRO</div>
+                       <div className="verge-mono-label text-on-surface font-semibold">V8_PRO</div>
                        <div className="text-[8px] font-mono text-on-surface-variant/20 uppercase">Core_Verified</div>
                      </div>
                    </div>

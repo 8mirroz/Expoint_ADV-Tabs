@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react';
 import { User } from 'lucide-react';
+import Image from 'next/image';
 
 interface TeamMemberItem {
   id: string;
@@ -48,12 +49,14 @@ export default function TeamSection({ title, subtitle, members }: TeamSectionPro
               className="bg-background rounded-[var(--radius-12)] border border-outline overflow-hidden group hover:shadow-md transition-shadow"
             >
               {/* Photo / Placeholder */}
-              <div className="aspect-[4/5] bg-surface-variant flex items-center justify-center overflow-hidden">
+              <div className="relative aspect-[4/5] bg-surface-variant flex items-center justify-center overflow-hidden">
                 {member.imageUrl ? (
-                  <img
+                  <Image
                     src={member.imageUrl}
                     alt={typeof member.name === 'string' ? member.name : ''}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                   />
                 ) : (
                   <User className="w-16 h-16 text-on-surface-variant/30" />

@@ -16,9 +16,13 @@ export function CartItem({ item, onRemove }: CartItemProps) {
                 <h3 className="font-bold text-white">{item.name}</h3>
                 <p className="text-gray-400">{item.description}</p>
                 <p className="text-jelly-mint font-bold">{item.price?.toLocaleString('ru-RU')} ₽</p>
-                {item.metadata?.customDimensions && (
+                {!!(item.metadata?.customDimensions) && (
                     <div className="text-sm text-gray-400 mt-2">
-                        <p>Размеры: {item.metadata.customDimensions.width}×{item.metadata.customDimensions.height}×{item.metadata.customDimensions.depth} мм</p>
+                        <p>Размеры: 
+                            {(item.metadata.customDimensions as {width:number}).width}×
+                            {(item.metadata.customDimensions as {height:number}).height}×
+                            {(item.metadata.customDimensions as {depth:number}).depth} мм
+                        </p>
                     </div>
                 )}
             </div>

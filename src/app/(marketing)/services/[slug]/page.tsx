@@ -31,6 +31,8 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
 
 import { JsonLd, generateServiceSchema, generateFAQSchema } from '@/components/seo/JsonLd';
 
+import PageShell from '@/components/framework/PageShell';
+
 export default async function ServiceLandingPage({ params }: ServicePageProps) {
   const { slug } = await params;
   const service = SERVICES.find((s) => s.id === slug);
@@ -43,10 +45,17 @@ export default async function ServiceLandingPage({ params }: ServicePageProps) {
   const faqSchema = service.faq ? generateFAQSchema(service.faq) : null;
 
   return (
-    <>
+    <PageShell
+      headerVariant="immersive"
+      breadcrumbs={[
+        { label: 'Услуги', href: '/#services' },
+        { label: service.title, href: `/services/${service.id}` },
+      ]}
+      withMesh
+    >
       <JsonLd data={serviceSchema} />
       {faqSchema && <JsonLd data={faqSchema} />}
       <ServiceLandingContent service={service} />
-    </>
+    </PageShell>
   );
 }

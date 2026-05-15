@@ -7,6 +7,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Shield, Info, FileText, CheckCircle2 } from 'lucide-react';
 import { ComplianceChecker } from '@/components/compliance/ComplianceChecker';
 
+import PageShell from '@/components/framework/PageShell';
+
 export default function CompliancePage() {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -39,95 +41,97 @@ export default function CompliancePage() {
   }, []);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-black pt-32 pb-20 overflow-x-hidden">
-      {/* Background Glow */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-amber-500/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 blur-[120px] rounded-full" />
-      </div>
-
-      <div className="container relative z-10 mx-auto px-4">
-        {/* Header Section */}
-        <div className="compliance-hero text-center max-w-4xl mx-auto mb-20">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 text-sm font-medium mb-6"
-          >
-            <Shield size={16} />
-            Регуляторный хаб: Постановление 902-ПП
-          </motion.div>
-          
-          <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-8 leading-[1.1]">
-            Ваша реклама по правилам <span className="text-neutral-500">Москвы</span>
-          </h1>
-          
-          <p className="text-xl text-neutral-400 leading-relaxed mb-10">
-            Мы берем на себя полную ответственность за соответствие ваших конструкций законодательству. 
-            Проверьте свою концепцию за 30 секунд или изучите ключевые нормы регламента.
-          </p>
-        </div>
-
-        {/* Checker Section */}
-        <section className="mb-32">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Интерактивный чекер соответствия</h2>
-            <p className="text-neutral-500">Алгоритм на базе актуальной редакции постановления от 2024 года</p>
+    <PageShell
+      withMesh
+      breadcrumbs={[{ label: 'Комплаенс 902-ПП', href: '/compliance' }]}
+    >
+      <div ref={containerRef} className="min-h-screen pt-32 pb-24 text-on-surface">
+        <div className="section-container px-6">
+          {/* Header Section */}
+          <div className="compliance-hero mb-24 max-w-4xl">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-px bg-primary" />
+              <span className="verge-mono-label text-primary uppercase tracking-[0.4em] text-[10px]">Regulatory Compliance</span>
+            </div>
+            
+            <h1 className="geist-display-lg md:text-[84px] text-on-surface uppercase leading-[0.85] mb-10">
+              Ваша реклама <br/>
+              <span className="text-on-surface-variant/30">по правилам.</span>
+            </h1>
+            
+            <p className="text-xl text-on-surface-variant leading-relaxed font-light border-l border-primary/20 pl-8 max-w-2xl">
+              Мы берем на себя полную ответственность за соответствие ваших конструкций законодательству Москвы и регламенту 902-ПП.
+            </p>
           </div>
-          <ComplianceChecker />
-        </section>
 
-        {/* Regulations Grid */}
-        <section className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-12">
-            <h2 className="text-4xl font-bold text-white">Ключевые регламенты</h2>
-            <div className="hidden md:flex gap-4">
-              <div className="flex items-center gap-2 text-sm text-neutral-500">
-                <CheckCircle2 size={16} className="text-emerald-500" />
-                Актуально на 2024
+          {/* Checker Section */}
+          <section className="mb-32">
+            <div className="mb-12 border-b border-outline/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div>
+                <h2 className="text-3xl font-black uppercase tracking-tighter text-on-surface mb-2">Интерактивный чекер</h2>
+                <p className="text-on-surface-variant font-light">Алгоритм на базе актуальной редакции постановления от 2024 года</p>
+              </div>
+              <div className="flex items-center gap-3 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
+                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-primary">Live Regulation Engine</span>
               </div>
             </div>
-          </div>
+            <ComplianceChecker />
+          </section>
 
-          <div className="regulations-grid grid md:grid-cols-3 gap-6">
-            <RegulationCard 
-              icon={<Info size={24} />}
-              title="Размещение на фасадах"
-              description="Вывески должны располагаться строго в границах занимаемого помещения, не выше линии перекрытий между 1-м и 2-м этажами."
-            />
-            <RegulationCard 
-              icon={<FileText size={24} />}
-              title="Типы конструкций"
-              description="Разрешены: объемные буквы, световые короба (с ограничениями), консольные панели (панель-кронштейны) и витринные конструкции."
-            />
-            <RegulationCard 
-              icon={<Shield size={24} />}
-              title="Запрещенные элементы"
-              description="Запрещена оклейка витрин пленкой более 50%, бегущие строки, динамическая подсветка и глухие фоновые подложки."
-            />
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="mt-32 p-12 rounded-[2.5rem] bg-linear-to-br from-neutral-900 to-black border border-white/5 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none" />
-          <div className="relative z-10">
-            <h2 className="text-4xl font-bold text-white mb-6">Нужен официальный проект?</h2>
-            <p className="text-neutral-400 mb-10 max-w-2xl mx-auto text-lg">
-              Для сложных объектов, торговых центров и крышных установок требуется разработка дизайн-проекта и согласование в Департаменте СМИ и рекламы.
-            </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <button className="px-10 py-4 bg-white text-black font-bold rounded-2xl hover:bg-neutral-200 transition-all">
-                Заказать дизайн-проект
-              </button>
-              <button className="px-10 py-4 bg-transparent border border-white/20 text-white font-bold rounded-2xl hover:bg-white/5 transition-all">
-                Скачать текст 902-ПП
-              </button>
+          {/* Regulations Grid */}
+          <section className="mb-32">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+              <h2 className="text-4xl font-black uppercase tracking-tighter text-on-surface">Ключевые регламенты</h2>
+              <div className="flex items-center gap-4 text-[10px] font-mono uppercase tracking-[0.2em] text-on-surface-variant">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 size={12} className="text-primary" />
+                  Актуально на 2024
+                </div>
+              </div>
             </div>
-          </div>
-        </section>
+
+            <div className="regulations-grid grid md:grid-cols-3 gap-8">
+              <RegulationCard 
+                icon={<Info size={24} />}
+                title="Размещение на фасадах"
+                description="Вывески должны располагаться строго в границах занимаемого помещения, не выше линии перекрытий между 1-м и 2-м этажами."
+              />
+              <RegulationCard 
+                icon={<FileText size={24} />}
+                title="Типы конструкций"
+                description="Разрешены: объемные буквы, световые короба (с ограничениями), консольные панели и витринные конструкции."
+              />
+              <RegulationCard 
+                icon={<Shield size={24} />}
+                title="Запрещенные элементы"
+                description="Запрещена оклейка витрин пленкой более 50%, бегущие строки, динамическая подсветка и глухие фоновые подложки."
+              />
+            </div>
+          </section>
+
+          {/* CTA Section */}
+          <section className="p-16 bento-card bg-surface-elevated/20 border-primary/10 overflow-hidden relative">
+            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 text-center lg:text-left">
+              <div className="max-w-2xl">
+                <h2 className="text-4xl font-black text-on-surface mb-6 uppercase tracking-tighter">Нужен официальный проект?</h2>
+                <p className="text-on-surface-variant text-lg font-light leading-relaxed">
+                  Для сложных объектов и торговых центров требуется разработка дизайн-проекта и согласование в Департаменте СМИ и рекламы. Наши инженеры сделают это за вас.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-6 shrink-0">
+                <button className="px-10 py-5 bg-primary text-on-primary font-black uppercase tracking-[0.2em] text-[11px] shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all">
+                  Заказать проект
+                </button>
+                <button className="px-10 py-5 bg-surface border border-outline text-on-surface font-black uppercase tracking-[0.2em] text-[11px] hover:bg-surface-variant transition-all">
+                  Скачать PDF
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
+    </PageShell>
   );
 }
 

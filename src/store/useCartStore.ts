@@ -10,8 +10,8 @@ export interface CartItem {
   price: number;
   quantity?: number;
   description?: string;
-  customizations?: any[];
-  metadata?: Record<string, any>; // Used for custom calculator configurations
+  customizations?: unknown[];
+  metadata?: Record<string, unknown>; // Used for custom calculator configurations
 }
 
 interface CartState {

@@ -17,6 +17,7 @@ const CalculatorSection = dynamic(() => import('@/components/sections/Calculator
 const Cases = dynamic(() => import('@/components/sections/Cases'));
 const Benefits = dynamic(() => import('@/components/sections/Benefits'));
 const MaterialComparison = dynamic(() => import('@/components/sections/MaterialComparison'));
+const ServiceRates = dynamic(() => import('@/components/sections/ServiceRates'));
 
 // === New Shared Sections (v8) ===
 const HeroGeneric = dynamic(() => import('@/components/sections/HeroGeneric'));
@@ -49,6 +50,7 @@ export const SECTION_REGISTRY: Record<string, React.ComponentType<any>> = {
   'cases': Cases,
   'benefits': Benefits,
   'material-comparison': MaterialComparison,
+  'service-rates': ServiceRates,
 
   // New shared sections (v8)
   'hero-generic': HeroGeneric,

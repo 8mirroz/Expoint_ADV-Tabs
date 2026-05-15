@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import PageShell from '@/components/framework/PageShell';
+import Script from 'next/script';
 import HeroGeneric from '@/components/sections/HeroGeneric';
 import ContactInfoSection from '@/components/sections/ContactInfoSection';
 import MapSection from '@/components/sections/MapSection';
@@ -20,6 +21,7 @@ export default function ContactsPage() {
     <PageShell
       headerVariant="default"
       breadcrumbs={[{ label: 'Контакты', href: '/contacts' }]}
+      withMesh
     >
       <HeroGeneric
         subtitle="Контакты"
@@ -54,7 +56,8 @@ export default function ContactsPage() {
         variant="secondary"
       />
 
-      <script
+      <Script
+        id="json-ld-contacts"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({

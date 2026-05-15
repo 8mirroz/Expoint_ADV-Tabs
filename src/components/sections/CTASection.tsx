@@ -27,41 +27,42 @@ export default function CTASection({
   const isPrimary = variant === 'primary';
 
   return (
-    <section className={`section-padding ${isPrimary ? 'bg-primary' : 'bg-surface'}`}>
+    <section className={`section-padding ${isPrimary ? 'bg-primary' : 'bg-canvas-soft'}`}>
       <div className="section-container">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto"
+          transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+          className="text-center max-w-4xl mx-auto"
         >
-          <h2 className={`font-headline text-[36px] md:text-[52px] lg:text-[64px] uppercase leading-[0.85] ${isPrimary ? 'text-on-primary' : 'text-on-surface'}`}>
+          <h2 className={`geist-display-lg md:text-[40px] lg:text-[56px] ${isPrimary ? 'text-on-primary' : 'text-on-surface'}`}>
             {title}
             {titleAccent && (
               <>
                 {' '}
-                <span className={isPrimary ? 'opacity-70' : 'text-primary'}>{titleAccent}</span>
+                <span className={isPrimary ? 'text-on-primary/60' : 'text-primary'}>{titleAccent}</span>
               </>
             )}
+            .
           </h2>
 
           {description && (
-            <p className={`mt-6 text-[16px] md:text-[18px] leading-[1.7] max-w-xl mx-auto ${isPrimary ? 'text-on-primary/80' : 'text-on-surface-variant'}`}>
+            <p className={`mt-8 text-[18px] md:text-[20px] leading-[1.6] max-w-2xl mx-auto ${isPrimary ? 'text-on-primary/70' : 'text-on-surface-variant'}`}>
               {description}
             </p>
           )}
 
           <Link
             href={buttonHref}
-            className={`mt-10 inline-flex items-center gap-3 h-[52px] px-10 rounded-[var(--radius-12)] font-mono font-semibold uppercase tracking-[1px] text-[12px] transition-all ${
+            className={`mt-12 group ${
               isPrimary
-                ? 'bg-on-primary text-primary hover:bg-on-primary/90'
-                : 'bg-primary text-on-primary hover:opacity-90'
+                ? 'geist-button-secondary h-[56px] px-12'
+                : 'geist-button-primary h-[56px] px-12'
             }`}
           >
             <span>{buttonText}</span>
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </motion.div>
       </div>

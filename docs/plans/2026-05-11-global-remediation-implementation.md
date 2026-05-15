@@ -300,107 +300,108 @@ Execution notes:
 ### Batch 4 - Lead and Quote API Integrity
 
 #### Select Primary Lead Route `src/app/api/lead/route.ts`, `src/app/api/quote/route.ts`
-- [ ] Сделать `/api/lead` primary structured endpoint по умолчанию
-- [ ] `/api/quote` либо:
+- [x] Сделать `/api/lead` primary structured endpoint по умолчанию
+- [x] `/api/quote` либо:
   - удалить из active flow,
   - либо превратить в thin adapter around primary route contract
-- [ ] Исключить две конкурирующие payload semantics
-- [ ] Verification: active UI submits only one canonical payload
+- [x] Исключить две конкурирующие payload semantics
+- [x] Verification: active UI submits only one canonical payload
 
 #### Add Server-Side Payload Validation `src/app/api/lead/route.ts`, `src/lib/validators/quote.ts`
-- [ ] Валидировать body route handler через shared schema
-- [ ] Явно обрабатывать:
+- [x] Валидировать body route handler через shared schema
+- [x] Явно обрабатывать:
   - missing required fields
   - malformed calculator data
   - partial integration failure downstream
-- [ ] Возвращать consistent response envelope for success/error
-- [ ] Verification: route integration tests and manual invalid payload checks
+- [x] Возвращать consistent response envelope for success/error
+- [x] Verification: route integration tests and manual invalid payload checks
 
 #### Normalize Notification Fan-out `src/lib/services/notifications/*`
-- [ ] Привести `telegram/email/crm` consumers к canonical payload
-- [ ] Удалить legacy assumptions про `type/size/glowColor/hasInstallation/totalPrice`
-- [ ] Сохранить `Promise.allSettled` style partial-failure safety
-- [ ] Verification: mocked notification tests for full success / partial fail / all fail
+- [x] Привести `telegram/email/crm` consumers к canonical payload
+- [x] Удалить legacy assumptions про `type/size/glowColor/hasInstallation/totalPrice`
+- [x] Сохранить `Promise.allSettled` style partial-failure safety
+- [x] Verification: mocked notification tests for full success / partial fail / all fail
 
 ### Batch 5 - UX Truth Alignment
 
 #### Repair Navigation and CTA Integrity `src/components/sections/Header.tsx`, `src/components/sections/Hero.tsx`, `src/components/sections/Footer.tsx`
-- [ ] Синхронизировать nav anchors with real section ids
-- [ ] Сделать оба hero CTA meaningful:
+- [x] Синхронизировать nav anchors with real section ids
+- [x] Сделать оба hero CTA meaningful:
   - primary -> active calculator section
   - secondary -> real cases/portfolio section or route
-- [ ] Убрать пустые `href="#"` с critical user-facing links или заменить их на explicit non-public placeholders outside runtime
-- [ ] Verification: manual click-through desktop/mobile without dead ends
+- [x] Убрать пустые `href="#"` с critical user-facing links или заменить их на explicit non-public placeholders outside runtime
+- [x] Verification: manual click-through desktop/mobile without dead ends
 
 #### Normalize Product Copy and Trust Signals `src/components/sections/*`, `src/app/calculator/page.tsx`
-- [ ] Свести mixed RU/EN system copy к intentional product voice
-- [ ] Проверить public placeholders:
+- [x] Свести mixed RU/EN system copy к intentional product voice
+- [x] Проверить public placeholders:
   - contacts
   - legal links
   - analytics IDs shown/assumed by UI
-- [ ] Подтянуть copy к реальному состоянию продукта: no fake “real AI / real audit / real integration” claims
-- [ ] Verification: content pass across landing, calculator, footer, assistant
+- [x] Подтянуть copy к реальному состоянию продукта: no fake “real AI / real audit / real integration” claims
+- [x] Verification: content pass across landing, calculator, footer, assistant
 
 #### Add Explicit UI States `src/components/calculator/*`, `src/components/ai/*`
-- [ ] Проверить and fill missing states:
+- [x] Проверить and fill missing states:
   - loading
   - validation error
   - submit error
   - success
   - disabled
   - empty/default
-- [ ] Focus specifically on lead submit and assistant interaction surfaces
-- [ ] Verification: manual UX walkthrough with forced error and success scenarios
+- [x] Focus specifically on lead submit and assistant interaction surfaces
+- [x] Verification: manual UX walkthrough with forced error and success scenarios
 
 ### Batch 6 - Motion Governance Recovery
 
 #### Choose One Scroll/Motion Owner `src/app/layout.tsx`, `src/components/motion/MotionProvider.tsx`, `src/components/motion/SmoothScroll.tsx`
-- [ ] Убрать duplicate Lenis initialization
-- [ ] Развести роли:
+- [x] Убрать duplicate Lenis initialization
+- [x] Развести роли:
   - scroll runtime owner
   - animation policy owner
   - component-level animation usage
-- [ ] Убедиться, что `prefers-reduced-motion` respected centrally
-- [ ] Verification: desktop scroll, mobile scroll, reduced-motion smoke
+- [x] Убедиться, что `prefers-reduced-motion` respected centrally
+- [x] Verification: desktop scroll, mobile scroll, reduced-motion smoke
 
 #### Stabilize Animation Boundaries `src/components/sections/*`, `src/components/three/*`
-- [ ] Проверить, что motion не блокирует CTA, forms, scrolling or readability
-- [ ] Упростить heavy animation, если runtime conflict persists
-- [ ] Verification: manual performance perception pass and no layout-shift regression
+- [x] Проверить, что motion не блокирует CTA, forms, scrolling or readability
+- [x] Упростить heavy animation, если runtime conflict persists
+- [x] Verification: manual performance perception pass and no layout-shift regression
 
 ### Batch 7 - AI and Analytics Truth Recovery
 
 #### Honest AI Mode First `src/components/ai/AssistantWidget.tsx`, `src/hooks/useAssistantContext.ts`
-- [ ] До real backend integration перевести AI widget в truthful limited mode:
+- [x] До real backend integration перевести AI widget в truthful limited mode:
   - no fake real-time calculation claims
   - no references to absent fields
-- [ ] Привязать context only to canonical state adapter
-- [ ] Если backend scope влезает в wave, then add real route-backed flow after Batch 2-4
-- [ ] Verification: manual AI query smoke, no fake price response from stale fields
+- [x] Привязать context only to canonical state adapter
+- [x] Если backend scope влезает в wave, then add real route-backed flow after Batch 2-4
+- [x] Verification: manual AI query smoke, no fake price response from stale fields
 
 #### Real Analytics Instrumentation `src/modules/analytics/events.ts`, active CTA/submit surfaces
-- [ ] Заменить console stub on real event transport abstraction
-- [ ] Instrument critical events:
+- [x] Заменить console stub on real event transport abstraction
+- [x] Instrument critical events:
   - hero CTA
   - calculator interactions
   - configurator opened
+  - model rotated
   - lead submitted
   - assistant opened/used
-- [ ] Remove fake GA placeholder assumptions from release-ready path
-- [ ] Verification: browser devtools / mocked analytics assertions
+- [x] Remove fake GA placeholder assumptions from release-ready path
+- [x] Verification: browser devtools / mocked analytics assertions
 
 ### Batch 8 - Release Truth and Documentation
 
 #### Update Roadmap Truth `genesis/v2/05_TASKS.md`, related docs if needed
-- [ ] Обновить status задач на factual truth:
+- [x] Обновить status задач на factual truth:
   - done
   - partial with drift
   - not started
-- [ ] Не оставлять “completed” там, где build/runtime truth это опровергает
-- [ ] Verification: roadmap status aligns with code and verification results
+- [x] Не оставлять “completed” там, где build/runtime truth это опровергает
+- [x] Verification: roadmap status aligns with code and verification results
 
 #### Add Release Checklist `docs/plans/2026-05-11-global-remediation-implementation.md`
-- [ ] Зафиксировать final readiness gates:
+- [x] Зафиксировать final readiness gates:
   - build green
   - typecheck green
   - lint green
@@ -410,7 +411,7 @@ Execution notes:
   - no dead critical CTAs
   - one motion owner
   - AI/analytics truthful
-- [ ] Verification: final release checklist walkthrough
+- [x] Verification: final release checklist walkthrough
 
 ## Verification Plan
 

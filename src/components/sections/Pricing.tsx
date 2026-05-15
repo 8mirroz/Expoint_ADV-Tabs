@@ -18,7 +18,7 @@ export default function Pricing() {
   const { locale } = useLanguage();
 
   return (
-    <section id="pricing" className="py-32 bg-surface relative border-t border-outline">
+    <section id="pricing" className="section-padding bg-surface relative border-t border-outline">
       <div className="section-container">
         <div className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="max-w-2xl">

@@ -1,10 +1,16 @@
 export const trackEvent = (eventName: string, payload?: Record<string, unknown>) => {
   if (typeof window !== 'undefined') {
-    // integration with Yandex Metrika or Google Analytics
-    console.log(`[Analytics Event] ${eventName}`, payload);
+    // console.log for debug
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[Analytics Event] ${eventName}`, payload);
+    }
     
-    // Example: (window as any).ym?.(12345678, 'reachGoal', eventName, payload);
-    // Example: (window as any).dataLayer?.push({ event: eventName, ...payload });
+    // Push to Google Analytics via dataLayer
+    (window as unknown as { dataLayer?: Array<Record<string, unknown>> }).dataLayer?.push({
+      event: eventName,
+      ...payload,
+      timestamp: new Date().toISOString(),
+    });
   }
 };
 

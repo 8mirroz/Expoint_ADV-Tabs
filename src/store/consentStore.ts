@@ -89,6 +89,7 @@ async function syncConsentWithApi(consents: ConsentCategories) {
   try {
     const purposes: string[] = [];
     if (consents.essential) purposes.push('personal_data');
+    if (consents.analytics) purposes.push('analytics');
     if (consents.marketing) purposes.push('marketing');
     
     // We only log if there is something beyond essential, 

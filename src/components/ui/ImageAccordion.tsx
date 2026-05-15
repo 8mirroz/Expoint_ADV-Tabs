@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import Image from 'next/image';
 
 export interface AccordionItemData {
   id: string | number;
@@ -21,6 +22,7 @@ export function ImageAccordion({
   height = "240px"
 }: ImageAccordionProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [errorImages, setErrorImages] = useState<Record<string | number, boolean>>({});
 
   if (!items || items.length === 0) return null;
 
@@ -31,6 +33,7 @@ export function ImageAccordion({
     >
       {items.map((item, index) => {
         const isActive = index === activeIndex;
+        const hasError = errorImages[item.id];
         
         return (
           <div
@@ -50,14 +53,13 @@ export function ImageAccordion({
               }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img
-                src={item.imageUrl}
+              <Image
+                src={hasError ? 'https://placehold.co/400x450/2d3748/ffffff?text=Image+Error' : item.imageUrl}
                 alt={item.title}
-                className="w-full h-full object-cover"
-                onError={(e: any) => { 
-                  e.target.onerror = null; 
-                  e.target.src = 'https://placehold.co/400x450/2d3748/ffffff?text=Image+Error'; 
-                }}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                onError={() => setErrorImages(prev => ({ ...prev, [item.id]: true }))}
               />
             </motion.div>
 
