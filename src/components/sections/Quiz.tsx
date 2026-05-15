@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
 import { MeshBackground } from '@/components/ui/MeshBackground';
+import { TurnstileWidget } from '@/components/ui/TurnstileWidget';
+import { Loader2 } from 'lucide-react';
 
 const QUIZ_QUESTIONS = [
   {
@@ -58,7 +60,10 @@ export default function Quiz() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [contactInfo, setContactInfo] = useState({ phone: '', name: '' });
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleOptionSelect = (option: string) => {
     setAnswers(prev => ({ ...prev, [currentStep]: option }));
@@ -71,9 +76,41 @@ export default function Quiz() {
     if (currentStep > 0) setCurrentStep(prev => prev - 1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    
+    if (!turnstileToken) {
+      setError('Please complete the security check');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...contactInfo,
+          context: `Quiz Answers: ${JSON.stringify(answers)}`,
+          source: 'Quiz',
+          turnstileToken
+        }),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        const err = await response.json();
+        setError(err.message || 'Submission failed');
+      }
+    } catch (err) {
+      console.error('Quiz error:', err);
+      setError('Network error. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -169,12 +206,29 @@ export default function Quiz() {
                         />
                       </div>
                       <div className="md:col-span-2">
+                        <TurnstileWidget onVerify={setTurnstileToken} />
+                      </div>
+
+                      {error && (
+                        <div className="md:col-span-2 p-4 bg-error/10 border border-error/20 text-error text-xs font-bold uppercase tracking-wider text-center rounded-xl">
+                          {error}
+                        </div>
+                      )}
+
+                      <div className="md:col-span-2">
                         <button 
                           type="submit"
-                          className="geist-button-primary w-full justify-center gap-4 group"
+                          disabled={isSubmitting}
+                          className="geist-button-primary w-full justify-center gap-4 group disabled:opacity-50"
                         >
-                          {t(locale, copy.submit)}
-                          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          {isSubmitting ? (
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                          ) : (
+                            <>
+                              {t(locale, copy.submit)}
+                              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </>
+                          )}
                         </button>
                       </div>
                     </form>

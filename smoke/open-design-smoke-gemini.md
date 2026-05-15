@@ -1,0 +1,1 @@
+Open Design smoke GEMINI OK 2026-05-15T18:37:46
