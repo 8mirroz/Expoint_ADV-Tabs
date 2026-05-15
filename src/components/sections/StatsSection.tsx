@@ -14,14 +14,28 @@ interface StatsSectionProps {
   title?: string;
   subtitle?: string;
   items: StatItem[];
+  animateOnView?: boolean;
 }
 
-function AnimatedNumber({ target, suffix = '' }: { target: number; suffix: string }) {
+function AnimatedNumber({
+  target,
+  suffix = '',
+  animateOnView = true,
+}: {
+  target: number;
+  suffix: string;
+  animateOnView?: boolean;
+}) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   useEffect(() => {
+    if (!animateOnView) {
+      setCount(target);
+      return;
+    }
+
     if (!isInView) return;
     const duration = 1500;
     const steps = 40;
@@ -49,7 +63,12 @@ function AnimatedNumber({ target, suffix = '' }: { target: number; suffix: strin
 /**
  * StatsSection — Animated statistics with whileInView counter animation.
  */
-export default function StatsSection({ title, subtitle, items }: StatsSectionProps) {
+export default function StatsSection({
+  title,
+  subtitle,
+  items,
+  animateOnView = true,
+}: StatsSectionProps) {
   return (
     <section className="section-padding bg-canvas-soft relative overflow-hidden">
       <div className="section-container">
@@ -70,20 +89,28 @@ export default function StatsSection({ title, subtitle, items }: StatsSectionPro
           {items.map((item, index) => (
             <motion.div
               key={item.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ delay: index * 0.1, duration: 0.8 }}
-              className="flex flex-col"
+              initial={animateOnView ? { opacity: 0, y: 20 } : false}
+              whileInView={animateOnView ? { opacity: 1, y: 0 } : undefined}
+              viewport={animateOnView ? { once: true, margin: '-50px' } : undefined}
+              transition={animateOnView ? { delay: index * 0.1, duration: 0.8 } : undefined}
+              className="relative group p-8 bg-surface/40 backdrop-blur-sm border border-outline/50 hover:border-primary/50 transition-all duration-500 overflow-hidden"
             >
-              <div className="geist-display-xl text-primary md:text-[56px] lg:text-[72px] tracking-[-0.05em]">
+              {/* HUD Accents */}
+              <div className="absolute top-0 right-0 w-8 h-8 border-r border-t border-primary/20 group-hover:border-primary/40 transition-colors" />
+              <div className="absolute bottom-0 left-0 w-8 h-8 border-l border-b border-primary/20 group-hover:border-primary/40 transition-colors" />
+
+              <div className="geist-display-xl font-bold text-primary md:text-[48px] lg:text-[64px] tracking-[-0.05em] relative z-10">
                 {item.numericValue !== undefined ? (
-                  <AnimatedNumber target={item.numericValue} suffix={item.suffix || ''} />
+                  <AnimatedNumber
+                    target={item.numericValue}
+                    suffix={item.suffix || ''}
+                    animateOnView={animateOnView}
+                  />
                 ) : (
                   item.value
                 )}
               </div>
-              <p className="mt-4 verge-mono-label text-on-surface-variant max-w-[200px]">
+              <p className="mt-4 verge-mono-label text-on-surface-variant text-[10px] uppercase tracking-widest leading-relaxed max-w-[160px] relative z-10">
                 {item.label}
               </p>
             </motion.div>

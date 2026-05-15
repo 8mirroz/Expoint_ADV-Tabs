@@ -44,12 +44,12 @@ export function proxy(request: NextRequest) {
   // CSP tuned for Next.js hydration/runtime + analytics + Turnstile.
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ''} https://www.googletagmanager.com https://www.google-analytics.com https://challenges.cloudflare.com;
-    connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://raw.githack.com https://raw.githubusercontent.com;
+    script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ''} https://api-maps.yandex.ru https://yastatic.net https://*.maps.yandex.net https://www.googletagmanager.com https://www.google-analytics.com https://challenges.cloudflare.com;
+    connect-src 'self' https://api-maps.yandex.ru https://suggest-maps.yandex.ru https://*.maps.yandex.net https://yandex.ru https://*.yandex.ru https://*.yandex.net https://eu.i.posthog.com https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://raw.githack.com https://raw.githubusercontent.com;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    img-src 'self' blob: data: https://www.google-analytics.com https://www.googletagmanager.com https://raw.githack.com https://raw.githubusercontent.com;
+    img-src 'self' blob: data: https://api-maps.yandex.ru https://*.maps.yandex.net https://yastatic.net https://yandex.ru https://*.yandex.ru https://*.yandex.net https://www.google-analytics.com https://www.googletagmanager.com https://raw.githack.com https://raw.githubusercontent.com;
     font-src 'self' https://fonts.gstatic.com;
-    frame-src https://challenges.cloudflare.com;
+    frame-src https://challenges.cloudflare.com https://yandex.ru https://*.yandex.ru https://yandex.com https://*.yandex.com;
     media-src 'self';
     object-src 'none';
     base-uri 'self';

@@ -1,10 +1,9 @@
 import { Metadata } from 'next';
 import PageShell from '@/components/framework/PageShell';
 import Script from 'next/script';
-import HeroGeneric from '@/components/sections/HeroGeneric';
 import ContactInfoSection from '@/components/sections/ContactInfoSection';
+import B2BRequisitesSection from '@/components/sections/B2BRequisitesSection';
 import MapSection from '@/components/sections/MapSection';
-import CTASection from '@/components/sections/CTASection';
 import { COMPANY_INFO } from '@/data/company';
 
 export const metadata: Metadata = {
@@ -23,16 +22,8 @@ export default function ContactsPage() {
       breadcrumbs={[{ label: 'Контакты', href: '/contacts' }]}
       withMesh
     >
-      <HeroGeneric
-        subtitle="Контакты"
-        title="Свяжитесь"
-        titleAccent="с нами"
-        description="Мы всегда рады обсудить ваш проект. Приезжайте к нам на производство или оставьте заявку — мы ответим в течение 2 часов."
-        compact
-      />
 
       <ContactInfoSection
-        subtitle="Как связаться"
         title="Контактная информация"
         address={typeof COMPANY_INFO.address === 'string' ? COMPANY_INFO.address : COMPANY_INFO.address.ru}
         phone={COMPANY_INFO.phone}
@@ -43,18 +34,11 @@ export default function ContactsPage() {
         showForm={true}
       />
 
+      <B2BRequisitesSection />
+
       <div id="map">
         <MapSection />
       </div>
-
-      <CTASection
-        title="Предпочитаете"
-        titleAccent="позвонить?"
-        description="Наши менеджеры на связи в рабочее время. Звоните, и мы ответим на все вопросы."
-        buttonText="Позвонить"
-        buttonHref="tel:+74950000000"
-        variant="secondary"
-      />
 
       <Script
         id="json-ld-contacts"

@@ -23,16 +23,19 @@ interface TeamSectionProps {
  */
 export default function TeamSection({ title, subtitle, members }: TeamSectionProps) {
   return (
-    <section className="section-padding bg-surface">
-      <div className="section-container">
+    <section className="section-padding bg-surface relative overflow-hidden">
+      {/* Subtle Background Accent */}
+      <div className="absolute inset-0 z-0 opacity-[0.01] bg-[url('/img/patterns/grid.svg')] bg-[length:30px_30px] pointer-events-none" />
+      
+      <div className="section-container relative z-10">
         {(title || subtitle) && (
-          <div className="mb-16">
+          <div className="mb-20 text-center md:text-left">
             {subtitle && (
-              <p className="verge-kicker text-primary mb-4">{subtitle}</p>
+              <p className="verge-mono-label text-primary mb-6">{subtitle}</p>
             )}
             {title && (
-              <h2 className="font-headline text-[36px] md:text-[52px] lg:text-[64px] uppercase leading-[0.85] text-on-surface max-w-3xl">
-                {title}
+              <h2 className="geist-display-lg md:text-[40px] lg:text-[48px] text-on-surface">
+                {title}.
               </h2>
             )}
           </div>
@@ -46,8 +49,12 @@ export default function TeamSection({ title, subtitle, members }: TeamSectionPro
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="bg-background rounded-[var(--radius-12)] border border-outline overflow-hidden group hover:shadow-md transition-shadow"
+              className="relative bg-background border border-outline/50 overflow-hidden group hover:shadow-xl transition-all duration-500 rounded-sm"
             >
+              {/* HUD Accents */}
+              <div className="absolute top-0 right-0 w-6 h-6 border-r border-t border-primary/0 group-hover:border-primary/40 transition-all duration-500 z-20" />
+              <div className="absolute bottom-0 left-0 w-6 h-6 border-l border-b border-primary/0 group-hover:border-primary/40 transition-all duration-500 z-20" />
+
               {/* Photo / Placeholder */}
               <div className="relative aspect-[4/5] bg-surface-variant flex items-center justify-center overflow-hidden">
                 {member.imageUrl ? (
@@ -55,23 +62,25 @@ export default function TeamSection({ title, subtitle, members }: TeamSectionPro
                     src={member.imageUrl}
                     alt={typeof member.name === 'string' ? member.name : ''}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                     sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                   />
                 ) : (
                   <User className="w-16 h-16 text-on-surface-variant/30" />
                 )}
+                <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
 
               {/* Info */}
-              <div className="p-6">
-                <h3 className="font-sans font-bold text-[16px] text-on-surface">
+              <div className="p-8 relative z-10">
+                <h3 className="font-sans font-bold text-[18px] text-on-surface tracking-tight">
                   {member.name}
                 </h3>
-                <p className="verge-mono-label text-primary mt-1">
+                <p className="verge-mono-label text-primary mt-2 text-[10px] uppercase tracking-widest">
                   {member.role}
                 </p>
-                <p className="mt-3 text-[13px] leading-[1.7] text-on-surface-variant">
+                <div className="h-px w-0 group-hover:w-full bg-primary/20 transition-all duration-700 my-4" />
+                <p className="text-[13px] leading-[1.6] text-on-surface-variant font-light line-clamp-3">
                   {member.description}
                 </p>
               </div>

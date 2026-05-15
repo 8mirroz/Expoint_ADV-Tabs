@@ -29,6 +29,8 @@ const TestimonialsSection = dynamic(() => import('@/components/sections/Testimon
 const ContactInfoSection = dynamic(() => import('@/components/sections/ContactInfoSection'));
 const GalleryGrid = dynamic(() => import('@/components/sections/GalleryGrid'));
 const CasesArchive = dynamic(() => import('@/components/sections/CasesArchive'));
+const PricingExplainer = dynamic(() => import('@/components/sections/PricingExplainer'));
+const PricingCompliance = dynamic(() => import('@/components/sections/PricingCompliance'));
 
 /**
  * SectionRegistry — Maps section type strings to lazy-loaded React components.
@@ -62,6 +64,8 @@ export const SECTION_REGISTRY: Record<string, React.ComponentType<any>> = {
   'contact-info': ContactInfoSection,
   'gallery-grid': GalleryGrid,
   'cases-archive': CasesArchive,
+  'pricing-explainer': PricingExplainer,
+  'pricing-compliance': PricingCompliance,
 };
 
 /**

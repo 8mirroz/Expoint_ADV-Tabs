@@ -1,0 +1,7 @@
+version: v4
+routing:
+  mode: hybrid
+  endpoints:
+    - /api/lead
+    - /api/quote
+    - /api/knowledge/query

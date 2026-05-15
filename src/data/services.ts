@@ -1,3 +1,5 @@
+import type { ContentEvidenceClaim } from '@/lib/knowledge/types';
+
 export interface Service {
   id: string;
   title: string;
@@ -25,6 +27,10 @@ export interface Service {
     materials: string;
     constraints: string;
     assumptions: string;
+    pricingDrivers?: string[];
+    claims?: ContentEvidenceClaim[];
+    last_verified_at?: string;
+    owner?: string;
   };
 }
 
@@ -70,7 +76,26 @@ export const SERVICES: Service[] = [
       source_doc_ids: ['NB-003', 'NB-004', 'NB-006'],
       materials: 'Акрил Altuglas, борта ПВХ/алюминий/нержавеющая сталь, LED модули Samsung/Elf.',
       constraints: 'Для фасадов в Москве учитываются габаритные ограничения по 902-ПП и условия монтажного доступа.',
-      assumptions: 'Финальный бюджет подтверждается после замера, фотофиксации и проверки электроподключения.'
+      assumptions: 'Финальный бюджет подтверждается после замера, фотофиксации и проверки электроподключения.',
+      pricingDrivers: [
+        'Высота букв и количество символов формируют базовую смету.',
+        'Материал борта и сценарий подсветки меняют срок службы и внешний вид.',
+        'Доступ к фасаду и ночной монтаж влияют на итоговый бюджет проекта.',
+      ],
+      claims: [
+        {
+          source_doc_id: 'NB-003',
+          claim: 'Высота и количество символов дают базовый ценовой ориентир по буквам.',
+          evidence_snippet: 'Rate per cm multiplied by letter count is the primary baseline estimator.',
+        },
+        {
+          source_doc_id: 'NB-017',
+          claim: 'Сценарий доступа и монтажные условия материально влияют на смету.',
+          evidence_snippet: 'Access complexity and night works materially affect final project budget.',
+        },
+      ],
+      last_verified_at: '2026-05-12',
+      owner: 'growth-team',
     }
   },
   {
@@ -107,7 +132,26 @@ export const SERVICES: Service[] = [
       source_doc_ids: ['NB-003', 'NB-005', 'NB-007'],
       materials: 'Алюминиевый профиль, акрил/поликарбонат, транслюцентная пленка/УФ-печать.',
       constraints: 'Световые короба в историческом центре требуют отдельной проверки допустимости.',
-      assumptions: 'Цена зависит от площади, глубины, типа печати и сценария обслуживания.'
+      assumptions: 'Цена зависит от площади, глубины, типа печати и сценария обслуживания.',
+      pricingDrivers: [
+        'Площадь и глубина короба задают базовую стоимость производства.',
+        'Тип лицевой панели влияет на яркость, сервис и ресурс.',
+        'Исторический центр требует отдельной проверки допустимого формата.',
+      ],
+      claims: [
+        {
+          source_doc_id: 'NB-005',
+          claim: 'Световой сценарий и материал лицевой панели меняют качество видимости.',
+          evidence_snippet: 'Lightbox format is effective for broad-visibility wayfinding tasks.',
+        },
+        {
+          source_doc_id: 'NB-007',
+          claim: 'Лайтбоксы подходят не для каждой городской зоны и требуют ранней проверки.',
+          evidence_snippet: 'Historic district signage excludes solid lightboxes; channel letters preferred.',
+        },
+      ],
+      last_verified_at: '2026-05-12',
+      owner: 'engineering-team',
     }
   },
   {
@@ -144,7 +188,26 @@ export const SERVICES: Service[] = [
       source_doc_ids: ['NB-004', 'NB-005', 'NB-010'],
       materials: 'Силиконовый гибкий неон 6x12/8x16, акрил 5-8мм, блоки 12В.',
       constraints: 'Учитываются требования к яркости, зоне размещения и безопасности подключения.',
-      assumptions: 'Итоговая стоимость рассчитывается от длины контура, количества стыков и режима свечения.'
+      assumptions: 'Итоговая стоимость рассчитывается от длины контура, количества стыков и режима свечения.',
+      pricingDrivers: [
+        'Длина контура и количество стыков определяют основной бюджет.',
+        'Тип основания влияет на визуальную чистоту и монтаж.',
+        'Сценарий яркости и зона размещения меняют требования к питанию.',
+      ],
+      claims: [
+        {
+          source_doc_id: 'NB-004',
+          claim: 'Материал основания напрямую влияет на визуальный ресурс конструкции.',
+          evidence_snippet: 'Material-lighting coupling directly affects luminance stability and service life.',
+        },
+        {
+          source_doc_id: 'NB-010',
+          claim: 'Для HoReCa и retail гибкий неон решает разные задачи заметности и атмосферы.',
+          evidence_snippet: 'Retail prioritizes visibility; HoReCa ambiance; corporate compliance and consistency.',
+        },
+      ],
+      last_verified_at: '2026-05-12',
+      owner: 'content-team',
     }
   },
   {
@@ -176,16 +239,36 @@ export const SERVICES: Service[] = [
       { title: 'Полировка', description: 'Финишная обработка до нужной текстуры.' },
       { title: 'Трафарет', description: 'Подготовка шаблона для точного позиционирования при монтаже.' }
     ],
+    previewVideo: '/videos/signage/installation-and-launch.mp4',
     expertNotes: {
       source_doc_ids: ['NB-004', 'NB-011', 'NB-017'],
       materials: 'Нержавеющая сталь AISI 304/316, лазерная микросварка, шлиф/зеркало.',
       constraints: 'Критичны точная фотопривязка, крепеж и расчет нагрузки на фасад.',
-      assumptions: 'Бюджет зависит от сложности формы, толщины металла и типа финишной обработки.'
+      assumptions: 'Бюджет зависит от сложности формы, толщины металла и типа финишной обработки.',
+      pricingDrivers: [
+        'Толщина стали и тип финишной обработки меняют себестоимость.',
+        'Сложная геометрия повышает трудоемкость сварки и полировки.',
+        'Крепеж и точность фотопривязки влияют на монтажный этап.',
+      ],
+      claims: [
+        {
+          source_doc_id: 'NB-004',
+          claim: 'Материал и финишная обработка определяют долговечность и статусный вид.',
+          evidence_snippet: 'AISI304 maintains corrosion resistance and premium finish in urban exposure.',
+        },
+        {
+          source_doc_id: 'NB-017',
+          claim: 'Монтажный доступ и точность инженерной подготовки влияют на бюджет проекта.',
+          evidence_snippet: 'Access complexity and night works materially affect final project budget.',
+        },
+      ],
+      last_verified_at: '2026-05-12',
+      owner: 'engineering-team',
     }
   },
   {
     id: 'pylon-signs',
-    title: 'Стелы и навигационные пилоны',
+    title: 'Стелы и элементы навигации',
     shortDescription: 'Навигация для бизнес-центров, АЗС, ТЦ и крупных территорий.',
     fullDescription: 'Проектируем и производим навигационные стелы с учетом ветровой нагрузки, фундамента и схемы подключения.',
     features: [
@@ -206,6 +289,7 @@ export const SERVICES: Service[] = [
       { question: 'Нужен ли проект фундамента?', answer: 'Да, мы обязательно рассчитываем нагрузки и готовим проект закладных деталей для обеспечения устойчивости.' },
       { question: 'Как согласовать стелу?', answer: 'Стелы выше 6 метров требуют прохождения экспертизы и получения отдельного разрешения.' }
     ],
+    previewVideo: '/videos/signage/navigation-elements.mp4',
     processSteps: [
       { title: 'Геодезия', description: 'Проверка грунта и поиск скрытых коммуникаций.' },
       { title: 'Инженерия', description: 'Расчет ветровых нагрузок и создание КМ/КМД.' },
@@ -216,7 +300,26 @@ export const SERVICES: Service[] = [
       source_doc_ids: ['NB-003', 'NB-011', 'NB-017'],
       materials: 'Профильная сталь, АКП/алюминий, фундамент с анкерной группой.',
       constraints: 'Обязательны расчеты ветровой нагрузки, сценарий фундамента и электроподвод.',
-      assumptions: 'Срок и стоимость уточняются после инженерного обследования площадки.'
+      assumptions: 'Срок и стоимость уточняются после инженерного обследования площадки.',
+      pricingDrivers: [
+        'Металлокаркас и фундамент формируют основной CAPEX стелы.',
+        'Высота и ветровая нагрузка влияют на инженерный объем работ.',
+        'Подвод питания и техника для монтажа меняют срок и смету.',
+      ],
+      claims: [
+        {
+          source_doc_id: 'NB-011',
+          claim: 'Навигационные конструкции нужно считать не только по внешнему виду, но и по инженерной схеме.',
+          evidence_snippet: 'Comprehensive ROI includes CAPEX, downtime risk, and maintenance load.',
+        },
+        {
+          source_doc_id: 'NB-017',
+          claim: 'Инженерное обследование площадки влияет на сроки и подтверждение бюджета.',
+          evidence_snippet: 'Access complexity and night works materially affect final project budget.',
+        },
+      ],
+      last_verified_at: '2026-05-12',
+      owner: 'operations-team',
     }
   },
   {
@@ -249,6 +352,7 @@ export const SERVICES: Service[] = [
         answer: 'Да, для крышных установок обязателен проект КМ/КМД и электропроект, а также заключение о несущей способности кровли.' 
       }
     ],
+    previewVideo: '/videos/signage/roof-installations.mp4',
     processSteps: [
       { title: 'Экспертиза кровли', description: 'Обследование здания для определения допустимых нагрузок.' },
       { title: 'Проектирование', description: 'Разработка конструкторской документации и расчет ветровых нагрузок.' },
@@ -259,7 +363,26 @@ export const SERVICES: Service[] = [
       source_doc_ids: ['NB-006', 'NB-008', 'NB-018'],
       materials: 'Силовой металлокаркас, горячекатаная сталь с антикором, система 380В.',
       constraints: 'Обязательны КМ/КМД, экспертиза несущей способности и согласование.',
-      assumptions: 'Финальный график и бюджет зависят от обследования кровли и проектной стадии.'
+      assumptions: 'Финальный график и бюджет зависят от обследования кровли и проектной стадии.',
+      pricingDrivers: [
+        'Проектирование КМ/КМД и обследование кровли обязательны до производства.',
+        'Размер конструкции и силовой каркас формируют основную смету.',
+        'Согласование и монтаж спецтехникой влияют на сроки и бюджет.',
+      ],
+      claims: [
+        {
+          source_doc_id: 'NB-018',
+          claim: 'Раннее раскрытие юридических ограничений снижает риск сорванного проекта.',
+          evidence_snippet: 'Penalty exposure framing improves acceptance of compliant design alternatives.',
+        },
+        {
+          source_doc_id: 'NB-006',
+          claim: 'Крышные сценарии требуют строгой проверки допустимых размеров и схемы размещения.',
+          evidence_snippet: 'Signage length must be within 70% facade width with 15m absolute cap.',
+        },
+      ],
+      last_verified_at: '2026-05-12',
+      owner: 'legal-team',
     }
   }
 ];

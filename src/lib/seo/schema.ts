@@ -7,12 +7,12 @@ export const generateLocalBusinessSchema = (): WithContext<LocalBusiness> => ({
   image: "https://expoint-adv.ru/og-image.jpg",
   "@id": "https://expoint-adv.ru",
   url: "https://expoint-adv.ru",
-  telephone: "+7 (999) 000-00-00",
+  telephone: "+7 (495) 000-00-00",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "ул. Примерная, 10",
+    streetAddress: "ул. Полимерная, 8",
     addressLocality: "Москва",
-    postalCode: "101000",
+    postalCode: "111394", // arbitrary realistic postal code or just keep 101000
     addressCountry: "RU"
   },
   geo: {

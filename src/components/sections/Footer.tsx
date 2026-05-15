@@ -22,7 +22,6 @@ const copy = {
   hardware: { ru: 'Изделия', be: 'Вырабы', kk: 'Өнімдер', en: 'Hardware', zh: '产品', ce: 'Изделеш', tt: 'Эшләнмәләр' },
   system: { ru: 'Система', be: 'Сістэма', kk: 'Жүйе', en: 'System', zh: '系统', ce: 'Система', tt: 'Система' },
   headquarters: { ru: 'Штаб-квартира', be: 'Штаб-кватэра', kk: 'Штаб-пәтер', en: 'Headquarters', zh: '总部', ce: 'Штаб-квартира', tt: 'Штаб-фатир' },
-  industrialZone: { ru: 'Промышленная зона "Запад"', be: 'Прамысловая зона "Захад"', kk: 'Өнеркәсіптік аймақ "Батыс"', en: 'Industrial Zone "West"', zh: '“西部”工业区', ce: 'Промышленни зона "Запад"', tt: 'Промышленность зонасы "Көнбатыш"' },
   privacy: { ru: 'Политика конфиденциальности', be: 'Палітыка прыватнасці', kk: 'Құпиялылық саясаты', en: 'Privacy Policy', zh: '隐私政策', ce: 'Конфиденциальностан политика', tt: 'Хосусыйлык сәясәте' },
   terms: { ru: 'Условия сервиса', be: 'Умовы сэрвісу', kk: 'Қызмет шарттары', en: 'Service Terms', zh: '服务条款', ce: 'Сервисан шарт', tt: 'Сервис шартлары' },
 } as const;
@@ -122,7 +121,6 @@ export default function Footer() {
                 <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
                 <div>
                   <p className="text-sm font-headline uppercase leading-tight mb-1">Москва, Полимерная 8</p>
-                  <p className="text-[10px] font-mono text-on-surface-variant/60 uppercase tracking-widest">{t(locale, copy.industrialZone)}</p>
                 </div>
               </div>
               <div className="flex flex-col gap-4 pt-6 border-t border-outline/10">

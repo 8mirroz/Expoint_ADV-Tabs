@@ -30,7 +30,17 @@ export const COMPANY_INFO = {
     ru: 'Пн–Пт: 9:00–19:00, Сб: 10:00–16:00',
     en: 'Mon–Fri: 9:00–19:00, Sat: 10:00–16:00',
   } as LocalizedText,
-  mapCoordinates: { lat: 55.7558, lng: 37.6173 },
+  mapCoordinates: { lat: 55.746061, lng: 37.799706 },
+  requisites: {
+    inn: '7712345678',
+    ogrn: '1187746123456',
+    kpp: '771201001',
+    legalAddress: '111394, г. Москва, ул. Полимерная, д. 8',
+    bank: 'ПАО СБЕРБАНК',
+    rs: '40702810038000012345',
+    ks: '30101810400000000225',
+    bik: '044525225',
+  },
 };
 
 export const COMPANY_STATS: CompanyStat[] = [

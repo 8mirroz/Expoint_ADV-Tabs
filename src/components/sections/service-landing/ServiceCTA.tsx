@@ -29,30 +29,10 @@ export function ServiceCTA({ service, sessionKey, openModal }: ServiceCTAProps) 
          <div className="absolute inset-y-0 left-12 w-px bg-outline hidden xl:block" />
          <div className="absolute inset-y-0 right-12 w-px bg-outline hidden xl:block" />
          
-         {/* Industrial Metadata Corners */}
-         <div className="absolute top-12 left-12 hidden lg:flex flex-col gap-1 verge-mono-label text-on-surface-variant/40">
-           <span>Terminal_ID: EXP-CTR-09</span>
-           <span>Session_Key: {sessionKey}</span>
-         </div>
-         <div className="absolute bottom-12 right-12 hidden lg:flex flex-col items-end gap-1 verge-mono-label text-on-surface-variant/40">
-           <span>Security_Level: ENCRYPTED</span>
-           <span>Lat: 55.7558° N | Lon: 37.6173° E</span>
-         </div>
        </div>
        
        <div className="max-w-5xl mx-auto relative z-10">
          <div className="flex flex-col items-center gap-12 text-center">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-4 px-6 py-2 bg-primary/5 border border-primary/20 text-primary verge-mono-label backdrop-blur-xl rounded-full"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
-              Protocol_Final_Engagement
-            </motion.div>
             
             <div className="space-y-8">
               <h2 className="geist-display-2xl text-on-surface">

@@ -1,49 +1,172 @@
 "use client";
-import { useRef } from 'react';
-import { MapPin, ExternalLink, Navigation } from 'lucide-react';
-import { motion, useInView } from 'motion/react';
+import { useRef, useEffect, useState, useCallback } from 'react';
+import { motion, useInView, AnimatePresence } from 'motion/react';
+import Script from 'next/script';
+import { COMPANY_INFO } from '@/data/company';
+
+declare global {
+  interface Window {
+    ymaps: any;
+  }
+}
 
 export default function MapSection() {
-  const mapUrl = "https://yandex.ru/map-widget/v1/?mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%9F%D0%BE%D0%BB%D0%B8%D0%BC%D0%B5%D1%80%D0%BD%D0%B0%D1%8F%2C%208&z=15";
+  const mapContainerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "200px" });
+  const [isLoaded, setIsLoaded] = useState(false);
+  const mapInstance = useRef<any>(null);
+
+  const addFallbackPlacemark = useCallback((map: any) => {
+    if (!window.ymaps) return;
+    const placemark = new window.ymaps.Placemark(
+      [COMPANY_INFO.mapCoordinates.lat, COMPANY_INFO.mapCoordinates.lng],
+      {
+        balloonContentHeader: "Expoint ADV",
+        balloonContentBody: COMPANY_INFO.requisites.legalAddress,
+      },
+      { preset: 'islands#blueIndustrialIcon' }
+    );
+    map.geoObjects.add(placemark);
+    placemark.balloon.open();
+  }, []);
+
+  const initMap = useCallback(() => {
+    if (typeof window === 'undefined' || !window.ymaps || !mapContainerRef.current || mapInstance.current) return;
+
+    window.ymaps.ready(() => {
+      try {
+        const map = new window.ymaps.Map(mapContainerRef.current, {
+          center: [COMPANY_INFO.mapCoordinates.lat, COMPANY_INFO.mapCoordinates.lng],
+          zoom: 14,
+          controls: ['zoomControl', 'typeSelector', 'fullscreenControl'],
+        }, {
+          suppressMapOpenBlock: true,
+          yandexMapDisablePoiInteractivity: false
+        });
+
+        map.behaviors.disable('scrollZoom');
+
+        const searchControl = new window.ymaps.control.SearchControl({
+          options: {
+            provider: 'yandex#search',
+            noPlacemark: false,
+            results: 1,
+            useMapBounds: true
+          }
+        });
+
+        searchControl.search(COMPANY_INFO.requisites.legalAddress).then(() => {
+          const results = searchControl.getResultsArray();
+          if (results.length > 0) {
+            const firstResult = results[0];
+            map.geoObjects.add(firstResult);
+            firstResult.balloon.open();
+          } else {
+            addFallbackPlacemark(map);
+          }
+        }).catch(() => {
+          addFallbackPlacemark(map);
+        });
+
+        mapInstance.current = map;
+        setIsLoaded(true);
+      } catch (err) {
+        console.error("Map initialization failed:", err);
+      }
+    });
+  }, [addFallbackPlacemark]);
+
+  // Handle case where script loads before component mounts or during hydration
+  useEffect(() => {
+    if (window.ymaps && !mapInstance.current) {
+      initMap();
+    }
+  }, [initMap]);
 
   return (
-    <section ref={sectionRef} className="w-full h-[50vh] min-h-[450px] relative overflow-hidden bg-surface border-y border-outline">
-      {/* Full Background Map */}
-      <div className="absolute inset-0 z-0">
-        {isInView && (
-          <iframe
-            title="Яндекс Карта: Москва, Полимерная, 8"
-            src={mapUrl}
-            className="w-full h-full grayscale-[0.3] pointer-events-none transition-opacity duration-700 animate-in fade-in"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+    <section 
+      ref={sectionRef} 
+      id="map" 
+      className="w-full h-[60vh] min-h-[500px] relative overflow-hidden bg-surface border-y border-outline"
+    >
+      <Script 
+        src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" 
+        onReady={initMap}
+        strategy="afterInteractive"
+      />
+      
+      {/* Skeleton / Loading State */}
+      <AnimatePresence>
+        {!isLoaded && (
+          <motion.div 
+            key="loader"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-10 bg-surface flex items-center justify-center"
+          >
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-10 h-10 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+              <p className="verge-mono-label text-on-surface-variant/50">Загрузка карты...</p>
+            </div>
+          </motion.div>
         )}
-        {/* Subtle overlay to blend map edges */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-background/20 pointer-events-none" />
-      </div>
+      </AnimatePresence>
 
+      {/* Map Container */}
+      <div 
+        ref={mapContainerRef} 
+        className="absolute inset-0 z-0 bg-muted" 
+      />
+
+      {/* Brand Panel */}
       <div className="section-container relative h-full z-10 pointer-events-none">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="absolute top-10 md:top-12 left-6 md:left-12 max-w-sm bg-surface/90 backdrop-blur-md border border-outline p-6 rounded-[var(--radius-8)] shadow-sm pointer-events-auto"
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute top-10 md:top-16 left-6 md:left-12 max-w-sm bg-black/85 backdrop-blur-xl border border-white/10 p-8 rounded-[var(--radius-12)] shadow-2xl pointer-events-auto"
         >
-          <p className="verge-mono-label text-primary mb-3">Штаб-квартира</p>
-          <h3 className="text-[24px] md:text-[28px] font-sans font-bold uppercase leading-tight text-on-surface">Москва, Полимерная 8</h3>
-          <p className="verge-mono-label text-on-surface-variant mt-4">Промышленная зона «Запад»</p>
+          <div className="flex flex-col gap-5">
+            <div>
+              <p className="verge-mono-label text-primary/80 mb-2 uppercase tracking-[0.2em] text-[10px] font-bold">Штаб-квартира</p>
+              <h3 className="text-[28px] md:text-[34px] font-sans font-black uppercase leading-[1.05] text-white tracking-tight">
+                Москва,<br/>
+                Полимерная 8
+              </h3>
+            </div>
+            
+            <div className="h-px w-full bg-white/10" />
+            
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--color-primary-rgb),0.5)]" />
+                <span className="text-white/70 text-sm font-medium tracking-wide">Производственный хаб</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-white/20" />
+                <span className="text-white/50 text-sm font-medium tracking-wide">Инженерный центр</span>
+              </div>
+            </div>
+            
+            <button 
+              onClick={() => window.open(`https://yandex.ru/maps/?text=${encodeURIComponent(COMPANY_INFO.requisites.legalAddress)}`, '_blank')}
+              className="mt-2 w-full py-3 px-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-[var(--radius-8)] text-white text-xs font-bold uppercase tracking-widest transition-all hover:border-white/20 flex items-center justify-center gap-2"
+            >
+              Открыть в Картах
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </button>
+          </div>
         </motion.div>
       </div>
 
-
-      {/* Decorative side vignetting */}
-      <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-background/20 to-transparent pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-background/20 to-transparent pointer-events-none" />
+      {/* Depth Overlays */}
+      <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-background/30 to-transparent pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-background/30 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background/30 to-transparent pointer-events-none" />
     </section>
   );
 }
-
-

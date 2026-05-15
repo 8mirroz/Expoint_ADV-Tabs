@@ -78,7 +78,6 @@ export function MaterialComparison() {
                 {tier.name}
               </span>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono opacity-40">0{tier.id === 'premium' ? '1' : '02'}</span>
                 <div className={cn(
                   "w-1 h-1 rounded-full",
                   activeTier === tier.id ? "bg-primary shadow-[0_0_8px_var(--primary)]" : "bg-outline"
@@ -167,7 +166,6 @@ export function MaterialComparison() {
                      <Info className="w-4 h-4 text-primary" />
                      <span className="verge-mono-label text-on-surface-variant/40">Technical Audit</span>
                    </div>
-                   <span className="text-[9px] font-mono text-on-surface-variant/20">REL_CODE: v5.2</span>
                 </div>
                 
                 {tier.specs.map((spec, idx) => (
@@ -205,17 +203,6 @@ export function MaterialComparison() {
         </AnimatePresence>
       </div>
 
-      {/* Metadata Laboratory Footer */}
-      <div className="px-10 py-5 bg-surface/80 border-t border-outline flex justify-between items-center font-mono text-[9px] uppercase tracking-[0.5em] text-on-surface-variant/30">
-         <div className="flex items-center gap-4">
-           <div className="w-1.5 h-1.5 bg-primary animate-pulse" />
-           <span>Lab_Analysis_Module // active</span>
-         </div>
-         <div className="flex items-center gap-8">
-           <span>Ref: EXP-V8-GEIST</span>
-           <span className="hidden md:block">Integrity: 100% verified</span>
-         </div>
-      </div>
     </div>
   );
 }

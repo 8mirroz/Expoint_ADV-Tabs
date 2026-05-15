@@ -137,7 +137,7 @@ export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-1">
               <p className="verge-mono-label">Ориентировочная стоимость:</p>
-              <p className="geist-display-md text-primary">
+              <p className="geist-display-md font-bold text-primary">
                 {result.min.toLocaleString('ru-RU')} - {result.max.toLocaleString('ru-RU')} ₽
               </p>
             </div>

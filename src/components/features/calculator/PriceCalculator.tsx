@@ -32,10 +32,6 @@ export function PriceCalculator() {
         {/* Controls */}
         <div className="space-y-10">
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="h-px w-8 bg-accent" />
-              <span className="text-accent font-black uppercase tracking-[0.3em] text-[10px]">Project Analysis</span>
-            </div>
             <h3 className="text-4xl font-black flex items-center gap-4 tracking-tighter uppercase leading-none">
               {charCount > 0 ? 'Параметры_01' : 'Параметры проекта'}
             </h3>
@@ -48,7 +44,6 @@ export function PriceCalculator() {
             <div className="space-y-3">
               <div className="flex justify-between items-end mb-1">
                 <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Текст вывески</label>
-                <span className="text-[9px] font-mono text-on-surface-variant opacity-40 uppercase">Variable: string_input</span>
               </div>
               <div className="relative group">
                 <Input 
@@ -106,7 +101,6 @@ export function PriceCalculator() {
                </div>
                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative z-10">
                   <div className="space-y-1">
-                    <span className="text-[10px] font-black text-accent uppercase tracking-widest block">Priority_Protocol</span>
                     <p className="text-sm font-black uppercase tracking-tight text-on-surface">Производственная очередь</p>
                   </div>
                   <div className="flex bg-secondary p-1 rounded-none w-full md:w-auto border border-outline">
@@ -126,31 +120,6 @@ export function PriceCalculator() {
                </div>
             </div>
 
-            {/* Live Production Log (New Rigorous Feature) */}
-            <div className="p-6 bg-black/2 border-l-2 border-accent/20 font-mono text-[9px] uppercase tracking-wider space-y-2">
-               <div className="flex justify-between opacity-40">
-                 <span>Log_Stream: Active</span>
-                 <span>Buffer: 1024kb</span>
-               </div>
-               <div className="space-y-1 text-on-surface-variant/60">
-                 <div className="flex gap-4">
-                   <span className="text-accent">{" >> "}</span>
-                   <span>Input_Length: {charCount} units</span>
-                 </div>
-                 <div className="flex gap-4">
-                   <span className="text-accent">{" >> "}</span>
-                   <span>Dimensional_Scale: {heightCm}mm (normalized)</span>
-                 </div>
-                 <div className="flex gap-4">
-                   <span className="text-accent">{" >> "}</span>
-                   <span>Complexity_Vector: {complexity.toUpperCase()}</span>
-                 </div>
-                 <div className="flex gap-4">
-                   <span className="text-accent">{" >> "}</span>
-                   <span>System_Status: Calculating_Estimate...</span>
-                 </div>
-               </div>
-            </div>
           </div>
         </div>
 
@@ -163,17 +132,10 @@ export function PriceCalculator() {
           {/* Scanning Line Decoration */}
           <div className="absolute top-0 left-0 w-full h-1/2 bg-linear-to-b from-transparent via-accent/5 to-transparent -translate-y-full animate-scan pointer-events-none opacity-20" />
 
-          <div className="absolute top-12 right-12 text-[9px] font-mono text-white/20 uppercase tracking-tighter text-right">
-            DOC_REF: EXP-CALC-v5.0<br/>
-            AUTH: INDUSTRIAL_DIVISION
-          </div>
 
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-12">
-              <span className="inline-flex items-center gap-3 px-5 py-2 rounded-none bg-white/5 text-accent text-[10px] font-black uppercase tracking-[0.2em] border border-white/10 backdrop-blur-md">
                 <div className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
-                ESTIMATE_CALCULATION
-              </span>
               <button 
                 onClick={() => setShowFormula(!showFormula)}
                 className="text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 text-white/40 hover:text-accent transition-colors"
@@ -220,7 +182,6 @@ export function PriceCalculator() {
                   exit={{ opacity: 0, scale: 1.02 }}
                   className="space-y-6 py-6"
                 >
-                  <p className="text-accent text-[10px] uppercase tracking-[0.5em] font-black opacity-60">Estimated_Production_Value:</p>
                   <div className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.8] text-white">
                     {priceRange?.min.toLocaleString('ru-RU')} — {priceRange?.max.toLocaleString('ru-RU')} <span className="text-2xl font-light text-white/30 tracking-normal ml-2">₽</span>
                   </div>
@@ -262,9 +223,6 @@ export function PriceCalculator() {
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500" />
               <span className="relative z-10">Получить финальную смету</span>
             </motion.button>
-            <p className="text-center text-[8px] font-mono text-white/20 uppercase tracking-[0.3em]">
-              * Error_Margin: +/- 5% | Subject to technical audit
-            </p>
           </div>
         </div>
       </div>

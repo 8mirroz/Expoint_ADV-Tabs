@@ -134,7 +134,7 @@ export default function Quiz() {
             <div className="p-8 md:p-16">
               <div className="mb-12">
                 <div className="flex justify-between verge-mono-label text-on-surface-variant mb-4">
-                  <span>{t(locale, copy.phase)} 0{currentStep + 1} / 0{QUIZ_QUESTIONS.length + 1}</span>
+                  <span className="font-bold">{t(locale, copy.phase)} 0{currentStep + 1} / 0{QUIZ_QUESTIONS.length + 1}</span>
                   <span className="text-primary">{Math.round((currentStep / (QUIZ_QUESTIONS.length + 1)) * 100)}% {t(locale, copy.synced)}</span>
                 </div>
                 <div className="w-full bg-outline h-1.5 rounded-full overflow-hidden">

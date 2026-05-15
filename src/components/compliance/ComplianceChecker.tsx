@@ -1,272 +1,215 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
-import { X, AlertTriangle, ArrowRight, RotateCcw, ShieldCheck } from 'lucide-react';
-import { calculateCompliance, type AuditParams } from '@/lib/compliance';
+import { ArrowRight, RotateCcw } from 'lucide-react';
 
-interface Question {
-  id: keyof AuditParams;
-  text: string;
-  kind: 'boolean' | 'range';
-  min?: number;
-  max?: number;
-  step?: number;
-  unit?: string;
-  passHint: string;
-  warnHint: string;
+type RiskLevel = 'low' | 'medium' | 'high';
+type StepAnswer = string | null;
+
+interface QuizStep {
+  id: number;
+  question: string;
+  options: Array<{ value: string; label: string }>;
 }
 
-const QUESTIONS: Question[] = [
+const STEPS: QuizStep[] = [
   {
-    id: 'inHistoricCenter',
-    text: 'Объект находится в историческом центре?',
-    kind: 'boolean',
-    passHint: 'Стандартные ограничения 902-ПП.',
-    warnHint: 'Применяются усиленные ограничения по формату конструкции.',
+    id: 1,
+    question: 'Где планируется установка?',
+    options: [
+      { value: 'facade_1_2', label: 'На фасаде 1-2 этажа' },
+      { value: 'mall_inside', label: 'Внутри торгового центра' },
+      { value: 'roof', label: 'На крыше' },
+    ],
   },
   {
-    id: 'isLightbox',
-    text: 'Планируется световой короб?',
-    kind: 'boolean',
-    passHint: 'Допустимо, если нет дополнительных ограничений.',
-    warnHint: 'Для исторического центра часто недопустимо.',
+    id: 2,
+    question: 'Утверждена ли архитектурно-художественная концепция (АХК)?',
+    options: [
+      { value: 'yes', label: 'Да, есть' },
+      { value: 'no', label: 'Нет' },
+      { value: 'unknown', label: 'Не знаю' },
+    ],
   },
   {
-    id: 'onBalcony',
-    text: 'Есть размещение на балконе/лоджии/эркере?',
-    kind: 'boolean',
-    passHint: 'Размещение вне архитектурных элементов снижает риск отказа.',
-    warnHint: 'Балконы и лоджии запрещены для размещения вывесок.',
+    id: 3,
+    question: 'Были ли ранее предписания ОАТИ на этом фасаде?',
+    options: [
+      { value: 'no', label: 'Нет' },
+      { value: 'yes_remove', label: 'Да, заставляли снимать' },
+      { value: 'unknown', label: 'Не знаю' },
+    ],
   },
   {
-    id: 'overlapsWindows',
-    text: 'Конструкция перекрывает окна/витрины?',
-    kind: 'boolean',
-    passHint: 'Без перекрытия окон риск минимальный.',
-    warnHint: 'Перекрытие окон относится к высокому юридическому риску.',
-  },
-  {
-    id: 'height',
-    text: 'Высота конструкции (м)',
-    kind: 'range',
-    min: 0.1,
-    max: 2,
-    step: 0.1,
-    unit: 'м',
-    passHint: 'До 0.5 м обычно укладывается в базовое ограничение.',
-    warnHint: 'Выше 0.5 м потребуется пересчет решения.',
-  },
-  {
-    id: 'lengthPercentage',
-    text: 'Длина относительно фасада (%)',
-    kind: 'range',
-    min: 10,
-    max: 100,
-    step: 5,
-    unit: '%',
-    passHint: 'До 70% фасада — безопаснее для согласования.',
-    warnHint: 'Свыше 70% фасада вызывает риск отклонения.',
-  },
-  {
-    id: 'absoluteLength',
-    text: 'Абсолютная длина конструкции (м)',
-    kind: 'range',
-    min: 1,
-    max: 30,
-    step: 1,
-    unit: 'м',
-    passHint: 'До 15 м соответствует базовой рамке.',
-    warnHint: 'Свыше 15 м требует отдельной проработки.',
+    id: 4,
+    question: 'Нужна ли помощь с согласованием?',
+    options: [
+      { value: 'turnkey', label: 'Да, хочу сделать всё под ключ' },
+      { value: 'self', label: 'Нет, сами согласуем' },
+    ],
   },
 ];
 
-const INITIAL_PARAMS: AuditParams = {
-  inHistoricCenter: false,
-  onBalcony: false,
-  overlapsWindows: false,
-  isLightbox: false,
-  height: 0.5,
-  lengthPercentage: 50,
-  absoluteLength: 10,
-};
+const RESULT_COPY = {
+  high: {
+    title: 'Скорее всего - не согласуют',
+    body: 'Размещение выше 2 этажа (крышные установки) или наличие предписаний ОАТИ требуют сложного процесса. Согласно Разделу III 902-ПП, штраф за незаконное размещение может достигать 500 000 руб (ст. 8.6.1 КоАП г. Москвы).',
+    tone: 'border-red-500/40 text-red-200 bg-red-500/5',
+    accent: 'bg-red-500',
+  },
+  medium: {
+    title: 'Сложности с согласованием',
+    body: 'Размещение возможно, но сопряжено с рисками. Отсутствие архитектурно-художественной концепции (АХК) улицы/здания означает, что вывеску, вероятно, придется устанавливать строго по дизайн-проекту (п. 18-20 902-ПП).',
+    tone: 'border-amber-500/40 text-amber-100 bg-amber-500/5',
+    accent: 'bg-amber-500',
+  },
+  low: {
+    title: 'Скорее всего - согласуют',
+    body: 'По предварительной оценке, размещение соответствует базовым правилам (п. 10 902-ПП). Информационные конструкции на фасадах 1-го этажа в одну линию обычно согласовываются в уведомительном порядке при соблюдении габаритов.',
+    tone: 'border-emerald-500/40 text-emerald-100 bg-emerald-500/5',
+    accent: 'bg-emerald-500',
+  },
+} as const;
+
+function evaluateRisk(answers: StepAnswer[]): RiskLevel {
+  let risk: RiskLevel | null = null;
+
+  const step1 = answers[0];
+  const step2 = answers[1];
+  const step3 = answers[2];
+
+  if (step1 === 'mall_inside') {
+    risk = 'low';
+  } else if (step1 === 'roof') {
+    risk = 'high';
+  }
+
+  if (risk === null && (step2 === 'no' || step2 === 'unknown')) {
+    risk = 'medium';
+  }
+
+  if (step3 === 'yes_remove') {
+    risk = 'high';
+  }
+
+  return risk || 'low';
+}
+
 
 export const ComplianceChecker = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [params, setParams] = useState<AuditParams>(INITIAL_PARAMS);
+  const [answers, setAnswers] = useState<StepAnswer[]>(Array(STEPS.length).fill(null));
   const [isFinished, setIsFinished] = useState(false);
 
-  const currentQuestion = QUESTIONS[currentStep];
-  const result = calculateCompliance(params);
+  const risk = useMemo(() => evaluateRisk(answers), [answers]);
+  const currentQuestion = STEPS[currentStep];
 
-  const handleBoolean = (value: boolean) => {
-    setParams((prev) => ({ ...prev, [currentQuestion.id]: value }));
-    goNext();
-  };
+  const selectOption = (value: string) => {
+    setAnswers((prev) => {
+      const next = [...prev];
+      next[currentStep] = value;
+      return next;
+    });
 
-  const handleRange = (value: number) => {
-    setParams((prev) => ({ ...prev, [currentQuestion.id]: value }));
-  };
-
-  const goNext = () => {
-    if (currentStep < QUESTIONS.length - 1) {
+    if (currentStep < STEPS.length - 1) {
       setCurrentStep((prev) => prev + 1);
       return;
     }
+
     setIsFinished(true);
   };
 
   const reset = () => {
     setCurrentStep(0);
-    setParams(INITIAL_PARAMS);
+    setAnswers(Array(STEPS.length).fill(null));
     setIsFinished(false);
   };
 
-  const resultType = result.isCompliant ? 'pass' : 'fail';
+  const scrollToAudit = () => {
+    const node = document.getElementById('audit');
+    if (node) {
+      node.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <div className="w-full max-w-3xl mx-auto bg-neutral-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
       <AnimatePresence mode="wait">
         {!isFinished ? (
           <motion.div
-            key="step"
+            key={`step-${currentStep}`}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             className="space-y-6"
           >
             <div className="flex justify-between items-center text-xs font-medium uppercase tracking-widest text-neutral-500">
-              <span>Вопрос {currentStep + 1} из {QUESTIONS.length}</span>
+              <span>Шаг {currentStep + 1} из {STEPS.length}</span>
               <div className="flex gap-1">
-                {QUESTIONS.map((_, i) => (
+                {STEPS.map((_, index) => (
                   <div
-                    key={i}
+                    key={index}
                     className={cn(
                       'h-1 w-8 rounded-full transition-colors duration-500',
-                      i <= currentStep ? 'bg-amber-500' : 'bg-neutral-800'
+                      index <= currentStep ? 'bg-amber-500' : 'bg-neutral-800'
                     )}
                   />
                 ))}
               </div>
             </div>
 
-            <h3 className="text-2xl font-semibold text-white tracking-tight">{currentQuestion.text}</h3>
+            <h3 className="text-2xl font-semibold text-white tracking-tight">{currentQuestion.question}</h3>
 
-            {currentQuestion.kind === 'boolean' ? (
-              <div className="grid gap-4">
+            <div className="grid gap-4">
+              {currentQuestion.options.map((option) => (
                 <button
-                  onClick={() => handleBoolean(false)}
-                  className="group relative flex flex-col items-start p-4 bg-white/3 border border-white/10 hover:bg-emerald-500/5 transition-all cursor-pointer rounded-2xl text-left"
+                  key={option.value}
+                  onClick={() => selectOption(option.value)}
+                  className="group relative flex items-center justify-between p-4 bg-white/3 border border-white/10 hover:bg-white/5 transition-all cursor-pointer rounded-2xl text-left"
                 >
-                  <div className="flex w-full justify-between items-center mb-1">
-                    <span className="text-lg font-medium text-neutral-200 group-hover:text-white transition-colors">Нет</span>
-                    <ArrowRight className="w-4 h-4 text-neutral-600 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" />
-                  </div>
-                  <p className="text-sm text-neutral-500 group-hover:text-neutral-400 leading-relaxed">{currentQuestion.passHint}</p>
+                  <span className="text-base md:text-lg font-medium text-neutral-200 group-hover:text-white transition-colors">
+                    {option.label}
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-neutral-600 group-hover:text-amber-500 group-hover:translate-x-1 transition-all" />
                 </button>
-
-                <button
-                  onClick={() => handleBoolean(true)}
-                  className="group relative flex flex-col items-start p-4 bg-white/3 border border-white/10 hover:bg-amber-500/5 transition-all cursor-pointer rounded-2xl text-left"
-                >
-                  <div className="flex w-full justify-between items-center mb-1">
-                    <span className="text-lg font-medium text-neutral-200 group-hover:text-white transition-colors">Да</span>
-                    <ArrowRight className="w-4 h-4 text-neutral-600 group-hover:text-amber-500 group-hover:translate-x-1 transition-all" />
-                  </div>
-                  <p className="text-sm text-neutral-500 group-hover:text-neutral-400 leading-relaxed">{currentQuestion.warnHint}</p>
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-6">
-                <div className="p-6 rounded-2xl border border-white/10 bg-white/3">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm text-neutral-400">Текущее значение</span>
-                    <span className="text-xl font-black text-amber-400">
-                      {String(params[currentQuestion.id])} {currentQuestion.unit}
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min={currentQuestion.min}
-                    max={currentQuestion.max}
-                    step={currentQuestion.step}
-                    value={Number(params[currentQuestion.id])}
-                    onChange={(event) => handleRange(Number(event.target.value))}
-                    className="w-full accent-amber-500"
-                  />
-                </div>
-
-                <button
-                  onClick={goNext}
-                  className="w-full px-6 py-4 rounded-xl bg-amber-500 text-black font-bold hover:bg-amber-400 transition-all"
-                >
-                  Продолжить
-                </button>
-              </div>
-            )}
+              ))}
+            </div>
           </motion.div>
         ) : (
           <motion.div
             key="result"
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center space-y-8 py-4"
+            className="space-y-8 py-2"
           >
-            <div className="flex justify-center">
-              <div
-                className={cn(
-                  'w-20 h-20 rounded-full flex items-center justify-center animate-pulse',
-                  resultType === 'pass' && 'bg-emerald-500/20 text-emerald-500',
-                  resultType === 'fail' && 'bg-red-500/20 text-red-500'
-                )}
-              >
-                {resultType === 'pass' && <ShieldCheck size={40} />}
-                {resultType === 'fail' && <X size={40} />}
+            <div className={cn('rounded-2xl border p-6 md:p-8', RESULT_COPY[risk].tone)}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className={cn('w-2.5 h-2.5 rounded-full', RESULT_COPY[risk].accent)} />
+                <span className="text-xs uppercase tracking-[0.2em] opacity-80">Итоговая оценка риска</span>
               </div>
-            </div>
-
-            <div className="space-y-3">
-              <h3 className="text-3xl font-bold text-white tracking-tight">
-                {resultType === 'pass' ? 'Соответствует 902-ПП' : 'Требует доработки'}
+              <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-3 text-current">
+                {RESULT_COPY[risk].title}
               </h3>
-              <p className="text-neutral-400 max-w-md mx-auto">
-                {resultType === 'pass'
-                  ? 'Параметры выглядят безопасно для реализации. Сохраняйте текущие габариты и тип размещения.'
-                  : 'Найдены нарушения по 902-ПП. Ниже показаны конкретные пункты с источниками и evidence.'}
+              <p className="text-sm md:text-base leading-relaxed text-current/90">
+                {RESULT_COPY[risk].body}
               </p>
             </div>
 
-            {result.violations.length > 0 && (
-              <div className="text-left space-y-4 max-w-2xl mx-auto">
-                {result.violations.map((violation) => (
-                  <div key={violation.id} className="p-4 rounded-xl border border-red-500/20 bg-red-500/5">
-                    <div className="flex items-start gap-2">
-                      <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5" />
-                      <div>
-                        <div className="font-bold text-red-200">{violation.title}</div>
-                        <div className="text-sm text-red-100/80 mt-1">{violation.description}</div>
-                        <div className="mt-3 text-xs text-neutral-300">
-                          Source: <span className="font-mono">{violation.evidence.source_doc_id}</span> · Owner: {violation.evidence.owner} · Verified: {violation.evidence.last_verified_at}
-                        </div>
-                        <div className="mt-1 text-xs text-neutral-400">Evidence: {violation.evidence.evidence_snippet}</div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
+              <button
+                onClick={scrollToAudit}
+                className="flex items-center justify-center gap-2 px-8 py-3 rounded-xl bg-amber-500 text-black font-bold hover:bg-amber-400 transition-all"
+              >
+                Заказать точный аудит фасада
+              </button>
               <button
                 onClick={reset}
                 className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-all"
               >
                 <RotateCcw size={18} />
-                Пройти еще раз
-              </button>
-              <button className="flex items-center justify-center gap-2 px-8 py-3 rounded-xl bg-amber-500 text-black font-bold hover:bg-amber-400 transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)]">
-                Получить экспертный аудит
+                Пересчитать заново
               </button>
             </div>
           </motion.div>

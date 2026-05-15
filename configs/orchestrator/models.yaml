@@ -1,0 +1,5 @@
+version: v4
+models:
+  primary: claude-3-5-sonnet
+  fallback: gpt-4o-mini
+  analytics: gemini-1.5-flash

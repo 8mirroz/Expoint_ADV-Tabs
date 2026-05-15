@@ -42,17 +42,21 @@ export default function ValuesSection({ title, subtitle, items }: ValuesSectionP
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="group p-8 bg-surface rounded-[var(--radius-12)] border border-outline hover:border-primary/30 hover:shadow-md transition-all duration-300"
+              className="relative group p-8 bg-surface border border-outline/50 hover:border-primary/40 hover:shadow-xl transition-all duration-500 overflow-hidden rounded-sm"
             >
-              <div className="w-12 h-12 rounded-[var(--radius-8)] bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+              {/* HUD Accents */}
+              <div className="absolute top-0 right-0 w-6 h-6 border-r border-t border-primary/10 group-hover:border-primary/40 transition-colors duration-500" />
+              <div className="absolute bottom-0 left-0 w-6 h-6 border-l border-b border-primary/10 group-hover:border-primary/40 transition-colors duration-500" />
+
+              <div className="w-12 h-12 rounded-sm bg-primary/5 flex items-center justify-center mb-8 group-hover:bg-primary/10 transition-colors duration-500 border border-primary/10 group-hover:border-primary/20">
                 <span className="material-symbols-outlined text-primary text-[24px]">
                   {item.icon}
                 </span>
               </div>
-              <h3 className="font-sans font-bold text-[18px] text-on-surface mb-3 leading-tight">
+              <h3 className="font-sans font-bold text-[18px] text-on-surface mb-4 leading-tight tracking-tight">
                 {item.title}
               </h3>
-              <p className="text-[14px] leading-[1.7] text-on-surface-variant">
+              <p className="text-[13px] leading-[1.6] text-on-surface-variant font-light">
                 {item.description}
               </p>
             </motion.div>

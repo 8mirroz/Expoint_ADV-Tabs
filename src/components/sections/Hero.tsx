@@ -122,43 +122,12 @@ export default function Hero({ segment }: { segment?: SegmentData }) {
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
               
-              {/* Overlay Metadata */}
-              <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end text-white">
-                <div className="space-y-1">
-                  <p className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60">Production_Unit</p>
-                  <p className="text-xl font-bold tracking-tight">EXP-V8 Precision</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60">Status</p>
-                  <p className="text-xs font-bold uppercase text-primary">Verified // 100%</p>
-                </div>
-              </div>
             </div>
 
-            {/* Floating Technical Detail */}
-            <motion.div 
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-6 -right-6 p-6 bg-surface border border-outline shadow-xl rounded-xl hidden xl:block z-20"
-            >
-              <div className="flex flex-col gap-2">
-                <div className="h-1 w-12 bg-primary" />
-                <p className="verge-mono-label !text-[10px] uppercase tracking-widest">Calibration_OK</p>
-                <div className="flex gap-1">
-                  {[1,2,3,4,5].map(i => <div key={i} className="w-1 h-1 bg-primary/20" />)}
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </div>
 
-      {/* Footer Label */}
-      <div className="absolute bottom-10 left-10 hidden md:block">
-        <p className="verge-mono-label !text-[9px] uppercase tracking-[0.8em] opacity-20">
-          Expoint ADV // Engineering Excellence // Moscow 2026
-        </p>
-      </div>
     </section>
   );
 }

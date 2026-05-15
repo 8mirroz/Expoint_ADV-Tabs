@@ -3,6 +3,8 @@ import PageShell from '@/components/framework/PageShell';
 import Script from 'next/script';
 import HeroGeneric from '@/components/sections/HeroGeneric';
 import StatsSection from '@/components/sections/StatsSection';
+import ProductionDaily from '@/components/sections/ProductionDaily';
+import MissionSection from '@/components/sections/MissionSection';
 import ValuesSection from '@/components/sections/ValuesSection';
 import TeamSection from '@/components/sections/TeamSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
@@ -28,18 +30,16 @@ export default function AboutPage() {
       withMesh
     >
       <HeroGeneric
-        subtitle="О компании"
         title="Инженерный"
         titleAccent="подход к рекламе"
         description={COMPANY_MISSION.description.ru}
         ctaText="Начать проект"
         ctaHref="#contact"
         secondaryCtaText="Наше производство"
-        secondaryCtaHref="#production"
+        secondaryCtaHref="#daily"
       />
 
       <StatsSection
-        subtitle="Цифры и факты"
         title="Результаты работы"
         items={COMPANY_STATS.map((s) => ({
           value: s.value,
@@ -49,8 +49,11 @@ export default function AboutPage() {
         }))}
       />
 
+      <ProductionDaily />
+
+      <MissionSection />
+
       <ValuesSection
-        subtitle="Наши ценности"
         title="Почему выбирают нас"
         items={COMPANY_VALUES.map((v) => ({
           icon: v.icon,
@@ -60,7 +63,6 @@ export default function AboutPage() {
       />
 
       <TeamSection
-        subtitle="Команда"
         title="Люди за проектами"
         members={TEAM_MEMBERS.map((m) => ({
           id: m.id,
@@ -72,7 +74,6 @@ export default function AboutPage() {
       />
 
       <TestimonialsSection
-        subtitle="Отзывы"
         title="Что говорят клиенты"
         items={TESTIMONIALS}
       />
@@ -109,3 +110,4 @@ export default function AboutPage() {
     </PageShell>
   );
 }
+

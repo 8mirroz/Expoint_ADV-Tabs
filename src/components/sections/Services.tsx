@@ -8,10 +8,10 @@ import { SERVICES } from '@/data/services';
 import { CatalogProductCard } from '@/components/ui/CatalogProductCard';
 
 const SERVICE_IMAGES: Record<string, string> = {
-  'volumetric-letters': 'https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071&auto=format&fit=crop',
-  'lightbox': 'https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=2034&auto=format&fit=crop',
-  'flex-neon': 'https://images.unsplash.com/photo-1544415707-6e8cfc93fe23?q=80&w=2070&auto=format&fit=crop',
-  'metal-letters': 'https://images.unsplash.com/photo-1544415707-6e8cfc93fe23?q=80&w=2070&auto=format&fit=crop',
+  'volumetric-letters': '/img/adv/volumetric-letters.png',
+  'lightbox': '/img/adv/lightbox.png',
+  'flex-neon': '/img/adv/flexible-neon.png',
+  'metal-letters': '/img/adv/installation.png',
   'pylon-signs': 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop',
   'roof-installations': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop',
 };
@@ -25,13 +25,13 @@ const SERVICE_ACCENTS: Record<string, string> = {
   'roof-installations': '#5856D6',
 };
 
-const SERVICE_MODELS: Record<string, string> = {
-  'volumetric-letters': 'MOD-01',
-  'lightbox': 'MOD-02',
-  'flex-neon': 'MOD-03',
-  'metal-letters': 'MOD-04',
-  'pylon-signs': 'MOD-05',
-  'roof-installations': 'MOD-06',
+const SERVICE_TITLES: Record<string, string> = {
+  'volumetric-letters': 'Объемные\nбуквы',
+  'flex-neon': 'Гибкий\nнеон',
+  lightbox: 'Световые\nкороба',
+  'pylon-signs': 'Элементы\nнавигации',
+  'roof-installations': 'Крышные\nустановки',
+  'metal-letters': 'Монтаж и\nзапуск',
 };
 
 const copy = {
@@ -92,83 +92,84 @@ export default function Services() {
               }}
             >
               <CatalogProductCard 
-                title={service.title}
-                category={service.segments[0].toUpperCase()}
-                description={service.shortDescription}
+                title={SERVICE_TITLES[service.id] || service.title}
                 price={service.basePrice}
                 priceUnit={service.priceUnit}
                 image={SERVICE_IMAGES[service.id] || 'https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2070&auto=format&fit=crop'}
                 previewVideo={service.previewVideo}
                 specs={service.technicalSpecs || []}
                 href={`/services/${service.id}`}
-                isNew={idx === 0}
                 accentColor={SERVICE_ACCENTS[service.id]}
-                modelId={SERVICE_MODELS[service.id]}
               />
             </motion.div>
           ))}
         </div>
 
-        {/* CTA Card — Premium Gradient Mesh */}
+        {/* CTA Card — Premium Industrial Design */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-20 relative overflow-hidden group rounded-2xl border border-outline/50 bg-surface shadow-lg hover:shadow-xl transition-all duration-700"
+          className="mt-20 relative overflow-hidden group rounded-3xl border border-outline/50 bg-black shadow-2xl transition-all duration-700"
         >
-            {/* Atmospheric Gradient Mesh */}
-            <div className="absolute inset-0 pointer-events-none">
-              <div className="absolute -top-1/2 -right-1/4 w-[600px] h-[600px] rounded-full bg-accent/8 blur-[120px] transition-transform duration-[2s] group-hover:translate-x-[-40px]" />
-              <div className="absolute -bottom-1/3 -left-1/4 w-[500px] h-[500px] rounded-full bg-[#7928ca]/6 blur-[100px] transition-transform duration-[2s] group-hover:translate-y-[-30px]" />
+            {/* Background Image with Overlay */}
+            <div className="absolute inset-0 z-0">
+              <img 
+                src="/img/backgrounds/user-cta-bg.png" 
+                alt="Industrial Background"
+                className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-[3s] ease-out"
+              />
+              <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/30 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
             </div>
             
             {/* Content */}
-            <div className="relative z-10 p-10 md:p-14 lg:p-20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-              {/* Left: Copy */}
-              <div>
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="h-6 w-6 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-accent" />
+            <div className="relative z-10 p-8 md:p-10 lg:p-12 flex flex-col lg:flex-row gap-8 lg:gap-20 items-center lg:items-center">
+              {/* Left: Copy + CTA */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+                className="flex-1 space-y-8"
+              >
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <span className="verge-mono-label text-primary tracking-[0.2em] font-medium">
+                      {t(locale, copy.customProduction).toUpperCase()}
+                    </span>
                   </div>
-                  <span className="verge-mono-label text-accent tracking-[0.15em]">
-                    {t(locale, copy.customProduction)}
-                  </span>
-                </div>
-                
-                <h3 className="geist-display-lg md:text-[44px] lg:text-[52px] text-on-surface mb-6 leading-[1.1]">
-                  {t(locale, copy.customQuestion).replace(/\\n/g, ' ')}
-                </h3>
-                
-                <p className="text-on-surface-variant text-[16px] md:text-[17px] leading-relaxed max-w-lg">
-                  {t(locale, copy.customDesc)}
-                </p>
-              </div>
-
-              {/* Right: CTA + Meta */}
-              <div className="flex flex-col items-start lg:items-end gap-8">
-                <div className="flex flex-col gap-4 w-full lg:max-w-xs">
-                  <button className="geist-button-primary w-full gap-3 rounded-xl">
-                    {t(locale, copy.contactUs)}
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                  <p className="text-center text-on-surface-variant/60 text-[13px]">
-                    {t(locale, copy.freeEstimate)}
-                  </p>
-                </div>
-
-                {/* Trust signals */}
-                <div className="flex items-center gap-4 opacity-60">
-                  <div className="flex -space-x-2">
-                    {[1,2,3].map(i => (
-                      <div key={i} className="w-7 h-7 rounded-full border-2 border-surface bg-surface-variant" />
+                  
+                  <h3 className="geist-display-lg md:text-[64px] lg:text-[84px] text-white mb-4 leading-[0.95] tracking-tight">
+                    {t(locale, copy.customQuestion).split('\n').map((line, i) => (
+                      <span key={i} className="block">{line}</span>
                     ))}
-                  </div>
-                  <p className="text-on-surface-variant text-[12px] font-medium">
-                    5 {locale === 'en' ? 'engineers online' : 'инженеров онлайн'}
+                  </h3>
+                  
+                  <p className="text-white/70 text-[17px] md:text-[19px] leading-relaxed max-w-xl font-light">
+                    {t(locale, copy.customDesc)}
                   </p>
                 </div>
-              </div>
+
+                <div className="flex flex-col sm:flex-row items-center gap-6 w-full max-w-xl">
+                  <motion.button 
+                    whileHover={{ scale: 1.02, translateY: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="geist-button-primary w-full sm:w-auto px-12 h-[60px] text-[18px] gap-3 rounded-2xl shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)] hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.5)] transition-all"
+                  >
+                    {t(locale, copy.contactUs)}
+                    <ArrowRight className="w-5 h-5" />
+                  </motion.button>
+                  
+                  <div className="flex items-center gap-2 py-2.5 px-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md">
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                    <p className="text-white/60 text-[14px] font-medium tracking-wide">
+                      {t(locale, copy.freeEstimate)}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
             </div>
         </motion.div>
       </div>

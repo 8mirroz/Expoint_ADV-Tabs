@@ -1,90 +1,104 @@
-"use client";
-import { CheckCircle2, ArrowRight } from 'lucide-react';
-import { motion } from 'motion/react';
-import { PRODUCT_PACKS } from '../../data/services';
-import { useLanguage } from '@/components/i18n/LanguageProvider';
-import { t } from '@/i18n/site';
+'use client';
 
-const copy = {
-  title: { ru: 'Реализация', be: 'Рэалізацыя', kk: 'Іске асыру', en: 'Execution', zh: '实施', ce: 'Кхочушдар', tt: 'Гамәлгә ашыру' },
-  intro: { ru: 'Выбор промышленного стандарта под масштаб вашего бизнеса.', be: 'Выбар прамысловага стандарту пад маштаб вашага бізнесу.', kk: 'Бизнес ауқымына сай өнеркәсіптік стандартты таңдау.', en: 'Choose the production standard that matches your business scale.', zh: '按您的业务规模选择工业级标准。', ce: 'Шун бизнесан масштабна нийса промышленни стандарт харжа.', tt: 'Бизнес масштабына туры килгән индустриаль стандартны сайлау.' },
-  recommended: { ru: 'Рекомендуем рынку', be: 'Рэкамендуем рынку', kk: 'Нарыққа ұсыныс', en: 'Market Recommended', zh: '市场推荐', ce: 'Базарна дика', tt: 'Базар киңәше' },
-  tier: { ru: 'Сегмент', be: 'Сегмент', kk: 'Сегмент', en: 'Tier', zh: '层级', ce: 'Даража', tt: 'Сегмент' },
-  entryPrice: { ru: 'Стартовая цена', be: 'Стартавая цана', kk: 'Бастапқы баға', en: 'Entry Price Point', zh: '起始价格', ce: 'Юьхьанцара мах', tt: 'Старт бәясе' },
-  initialize: { ru: 'Выбрать', be: 'Выбраць', kk: 'Таңдау', en: 'Initialize', zh: '选择', ce: 'Харжа', tt: 'Сайлау' },
-} as const;
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+
+import { SERVICES } from '@/data/services';
+
+const scenarios = [
+  {
+    id: 'single-site',
+    label: 'NB-009 · NB-010 · NB-016',
+    title: 'Одна точка, быстрый запуск',
+    audience: 'ПВЗ, кофейни, небольшие магазины, локальные сервисы.',
+    posture: 'Сначала считаем читаемую базовую конструкцию и монтаж.',
+    recommendation: ['volumetric-letters', 'lightbox'],
+    proof: 'Сегменты различаются не только бюджетом, но и критериями решения. Funnel-stage matching improves action rate on high-intent visitors.',
+  },
+  {
+    id: 'rollout',
+    label: 'NB-010 · NB-011 · NB-019',
+    title: 'Сеть или франшиза',
+    audience: 'Сетевые открытия, клиники, multi-site retail и корпоративные стандарты.',
+    posture: 'Считаем не единичную вывеску, а повторяемость, SLA и единый стандарт монтажа.',
+    recommendation: ['lightbox', 'metal-letters', 'pylon-signs'],
+    proof: 'Template-based signage kits produce fastest growth with stable quality control.',
+  },
+  {
+    id: 'engineering',
+    label: 'NB-006 · NB-018 · NB-017',
+    title: 'Сложный инженерный объект',
+    audience: 'Кровля, стелы, исторический центр, сложные фасады.',
+    posture: 'Сначала снимаем регуляторный и инженерный риск, затем фиксируем диапазон бюджета.',
+    recommendation: ['pylon-signs', 'roof-installations'],
+    proof: 'Risk clarity at pre-sale stage decreases negotiation churn and legal delays.',
+  },
+] as const;
+
+const serviceTitleMap = new Map(SERVICES.map((service) => [service.id, service.title]));
 
 export default function Pricing() {
-  const { locale } = useLanguage();
-
   return (
-    <section id="pricing" className="section-padding bg-surface relative border-t border-outline">
-      <div className="section-container">
-        <div className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div className="max-w-2xl">
-            <h2 className="text-4xl lg:text-7xl font-headline font-black uppercase tracking-tighter leading-[0.8] text-on-surface mb-6">{t(locale, copy.title)}<span className="text-accent">.</span></h2>
-            <p className="text-on-surface-variant font-light text-lg">{t(locale, copy.intro)}</p>
+    <section className="section-padding border-t border-outline bg-surface">
+      <div className="section-container space-y-14">
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <div className="space-y-5">
+            <p className="verge-mono-label text-primary">Подход по сегменту</p>
+            <h2 className="geist-display-lg md:text-[48px] text-on-surface">
+              Бюджет считается по-разному для одиночной точки, сети и сложного объекта.
+            </h2>
           </div>
-          <div className="h-px grow bg-outline mx-12 hidden md:block mb-4" />
+          <p className="max-w-3xl text-[18px] leading-[1.7] text-on-surface-variant">
+            Вместо абстрактных пакетов мы показываем три реальных сценария принятия решения: запуск одной точки, масштабирование сети и сложный инженерный проект. Для каждого сценария различаются и аргументы, и порядок расчета.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {PRODUCT_PACKS.map((pkg, idx) => (
-            <motion.div
-              key={idx}
-              initial={false}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className={`p-10 flex flex-col relative transition-all duration-500 border shadow-premium ${
-                pkg.isPopular 
-                  ? 'bg-secondary border-accent' 
-                  : 'bg-surface border-outline hover:border-accent/40'
-              }`}
+        <div className="grid gap-6 xl:grid-cols-3">
+          {scenarios.map((scenario) => (
+            <article
+              key={scenario.id}
+              className="flex h-full flex-col rounded-[var(--radius-12)] border border-outline bg-canvas-soft p-7 shadow-sm"
             >
-              {pkg.isPopular && (
-                <div className="absolute -top-4 left-10 bg-accent text-on-accent text-[10px] font-black px-4 py-2 uppercase tracking-widest shadow-neon">
-                  {t(locale, copy.recommended)}
-                </div>
-              )}
-              
-              <div className="mb-12">
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant mb-4 block">
-                  {pkg.target} • {t(locale, copy.tier)}
+              <div className="flex items-center justify-between gap-4">
+                <span className="verge-mono-label text-primary">{scenario.label}</span>
+                <span className="rounded-full border border-outline px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-on-surface-variant">
+                  fit
                 </span>
-                <h3 className="text-3xl font-headline font-black text-on-surface uppercase tracking-tight mb-4">
-                  {pkg.name}
-                </h3>
-                <p className="text-sm font-light text-on-surface-variant leading-relaxed">
-                  {pkg.description}
-                </p>
               </div>
 
-              <div className="mb-12">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 text-on-surface-variant/60">{t(locale, copy.entryPrice)}</p>
-                <p className="text-4xl font-headline font-black text-on-surface">{pkg.priceStart}</p>
+              <h3 className="mt-6 text-[28px] font-black uppercase tracking-tight text-on-surface">
+                {scenario.title}
+              </h3>
+              <p className="mt-4 text-[15px] leading-7 text-on-surface-variant">{scenario.audience}</p>
+
+              <div className="mt-8 rounded-[var(--radius-8)] border border-outline bg-surface px-5 py-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-on-surface-variant">Что считать первым</p>
+                <p className="mt-3 text-[15px] leading-7 text-on-surface">{scenario.posture}</p>
               </div>
 
-              <div className="flex-1 mb-12">
-                <ul className="space-y-4">
-                  {pkg.features.map((feature, fIdx) => (
-                    <li key={fIdx} className="flex items-start gap-4">
-                      <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-accent" />
-                      <span className="text-sm font-light text-on-surface-variant leading-relaxed">{feature}</span>
+              <div className="mt-8">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-on-surface-variant">Чаще всего подходят</p>
+                <ul className="mt-4 space-y-3">
+                  {scenario.recommendation.map((serviceId) => (
+                    <li key={serviceId} className="flex gap-3 text-[14px] leading-6 text-on-surface-variant">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                      <span>{serviceTitleMap.get(serviceId)}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <button className={`w-full py-5 font-black uppercase tracking-widest text-[10px] transition-all flex justify-center items-center gap-4 shadow-sm hover:shadow-premium ${
-                pkg.isPopular 
-                  ? 'bg-accent text-on-accent hover:bg-on-surface hover:text-surface' 
-                  : 'bg-on-surface text-surface hover:bg-accent hover:text-on-accent'
-              }`}>
-                {t(locale, copy.initialize)} {pkg.name}
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </motion.div>
+              <blockquote className="mt-8 border-l border-primary/30 pl-4 text-[13px] italic leading-6 text-on-surface-variant/80">
+                {scenario.proof}
+              </blockquote>
+
+              <div className="mt-auto pt-8">
+                <Link href="/calculator" className="geist-button-primary h-[52px] w-full group">
+                  <span>Открыть калькулятор</span>
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </article>
           ))}
         </div>
       </div>

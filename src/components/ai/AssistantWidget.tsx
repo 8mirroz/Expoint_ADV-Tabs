@@ -92,16 +92,16 @@ export default function AssistantWidget() {
           onClick={() => setIsOpen(true)}
           className="fixed bottom-8 right-8 w-20 h-20 bg-secondary border-2 border-accent/30 text-white rounded-full flex items-center justify-center shadow-2xl z-50 group hover:border-accent transition-colors animate-assistant-float"
         >
-          <div className="absolute inset-0 bg-accent/10 rounded-full animate-ping opacity-20" />
-          <div className="absolute inset-0 bg-accent/20 rounded-full blur-xl animate-assistant-glow" />
+          <div className="absolute inset-0 bg-accent/10 rounded-full opacity-20 group-hover:animate-ping" />
+          <div className="absolute inset-0 bg-accent/20 rounded-full blur-xl transition-opacity group-hover:opacity-100 opacity-60" />
           
           <div className="relative z-10 flex flex-col items-center">
             <Cpu className="w-8 h-8 text-accent group-hover:scale-110 transition-transform" />
-            <Sparkles className="w-3 h-3 text-primary absolute -top-1 -right-1 animate-pulse" />
+            <Sparkles className="w-3 h-3 text-primary absolute -top-1 -right-1 opacity-80 group-hover:animate-pulse" />
           </div>
 
           {/* Technical Ring */}
-          <div className="absolute inset-[2px] border border-white/5 rounded-full border-dashed animate-[spin_10s_linear_infinite]" />
+          <div className="absolute inset-[2px] border border-white/5 rounded-full border-dashed group-hover:animate-[spin_10s_linear_infinite]" />
         </button>
       )}
 

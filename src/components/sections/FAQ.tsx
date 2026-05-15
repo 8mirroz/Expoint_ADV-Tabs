@@ -24,7 +24,18 @@ const FAQS = [
   }
 ];
 
-export default function FAQ() {
+interface FAQItem {
+  q: string;
+  a: string;
+}
+
+interface FAQProps {
+  items?: FAQItem[];
+  titleText?: string;
+  introText?: string;
+}
+
+export default function FAQ({ items = FAQS, titleText, introText }: FAQProps) {
   const { locale } = useLanguage();
   const title = {
     ru: 'Вопросы',
@@ -50,12 +61,15 @@ export default function FAQ() {
     <section className="section-padding bg-secondary relative border-t border-outline">
       <div className="section-container">
         <div className="mb-24">
-          <h2 className="text-4xl lg:text-7xl font-headline font-black uppercase tracking-tighter leading-[0.8] text-on-surface">{t(locale, title)}<span className="text-accent">.</span></h2>
-          <p className="text-on-surface-variant font-light text-lg mt-6">{t(locale, intro)}</p>
+          <h2 className="text-4xl lg:text-7xl font-headline font-black uppercase tracking-tighter leading-[0.8] text-on-surface">
+            {titleText ?? t(locale, title)}
+            <span className="text-accent">.</span>
+          </h2>
+          <p className="text-on-surface-variant font-light text-lg mt-6">{introText ?? t(locale, intro)}</p>
         </div>
 
         <div className="space-y-0 border-t border-outline">
-          {FAQS.map((faq, idx) => {
+          {items.map((faq, idx) => {
             const isOpen = openIdx === idx;
             return (
               <div 

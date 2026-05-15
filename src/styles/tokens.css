@@ -15,7 +15,6 @@
 
   /* Brand & Accent */
   --geist-ink: #171717;
-  --geist-cyan: #50e3c2;
   --geist-highlight-pink: #ff0080;
   --geist-violet: #7928ca;
   --geist-link: #0070f3;
@@ -81,6 +80,26 @@
   --accent: var(--geist-link);            
   --accent-rgb: 0, 112, 243;
   --on-accent: #ffffff;
+
+  /* Accent Warm (de-facto orange used across CTA/hero) */
+  --accent-warm: #FF4D00;
+  --accent-warm-rgb: 255, 77, 0;
+
+  /* ===========================================
+   * CATEGORY COLORS (Service Directions)
+   * =========================================== */
+  --category-volumetric: #FF2D55;
+  --category-lightbox: #007AFF;
+  --category-neon: #FF9500;
+  --category-metal: #FFFFFF;
+  --category-pylon: #FFCC00;
+  --category-roof: #5856D6;
+
+  /* ===========================================
+   * THIRD-PARTY BRAND COLORS
+   * =========================================== */
+  --brand-telegram: #26A5E4;
+  --brand-whatsapp: #25D366;
 
   /* Borders & Rules */
   --outline: var(--geist-hairline);             
@@ -165,7 +184,9 @@
 }
 
 /* ===========================================
- * DARK MODE OVERRIDE (Polarity Flip Support)
+ * DARK MODE OVERRIDE — DEPRECATED
+ * NOTE: Not activated (ThemeProvider: defaultTheme="light", enableSystem=false)
+ * Kept for future reference. Do not rely on these tokens.
  * =========================================== */
 
 [data-theme="dark"], .dark {

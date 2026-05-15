@@ -9,7 +9,8 @@ interface CTASectionProps {
   titleAccent?: string;
   description?: string;
   buttonText: string;
-  buttonHref: string;
+  buttonHref?: string;
+  onClick?: () => void;
   variant?: 'primary' | 'secondary';
 }
 
@@ -22,6 +23,7 @@ export default function CTASection({
   description,
   buttonText,
   buttonHref,
+  onClick,
   variant = 'primary',
 }: CTASectionProps) {
   const isPrimary = variant === 'primary';
@@ -53,17 +55,31 @@ export default function CTASection({
             </p>
           )}
 
-          <Link
-            href={buttonHref}
-            className={`mt-12 group ${
-              isPrimary
-                ? 'geist-button-secondary h-[56px] px-12'
-                : 'geist-button-primary h-[56px] px-12'
-            }`}
-          >
-            <span>{buttonText}</span>
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
+          {onClick ? (
+            <button
+              onClick={onClick}
+              className={`mt-12 inline-flex items-center group ${
+                isPrimary
+                  ? 'geist-button-secondary h-[56px] px-12'
+                  : 'geist-button-primary h-[56px] px-12'
+              }`}
+            >
+              <span>{buttonText}</span>
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </button>
+          ) : (
+            <Link
+              href={buttonHref || '#'}
+              className={`mt-12 inline-flex items-center group ${
+                isPrimary
+                  ? 'geist-button-secondary h-[56px] px-12'
+                  : 'geist-button-primary h-[56px] px-12'
+              }`}
+            >
+              <span>{buttonText}</span>
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          )}
         </motion.div>
       </div>
     </section>

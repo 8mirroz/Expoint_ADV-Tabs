@@ -147,15 +147,6 @@ export default function Process() {
     tt: 'Биш төгәл этап',
   } as const;
 
-  const orderButton = {
-    ru: 'Заказать',
-    en: 'Order',
-    be: 'Замовіць',
-    kk: 'Тапсырыс беру',
-    zh: '订购',
-    ce: 'Заказ ян',
-    tt: 'Заказ бирү',
-  } as const;
 
   return (
     <section 
@@ -197,7 +188,7 @@ export default function Process() {
           </motion.p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-6 border-t border-outline/30 pt-12">
           {PROCESS_STEPS.map((step, index) => (
             <motion.div
               key={index}
@@ -205,67 +196,35 @@ export default function Process() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="flex flex-col gap-8 group cursor-default"
+              className="flex flex-col gap-6 group cursor-default relative"
             >
-              {/* Oversized Step Number with Halftone Animation */}
-              <div className="relative">
-                <motion.span 
-                  initial={{ opacity: 0.8 }}
-                  whileHover={{ 
-                    opacity: 1, 
-                    scale: 1.05,
-                    color: 'var(--primary)',
-                    transition: { duration: 0.4, ease: "easeOut" }
-                  }}
-                  className="geist-display-2xl text-on-surface transition-all duration-500 inline-block"
-                >
+              {/* Animated Top Accent Line */}
+              <div className="absolute -top-12 left-0 w-full h-[1px]">
+                <div className="h-[2px] w-0 bg-primary group-hover:w-full transition-all duration-700 ease-out" />
+              </div>
+
+              {/* Number */}
+              <div>
+                <span className="text-6xl font-bold tracking-tighter text-on-surface/30 group-hover:text-primary transition-colors duration-500 inline-block">
                   {step.id}
-                </motion.span>
+                </span>
               </div>
 
               <div className="space-y-4">
-                <h3 className="geist-display-sm !text-[16px] text-on-surface group-hover:text-accent transition-colors duration-500">
+                <h3 className="geist-display-sm !text-lg text-on-surface group-hover:text-primary transition-colors duration-500">
                   {t(locale, step.title)}
                 </h3>
-                
-                {/* Accent Bar */}
-                <div className="h-[2px] w-8 bg-outline group-hover:bg-accent group-hover:w-16 transition-all duration-500" />
 
-                <div className="space-y-6">
-                  <p className="text-on-surface-variant text-xs md:text-sm leading-relaxed max-w-[200px]">
-                    {t(locale, step.description)}
-                  </p>
+                <p className="text-on-surface-variant text-sm leading-relaxed">
+                  {t(locale, step.description)}
+                </p>
 
-                  {index === 0 && (
-                    <motion.button
-                      whileHover={{ scale: 1.05, x: 5 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => openModal({ context: 'Process: Step 1', source: 'process_section' })}
-                      className="geist-button-primary"
-                    >
-                      {t(locale, orderButton)}
-                    </motion.button>
-                  )}
-                </div>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Technical Detail Overlays */}
-      <div className="absolute bottom-10 left-10 hidden xl:block pointer-events-none">
-        <div className="flex flex-col gap-2 opacity-10">
-          <div className="flex items-center gap-4">
-            <div className="w-8 h-px bg-on-surface" />
-            <span className="text-[10px] font-mono uppercase tracking-widest">Protocol_V.8.4</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-4 h-px bg-on-surface" />
-            <span className="text-[10px] font-mono uppercase tracking-widest">Workflow_Validated</span>
-          </div>
-        </div>
-      </div>
     </section>
   );
 }

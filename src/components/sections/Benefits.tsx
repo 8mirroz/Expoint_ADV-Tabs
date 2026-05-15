@@ -52,10 +52,6 @@ export default function BenefitsAndWorkflow({ segment }: { segment?: SegmentData
         <div className="absolute top-0 right-0 w-1/2 h-full bg-accent/5 transform -skew-x-12 translate-x-32 pointer-events-none"></div>
         <div className="section-container relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface border border-outline text-[10px] font-black uppercase tracking-[0.3em] text-accent mb-8 shadow-sm">
-              <ShieldCheck className="w-3 h-3" />
-              <span>{locale === 'ru' ? 'Протокол соответствия' : locale === 'en' ? 'Compliance Protocol' : 'Протокол соответствия'}</span>
-            </div>
             <h2 className="text-5xl lg:text-7xl font-headline font-black uppercase tracking-tighter leading-none mb-10 text-on-surface">
               Согласование <br/><span className="text-on-surface-variant/60">без компромиссов.</span>
             </h2>
@@ -134,9 +130,6 @@ export default function BenefitsAndWorkflow({ segment }: { segment?: SegmentData
               >
                 <div className="text-8xl font-headline font-black text-on-surface/3 absolute -bottom-4 -right-4 group-hover:text-accent/10 transition-colors select-none">
                   0{index + 1}
-                </div>
-                <div className="text-[10px] font-black text-on-surface-variant tracking-[0.3em] mb-12 block group-hover:text-accent transition-colors">
-                  {step.tag}
                 </div>
                 <div className="w-14 h-14 bg-secondary text-on-surface flex items-center justify-center mb-10 group-hover:bg-accent group-hover:text-on-accent transition-all shadow-md">
                   <step.icon className="w-7 h-7" />

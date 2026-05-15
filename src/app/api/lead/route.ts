@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { leadSchema } from '@/lib/validators/lead';
 import { notifyAll } from '@/lib/services/notifications/orchestrator';
+import { db } from '@/db';
+import { leads } from '@/db/schema';
 
 export async function POST(req: Request) {
   try {
@@ -47,6 +49,21 @@ export async function POST(req: Request) {
 
     // 3. 152-FZ Compliance Logging
     console.log(`[ASH] Lead received. 152-FZ Consent Logged: ${name} (${phone})`);
+
+    // 3.5 Save to Database
+    if (process.env.POSTGRES_URL) {
+      try {
+        await db.insert(leads).values({
+          name,
+          phone,
+          source: source || 'Website',
+          context: context || null,
+          segment: validatedData.data.segment || null,
+        });
+      } catch (dbError) {
+        console.error('[API/Lead] Failed to save to database:', dbError);
+      }
+    }
 
     // 4. Call orchestrator to fan out notifications
     await notifyAll({

@@ -9,6 +9,7 @@ interface HeroGenericProps {
   titleAccent?: string;
   subtitle?: string;
   description?: string;
+  highlights?: string[];
   ctaText?: string;
   ctaHref?: string;
   secondaryCtaText?: string;
@@ -26,6 +27,7 @@ export default function HeroGeneric({
   titleAccent,
   subtitle,
   description,
+  highlights,
   ctaText,
   ctaHref = '#',
   secondaryCtaText,
@@ -35,11 +37,22 @@ export default function HeroGeneric({
 }: HeroGenericProps) {
   return (
     <section
-      className={`relative overflow-hidden bg-background ${compact ? 'section-padding' : 'section-padding'}`}
+      className={`relative overflow-hidden bg-background ${compact ? 'py-16' : 'section-padding min-h-[70vh] flex items-center'}`}
     >
+      {/* Blueprint Grid Background */}
+      <div className="absolute inset-0 z-0 opacity-[0.03] bg-[url('/img/patterns/grid.svg')] bg-[length:40px_40px] pointer-events-none" />
+
       {/* Mesh Gradient Atmosphere */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-[1400px] z-0 pointer-events-none">
-        <div className="geist-mesh-gradient absolute inset-0 transform -translate-y-1/2" />
+        <div className="geist-mesh-gradient absolute inset-0 transform -translate-y-1/2 opacity-60" />
+      </div>
+
+      {/* Technical Label (HUD style) */}
+      <div className="absolute top-10 right-10 z-10 hidden lg:block">
+        <div className="flex flex-col items-end gap-1 opacity-20">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-on-surface">LOC: 55.7558° N, 37.6173° E</span>
+          <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-on-surface">EST: 2018 / REV: 4.0</span>
+        </div>
       </div>
 
       {/* Optional background image with overlay */}
@@ -79,6 +92,19 @@ export default function HeroGeneric({
             <p className="mt-8 max-w-2xl text-[18px] md:text-[20px] leading-[1.6] text-on-surface-variant">
               {description}
             </p>
+          )}
+
+          {highlights && highlights.length > 0 && (
+            <div className="mt-10 grid gap-3 md:grid-cols-3">
+              {highlights.map((item) => (
+                <div
+                  key={item}
+                  className="rounded-[var(--radius-8)] border border-outline bg-surface/80 px-4 py-4 text-sm leading-relaxed text-on-surface shadow-sm"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
           )}
 
           {(ctaText || secondaryCtaText) && (

@@ -39,7 +39,7 @@ export function ServicePricing({ service }: ServicePricingProps) {
                <span className="text-primary verge-mono-label">Base_Rate</span>
                <div className="flex items-baseline gap-2">
                  <span className="verge-mono-label mr-1">от</span>
-                 <span className="geist-display-xl text-on-surface">{service.basePrice.toLocaleString('ru-RU')}</span>
+                 <span className="geist-display-xl font-bold text-on-surface">{service.basePrice.toLocaleString('ru-RU')}</span>
                  <span className="text-primary text-xl font-semibold">{service.priceUnit}</span>
                </div>
                <p className="text-on-surface-variant text-[15px] font-light max-w-sm">

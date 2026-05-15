@@ -66,7 +66,6 @@ export default function AcademyPage() {
       breadcrumbs={[{ label: 'Академия', href: '/academy' }]}
     >
       <HeroGeneric
-        subtitle="Академия"
         title="Знания для"
         titleAccent="вашего бизнеса"
         description="Статьи, гайды и чек-листы от инженеров Expoint ADV. Практические знания о наружной рекламе, материалах и законодательстве."

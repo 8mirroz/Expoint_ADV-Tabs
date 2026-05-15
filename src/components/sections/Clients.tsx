@@ -21,9 +21,9 @@ const clients = [
 
 export default function Clients() {
   return (
-    <section className="py-24 bg-background border-y border-white/5 overflow-hidden">
+    <section className="py-24 bg-black border-y border-white/5 overflow-hidden">
       <div className="container mx-auto px-4 mb-20 text-center">
-        <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-bold mb-4 opacity-50">
+        <p className="text-[10px] uppercase tracking-[0.4em] text-white/50 font-bold mb-4 opacity-50">
           Наши партнеры
         </p>
         <h2 className="text-2xl md:text-3xl font-headline font-bold text-white/90 tracking-tight">
@@ -45,7 +45,7 @@ export default function Clients() {
                   width={200}
                   height={60}
                   unoptimized
-                  className="h-full w-auto object-contain opacity-100 transition-opacity duration-500"
+                  className="h-full w-auto object-contain opacity-50 hover:opacity-100 transition-opacity duration-500 brightness-0 invert"
                 />
               </div>
             </div>
@@ -53,8 +53,8 @@ export default function Clients() {
         </Marquee>
         
         {/* Premium Fading edges */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-linear-to-r from-background via-background/80 to-transparent z-20"></div>
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-linear-to-l from-background via-background/80 to-transparent z-20"></div>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-linear-to-r from-black via-black/80 to-transparent z-20"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-linear-to-l from-black via-black/80 to-transparent z-20"></div>
       </div>
     </section>
   );

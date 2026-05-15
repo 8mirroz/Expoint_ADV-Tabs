@@ -49,7 +49,6 @@ export default function PortfolioPage() {
       withMesh
     >
       <HeroGeneric
-        subtitle="Портфолио"
         title="Наши"
         titleAccent="работы"
         description="Более 850 реализованных проектов: от компактных неоновых вывесок до крышных установок."
@@ -57,8 +56,6 @@ export default function PortfolioPage() {
       />
 
       <GalleryGrid
-        subtitle="Галерея проектов"
-        title="Реализованные решения"
         items={galleryItems}
         filters={filters}
       />

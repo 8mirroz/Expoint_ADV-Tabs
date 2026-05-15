@@ -33,7 +33,7 @@ function LenisGSAPSync() {
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   return (
-    <ReactLenis root options={{ 
+    <ReactLenis root autoRaf={false} options={{ 
       lerp: 0.08, // Extra smooth
       duration: 1.2,
       smoothWheel: true,

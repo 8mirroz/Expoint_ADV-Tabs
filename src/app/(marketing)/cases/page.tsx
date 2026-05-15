@@ -30,7 +30,6 @@ export default function CasesPage() {
       withMesh
     >
       <HeroGeneric
-        subtitle="Кейсы"
         title="Реальные"
         titleAccent="результаты"
         description="Каждый кейс — это задача клиента, наше решение и измеримые метрики. Изучите наш опыт, чтобы оценить подход."
@@ -38,8 +37,6 @@ export default function CasesPage() {
       />
 
       <CasesArchive
-        subtitle="Архив проектов"
-        title="Все кейсы"
         cases={CASE_STUDIES}
         filters={caseFilters}
       />

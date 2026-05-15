@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { Phone, Mail, MapPin, Clock, MessageCircle, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, MessageCircle, Send, ArrowUpRight } from 'lucide-react';
+import { TechnicalGrid } from '@/components/ui/TechnicalGrid';
 
 interface ContactInfoSectionProps {
   title?: string;
@@ -16,7 +17,7 @@ interface ContactInfoSectionProps {
 }
 
 /**
- * ContactInfoSection — Contact information block with optional inline form.
+ * ContactInfoSection — Premium Bento-style contact block with inline form.
  */
 export default function ContactInfoSection({
   title,
@@ -29,107 +30,216 @@ export default function ContactInfoSection({
   workingHours = 'Пн–Пт: 9:00–19:00, Сб: 10:00–16:00',
   showForm = true,
 }: ContactInfoSectionProps) {
-  const contacts = [
-    { icon: MapPin, label: 'Адрес', value: address, href: '#map' },
-    { icon: Phone, label: 'Телефон', value: phone, href: `tel:${phone.replace(/[\s()-]/g, '')}` },
-    { icon: Mail, label: 'Email', value: email, href: `mailto:${email}` },
-    { icon: MessageCircle, label: 'Telegram', value: telegram, href: `https://t.me/${telegram.replace('@', '')}` },
-    { icon: Send, label: 'WhatsApp', value: 'Написать в WhatsApp', href: `https://wa.me/${whatsapp}` },
-    { icon: Clock, label: 'График', value: workingHours },
-  ];
 
   return (
-    <section className="section-padding bg-background">
-      <div className="section-container">
+    <section className="relative section-padding bg-background overflow-hidden">
+      {/* Technical grid background */}
+      <div className="absolute inset-0 text-on-surface">
+        <TechnicalGrid opacity={0.04} spacing={48} />
+      </div>
+      {/* Subtle top gradient fade */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
+
+      <div className="section-container relative z-20">
+        {/* Header */}
         {(title || subtitle) && (
-          <div className="mb-16">
+          <motion.div
+            className="mb-14"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             {subtitle && (
               <p className="verge-kicker text-primary mb-4">{subtitle}</p>
             )}
             {title && (
-              <h2 className="font-headline text-[36px] md:text-[52px] lg:text-[64px] uppercase leading-[0.85] text-on-surface max-w-3xl">
+              <h2 className="font-headline text-[40px] md:text-[56px] lg:text-[72px] uppercase leading-[0.88] tracking-tight text-on-surface">
                 {title}
               </h2>
             )}
-          </div>
+          </motion.div>
         )}
 
-        <div className={`grid gap-12 ${showForm ? 'lg:grid-cols-[1fr_1.2fr]' : 'max-w-2xl'}`}>
-          {/* Contact cards */}
-          <div className="grid sm:grid-cols-2 gap-4">
-            {contacts.map((contact, index) => (
-              <motion.div
-                key={contact.label}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05, duration: 0.4 }}
-              >
-                {contact.href ? (
-                  <a
-                    href={contact.href}
-                    className="flex items-start gap-4 p-5 bg-surface rounded-[var(--radius-12)] border border-outline hover:border-primary/30 hover:shadow-sm transition-all group"
-                  >
-                    <contact.icon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <div>
-                      <p className="verge-mono-label text-on-surface-variant mb-1">{contact.label}</p>
-                      <p className="text-[14px] font-medium text-on-surface group-hover:text-primary transition-colors">{contact.value}</p>
-                    </div>
-                  </a>
-                ) : (
-                  <div className="flex items-start gap-4 p-5 bg-surface rounded-[var(--radius-12)] border border-outline">
-                    <contact.icon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <div>
-                      <p className="verge-mono-label text-on-surface-variant mb-1">{contact.label}</p>
-                      <p className="text-[14px] font-medium text-on-surface">{contact.value}</p>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
+        <div className={`grid gap-6 ${showForm ? 'lg:grid-cols-[1fr_420px]' : ''}`}>
+          
+          {/* ─── LEFT: Bento Grid ─── */}
+          <div className="grid grid-cols-2 gap-3 auto-rows-auto">
 
-          {/* Inline form */}
-          {showForm && (
-            <motion.form
-              initial={{ opacity: 0, y: 20 }}
+            {/* LARGE: Address */}
+            <motion.a
+              href="#map"
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ delay: 0.0, duration: 0.4 }}
+              className="col-span-2 group relative flex items-end justify-between p-6 bg-surface border border-outline rounded-[var(--radius-12)] hover:border-on-surface/20 hover:shadow-md transition-all duration-300 overflow-hidden min-h-[120px]"
+            >
+              {/* Background label */}
+              <span className="absolute top-4 right-6 text-[80px] font-black opacity-[0.03] uppercase leading-none pointer-events-none select-none">
+                ADR
+              </span>
+              <div>
+                <p className="verge-mono-label text-on-surface-variant mb-2">Адрес производства</p>
+                <p className="text-[18px] md:text-[22px] font-semibold text-on-surface tracking-tight group-hover:text-primary transition-colors">
+                  {address}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 shrink-0 ml-4">
+                <MapPin className="w-5 h-5 text-on-surface-variant" />
+                <ArrowUpRight className="w-4 h-4 text-on-surface-variant opacity-0 group-hover:opacity-100 transition-all -translate-x-1 group-hover:translate-x-0" />
+              </div>
+            </motion.a>
+
+            {/* MEDIUM: Phone */}
+            <motion.a
+              href={`tel:${phone.replace(/[\s()-]/g, '')}`}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.05, duration: 0.4 }}
+              className="group relative flex flex-col justify-between p-5 bg-surface border border-outline rounded-[var(--radius-12)] hover:border-on-surface/20 hover:shadow-md transition-all duration-300 overflow-hidden min-h-[130px]"
+            >
+              <span className="absolute bottom-2 right-3 text-[56px] font-black opacity-[0.04] leading-none pointer-events-none select-none">TEL</span>
+              <p className="verge-mono-label text-on-surface-variant">Телефон</p>
+              <div>
+                <p className="text-[15px] md:text-[17px] font-semibold font-mono text-on-surface group-hover:text-primary transition-colors">
+                  {phone}
+                </p>
+                <div className="flex items-center gap-1 mt-1">
+                  <Phone className="w-3.5 h-3.5 text-on-surface-variant/50" />
+                  <ArrowUpRight className="w-3 h-3 text-on-surface-variant opacity-0 group-hover:opacity-70 transition-all -translate-x-0.5 group-hover:translate-x-0" />
+                </div>
+              </div>
+            </motion.a>
+
+            {/* MEDIUM: Email */}
+            <motion.a
+              href={`mailto:${email}`}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.08, duration: 0.4 }}
+              className="group relative flex flex-col justify-between p-5 bg-surface border border-outline rounded-[var(--radius-12)] hover:border-on-surface/20 hover:shadow-md transition-all duration-300 overflow-hidden min-h-[130px]"
+            >
+              <span className="absolute bottom-2 right-3 text-[56px] font-black opacity-[0.04] leading-none pointer-events-none select-none">@</span>
+              <p className="verge-mono-label text-on-surface-variant">Email</p>
+              <div>
+                <p className="text-[15px] font-semibold text-on-surface group-hover:text-primary transition-colors break-all">
+                  {email}
+                </p>
+                <div className="flex items-center gap-1 mt-1">
+                  <Mail className="w-3.5 h-3.5 text-on-surface-variant/50" />
+                  <ArrowUpRight className="w-3 h-3 text-on-surface-variant opacity-0 group-hover:opacity-70 transition-all -translate-x-0.5 group-hover:translate-x-0" />
+                </div>
+              </div>
+            </motion.a>
+
+            {/* SMALL: Telegram */}
+            <motion.a
+              href={`https://t.me/${telegram.replace('@', '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.11, duration: 0.4 }}
+              className="group flex flex-col justify-between p-5 border rounded-[var(--radius-12)] hover:shadow-md transition-all duration-300 min-h-[100px]"
+              style={{ backgroundColor: 'rgba(38,165,228,0.10)', borderColor: 'rgba(38,165,228,0.25)' }}
+            >
+              <p className="verge-mono-label" style={{ color: 'rgba(38,165,228,0.7)' }}>Telegram</p>
+              <div className="flex items-center justify-between">
+                <p className="text-[15px] font-semibold" style={{ color: '#26A5E4' }}>{telegram}</p>
+                <MessageCircle className="w-4 h-4" style={{ color: 'rgba(38,165,228,0.5)' }} />
+              </div>
+            </motion.a>
+
+            {/* SMALL: WhatsApp */}
+            <motion.a
+              href={`https://wa.me/${whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.14, duration: 0.4 }}
+              className="group flex flex-col justify-between p-5 border rounded-[var(--radius-12)] hover:shadow-md transition-all duration-300 min-h-[100px]"
+              style={{ backgroundColor: 'rgba(37,211,102,0.10)', borderColor: 'rgba(37,211,102,0.25)' }}
+            >
+              <p className="verge-mono-label" style={{ color: 'rgba(37,211,102,0.7)' }}>WhatsApp</p>
+              <div className="flex items-center justify-between">
+                <p className="text-[15px] font-semibold" style={{ color: '#25D366' }}>Написать</p>
+                <Send className="w-4 h-4" style={{ color: 'rgba(37,211,102,0.5)' }} />
+              </div>
+            </motion.a>
+
+            {/* WIDE: Working Hours */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.17, duration: 0.4 }}
+              className="col-span-2 flex items-center justify-between p-5 bg-surface/50 border border-outline/60 rounded-[var(--radius-12)]"
+            >
+              <div className="flex items-center gap-3">
+                <Clock className="w-4 h-4 text-on-surface-variant/60 shrink-0" />
+                <p className="verge-mono-label text-on-surface-variant">График работы</p>
+              </div>
+              <p className="text-[14px] font-medium text-on-surface">{workingHours}</p>
+            </motion.div>
+
+          </div>
+
+          {/* ─── RIGHT: Premium Glass Form ─── */}
+          {showForm && (
+            <motion.form
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="bg-surface rounded-[var(--radius-16)] border border-outline p-8"
+              className="relative flex flex-col bg-surface/60 backdrop-blur-xl rounded-[var(--radius-16)] border border-outline/80 p-7 overflow-hidden"
               onSubmit={(e) => e.preventDefault()}
             >
-              <h3 className="font-sans font-bold text-[20px] text-on-surface mb-6">
-                Напишите нам
-              </h3>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Ваше имя"
-                  className="w-full h-12 px-4 bg-background border border-outline rounded-[var(--radius-8)] text-on-surface text-[14px] placeholder:text-on-surface-variant/50 focus:border-primary focus:outline-none transition-colors"
-                />
-                <input
-                  type="tel"
-                  placeholder="Телефон"
-                  className="w-full h-12 px-4 bg-background border border-outline rounded-[var(--radius-8)] text-on-surface text-[14px] placeholder:text-on-surface-variant/50 focus:border-primary focus:outline-none transition-colors"
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="w-full h-12 px-4 bg-background border border-outline rounded-[var(--radius-8)] text-on-surface text-[14px] placeholder:text-on-surface-variant/50 focus:border-primary focus:outline-none transition-colors"
-                />
+              {/* Subtle gradient top accent */}
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-on-surface/10 to-transparent" />
+
+              <div className="mb-6">
+                <h3 className="font-sans font-bold text-[20px] text-on-surface tracking-tight">
+                  Напишите нам
+                </h3>
+                <p className="text-on-surface-variant text-[13px] mt-1">Ответим в течение рабочего дня</p>
+              </div>
+
+              <div className="flex flex-col gap-3 flex-1">
+                {[
+                  { type: 'text', placeholder: 'Ваше имя' },
+                  { type: 'tel', placeholder: 'Телефон' },
+                  { type: 'email', placeholder: 'Email' },
+                ].map((field) => (
+                  <input
+                    key={field.placeholder}
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    className="w-full h-11 px-4 bg-background/50 border border-outline/60 rounded-[var(--radius-8)] text-on-surface text-[14px] placeholder:text-on-surface-variant/40 focus:border-on-surface/30 focus:bg-background focus:outline-none transition-all"
+                  />
+                ))}
                 <textarea
                   placeholder="Опишите ваш проект"
                   rows={4}
-                  className="w-full px-4 py-3 bg-background border border-outline rounded-[var(--radius-8)] text-on-surface text-[14px] placeholder:text-on-surface-variant/50 focus:border-primary focus:outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-background/50 border border-outline/60 rounded-[var(--radius-8)] text-on-surface text-[14px] placeholder:text-on-surface-variant/40 focus:border-on-surface/30 focus:bg-background focus:outline-none transition-all resize-none"
                 />
                 <button
                   type="submit"
-                  className="w-full h-12 bg-primary text-on-primary rounded-[var(--radius-8)] font-mono font-semibold uppercase tracking-[1px] text-[12px] hover:opacity-90 transition-opacity"
+                  className="mt-1 w-full h-11 bg-on-surface text-background rounded-[var(--radius-8)] font-mono font-semibold uppercase tracking-[1.5px] text-[11px] hover:bg-on-surface/85 active:scale-[0.99] transition-all"
                 >
                   Отправить заявку
                 </button>
               </div>
+
+              {/* Bottom legal note */}
+              <p className="text-[11px] text-on-surface-variant/40 mt-4 text-center">
+                Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+              </p>
             </motion.form>
           )}
         </div>
