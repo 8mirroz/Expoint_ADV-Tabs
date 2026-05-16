@@ -110,7 +110,7 @@ export function ServiceLandingContent({ service }: ServiceLandingContentProps) {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="h-px w-8 bg-accent" />
-              <span className="text-accent font-black uppercase tracking-[0.3em] text-[10px]">Comparative Analysis</span>
+              <span className="text-accent font-black uppercase tracking-[0.3em] text-xs">Comparative Analysis</span>
             </div>
             <h2 className="section-title text-5xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9]">
               {locale === 'ru' ? 'Битва' : 'Battle of'} <br/> 

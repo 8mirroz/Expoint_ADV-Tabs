@@ -23,7 +23,7 @@ export default function Clients() {
   return (
     <section className="py-24 bg-black border-y border-white/5 overflow-hidden">
       <div className="container mx-auto px-4 mb-20 text-center">
-        <p className="text-[10px] uppercase tracking-[0.4em] text-white/50 font-bold mb-4 opacity-50">
+        <p className="text-xs uppercase tracking-[0.4em] text-white/50 font-bold mb-4 opacity-50">
           Наши партнеры
         </p>
         <h2 className="text-2xl md:text-3xl font-headline font-bold text-white/90 tracking-tight">

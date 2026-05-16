@@ -65,7 +65,7 @@ export function DeliveryCalendar({ onDateChange }: DeliveryCalendarProps) {
     // Headers
     dayNames.forEach(name => (
       days.push(
-        <div key={`header-${name}`} className="flex h-8 w-8 items-center justify-center text-[10px] font-bold text-white/30 uppercase">
+        <div key={`header-${name}`} className="flex h-8 w-8 items-center justify-center text-xs font-bold text-white/30 uppercase">
           {name}
         </div>
       )
@@ -121,7 +121,7 @@ export function DeliveryCalendar({ onDateChange }: DeliveryCalendarProps) {
         <div className="flex-1">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 border border-white/10 mb-4">
              <div className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
-             <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">Production Pipeline</span>
+             <span className="text-xs font-bold uppercase tracking-widest text-white/50">Production Pipeline</span>
           </div>
           
           <h2 className="text-3xl font-black tracking-tight text-white md:text-4xl">
@@ -142,7 +142,7 @@ export function DeliveryCalendar({ onDateChange }: DeliveryCalendarProps) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                    </svg>
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-white/30">Дата готовности</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-white/30">Дата готовности</span>
               </div>
               <p className="text-2xl font-black text-white">
                 {readyDate.toLocaleDateString("ru-RU", { day: 'numeric', month: 'long' })}
@@ -157,7 +157,7 @@ export function DeliveryCalendar({ onDateChange }: DeliveryCalendarProps) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                    </svg>
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-white/30">Дата доставки</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-white/30">Дата доставки</span>
               </div>
               <p className="text-2xl font-black text-white">
                 {deliveryDate.toLocaleDateString("ru-RU", { day: 'numeric', month: 'long' })}
@@ -181,8 +181,8 @@ export function DeliveryCalendar({ onDateChange }: DeliveryCalendarProps) {
                   </span>
                 </div>
                 <div className="flex -space-x-2">
-                   <div className="h-8 w-8 rounded-full border-2 border-black bg-indigo-500 flex items-center justify-center text-[10px] font-bold text-white">G</div>
-                   <div className="h-8 w-8 rounded-full border-2 border-black bg-emerald-500 flex items-center justify-center text-[10px] font-bold text-white">D</div>
+                   <div className="h-8 w-8 rounded-full border-2 border-black bg-indigo-500 flex items-center justify-center text-xs font-bold text-white">G</div>
+                   <div className="h-8 w-8 rounded-full border-2 border-black bg-emerald-500 flex items-center justify-center text-xs font-bold text-white">D</div>
                 </div>
               </div>
               
@@ -193,7 +193,7 @@ export function DeliveryCalendar({ onDateChange }: DeliveryCalendarProps) {
           </div>
           
           {/* Decorative tag */}
-          <div className="absolute -top-4 -right-4 rotate-12 rounded-lg bg-indigo-500 px-3 py-1 text-[10px] font-black uppercase text-white shadow-xl shadow-indigo-500/40">
+          <div className="absolute -top-4 -right-4 rotate-12 rounded-lg bg-indigo-500 px-3 py-1 text-xs font-black uppercase text-white shadow-xl shadow-indigo-500/40">
              Express Slot
           </div>
         </div>

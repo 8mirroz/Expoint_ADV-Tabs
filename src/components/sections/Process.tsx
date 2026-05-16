@@ -153,20 +153,20 @@ export default function Process() {
       id="process" 
       className="section-padding bg-background border-b border-outline relative overflow-hidden"
     >
-      {/* Cinematic Background Text */}
+      {/* Cinematic Background Text - Safer size */}
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none opacity-[0.03]">
-        <h2 className="text-[15vw] font-black tracking-tighter leading-none m-0 text-on-surface whitespace-nowrap">
+        <h2 className="text-[8vw] font-black tracking-tighter leading-none m-0 text-on-surface whitespace-nowrap">
           {t(locale, bgTitle)}
         </h2>
       </div>
 
-      <div className="section-container max-w-7xl mx-auto relative z-10 px-6">
-        <header className="mb-32 text-center">
+      <div className="section-container max-w-7xl mx-auto relative z-10">
+        <header className="mb-20 text-center">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="geist-display-lg text-on-surface"
+            className="geist-display-xl text-on-surface"
           >
             {t(locale, mainHeading)}
           </motion.h2>
@@ -182,7 +182,7 @@ export default function Process() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="text-on-surface-variant verge-mono-label"
+            className="text-on-surface-variant text-sm tracking-widest uppercase"
           >
             {t(locale, subHeading)}
           </motion.p>
@@ -205,9 +205,17 @@ export default function Process() {
 
               {/* Number */}
               <div>
-                <span className="text-6xl font-bold tracking-tighter text-on-surface/30 group-hover:text-primary transition-colors duration-500 inline-block">
+                <motion.span 
+                  whileHover={{ 
+                    opacity: 0.4, 
+                    scale: 1.05,
+                    color: 'var(--primary)',
+                    transition: { duration: 0.4, ease: "easeOut" }
+                  }}
+                  className="text-6xl font-bold tracking-tighter text-on-surface/30 group-hover:text-primary transition-colors duration-500 inline-block"
+                >
                   {step.id}
-                </span>
+                </motion.span>
               </div>
 
               <div className="space-y-4">
@@ -218,13 +226,11 @@ export default function Process() {
                 <p className="text-on-surface-variant text-sm leading-relaxed">
                   {t(locale, step.description)}
                 </p>
-
               </div>
             </motion.div>
           ))}
         </div>
       </div>
-
     </section>
   );
 }

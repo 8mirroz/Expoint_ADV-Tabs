@@ -54,7 +54,7 @@ export default function ContactInfoSection({
               <p className="verge-kicker text-primary mb-4">{subtitle}</p>
             )}
             {title && (
-              <h2 className="font-headline text-[40px] md:text-[56px] lg:text-[72px] uppercase leading-[0.88] tracking-tight text-on-surface">
+              <h2 className="geist-display-2xl uppercase text-on-surface">
                 {title}
               </h2>
             )}
@@ -81,7 +81,7 @@ export default function ContactInfoSection({
               </span>
               <div>
                 <p className="verge-mono-label text-on-surface-variant mb-2">Адрес производства</p>
-                <p className="text-[18px] md:text-[22px] font-semibold text-on-surface tracking-tight group-hover:text-primary transition-colors">
+                <p className="text-lg md:text-xl font-semibold text-on-surface tracking-tight group-hover:text-primary transition-colors">
                   {address}
                 </p>
               </div>
@@ -103,7 +103,7 @@ export default function ContactInfoSection({
               <span className="absolute bottom-2 right-3 text-[56px] font-black opacity-[0.04] leading-none pointer-events-none select-none">TEL</span>
               <p className="verge-mono-label text-on-surface-variant">Телефон</p>
               <div>
-                <p className="text-[15px] md:text-[17px] font-semibold font-mono text-on-surface group-hover:text-primary transition-colors">
+                <p className="text-base md:text-base font-semibold font-mono text-on-surface group-hover:text-primary transition-colors">
                   {phone}
                 </p>
                 <div className="flex items-center gap-1 mt-1">
@@ -125,7 +125,7 @@ export default function ContactInfoSection({
               <span className="absolute bottom-2 right-3 text-[56px] font-black opacity-[0.04] leading-none pointer-events-none select-none">@</span>
               <p className="verge-mono-label text-on-surface-variant">Email</p>
               <div>
-                <p className="text-[15px] font-semibold text-on-surface group-hover:text-primary transition-colors break-all">
+                <p className="text-base font-semibold text-on-surface group-hover:text-primary transition-colors break-all">
                   {email}
                 </p>
                 <div className="flex items-center gap-1 mt-1">
@@ -145,12 +145,12 @@ export default function ContactInfoSection({
               viewport={{ once: true }}
               transition={{ delay: 0.11, duration: 0.4 }}
               className="group flex flex-col justify-between p-5 border rounded-[var(--radius-12)] hover:shadow-md transition-all duration-300 min-h-[100px]"
-              style={{ backgroundColor: 'rgba(38,165,228,0.10)', borderColor: 'rgba(38,165,228,0.25)' }}
+              style={{ backgroundColor: 'color-mix(in oklab, var(--brand-telegram) 10%, transparent)', borderColor: 'color-mix(in oklab, var(--brand-telegram) 25%, transparent)' }}
             >
-              <p className="verge-mono-label" style={{ color: 'rgba(38,165,228,0.7)' }}>Telegram</p>
+              <p className="verge-mono-label" style={{ color: 'color-mix(in oklab, var(--brand-telegram) 70%, transparent)' }}>Telegram</p>
               <div className="flex items-center justify-between">
-                <p className="text-[15px] font-semibold" style={{ color: '#26A5E4' }}>{telegram}</p>
-                <MessageCircle className="w-4 h-4" style={{ color: 'rgba(38,165,228,0.5)' }} />
+                <p className="text-base font-semibold" style={{ color: 'var(--brand-telegram)' }}>{telegram}</p>
+                <MessageCircle className="w-4 h-4" style={{ color: 'color-mix(in oklab, var(--brand-telegram) 50%, transparent)' }} />
               </div>
             </motion.a>
 
@@ -164,12 +164,12 @@ export default function ContactInfoSection({
               viewport={{ once: true }}
               transition={{ delay: 0.14, duration: 0.4 }}
               className="group flex flex-col justify-between p-5 border rounded-[var(--radius-12)] hover:shadow-md transition-all duration-300 min-h-[100px]"
-              style={{ backgroundColor: 'rgba(37,211,102,0.10)', borderColor: 'rgba(37,211,102,0.25)' }}
+              style={{ backgroundColor: 'color-mix(in oklab, var(--brand-whatsapp) 10%, transparent)', borderColor: 'color-mix(in oklab, var(--brand-whatsapp) 25%, transparent)' }}
             >
-              <p className="verge-mono-label" style={{ color: 'rgba(37,211,102,0.7)' }}>WhatsApp</p>
+              <p className="verge-mono-label" style={{ color: 'color-mix(in oklab, var(--brand-whatsapp) 70%, transparent)' }}>WhatsApp</p>
               <div className="flex items-center justify-between">
-                <p className="text-[15px] font-semibold" style={{ color: '#25D366' }}>Написать</p>
-                <Send className="w-4 h-4" style={{ color: 'rgba(37,211,102,0.5)' }} />
+                <p className="text-base font-semibold" style={{ color: 'var(--brand-whatsapp)' }}>Написать</p>
+                <Send className="w-4 h-4" style={{ color: 'color-mix(in oklab, var(--brand-whatsapp) 50%, transparent)' }} />
               </div>
             </motion.a>
 
@@ -185,7 +185,7 @@ export default function ContactInfoSection({
                 <Clock className="w-4 h-4 text-on-surface-variant/60 shrink-0" />
                 <p className="verge-mono-label text-on-surface-variant">График работы</p>
               </div>
-              <p className="text-[14px] font-medium text-on-surface">{workingHours}</p>
+              <p className="text-sm font-medium text-on-surface">{workingHours}</p>
             </motion.div>
 
           </div>
@@ -204,10 +204,10 @@ export default function ContactInfoSection({
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-on-surface/10 to-transparent" />
 
               <div className="mb-6">
-                <h3 className="font-sans font-bold text-[20px] text-on-surface tracking-tight">
+                <h3 className="font-sans font-bold text-xl text-on-surface tracking-tight">
                   Напишите нам
                 </h3>
-                <p className="text-on-surface-variant text-[13px] mt-1">Ответим в течение рабочего дня</p>
+                <p className="text-on-surface-variant text-sm mt-1">Ответим в течение рабочего дня</p>
               </div>
 
               <div className="flex flex-col gap-3 flex-1">
@@ -220,24 +220,24 @@ export default function ContactInfoSection({
                     key={field.placeholder}
                     type={field.type}
                     placeholder={field.placeholder}
-                    className="w-full h-11 px-4 bg-background/50 border border-outline/60 rounded-[var(--radius-8)] text-on-surface text-[14px] placeholder:text-on-surface-variant/40 focus:border-on-surface/30 focus:bg-background focus:outline-none transition-all"
+                    className="w-full h-11 px-4 bg-background/50 border border-outline/60 rounded-[var(--radius-8)] text-on-surface text-sm placeholder:text-on-surface-variant/40 focus:border-on-surface/30 focus:bg-background focus:outline-none transition-all"
                   />
                 ))}
                 <textarea
                   placeholder="Опишите ваш проект"
                   rows={4}
-                  className="w-full px-4 py-3 bg-background/50 border border-outline/60 rounded-[var(--radius-8)] text-on-surface text-[14px] placeholder:text-on-surface-variant/40 focus:border-on-surface/30 focus:bg-background focus:outline-none transition-all resize-none"
+                  className="w-full px-4 py-3 bg-background/50 border border-outline/60 rounded-[var(--radius-8)] text-on-surface text-sm placeholder:text-on-surface-variant/40 focus:border-on-surface/30 focus:bg-background focus:outline-none transition-all resize-none"
                 />
                 <button
                   type="submit"
-                  className="mt-1 w-full h-11 bg-on-surface text-background rounded-[var(--radius-8)] font-mono font-semibold uppercase tracking-[1.5px] text-[11px] hover:bg-on-surface/85 active:scale-[0.99] transition-all"
+                  className="mt-1 w-full h-11 bg-on-surface text-background rounded-[var(--radius-8)] font-mono font-semibold uppercase tracking-[1.5px] text-xs hover:bg-on-surface/85 active:scale-[0.99] transition-all"
                 >
                   Отправить заявку
                 </button>
               </div>
 
               {/* Bottom legal note */}
-              <p className="text-[11px] text-on-surface-variant/40 mt-4 text-center">
+              <p className="text-xs text-on-surface-variant/40 mt-4 text-center">
                 Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
               </p>
             </motion.form>

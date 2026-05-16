@@ -36,7 +36,7 @@ export default function Cases() {
                 {t(locale, copy.eyebrow)}
               </span>
             </div>
-            <h2 className="text-[42px] md:text-[72px] font-black uppercase leading-[0.9] tracking-tighter">
+            <h2 className="geist-display-2xl uppercase">
               {t(locale, copy.titleTop)} <br /> 
               <span className="text-on-surface-variant/40">{t(locale, copy.titleBottom)}</span>
             </h2>
@@ -45,7 +45,7 @@ export default function Cases() {
              <p className="text-on-surface-variant font-light leading-relaxed border-l border-accent/20 pl-6 py-2 text-left">
                {t(locale, copy.intro)}
              </p>
-             <button className="group flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-on-surface border border-outline px-10 py-5 bg-surface/50 backdrop-blur-md hover:bg-accent hover:text-white hover:border-accent transition-all duration-500">
+             <button className="group flex items-center gap-4 text-xs font-black uppercase tracking-[0.3em] text-on-surface border border-outline px-10 py-5 bg-surface/50 backdrop-blur-md hover:bg-accent hover:text-white hover:border-accent transition-all duration-500">
                {t(locale, copy.viewAll)}
                <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
              </button>
@@ -88,7 +88,7 @@ export default function Cases() {
                 <div className="relative z-10 h-full p-8 md:p-12 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-8">
-                       <span className="text-[10px] font-black uppercase tracking-widest text-accent border-b border-accent/30 pb-1">
+                       <span className="text-xs font-black uppercase tracking-widest text-accent border-b border-accent/30 pb-1">
                          {item.segment}
                        </span>
                        <div className="w-10 h-10 border border-white/10 flex items-center justify-center bg-black/20 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-500">

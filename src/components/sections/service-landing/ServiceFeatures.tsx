@@ -90,7 +90,7 @@ export function ServiceFeatures({ service, previewVideo }: ServiceFeaturesProps)
                          {feature}
                        </h3>
                        <div className="h-px w-12 bg-primary/20 group-hover:w-full transition-all duration-700" />
-                       <p className="text-on-surface-variant text-[15px] leading-relaxed font-light">
+                       <p className="text-on-surface-variant text-base leading-relaxed font-light">
                          {locale === 'ru' 
                            ? 'Высокотехнологичный процесс производства с использованием сертифицированных материалов и многоуровневым контролем качества на каждом этапе сборки.' 
                            : 'High-tech production process using certified materials and multi-level quality control at every stage of assembly.'}

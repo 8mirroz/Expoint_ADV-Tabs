@@ -34,7 +34,7 @@ export default function TeamSection({ title, subtitle, members }: TeamSectionPro
               <p className="verge-mono-label text-primary mb-6">{subtitle}</p>
             )}
             {title && (
-              <h2 className="geist-display-lg md:text-[40px] lg:text-[48px] text-on-surface">
+              <h2 className="geist-display-lg md:text-4xl lg:text-[48px] text-on-surface">
                 {title}.
               </h2>
             )}
@@ -73,14 +73,14 @@ export default function TeamSection({ title, subtitle, members }: TeamSectionPro
 
               {/* Info */}
               <div className="p-8 relative z-10">
-                <h3 className="font-sans font-bold text-[18px] text-on-surface tracking-tight">
+                <h3 className="font-sans font-bold text-lg text-on-surface tracking-tight">
                   {member.name}
                 </h3>
-                <p className="verge-mono-label text-primary mt-2 text-[10px] uppercase tracking-widest">
+                <p className="verge-mono-label text-primary mt-2 text-xs uppercase tracking-widest">
                   {member.role}
                 </p>
                 <div className="h-px w-0 group-hover:w-full bg-primary/20 transition-all duration-700 my-4" />
-                <p className="text-[13px] leading-[1.6] text-on-surface-variant font-light line-clamp-3">
+                <p className="text-sm leading-[1.6] text-on-surface-variant font-light line-clamp-3">
                   {member.description}
                 </p>
               </div>

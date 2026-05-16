@@ -60,13 +60,13 @@ export default function Safety() {
               </span>
               <div className="h-px flex-1 bg-outline" />
             </div>
-            <h2 className="geist-display-lg md:text-[48px] lg:text-[56px] text-on-surface">
+            <h2 className="geist-display-lg lg:text-[56px] text-on-surface">
               {t(locale, copy.titleTop)}{' '}
               <span className="text-on-surface-variant/40">{t(locale, copy.titleBottom)}</span>
             </h2>
           </div>
           <div className="lg:col-span-5">
-            <p className="text-on-surface-variant text-[17px] leading-relaxed border-l-2 border-accent/20 pl-8 py-2">
+            <p className="text-on-surface-variant text-base leading-relaxed border-l-2 border-accent/20 pl-8 py-2">
               {t(locale, copy.body)}
             </p>
           </div>
@@ -101,7 +101,7 @@ export default function Safety() {
                     <p className="text-2xl font-bold tracking-tight text-on-surface">
                       {benefit.metric}
                     </p>
-                    <p className="text-[10px] text-on-surface-variant/40 font-black mt-1 uppercase tracking-[0.2em]">
+                    <p className="text-xs text-on-surface-variant/40 font-black mt-1 uppercase tracking-[0.2em]">
                       {t(locale, benefit.metricLabel)}
                     </p>
                   </div>

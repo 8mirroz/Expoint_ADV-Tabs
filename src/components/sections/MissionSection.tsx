@@ -15,10 +15,10 @@ export default function MissionSection() {
           transition={{ duration: 1 }}
           className="max-w-4xl mx-auto"
         >
-          <span className="text-primary font-mono font-bold uppercase tracking-[0.4em] text-[10px] mb-8 block">
+          <span className="text-primary font-mono font-bold uppercase tracking-[0.4em] text-xs mb-8 block">
             Mission Statement
           </span>
-          <h2 className="geist-display-lg md:text-[48px] lg:text-[64px] text-on-surface leading-tight mb-10">
+          <h2 className="geist-display-lg lg:text-[64px] text-on-surface leading-tight mb-10">
             {COMPANY_MISSION.description.ru}
           </h2>
           <div className="w-20 h-px bg-primary/30 mx-auto" />

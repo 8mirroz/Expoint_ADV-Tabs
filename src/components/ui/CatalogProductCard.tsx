@@ -53,14 +53,13 @@ export function CatalogProductCard({
   return (
     <motion.article
       className="group relative w-full min-h-[520px] md:min-h-[560px] flex flex-col justify-between overflow-hidden rounded-[var(--radius-16)] bg-surface border border-outline/50 transition-all duration-700 hover:border-primary/40 hover:shadow-2xl"
-      whileHover={{ y: -4 }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <Link href={href} aria-label={title} className="absolute inset-0 z-20" />
 
       {/* Background Visuals */}
-      <div className="absolute inset-0 z-0 transition-all duration-[2s] ease-out group-hover:scale-105 grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100">
+      <div className="absolute inset-0 z-0 transition-all duration-[2s] ease-out grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100">
         {previewVideo ? (
           <video
             ref={videoRef}
@@ -91,21 +90,23 @@ export function CatalogProductCard({
       <div className="relative z-20 px-6 pb-6 pt-2 md:px-7 md:pb-7 md:pt-4 flex flex-col flex-1 min-h-0">
         
         {/* 1. Title with Accent Bar */}
-        <div className="flex gap-4 min-h-[140px]">
-          <div 
-            className="w-1.5 rounded-full shrink-0 transition-all duration-500" 
-            style={{ backgroundColor: accentColor }}
-          />
-          <h3 className="text-white text-[34px] md:text-[42px] font-black uppercase tracking-tight leading-[0.95] group-hover:text-primary transition-colors duration-500 whitespace-pre-line">
-            {title}
-          </h3>
+        <div className="min-h-[140px]">
+          <div className="flex gap-4">
+            <div 
+              className="w-1.5 rounded-full shrink-0 transition-all duration-500" 
+              style={{ backgroundColor: accentColor }}
+            />
+            <h3 className="text-white text-[34px] md:text-[42px] font-black uppercase tracking-tight leading-[0.95] group-hover:text-primary transition-colors duration-500 whitespace-pre-line">
+              {title}
+            </h3>
+          </div>
         </div>
 
         {/* 2. Specs Grid */}
         <div className="grid grid-cols-2 gap-2 mt-auto mb-6">
           {specs.slice(0, 4).map((spec, idx) => (
             <div key={idx} className="px-3 py-2 bg-white/10 backdrop-blur-md rounded-lg border border-white/10 flex flex-col justify-center">
-               <span className="text-[12px] text-white font-medium truncate">
+               <span className="text-sm text-white font-medium truncate">
                 {spec.value}
               </span>
             </div>
@@ -116,7 +117,8 @@ export function CatalogProductCard({
         <div className="pt-4 border-t border-white/10 h-[144px] flex flex-col justify-between">
           <div className="flex items-end justify-between gap-3 min-h-[64px]">
             <div className="flex flex-col min-w-0">
-              <div className="flex items-baseline gap-1.5">
+              <div className="flex items-baseline gap-2">
+                <span className="text-[11px] font-mono text-white/35 uppercase tracking-[0.12em] self-end mb-[5px]">от</span>
                 <span className="text-3xl font-black text-white tracking-tighter leading-none tabular-nums">
                   {price.toLocaleString('ru-RU')}
                 </span>
@@ -125,7 +127,7 @@ export function CatalogProductCard({
             </div>
           </div>
 
-          <div className="h-11 w-full bg-white text-black text-[12px] font-black uppercase tracking-[0.08em] flex items-center justify-center gap-2 rounded-[10px] shadow-[0_0_20px_rgba(255,255,255,0.12)] group-hover:shadow-[0_0_26px_rgba(255,255,255,0.25)] transition-all">
+          <div className="h-11 w-full bg-white text-black text-sm font-black uppercase tracking-[0.08em] flex items-center justify-center gap-2 rounded-[10px] shadow-[0_0_20px_rgba(255,255,255,0.12)] group-hover:shadow-[0_0_26px_rgba(var(--primary-rgb),0.4)] group-hover:bg-primary group-hover:text-white transition-all duration-300">
             Рассчитать <ArrowRight className="w-4 h-4" />
           </div>
         </div>

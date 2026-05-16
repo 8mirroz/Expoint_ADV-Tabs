@@ -37,7 +37,7 @@ export function ServiceFAQ({ service, openModal }: ServiceFAQProps) {
               <Info className="w-6 h-6" />
               <span className="verge-mono-label font-semibold">Engineering Support</span>
             </div>
-            <p className="text-on-surface-variant text-[15px] font-light leading-relaxed">
+            <p className="text-on-surface-variant text-base font-light leading-relaxed">
               {locale === 'ru' 
                 ? 'Не нашли ответ? Наши инженеры готовы проконсультировать вас по любым техническим нюансам вашего проекта.' 
                 : 'Did not find the answer? Our engineers are ready to consult you on any technical nuances of your project.'}
@@ -69,7 +69,7 @@ export function ServiceFAQ({ service, openModal }: ServiceFAQProps) {
                   <div className="flex items-center justify-between gap-8">
                     <div className="space-y-1">
                       <span className="verge-mono-label text-primary/40">Ref_ID: FAQ_0{idx + 1}</span>
-                      <h3 className="geist-display-sm !text-[20px] text-on-surface">{item.question}</h3>
+                      <h3 className="geist-display-sm !text-xl text-on-surface">{item.question}</h3>
                     </div>
                     <div className={cn(
                       "w-10 h-10 shrink-0 flex items-center justify-center border rounded-full transition-all duration-500",

@@ -132,7 +132,7 @@ export function MaterialComparison() {
                   </div>
                 </div>
                 
-                <p className="text-on-surface-variant leading-[28px] text-[18px] font-sans border-l border-outline pl-10 max-w-xl">
+                <p className="text-on-surface-variant leading-[28px] text-lg font-sans border-l border-outline pl-10 max-w-xl">
                   {tier.description}
                 </p>
 
@@ -142,14 +142,14 @@ export function MaterialComparison() {
                         <Zap className="w-4 h-4 text-primary" />
                         <span className="verge-mono-label text-on-surface-variant/40">Intensity</span>
                       </div>
-                      <span className="text-xl font-semibold text-on-surface font-mono tracking-tight">1200 <span className="text-[10px] opacity-40">cd/m²</span></span>
+                      <span className="text-xl font-semibold text-on-surface font-mono tracking-tight">1200 <span className="text-xs opacity-40">cd/m²</span></span>
                    </div>
                    <div className="p-6 bg-surface border border-outline group hover:border-primary/30 transition-colors rounded-lg">
                       <div className="flex items-center gap-3 mb-2">
                         <Activity className="w-4 h-4 text-primary" />
                         <span className="verge-mono-label text-on-surface-variant/40">Efficiency</span>
                       </div>
-                      <span className="text-xl font-semibold text-on-surface font-mono tracking-tight">A++ <span className="text-[10px] opacity-40">Class</span></span>
+                      <span className="text-xl font-semibold text-on-surface font-mono tracking-tight">A++ <span className="text-xs opacity-40">Class</span></span>
                    </div>
                 </div>
 
@@ -182,9 +182,9 @@ export function MaterialComparison() {
                     )}
                   >
                     <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary/0 group-hover/spec:bg-primary transition-all" />
-                    <span className="text-[11px] font-mono uppercase tracking-widest text-on-surface-variant group-hover/spec:text-on-surface transition-colors">{spec.label}</span>
+                    <span className="text-xs font-mono uppercase tracking-widest text-on-surface-variant group-hover/spec:text-on-surface transition-colors">{spec.label}</span>
                     <div className="flex items-center gap-6">
-                       <span className="text-[10px] font-mono font-bold text-primary/60">{spec.value}</span>
+                       <span className="text-xs font-mono font-bold text-primary/60">{spec.value}</span>
                        {spec.included ? (
                          <div className="w-6 h-6 rounded-full border border-primary/20 flex items-center justify-center bg-primary/5">
                            <Check className="w-3 h-3 text-primary" />

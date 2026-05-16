@@ -83,7 +83,7 @@ export function ImageAccordion({
                   exit={{ opacity: 0 }}
                   className="absolute inset-0 flex items-center justify-center overflow-hidden"
                 >
-                  <span className="text-[10px] font-polysans font-bold uppercase tracking-[0.3em] text-white/40 rotate-90 whitespace-nowrap">
+                  <span className="text-xs font-polysans font-bold uppercase tracking-[0.3em] text-white/40 rotate-90 whitespace-nowrap">
                     {item.title}
                   </span>
                 </motion.div>
@@ -94,7 +94,7 @@ export function ImageAccordion({
             <div className={`absolute bottom-0 left-0 w-full p-4 transition-all duration-500 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <div className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-jelly-mint shadow-[0_0_8px_rgba(111,255,233,0.8)]" />
-                <span className="text-white text-[11px] font-polysans font-bold uppercase tracking-wider">
+                <span className="text-white text-xs font-polysans font-bold uppercase tracking-wider">
                   {item.title}
                 </span>
               </div>

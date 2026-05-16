@@ -36,7 +36,7 @@ export default function B2BRequisitesSection() {
   const ReqField = ({ label, value }: { label: string; value?: string }) => (
     <div className="group flex flex-col gap-1">
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[10px] tracking-[0.08em] uppercase text-on-surface-variant/50">{label}</span>
+        <span className="font-mono text-xs tracking-[0.08em] uppercase text-on-surface-variant/50">{label}</span>
         <button
           onClick={() => handleCopy(value || '', label)}
           className="opacity-0 group-hover:opacity-100 p-0.5 rounded transition-opacity"
@@ -48,7 +48,7 @@ export default function B2BRequisitesSection() {
           }
         </button>
       </div>
-      <p className="font-mono text-[13px] font-medium text-on-surface leading-snug pb-1 border-b border-outline/50 group-hover:border-outline transition-colors">
+      <p className="font-mono text-sm font-medium text-on-surface leading-snug pb-1 border-b border-outline/50 group-hover:border-outline transition-colors">
         {value ?? '—'}
       </p>
     </div>
@@ -58,7 +58,7 @@ export default function B2BRequisitesSection() {
     <section className="py-8 border-y border-outline bg-background">
       <div className="section-container">
         <div className="flex items-baseline gap-4 mb-6">
-          <h2 className="font-mono text-[11px] tracking-[0.1em] uppercase text-on-surface-variant/50">
+          <h2 className="font-mono text-xs tracking-[0.1em] uppercase text-on-surface-variant/50">
             Реквизиты компании
           </h2>
           <div className="flex-1 h-[1px] bg-outline/50" />
@@ -73,7 +73,7 @@ export default function B2BRequisitesSection() {
               viewport={{ once: true }}
               transition={{ delay: ri * 0.04 }}
               className="grid gap-x-10 gap-y-4"
-              style={{ gridTemplateColumns: row.length === 1 ? '1fr' : row.some(f => f.wide) ? '2fr 1fr' : `repeat(${row.length}, 1fr)` }}
+              style={{ gridTemplateColumns: row.length === 1 ? '1fr' : row.some(f => 'wide' in f && f.wide) ? '2fr 1fr' : `repeat(${row.length}, 1fr)` }}
             >
               {row.map(field => (
                 <ReqField key={field.label} label={field.label} value={field.value} />

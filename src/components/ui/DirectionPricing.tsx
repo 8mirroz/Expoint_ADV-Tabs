@@ -94,7 +94,7 @@ export function DirectionPricing({
           <button
             onClick={() => setBilling('annual')}
             className={cn(
-              "px-8 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-300",
+              "px-8 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300",
               billing === 'annual' ? "bg-accent text-on-accent shadow-neon" : "text-on-surface-variant hover:text-on-surface"
             )}
           >
@@ -103,7 +103,7 @@ export function DirectionPricing({
           <button
             onClick={() => setBilling('monthly')}
             className={cn(
-              "px-8 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-300",
+              "px-8 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300",
               billing === 'monthly' ? "bg-accent text-on-accent shadow-neon" : "text-on-surface-variant hover:text-on-surface"
             )}
           >
@@ -112,7 +112,7 @@ export function DirectionPricing({
         </div>
 
         <div className="flex items-center gap-6 bg-surface border border-outline rounded-full px-6 py-2 shadow-inner">
-          <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Локации:</span>
+          <span className="text-xs font-black uppercase tracking-widest text-on-surface-variant">Локации:</span>
           <div className="flex items-center gap-4">
             <button 
                 onClick={() => setLocations(Math.max(1, locations - 1))}
@@ -165,7 +165,7 @@ function PlanCard({ plan, billing, count }: { plan: Plan, billing: 'monthly' | '
       )}
 
       <div className="mb-12">
-        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-on-surface-variant mb-6 block">
+        <span className="text-xs font-black uppercase tracking-[0.4em] text-on-surface-variant mb-6 block">
           {plan.title}
         </span>
         
@@ -186,7 +186,7 @@ function PlanCard({ plan, billing, count }: { plan: Plan, billing: 'monthly' | '
         </div>
         
         <div className="flex items-center gap-2 mb-8">
-            <span className="text-on-surface-variant font-light text-[10px] uppercase tracking-widest">
+            <span className="text-on-surface-variant font-light text-xs uppercase tracking-widest">
                 / {billing === 'annual' ? 'в год' : 'в месяц'}
             </span>
             <div className="h-px grow bg-outline/10" />

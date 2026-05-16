@@ -40,7 +40,7 @@ export function ServiceCTA({ service, sessionKey, openModal }: ServiceCTAProps) 
                 <span className="text-primary">{locale === 'ru' ? 'Проект' : 'Project'}</span>
               </h2>
               <div className="relative inline-block mt-8">
-                <p className="text-on-surface-variant text-[22px] md:text-[32px] font-light max-w-2xl mx-auto border-l-2 border-primary pl-8 text-left italic leading-tight">
+                <p className="text-on-surface-variant text-xl md:text-3xl font-light max-w-2xl mx-auto border-l-2 border-primary pl-8 text-left italic leading-tight">
                   {locale === 'ru' 
                     ? `Превратите вашу идею в осязаемый актив. Детальный инженерный расчет ${service.title} в течение 2 часов.`
                     : `Transform your idea into a tangible asset. Detailed engineering estimate for ${service.title} within 2 hours.`}
@@ -59,7 +59,7 @@ export function ServiceCTA({ service, sessionKey, openModal }: ServiceCTAProps) 
                   tracker.track('cta_click', { type: 'estimate', service: service.id });
                   openModal({ context: `CTA: ${service.title}`, source: 'service_page' });
                 }}
-                className="geist-button-primary w-full sm:flex-1 shadow-elevation-2 text-[18px]"
+                className="geist-button-primary w-full sm:flex-1 shadow-elevation-2 text-lg"
               >
                 <span className="relative z-10 flex items-center justify-center gap-3">
                   {locale === 'ru' ? 'Запросить расчет' : 'Request Estimate'}
@@ -74,7 +74,7 @@ export function ServiceCTA({ service, sessionKey, openModal }: ServiceCTAProps) 
                   tracker.track('cta_click', { type: 'survey', service: service.id });
                   openModal({ context: `Замер: ${service.title}`, source: 'service_page' });
                 }}
-                className="geist-button-secondary w-full sm:flex-1 text-[18px]"
+                className="geist-button-secondary w-full sm:flex-1 text-lg"
               >
                 <span className="relative z-10">{locale === 'ru' ? 'Вызвать замерщика' : 'Book a Surveyor'}</span>
               </motion.button>
@@ -89,7 +89,7 @@ export function ServiceCTA({ service, sessionKey, openModal }: ServiceCTAProps) 
               ].map((stat, i) => (
                 <div key={i} className="text-center space-y-3 group/stat">
                   <div className="verge-mono-label text-on-surface-variant/40 group-hover/stat:text-primary transition-colors">{stat.label}</div>
-                  <div className="geist-display-sm !text-[16px] text-on-surface group-hover/stat:scale-110 transition-transform">{stat.value}</div>
+                  <div className="geist-display-sm !text-base text-on-surface group-hover/stat:scale-110 transition-transform">{stat.value}</div>
                 </div>
               ))}
             </div>

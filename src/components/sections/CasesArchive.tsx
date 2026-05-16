@@ -32,7 +32,7 @@ export default function CasesArchive({ title, subtitle, cases, filters }: CasesA
               <p className="verge-kicker text-primary mb-4">{subtitle}</p>
             )}
             {title && (
-              <h2 className="font-headline text-[36px] md:text-[52px] lg:text-[64px] uppercase leading-[0.85] text-on-surface max-w-3xl">
+              <h2 className="geist-display-xl uppercase text-on-surface max-w-3xl">
                 {title}
               </h2>
             )}
@@ -87,15 +87,15 @@ export default function CasesArchive({ title, subtitle, cases, filters }: CasesA
                 </div>
 
                 <Link href={`/cases/${caseStudy.id}`}>
-                  <h3 className="font-sans font-bold text-[20px] md:text-[24px] text-on-surface mb-2 hover:text-primary transition-colors">
+                  <h3 className="font-sans font-bold text-xl md:text-2xl text-on-surface mb-2 hover:text-primary transition-colors">
                     {caseStudy.title}
                   </h3>
                 </Link>
 
-                <p className="text-[14px] leading-[1.7] text-on-surface-variant mb-1">
+                <p className="text-sm leading-[1.7] text-on-surface-variant mb-1">
                   <strong className="text-on-surface">Задача:</strong> {caseStudy.description}
                 </p>
-                <p className="text-[14px] leading-[1.7] text-on-surface-variant">
+                <p className="text-sm leading-[1.7] text-on-surface-variant">
                   <strong className="text-on-surface">Решение:</strong> {caseStudy.solution}
                 </p>
               </div>
@@ -104,8 +104,8 @@ export default function CasesArchive({ title, subtitle, cases, filters }: CasesA
               <div className="grid grid-cols-3 gap-px bg-outline">
                 {caseStudy.metrics.map((metric) => (
                   <div key={metric.label} className="bg-surface-variant p-4 text-center">
-                    <p className="font-mono font-bold text-[14px] text-primary">{metric.value}</p>
-                    <p className="text-[10px] uppercase tracking-wider text-on-surface-variant mt-1">{metric.label}</p>
+                    <p className="font-mono font-bold text-sm text-primary">{metric.value}</p>
+                    <p className="text-xs uppercase tracking-wider text-on-surface-variant mt-1">{metric.label}</p>
                   </div>
                 ))}
               </div>
@@ -115,7 +115,7 @@ export default function CasesArchive({ title, subtitle, cases, filters }: CasesA
                 <span className="verge-mono-label text-on-surface-variant">Срок: {caseStudy.term}</span>
                 <Link
                   href={`/cases/${caseStudy.id}`}
-                  className="flex items-center gap-2 text-[12px] font-mono font-semibold text-primary hover:gap-3 transition-all"
+                  className="flex items-center gap-2 text-sm font-mono font-semibold text-primary hover:gap-3 transition-all"
                 >
                   Заказать аналогичное
                   <ArrowRight className="w-3.5 h-3.5" />

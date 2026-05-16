@@ -51,7 +51,7 @@ export default function CompliancePage() {
           <div className="compliance-hero mb-24 max-w-4xl">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-12 h-px bg-primary" />
-              <span className="verge-mono-label text-primary uppercase tracking-[0.4em] text-[10px]">Regulatory Compliance</span>
+              <span className="verge-mono-label text-primary uppercase tracking-[0.4em] text-xs">Regulatory Compliance</span>
             </div>
             
             <h1 className="geist-display-lg md:text-[84px] text-on-surface uppercase leading-[0.85] mb-10">
@@ -73,7 +73,7 @@ export default function CompliancePage() {
               </div>
               <div className="flex items-center gap-3 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-primary">Live Regulation Engine</span>
+                <span className="text-xs font-mono font-bold uppercase tracking-widest text-primary">Live Regulation Engine</span>
               </div>
             </div>
             <ComplianceChecker />
@@ -83,7 +83,7 @@ export default function CompliancePage() {
           <section className="mb-32">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
               <h2 className="text-4xl font-black uppercase tracking-tighter text-on-surface">Ключевые регламенты</h2>
-              <div className="flex items-center gap-4 text-[10px] font-mono uppercase tracking-[0.2em] text-on-surface-variant">
+              <div className="flex items-center gap-4 text-xs font-mono uppercase tracking-[0.2em] text-on-surface-variant">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 size={12} className="text-primary" />
                   Актуально на 2024
@@ -120,10 +120,10 @@ export default function CompliancePage() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-6 shrink-0">
-                <button className="px-10 py-5 bg-primary text-on-primary font-black uppercase tracking-[0.2em] text-[11px] shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all">
+                <button className="px-10 py-5 bg-primary text-on-primary font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all">
                   Заказать проект
                 </button>
-                <button className="px-10 py-5 bg-surface border border-outline text-on-surface font-black uppercase tracking-[0.2em] text-[11px] hover:bg-surface-variant transition-all">
+                <button className="px-10 py-5 bg-surface border border-outline text-on-surface font-black uppercase tracking-[0.2em] text-xs hover:bg-surface-variant transition-all">
                   Скачать PDF
                 </button>
               </div>

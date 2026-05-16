@@ -78,7 +78,7 @@ export default function StatsSection({
               <p className="verge-mono-label text-primary mb-6">{subtitle}</p>
             )}
             {title && (
-              <h2 className="geist-display-lg md:text-[40px] lg:text-[48px] text-on-surface">
+              <h2 className="geist-display-lg md:text-4xl lg:text-[48px] text-on-surface">
                 {title}.
               </h2>
             )}
@@ -110,7 +110,7 @@ export default function StatsSection({
                   item.value
                 )}
               </div>
-              <p className="mt-4 verge-mono-label text-on-surface-variant text-[10px] uppercase tracking-widest leading-relaxed max-w-[160px] relative z-10">
+              <p className="mt-4 verge-mono-label text-on-surface-variant text-xs uppercase tracking-widest leading-relaxed max-w-[160px] relative z-10">
                 {item.label}
               </p>
             </motion.div>

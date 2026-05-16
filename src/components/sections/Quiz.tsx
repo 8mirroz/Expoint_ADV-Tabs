@@ -126,7 +126,7 @@ export default function Quiz() {
           <h2 className="geist-display-lg text-on-surface mb-6">
             {t(locale, copy.title)}<span className="text-primary">.</span>
           </h2>
-          <p className="text-on-surface-variant text-[18px] leading-[28px] max-w-2xl mx-auto">Параметрический расчет стоимости и 3D-моделирование объекта.</p>
+          <p className="text-on-surface-variant text-lg leading-[28px] max-w-2xl mx-auto">Параметрический расчет стоимости и 3D-моделирование объекта.</p>
         </div>
 
         <div className="bg-surface border border-outline overflow-hidden rounded-2xl shadow-elevation-1">
@@ -167,7 +167,7 @@ export default function Quiz() {
                               ? 'border-primary bg-primary/5 shadow-sm' 
                               : 'border-outline hover:border-primary/20 bg-surface'}`}
                         >
-                          <span className={`text-[16px] font-medium transition-colors ${answers[currentStep] === option ? 'text-primary' : 'text-on-surface-variant'}`}>{option}</span>
+                          <span className={`text-base font-medium transition-colors ${answers[currentStep] === option ? 'text-primary' : 'text-on-surface-variant'}`}>{option}</span>
                         </button>
                       ))}
                     </div>
@@ -180,7 +180,7 @@ export default function Quiz() {
                     transition={{ duration: 0.4 }}
                   >
                     <h3 className="geist-display-sm text-on-surface mb-4">{t(locale, copy.finalData)}</h3>
-                    <p className="text-on-surface-variant text-[16px] font-light mb-10">Введите данные для формирования технического задания и 3D-макета.</p>
+                    <p className="text-on-surface-variant text-base font-light mb-10">Введите данные для формирования технического задания и 3D-макета.</p>
                     
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
@@ -189,7 +189,7 @@ export default function Quiz() {
                           type="text" 
                           required
                           placeholder="Имя / Компания"
-                          className="w-full bg-surface border border-outline p-5 focus:outline-none focus:border-primary text-on-surface font-sans text-[16px] transition-all rounded-xl"
+                          className="w-full bg-surface border border-outline p-5 focus:outline-none focus:border-primary text-on-surface font-sans text-base transition-all rounded-xl"
                           value={contactInfo.name}
                           onChange={(e) => setContactInfo({...contactInfo, name: e.target.value})}
                         />
@@ -200,7 +200,7 @@ export default function Quiz() {
                           type="tel" 
                           required
                           placeholder="+7 (___) ___-__-__"
-                          className="w-full bg-surface border border-outline p-5 focus:outline-none focus:border-primary text-on-surface font-sans text-[16px] transition-all rounded-xl"
+                          className="w-full bg-surface border border-outline p-5 focus:outline-none focus:border-primary text-on-surface font-sans text-base transition-all rounded-xl"
                           value={contactInfo.phone}
                           onChange={(e) => setContactInfo({...contactInfo, phone: e.target.value})}
                         />
@@ -260,7 +260,7 @@ export default function Quiz() {
                 </p>
                 <div className="border border-outline p-8 max-w-md mx-auto bg-surface rounded-2xl">
                    <p className="verge-mono-label text-primary mb-4">{t(locale, copy.bonus)}</p>
-                   <p className="text-[15px] font-light text-on-surface-variant mb-8">Пришлите фото фасада в WhatsApp, и мы активируем приоритетное 3D-моделирование.</p>
+                   <p className="text-base font-light text-on-surface-variant mb-8">Пришлите фото фасада в WhatsApp, и мы активируем приоритетное 3D-моделирование.</p>
                    <a
                      href="https://wa.me/74950000000"
                      target="_blank"

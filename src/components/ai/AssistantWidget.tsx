@@ -119,7 +119,7 @@ export default function AssistantWidget() {
                   <Bot className="w-5 h-5 text-accent" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-accent">AI System</p>
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-accent">AI System</p>
                   <p className="text-xs font-black text-white uppercase tracking-widest">Knowledge_Consultant</p>
                 </div>
               </div>
@@ -141,13 +141,13 @@ export default function AssistantWidget() {
                     {msg.text}
 
                     {msg.role === 'assistant' && typeof msg.confidence === 'number' && (
-                      <div className="mt-3 text-[10px] uppercase tracking-widest text-on-surface-variant/70">
+                      <div className="mt-3 text-xs uppercase tracking-widest text-on-surface-variant/70">
                         Confidence: {Math.round(msg.confidence * 100)}%
                       </div>
                     )}
 
                     {msg.role === 'assistant' && msg.fallbackReason && msg.fallbackReason !== 'none' && (
-                      <div className="mt-3 inline-flex items-center gap-2 text-[10px] uppercase tracking-widest text-amber-400">
+                      <div className="mt-3 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-amber-400">
                         <AlertTriangle className="w-3 h-3" />
                         Fallback: {msg.fallbackReason}
                       </div>
@@ -155,9 +155,9 @@ export default function AssistantWidget() {
 
                     {msg.role === 'assistant' && msg.citations && msg.citations.length > 0 && (
                       <div className="mt-3 pt-3 border-t border-white/10 space-y-2">
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-accent">Citations</p>
+                        <p className="text-xs font-black uppercase tracking-[0.2em] text-accent">Citations</p>
                         {msg.citations.map((citation, citationIndex) => (
-                          <div key={`${citation.source_doc_id}-${citationIndex}`} className="text-[10px] text-on-surface-variant/80">
+                          <div key={`${citation.source_doc_id}-${citationIndex}`} className="text-xs text-on-surface-variant/80">
                             <div className="font-black text-white/80">{citation.source_doc_id} — {citation.source_title}</div>
                             <div>{citation.snippet}</div>
                           </div>
@@ -184,7 +184,7 @@ export default function AssistantWidget() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={locale === 'ru' ? 'ВВЕДИТЕ ЗАПРОС...' : 'INPUT DATA...'}
-                className="flex-1 bg-white/3 border border-white/10 p-4 text-[10px] font-black uppercase tracking-widest text-white focus:outline-none focus:border-accent transition-colors"
+                className="flex-1 bg-white/3 border border-white/10 p-4 text-xs font-black uppercase tracking-widest text-white focus:outline-none focus:border-accent transition-colors"
               />
               <button
                 type="submit"

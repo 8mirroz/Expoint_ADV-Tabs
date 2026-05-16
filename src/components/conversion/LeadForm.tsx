@@ -99,7 +99,7 @@ export default function LeadForm() {
               required 
               className="mt-1 w-4 h-4 rounded-none border-outline text-accent focus:ring-accent"
             />
-            <label htmlFor="consent" className="text-[11px] text-on-surface-variant leading-tight">
+            <label htmlFor="consent" className="text-xs text-on-surface-variant leading-tight">
               I agree to the processing of personal data in accordance with the 
               <Link href="/privacy" className="text-accent hover:underline ml-1">Privacy Policy</Link>.
             </label>

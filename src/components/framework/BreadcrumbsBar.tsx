@@ -44,7 +44,7 @@ export function BreadcrumbsBar({ items }: BreadcrumbsBarProps) {
         aria-label="Breadcrumb"
         className="section-container pt-24 pb-4"
       >
-        <ol className="flex items-center gap-1.5 text-[12px] font-mono tracking-wide">
+        <ol className="flex items-center gap-1.5 text-sm font-mono tracking-wide">
           <li>
             <Link
               href="/"

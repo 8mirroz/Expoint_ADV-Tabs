@@ -96,7 +96,7 @@ export default function AuditWizard() {
               <div className="absolute right-5 top-1/2 -translate-y-1/2 opacity-0 group-hover/item:opacity-100 transition-opacity">
                 <div className="relative group/tooltip">
                   <Info className="w-4 h-4 text-on-surface-variant cursor-help" />
-                  <div className="absolute bottom-full right-0 mb-2 w-64 p-3 bg-secondary border border-accent/30 text-[10px] text-white leading-relaxed uppercase tracking-widest hidden group-hover/tooltip:block z-50 shadow-2xl backdrop-blur-md">
+                  <div className="absolute bottom-full right-0 mb-2 w-64 p-3 bg-secondary border border-accent/30 text-xs text-white leading-relaxed uppercase tracking-widest hidden group-hover/tooltip:block z-50 shadow-2xl backdrop-blur-md">
                     {item.tooltip}
                     <div className="absolute top-full right-4 w-2 h-2 bg-secondary border-b border-r border-accent/30 rotate-45 -translate-y-1" />
                   </div>
@@ -209,8 +209,8 @@ export default function AuditWizard() {
       {/* Progress Header */}
       <div className="mb-12">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-accent">Compliance Engine v4.0</span>
-          <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
+          <span className="text-xs font-black uppercase tracking-[0.3em] text-accent">Compliance Engine v4.0</span>
+          <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">
             {step < steps.length ? `Шаг ${step + 1} из ${steps.length}` : 'Результат аудита'}
           </span>
         </div>
@@ -303,7 +303,7 @@ export default function AuditWizard() {
                      source: 'compliance_audit' 
                    });
                  }}
-                 className="w-full bg-primary hover:bg-accent text-on-primary px-6 py-5 font-black uppercase tracking-[0.2em] text-[10px] transition-all flex items-center justify-center gap-3 group shadow-xl"
+                 className="w-full bg-primary hover:bg-accent text-on-primary px-6 py-5 font-black uppercase tracking-[0.2em] text-xs transition-all flex items-center justify-center gap-3 group shadow-xl"
                >
                  Получить инженерный отчет
                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -317,21 +317,21 @@ export default function AuditWizard() {
         <button
           onClick={handlePrev}
           disabled={step === 0}
-          className="flex items-center gap-2 px-4 py-2 text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-accent disabled:opacity-30 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-accent disabled:opacity-30 transition-colors"
         >
           <ArrowLeft className="w-3 h-3" /> Назад
         </button>
         {step < steps.length ? (
           <button
             onClick={handleNext}
-            className="flex items-center gap-3 bg-secondary hover:bg-accent hover:text-white text-on-surface px-8 py-3 font-black uppercase tracking-widest text-[10px] transition-all border border-outline"
+            className="flex items-center gap-3 bg-secondary hover:bg-accent hover:text-white text-on-surface px-8 py-3 font-black uppercase tracking-widest text-xs transition-all border border-outline"
           >
             Далее <ArrowRight className="w-3 h-3" />
           </button>
         ) : (
           <button
             onClick={() => { setStep(0); setResult(null); }}
-            className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant hover:text-accent transition-colors"
+            className="text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-accent transition-colors"
           >
             Сбросить данные
           </button>

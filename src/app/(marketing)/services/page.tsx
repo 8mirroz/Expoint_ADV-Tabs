@@ -29,7 +29,7 @@ const trustPoints = [
 ];
 
 const primaryLinkClass =
-  'inline-flex h-20 items-center justify-center border border-accent bg-accent px-12 text-sm font-black uppercase tracking-[0.3em] text-white transition-all duration-500 hover:bg-accent/90 shadow-[0_20px_50px_rgba(255,77,0,0.3)] hover:scale-105 active:scale-95';
+  'inline-flex h-20 items-center justify-center border border-accent bg-accent px-12 text-sm font-black uppercase tracking-[0.3em] text-white transition-all duration-500 hover:bg-accent/90 shadow-[0_20px_50px_rgba(var(--accent-warm-rgb),0.3)] hover:scale-105 active:scale-95';
 
 const outlineLinkClass =
   'inline-flex h-20 items-center justify-center border border-white/10 bg-white/5 backdrop-blur-md px-12 text-sm font-black uppercase tracking-[0.3em] text-white transition-all duration-500 hover:bg-white/10 hover:border-white/20';
@@ -54,7 +54,7 @@ export default function ServicesPage() {
               src="/videos/signage/3d-letters-preview.mp4"
             />
             <div className="absolute inset-0 bg-linear-to-b from-surface/80 via-surface/60 to-surface" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,77,0,0.15),transparent_50%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,color-mix(in_oklab,var(--accent-warm)_15%,transparent),transparent_50%)]" />
             <div className="absolute inset-0 z-10 opacity-10 bg-[url('/img/patterns/grid.svg')] bg-repeat mix-blend-overlay" />
           </div>
 
@@ -62,7 +62,7 @@ export default function ServicesPage() {
             <div className="space-y-12">
               <div className="flex items-center gap-4">
                 <div className="h-px w-16 bg-accent shadow-neon" />
-                <span className="text-accent font-black uppercase tracking-[0.4em] text-[10px]">
+                <span className="text-accent font-black uppercase tracking-[0.4em] text-xs">
                   Production Hub & Engineering
                 </span>
               </div>
@@ -94,11 +94,11 @@ export default function ServicesPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex gap-2">
                     <div className="w-2 h-2 rounded-full bg-accent animate-ping" />
-                    <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest">
+                    <div className="text-xs font-mono text-white/40 uppercase tracking-widest">
                       Live_Production_Status
                     </div>
                   </div>
-                  <div className="text-accent font-mono text-[10px]">V.5.2.0</div>
+                  <div className="text-accent font-mono text-xs">V.5.2.0</div>
                 </div>
 
                 <div className="space-y-6">
@@ -113,7 +113,7 @@ export default function ServicesPage() {
                 </div>
 
                 <div className="pt-8 border-t border-white/10 flex items-center justify-between">
-                  <div className="text-[10px] font-mono text-white/20 uppercase tracking-widest">
+                  <div className="text-xs font-mono text-white/20 uppercase tracking-widest">
                     902-PP / Compliance
                   </div>
                   <div className="px-3 py-1 bg-accent/10 border border-accent/20 text-accent text-[9px] font-black uppercase">
@@ -145,7 +145,7 @@ export default function ServicesPage() {
               <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
               <div className="grid lg:grid-cols-2 gap-12 items-center p-12 lg:p-24 border border-white/10 bg-white/2">
                 <div className="space-y-10">
-                  <div className="inline-flex items-center gap-3 px-4 py-1 bg-accent/10 border border-accent/20 text-accent text-[10px] font-black uppercase tracking-widest">
+                  <div className="inline-flex items-center gap-3 px-4 py-1 bg-accent/10 border border-accent/20 text-accent text-xs font-black uppercase tracking-widest">
                     <Zap className="w-3 h-3" /> Best Seller
                   </div>
                   <h2 className="text-5xl lg:text-8xl font-black uppercase tracking-tighter leading-none text-white">
@@ -158,7 +158,7 @@ export default function ServicesPage() {
                     {featuredService?.features.slice(0, 4).map((f, i) => (
                       <div key={i} className="space-y-2">
                         <div className="h-px w-8 bg-accent/40" />
-                        <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest block">Feature 0{i+1}</span>
+                        <span className="text-xs font-mono text-white/40 uppercase tracking-widest block">Feature 0{i+1}</span>
                         <span className="text-sm font-bold text-white uppercase">{f}</span>
                       </div>
                     ))}
@@ -203,7 +203,7 @@ export default function ServicesPage() {
                     <Store className="w-12 h-12 text-white" />
                   </div>
                   <div className="space-y-6">
-                    <span className="text-[10px] font-mono text-accent uppercase tracking-[0.3em]">Pack 0{i+1}</span>
+                    <span className="text-xs font-mono text-accent uppercase tracking-[0.3em]">Pack 0{i+1}</span>
                     <h3 className="text-2xl font-black uppercase tracking-tight text-white leading-none">{pack.name}</h3>
                     <div className="h-px w-full bg-white/5" />
                     <ul className="space-y-3">
@@ -214,7 +214,7 @@ export default function ServicesPage() {
                       ))}
                     </ul>
                     <div className="pt-6">
-                      <span className="text-[10px] font-mono text-white/20 uppercase block mb-1">Starting from</span>
+                      <span className="text-xs font-mono text-white/20 uppercase block mb-1">Starting from</span>
                       <span className="text-3xl font-black text-white">{pack.priceStart}</span>
                     </div>
                   </div>
@@ -245,11 +245,11 @@ export default function ServicesPage() {
                   
                   <div className="flex flex-wrap gap-12 pt-8">
                     <div className="flex flex-col gap-1">
-                      <span className="text-[10px] text-white/30 uppercase tracking-widest font-mono">Response Time</span>
+                      <span className="text-xs text-white/30 uppercase tracking-widest font-mono">Response Time</span>
                       <span className="text-xl font-mono text-white/80">{"<"} 2 Hours</span>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <span className="text-[10px] text-white/30 uppercase tracking-widest font-mono">Standards</span>
+                      <span className="text-xs text-white/30 uppercase tracking-widest font-mono">Standards</span>
                       <span className="text-xl font-mono text-white/80">902-PP OK</span>
                     </div>
                   </div>
@@ -260,7 +260,7 @@ export default function ServicesPage() {
                     </button>
                     <div className="flex items-center gap-4 opacity-40">
                       <div className="h-px w-8 bg-white" />
-                      <p className="text-white text-[10px] uppercase tracking-[0.4em] font-medium">
+                      <p className="text-white text-xs uppercase tracking-[0.4em] font-medium">
                         Free estimate within 24 hours
                       </p>
                     </div>

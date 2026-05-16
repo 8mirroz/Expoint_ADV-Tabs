@@ -24,7 +24,7 @@ export function ServiceTechnicalSpecs({ service }: ServiceTechnicalSpecsProps) {
               {locale === 'ru' ? 'Инженерный' : 'Engineering'} <br/> 
               <span className="text-on-surface-variant/40">{locale === 'ru' ? 'Стандарт' : 'Standard'}</span>
             </h2>
-            <p className="text-on-surface-variant text-[18px] leading-[28px] max-w-lg font-light">
+            <p className="text-on-surface-variant text-lg leading-[28px] max-w-lg font-light">
               {locale === 'ru' 
                 ? 'Промышленные параметры, гарантирующие долговечность и полное соответствие нормам безопасности 902-ПП.' 
                 : 'Industrial parameters ensuring durability and full compliance with 902-PP safety standards.'}
@@ -39,7 +39,7 @@ export function ServiceTechnicalSpecs({ service }: ServiceTechnicalSpecsProps) {
               >
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary/0 group-hover:bg-primary transition-colors" />
                 <span className="verge-mono-label text-on-surface-variant">{spec.label}</span>
-                <span className="geist-display-sm !text-[18px] text-on-surface group-hover:text-primary transition-colors">{spec.value}</span>
+                <span className="geist-display-sm !text-lg text-on-surface group-hover:text-primary transition-colors">{spec.value}</span>
               </motion.div>
             ))}
           </div>
@@ -93,7 +93,7 @@ export function ServiceTechnicalSpecs({ service }: ServiceTechnicalSpecsProps) {
             <div className="absolute inset-x-0 bottom-0 p-8 bg-linear-to-t from-surface to-transparent">
               <div className="flex justify-between items-end">
                   <div className="text-right">
-                    <span className="geist-display-sm !text-[20px] text-on-surface">±0.001mm</span>
+                    <span className="geist-display-sm !text-xl text-on-surface">±0.001mm</span>
                   </div>
               </div>
             </div>

@@ -23,7 +23,7 @@ export default function NotFound() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <span className="text-[14px] font-mono font-black text-primary uppercase tracking-[0.4em] mb-6 block">
+            <span className="text-sm font-mono font-black text-primary uppercase tracking-[0.4em] mb-6 block">
               Error 404
             </span>
             <h1 className="geist-display-lg text-[64px] md:text-[120px] leading-none font-black uppercase tracking-tighter mb-8">

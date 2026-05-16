@@ -73,7 +73,7 @@ export default function Segmentation() {
             <h2 className="geist-display-lg text-on-surface mb-6">
               {isEn ? title.en : title.ru}<span className="text-primary">.</span>
             </h2>
-            <p className="text-on-surface-variant text-[18px] md:text-[22px] leading-[28px] font-light">
+            <p className="text-on-surface-variant text-lg md:text-xl leading-[28px] font-light">
               {isEn ? subtitle.en : subtitle.ru}
             </p>
           </div>
@@ -94,11 +94,11 @@ export default function Segmentation() {
                 <segment.icon className="w-6 h-6" />
               </div>
               
-              <h3 className="geist-display-sm !text-[18px] text-on-surface mb-4">
+              <h3 className="geist-display-sm !text-lg text-on-surface mb-4">
                 {isEn ? segment.title.en : segment.title.ru}
               </h3>
               
-              <p className="text-[15px] font-light text-on-surface-variant leading-relaxed mb-10">
+              <p className="text-base font-light text-on-surface-variant leading-relaxed mb-10">
                 {isEn ? segment.description.en : segment.description.ru}
               </p>
 

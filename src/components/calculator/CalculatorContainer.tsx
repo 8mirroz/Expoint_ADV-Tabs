@@ -130,7 +130,7 @@ export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
 
       {result && (
         <div className="p-8 bg-surface-variant/30 border border-outline rounded-2xl shadow-elevation-1">
-          <h3 className="geist-display-sm !text-[18px] text-on-surface mb-6 flex items-center gap-2">
+          <h3 className="geist-display-sm !text-lg text-on-surface mb-6 flex items-center gap-2">
             <Calculator className="w-5 h-5 text-primary" />
             Результаты расчета
           </h3>

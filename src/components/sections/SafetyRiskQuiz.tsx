@@ -163,7 +163,7 @@ export default function SafetyRiskQuiz() {
                   onClick={() => onSelect(option.value)}
                   className="flex items-center justify-between rounded-xl border border-outline/60 bg-surface-variant/20 px-4 py-3 text-left hover:border-accent/40 hover:bg-accent/5 transition-colors"
                 >
-                  <span className="text-on-surface text-[15px] md:text-base">{option.label}</span>
+                  <span className="text-on-surface text-base md:text-base">{option.label}</span>
                   <ArrowRight className="h-4 w-4 text-on-surface-variant" />
                 </button>
               ))}

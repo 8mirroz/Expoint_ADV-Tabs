@@ -48,7 +48,7 @@ export default function Error({
             </button>
             
             {error.digest && (
-              <p className="mt-8 text-[10px] font-mono opacity-30 uppercase tracking-widest">
+              <p className="mt-8 text-xs font-mono opacity-30 uppercase tracking-widest">
                 Trace ID: {error.digest}
               </p>
             )}

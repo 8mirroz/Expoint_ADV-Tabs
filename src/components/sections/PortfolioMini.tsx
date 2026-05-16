@@ -30,7 +30,7 @@ export default function PortfolioMini() {
             <h2 className="geist-display-lg mb-4 text-on-surface">
               {locale === 'ru' ? 'Лучшие' : locale === 'en' ? 'Featured' : 'Лучшие'} <span className="text-primary">{locale === 'ru' ? 'Работы' : locale === 'en' ? 'Works' : 'Работы'}</span>
             </h2>
-            <p className="text-on-surface-variant text-[18px] leading-[28px]">
+            <p className="text-on-surface-variant text-lg leading-[28px]">
               Галерея реализованных проектов. Каждая вывеска — результат точного инженерного расчета и премиального дизайна.
             </p>
           </div>

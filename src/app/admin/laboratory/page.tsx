@@ -47,17 +47,17 @@ export default async function LaboratoryDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-surface p-6 border border-outline border-l-4 border-l-accent relative overflow-hidden">
           <Activity className="w-8 h-8 text-accent/20 absolute -bottom-2 -right-2" />
-          <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-1">Total Signals (Recent)</p>
+          <p className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">Total Signals (Recent)</p>
           <p className="text-4xl font-black text-on-surface font-mono">{stats.total}</p>
         </div>
         <div className="bg-surface p-6 border border-outline border-l-4 border-l-yellow-500 relative overflow-hidden">
           <AlertTriangle className="w-8 h-8 text-yellow-500/20 absolute -bottom-2 -right-2" />
-          <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-1">Friction Events</p>
+          <p className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">Friction Events</p>
           <p className="text-4xl font-black text-on-surface font-mono">{stats.frictionEvents}</p>
         </div>
         <div className="bg-surface p-6 border border-outline border-l-4 border-l-green-500 relative overflow-hidden">
           <CheckCircle2 className="w-8 h-8 text-green-500/20 absolute -bottom-2 -right-2" />
-          <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-1">Conversion Steps</p>
+          <p className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">Conversion Steps</p>
           <p className="text-4xl font-black text-on-surface font-mono">{stats.conversions}</p>
         </div>
       </div>
@@ -69,7 +69,7 @@ export default async function LaboratoryDashboard() {
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="bg-surface border-b border-outline text-[10px] uppercase tracking-widest text-on-surface-variant">
+            <thead className="bg-surface border-b border-outline text-xs uppercase tracking-widest text-on-surface-variant">
               <tr>
                 <th className="p-4 font-bold">Timestamp</th>
                 <th className="p-4 font-bold">Topic</th>
@@ -89,7 +89,7 @@ export default async function LaboratoryDashboard() {
                       {new Date(signal.timestamp).toLocaleTimeString()}
                     </td>
                     <td className="p-4">
-                      <span className={`px-2 py-1 border text-[10px] uppercase tracking-wider ${
+                      <span className={`px-2 py-1 border text-xs uppercase tracking-wider ${
                         signal.topic === 'conversion' ? 'bg-green-500/10 border-green-500/20 text-green-500' :
                         signal.topic === 'compliance' ? 'bg-blue-500/10 border-blue-500/20 text-blue-500' :
                         'bg-outline text-on-surface-variant'

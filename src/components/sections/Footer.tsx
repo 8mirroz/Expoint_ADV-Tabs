@@ -84,11 +84,11 @@ export default function Footer() {
 
           {/* Navigation Links */}
           <div className="md:col-span-2 p-8 lg:p-12 border-b md:border-b-0 md:border-r border-outline/10">
-            <h4 className="verge-mono-label mb-8 text-[10px] opacity-40 uppercase tracking-[0.3em]">{t(locale, copy.hardware)}</h4>
+            <h4 className="verge-mono-label mb-8 text-xs opacity-40 uppercase tracking-[0.3em]">{t(locale, copy.hardware)}</h4>
             <ul className="space-y-4">
               {hardwareItems.map((item) => (
                 <li key={item.label}>
-                  <Link href={item.href} className="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors flex items-center group">
+                  <Link href={item.href} className="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors flex items-center group">
                     {item.label}
                     <ArrowUpRight className="w-3 h-3 ml-2 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all" />
                   </Link>
@@ -98,11 +98,11 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-2 p-8 lg:p-12 border-b md:border-b-0 md:border-r border-outline/10">
-            <h4 className="verge-mono-label mb-8 text-[10px] opacity-40 uppercase tracking-[0.3em]">{t(locale, copy.system)}</h4>
+            <h4 className="verge-mono-label mb-8 text-xs opacity-40 uppercase tracking-[0.3em]">{t(locale, copy.system)}</h4>
             <ul className="space-y-4">
               {systemItems.map((item) => (
                 <li key={item.label}>
-                  <Link href={item.href} className="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors flex items-center group">
+                  <Link href={item.href} className="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors flex items-center group">
                     {item.label}
                     <ArrowUpRight className="w-3 h-3 ml-2 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all" />
                   </Link>
@@ -113,18 +113,21 @@ export default function Footer() {
 
           {/* Contacts & Address */}
           <div className="md:col-span-4 p-8 lg:p-12 flex flex-col gap-8">
-            <h4 className="verge-mono-label mb-2 text-[10px] opacity-40 uppercase tracking-[0.3em]">
+            <h4 className="verge-mono-label mb-2 text-xs opacity-40 uppercase tracking-[0.3em]">
               {t(locale, copy.headquarters)} • Производство
             </h4>
             <div className="flex flex-col gap-6">
               <div className="flex items-start gap-4">
                 <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
                 <div>
-                  <p className="text-sm font-headline uppercase leading-tight mb-1">Москва, Полимерная 8</p>
+                  <h3 className="text-md md:text-lg font-sans font-black uppercase leading-[1.1] text-on-surface tracking-tight">
+                    Москва,<br/>
+                    Полимерная 8
+                  </h3>
                 </div>
               </div>
               <div className="flex flex-col gap-4 pt-6 border-t border-outline/10">
-                <a href="tel:+74950000000" className="text-xl md:text-2xl font-headline text-on-surface hover:text-primary transition-colors tracking-tight whitespace-nowrap">+7 (495) 000-00-00</a>
+                <a href="tel:+74950000000" className="text-lg md:text-xl font-headline text-on-surface hover:text-primary transition-colors tracking-tight whitespace-nowrap">+7 (495) 000-00-00</a>
                 <a href="mailto:hello@expoint.pro" className="text-[10px] font-mono text-primary hover:text-on-surface transition-colors tracking-[0.2em] uppercase">hello@expoint.pro</a>
               </div>
             </div>

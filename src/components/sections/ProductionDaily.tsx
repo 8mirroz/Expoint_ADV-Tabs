@@ -34,7 +34,7 @@ export default function ProductionDaily() {
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-primary font-mono font-bold uppercase tracking-[0.4em] text-[10px]">
+              <span className="text-primary font-mono font-bold uppercase tracking-[0.4em] text-xs">
                 {t(locale, copy.eyebrow)}
               </span>
             </div>
@@ -46,12 +46,12 @@ export default function ProductionDaily() {
             
             <div className="flex items-center gap-6 border-l-2 border-primary/20 pl-8">
               <div className="flex flex-col">
-                <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-1">{t(locale, copy.implemented)}</span>
+                <span className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">{t(locale, copy.implemented)}</span>
                 <span className="text-3xl font-headline text-on-surface">540+</span>
               </div>
               <div className="w-px h-10 bg-outline/10" />
               <div className="flex flex-col">
-                <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-1">{t(locale, copy.liveNow)}</span>
+                <span className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">{t(locale, copy.liveNow)}</span>
                 <span className="text-3xl font-headline text-primary">12</span>
               </div>
             </div>
@@ -65,7 +65,7 @@ export default function ProductionDaily() {
              </div>
              <Link 
                href="/cases"
-               className="group flex items-center gap-4 bg-surface border border-outline px-8 py-5 text-[10px] font-black uppercase tracking-widest text-on-surface hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-500 shadow-xl"
+               className="group flex items-center gap-4 bg-surface border border-outline px-8 py-5 text-xs font-black uppercase tracking-widest text-on-surface hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-500 shadow-xl"
              >
                <LayoutGrid className="w-4 h-4" />
                {t(locale, copy.viewFull)}
@@ -101,7 +101,7 @@ export default function ProductionDaily() {
                    <Clock className="w-3 h-3 text-primary" />
                    <span className="text-[8px] font-mono font-bold text-white uppercase tracking-tighter">Log_{idx + 22} / 14:20</span>
                  </div>
-                 <span className="text-[10px] font-black uppercase tracking-widest text-accent drop-shadow-lg">{item.clientName}</span>
+                 <span className="text-xs font-black uppercase tracking-widest text-accent drop-shadow-lg">{item.clientName}</span>
                </div>
 
                {/* Content */}

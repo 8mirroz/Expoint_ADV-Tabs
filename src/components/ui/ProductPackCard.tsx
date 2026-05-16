@@ -43,7 +43,7 @@ export function ProductPackCard({ pack }: ProductPackCardProps) {
       pack.isPopular ? 'border-jelly-mint shadow-[0_0_40px_-15px_rgba(111,255,233,0.2)]' : 'border-white/10 hover:border-white/20'
     }`}>
       {pack.isPopular && (
-        <div className="absolute top-4 right-4 z-20 bg-jelly-mint text-canvas px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest shadow-neon">
+        <div className="absolute top-4 right-4 z-20 bg-jelly-mint text-canvas px-3 py-1.5 text-xs font-bold uppercase tracking-widest shadow-neon">
           Хит продаж
         </div>
       )}

@@ -36,7 +36,7 @@ export default function PortfolioGallery() {
       <div className="max-w-7xl w-full mx-auto">
         <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 text-xs font-black uppercase tracking-[0.3em] text-slate-500 mb-6">
               <span>Production Archive</span>
             </div>
             <h2 className="text-5xl lg:text-7xl font-headline font-black uppercase tracking-tighter leading-[0.85] text-white">

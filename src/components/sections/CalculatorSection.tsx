@@ -48,7 +48,7 @@ export default function CalculatorSection() {
               initial={false}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-on-surface-variant text-[18px] md:text-[22px] max-w-xl leading-relaxed font-light"
+              className="text-on-surface-variant text-lg md:text-xl max-w-xl leading-relaxed font-light"
             >
               {t(locale, copy.body)}
             </motion.p>

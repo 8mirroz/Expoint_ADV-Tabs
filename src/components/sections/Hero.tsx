@@ -66,7 +66,7 @@ export default function Hero({ segment }: { segment?: SegmentData }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-on-surface-variant text-[18px] md:text-[21px] leading-relaxed max-w-xl mb-12 font-light"
+              className="text-on-surface-variant text-lg md:text-xl leading-relaxed max-w-xl mb-12 font-light"
             >
               {segment ? t(locale, segment.description) : t(locale, copy.description)}
             </motion.p>
@@ -81,7 +81,7 @@ export default function Hero({ segment }: { segment?: SegmentData }) {
               {features.map((f, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="text-primary/40">{f.icon}</div>
-                  <span className="verge-mono-label !text-[11px] uppercase tracking-widest">{t(locale, f.label)}</span>
+                  <span className="verge-mono-label !text-xs uppercase tracking-widest">{t(locale, f.label)}</span>
                 </div>
               ))}
             </motion.div>

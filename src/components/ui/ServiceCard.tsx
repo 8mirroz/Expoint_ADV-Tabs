@@ -65,7 +65,7 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
                 <span className="text-[9px] uppercase tracking-wider text-on-surface-variant font-mono">
                   {spec.label}
                 </span>
-                <span className="text-[11px] text-on-surface font-medium truncate">
+                <span className="text-xs text-on-surface font-medium truncate">
                   {spec.value}
                 </span>
               </div>
@@ -75,7 +75,7 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
           {!isFeatured && !service.technicalSpecs && (
             <ul className="space-y-3 mt-8">
               {service.features.slice(0, 3).map((feature, idx) => (
-                <li key={idx} className="flex items-center text-[11px] font-medium text-on-surface-variant group-hover:text-on-surface transition-colors">
+                <li key={idx} className="flex items-center text-xs font-medium text-on-surface-variant group-hover:text-on-surface transition-colors">
                   <span className="w-1 h-1 rounded-full bg-primary mr-3" />
                   {feature}
                 </li>
@@ -87,14 +87,14 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
         <div className="mt-6 rounded-[var(--radius-12)] border border-white/10 bg-black/55 backdrop-blur-md p-3">
           <div className="flex flex-col gap-3">
             <div className="min-w-0">
-              <span className="block text-[10px] font-mono uppercase tracking-[0.2em] text-on-surface-variant/80">
+              <span className="block text-xs font-mono uppercase tracking-[0.2em] text-on-surface-variant/80">
                 от
               </span>
               <div className="font-headline flex items-baseline gap-2">
                 <span className="text-4xl font-black text-white leading-none tabular-nums">
                   {service.basePrice.toLocaleString('ru-RU')}
                 </span>
-                <span className="text-[12px] font-mono uppercase tracking-[0.12em] text-on-surface-variant/90">
+                <span className="text-sm font-mono uppercase tracking-[0.12em] text-on-surface-variant/90">
                   {service.priceUnit}
                 </span>
               </div>
@@ -102,7 +102,7 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
 
             <Link
               href={`/services/${service.id}`}
-              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-8)] border border-white/90 bg-white px-4 text-[11px] font-mono font-black uppercase tracking-[0.1em] text-black transition-all duration-300 hover:bg-white/95 focus-visible:shadow-[0_0_0_3px_rgba(255,255,255,0.35)]"
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-8)] border border-white/90 bg-white px-4 text-xs font-mono font-black uppercase tracking-[0.1em] text-black transition-all duration-300 hover:bg-white/95 focus-visible:shadow-[0_0_0_3px_rgba(255,255,255,0.35)]"
             >
               Рассчитать <ArrowRight className="h-4 w-4" />
             </Link>

@@ -24,7 +24,7 @@ export default function CalculatorPage() {
           <h1 className="geist-display-2xl text-on-surface mb-8">
             Соберите свою <span className="text-primary">Айдентику</span>
           </h1>
-          <p className="text-on-surface-variant text-[18px] md:text-[22px] leading-relaxed max-w-2xl font-light">
+          <p className="text-on-surface-variant text-lg md:text-xl leading-relaxed max-w-2xl font-light">
             Проектируйте свою вывеску в реальном времени. Наш 3D-движок мгновенно рассчитывает стоимость с учетом материалов, сложности монтажа и требований 902-ПП.
           </p>
         </div>
@@ -36,16 +36,16 @@ export default function CalculatorPage() {
       
       <div className="section-container relative z-10 mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="p-8 bg-surface border border-outline rounded-2xl shadow-sm group hover:border-primary/20 transition-all">
-          <h4 className="geist-display-sm !text-[16px] text-on-surface mb-3 uppercase">Точность расчета</h4>
-          <p className="text-[14px] text-on-surface-variant leading-relaxed">Алгоритм базируется на актуальной стоимости материалов и нормо-часах производства.</p>
+          <h4 className="geist-display-sm !text-base text-on-surface mb-3 uppercase">Точность расчета</h4>
+          <p className="text-sm text-on-surface-variant leading-relaxed">Алгоритм базируется на актуальной стоимости материалов и нормо-часах производства.</p>
         </div>
         <div className="p-8 bg-surface border border-outline rounded-2xl shadow-sm group hover:border-primary/20 transition-all">
-          <h4 className="geist-display-sm !text-[16px] text-on-surface mb-3 uppercase">Build Sheet</h4>
-          <p className="text-[14px] text-on-surface-variant leading-relaxed">После завершения вы получите PDF-спецификацию для согласования внутри компании.</p>
+          <h4 className="geist-display-sm !text-base text-on-surface mb-3 uppercase">Build Sheet</h4>
+          <p className="text-sm text-on-surface-variant leading-relaxed">После завершения вы получите PDF-спецификацию для согласования внутри компании.</p>
         </div>
         <div className="p-8 bg-surface border border-outline rounded-2xl shadow-sm group hover:border-primary/20 transition-all">
-          <h4 className="geist-display-sm !text-[16px] text-on-surface mb-3 uppercase">Прямая интеграция</h4>
-          <p className="text-[14px] text-on-surface-variant leading-relaxed">Данные мгновенно передаются в производственный отдел для подтверждения сроков.</p>
+          <h4 className="geist-display-sm !text-base text-on-surface mb-3 uppercase">Прямая интеграция</h4>
+          <p className="text-sm text-on-surface-variant leading-relaxed">Данные мгновенно передаются в производственный отдел для подтверждения сроков.</p>
         </div>
       </div>
     </main>

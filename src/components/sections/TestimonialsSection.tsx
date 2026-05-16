@@ -33,7 +33,7 @@ export default function TestimonialsSection({ title, subtitle, items }: Testimon
               <p className="verge-kicker text-primary mb-4">{subtitle}</p>
             )}
             {title && (
-              <h2 className="font-headline text-[36px] md:text-[52px] lg:text-[64px] uppercase leading-[0.85] text-on-surface max-w-3xl">
+              <h2 className="geist-display-xl uppercase text-on-surface max-w-3xl">
                 {title}
               </h2>
             )}
@@ -52,13 +52,13 @@ export default function TestimonialsSection({ title, subtitle, items }: Testimon
               className="p-8 bg-surface rounded-[var(--radius-12)] border border-outline"
             >
               <Quote className="w-8 h-8 text-primary/30 mb-4" />
-              <p className="text-[15px] leading-[1.8] text-on-surface mb-6">
+              <p className="text-base leading-[1.8] text-on-surface mb-6">
                 &ldquo;{item.text}&rdquo;
               </p>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-on-surface text-[14px]">{item.clientName}</p>
-                  <p className="text-[12px] text-on-surface-variant">{item.company}</p>
+                  <p className="font-semibold text-on-surface text-sm">{item.clientName}</p>
+                  <p className="text-sm text-on-surface-variant">{item.company}</p>
                 </div>
                 <div className="flex gap-0.5">
                   {Array.from({ length: item.rating }).map((_, i) => (
@@ -80,12 +80,12 @@ export default function TestimonialsSection({ title, subtitle, items }: Testimon
             className="p-8 bg-surface rounded-[var(--radius-12)] border border-outline"
           >
             <Quote className="w-8 h-8 text-primary/30 mb-4" />
-            <p className="text-[15px] leading-[1.8] text-on-surface mb-6">
+            <p className="text-base leading-[1.8] text-on-surface mb-6">
               &ldquo;{items[activeIndex].text}&rdquo;
             </p>
             <div>
-              <p className="font-semibold text-on-surface text-[14px]">{items[activeIndex].clientName}</p>
-              <p className="text-[12px] text-on-surface-variant">{items[activeIndex].company}</p>
+              <p className="font-semibold text-on-surface text-sm">{items[activeIndex].clientName}</p>
+              <p className="text-sm text-on-surface-variant">{items[activeIndex].company}</p>
             </div>
           </motion.div>
 

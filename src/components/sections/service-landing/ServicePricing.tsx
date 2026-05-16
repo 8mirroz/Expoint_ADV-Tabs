@@ -24,7 +24,7 @@ export function ServicePricing({ service }: ServicePricingProps) {
             {locale === 'ru' ? 'Интеллектуальный' : 'Intellectual'} <br/> 
             <span className="text-on-surface-variant/40">{locale === 'ru' ? 'Расчет' : 'Calculation'}</span>
           </h2>
-          <p className="text-on-surface-variant text-[18px] leading-[28px] max-w-xl font-light mt-6">
+          <p className="text-on-surface-variant text-lg leading-[28px] max-w-xl font-light mt-6">
             {locale === 'ru' 
               ? 'Получите детальную смету за 30 секунд. Итоговая стоимость может быть оптимизирована при комплексном заказе.' 
               : 'Get a detailed estimate in 30 seconds. The final cost can be optimized for complex orders.'}
@@ -42,7 +42,7 @@ export function ServicePricing({ service }: ServicePricingProps) {
                  <span className="geist-display-xl font-bold text-on-surface">{service.basePrice.toLocaleString('ru-RU')}</span>
                  <span className="text-primary text-xl font-semibold">{service.priceUnit}</span>
                </div>
-               <p className="text-on-surface-variant text-[15px] font-light max-w-sm">
+               <p className="text-on-surface-variant text-base font-light max-w-sm">
                  {locale === 'ru' 
                    ? 'Финальная стоимость зависит от габаритов, материалов и сложности монтажа.' 
                    : 'The final cost depends on dimensions, materials, and installation complexity.'}

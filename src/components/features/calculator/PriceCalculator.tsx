@@ -43,7 +43,7 @@ export function PriceCalculator() {
           <div className="space-y-8">
             <div className="space-y-3">
               <div className="flex justify-between items-end mb-1">
-                <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Текст вывески</label>
+                <label className="text-xs font-black text-on-surface-variant uppercase tracking-widest">Текст вывески</label>
               </div>
               <div className="relative group">
                 <Input 
@@ -52,7 +52,7 @@ export function PriceCalculator() {
                   placeholder="Например: EXPOINT"
                   className="text-xl font-black py-8 px-6 bg-surface border-outline focus:border-accent group-hover:border-accent/40 rounded-none transition-all shadow-sm"
                 />
-                <div className="absolute right-6 top-1/2 -translate-y-1/2 text-[10px] font-mono text-accent bg-accent/5 border border-accent/20 px-3 py-1.5 rounded-none font-black">
+                <div className="absolute right-6 top-1/2 -translate-y-1/2 text-xs font-mono text-accent bg-accent/5 border border-accent/20 px-3 py-1.5 rounded-none font-black">
                   {charCount} CHR
                 </div>
               </div>
@@ -61,8 +61,8 @@ export function PriceCalculator() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                <div className="space-y-4">
                   <div className="flex justify-between items-end">
-                    <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Высота (см)</label>
-                    <span className="text-[10px] font-mono text-accent font-black">{heightCm} CM</span>
+                    <label className="text-xs font-black text-on-surface-variant uppercase tracking-widest">Высота (см)</label>
+                    <span className="text-xs font-mono text-accent font-black">{heightCm} CM</span>
                   </div>
                   <div className="flex items-center gap-4 px-2">
                     <input 
@@ -76,13 +76,13 @@ export function PriceCalculator() {
                   </div>
                </div>
                <div className="space-y-4">
-                  <label className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Сложность шрифта</label>
+                  <label className="text-xs font-black text-on-surface-variant uppercase tracking-widest">Сложность шрифта</label>
                   <div className="grid grid-cols-3 gap-2">
                     {['standard', 'serif', 'script'].map((type) => (
                       <button
                         key={type}
                         onClick={() => setComplexity(type as 'standard' | 'serif' | 'script')}
-                        className={`py-3 text-[10px] font-black uppercase rounded-none border transition-all duration-300 ${
+                        className={`py-3 text-xs font-black uppercase rounded-none border transition-all duration-300 ${
                           complexity === type 
                             ? 'bg-accent border-accent text-white shadow-xl shadow-accent/20' 
                             : 'bg-surface border-outline text-on-surface-variant hover:border-accent/40'
@@ -106,13 +106,13 @@ export function PriceCalculator() {
                   <div className="flex bg-secondary p-1 rounded-none w-full md:w-auto border border-outline">
                     <button 
                       onClick={() => setUrgency('standard')}
-                      className={`flex-1 md:flex-none px-8 py-3 text-[10px] font-black uppercase tracking-widest rounded-none transition-all ${urgency === 'standard' ? 'bg-surface text-accent shadow-premium' : 'text-on-surface-variant'}`}
+                      className={`flex-1 md:flex-none px-8 py-3 text-xs font-black uppercase tracking-widest rounded-none transition-all ${urgency === 'standard' ? 'bg-surface text-accent shadow-premium' : 'text-on-surface-variant'}`}
                     >
                       Стандарт
                     </button>
                     <button 
                       onClick={() => setUrgency('express')}
-                      className={`flex-1 md:flex-none px-8 py-3 text-[10px] font-black uppercase tracking-widest rounded-none transition-all ${urgency === 'express' ? 'bg-surface text-accent shadow-premium' : 'text-on-surface-variant'}`}
+                      className={`flex-1 md:flex-none px-8 py-3 text-xs font-black uppercase tracking-widest rounded-none transition-all ${urgency === 'express' ? 'bg-surface text-accent shadow-premium' : 'text-on-surface-variant'}`}
                     >
                       Экспресс
                     </button>
@@ -127,7 +127,7 @@ export function PriceCalculator() {
         <div className="flex flex-col justify-between p-12 rounded-none bg-black text-white relative overflow-hidden shadow-2xl group border border-white/5">
           {/* Industrial Design Elements */}
           <div className="absolute inset-0 industrial-grid opacity-10 pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,77,0,0.12),transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,color-mix(in_oklab,var(--accent-warm)_12%,transparent),transparent_70%)]" />
           
           {/* Scanning Line Decoration */}
           <div className="absolute top-0 left-0 w-full h-1/2 bg-linear-to-b from-transparent via-accent/5 to-transparent -translate-y-full animate-scan pointer-events-none opacity-20" />
@@ -138,7 +138,7 @@ export function PriceCalculator() {
                 <div className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
               <button 
                 onClick={() => setShowFormula(!showFormula)}
-                className="text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 text-white/40 hover:text-accent transition-colors"
+                className="text-xs font-black uppercase tracking-[0.2em] flex items-center gap-2 text-white/40 hover:text-accent transition-colors"
               >
                 <div className={`transition-transform duration-500 ${showFormula ? 'rotate-180' : ''}`}>
                   <ChevronDown size={14} />
@@ -155,7 +155,7 @@ export function PriceCalculator() {
                   exit={{ opacity: 0, y: -10 }}
                   className="space-y-6 py-6"
                 >
-                  <div className="font-mono text-[11px] space-y-4 text-white/60">
+                  <div className="font-mono text-xs space-y-4 text-white/60">
                     <div className="flex justify-between border-b border-white/5 pb-2">
                       <span className="uppercase tracking-widest">Base_Coefficient (85.0)</span>
                       <span className="text-white font-black">STABLE</span>
@@ -203,11 +203,11 @@ export function PriceCalculator() {
 
 
             <div className="mt-12 space-y-4">
-              <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/40 group/item">
+              <div className="flex items-center gap-4 text-xs font-black uppercase tracking-[0.2em] text-white/40 group/item">
                 <ShieldCheck className="w-4 h-4 text-accent" />
                 <span>Гарантия промышленного стандарта 3 года</span>
               </div>
-              <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/40 group/item">
+              <div className="flex items-center gap-4 text-xs font-black uppercase tracking-[0.2em] text-white/40 group/item">
                 <Clock className="w-4 h-4 text-accent" />
                 <span>Расширенный пакет сервиса (24/7)</span>
               </div>

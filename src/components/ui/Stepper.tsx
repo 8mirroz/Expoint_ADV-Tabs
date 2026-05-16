@@ -33,7 +33,7 @@ export function Stepper({ steps, currentStep, className = '' }: StepperProps) {
                   `0${index + 1}`
                 )}
               </div>
-              <span className={`mt-3 text-[10px] font-black uppercase tracking-widest absolute -bottom-6 w-max text-center ${isActive ? 'text-accent' : 'text-on-surface-variant'}`}>
+              <span className={`mt-3 text-xs font-black uppercase tracking-widest absolute -bottom-6 w-max text-center ${isActive ? 'text-accent' : 'text-on-surface-variant'}`}>
                 {step}
               </span>
             </div>

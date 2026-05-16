@@ -163,7 +163,7 @@ export default function ConsultationModal() {
                           <CheckCircle2 className="w-3 h-3 text-on-accent opacity-0 peer-checked:opacity-100 transition-opacity" />
                         </div>
                       </div>
-                      <span className="text-[10px] text-on-surface-variant leading-tight uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">
+                      <span className="text-xs text-on-surface-variant leading-tight uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">
                         Я согласен на обработку персональных данных в соответствии с{' '}
                         <a href="/privacy" className="text-accent underline hover:no-underline">
                           политикой конфиденциальности
@@ -172,7 +172,7 @@ export default function ConsultationModal() {
                       </span>
                     </label>
                     {errors.consent && (
-                      <p className="text-error text-[10px] mt-1 uppercase font-bold">
+                      <p className="text-error text-xs mt-1 uppercase font-bold">
                         {errors.consent.message}
                       </p>
                     )}
@@ -182,7 +182,7 @@ export default function ConsultationModal() {
                   <div className="py-2">
                     <TurnstileWidget onVerify={setTurnstileToken} />
                     {errors.turnstileToken && (
-                      <p className="text-error text-[10px] mt-1 uppercase font-bold">
+                      <p className="text-error text-xs mt-1 uppercase font-bold">
                         {errors.turnstileToken.message}
                       </p>
                     )}

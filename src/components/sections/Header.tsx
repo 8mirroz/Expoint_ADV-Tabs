@@ -51,12 +51,12 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
         <div className="flex items-center justify-between h-full relative w-full">
           {/* Logo Section */}
           <Link href="/" className="flex items-center gap-3 group relative z-10 shrink-0">
-            <span className="font-sans text-[22px] font-semibold tracking-[-1.1px] text-on-surface leading-none">
+            <span className="font-sans text-xl font-semibold tracking-[-1.1px] text-on-surface leading-none">
               Expoint <span className="text-primary-light font-normal">Adv</span>
             </span>
             <div className="hidden sm:flex items-center gap-2">
               <div className="w-[1px] h-3 bg-outline" />
-              <span className="text-[11px] font-mono text-on-surface-variant uppercase tracking-wider">Engineering</span>
+              <span className="text-xs font-mono text-on-surface-variant uppercase tracking-wider">Engineering</span>
             </div>
           </Link>
 
@@ -68,7 +68,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                 <Link
                   key={item.id}
                   href={item.href}
-                  className={`px-3 py-1.5 rounded-full text-[14px] transition-all duration-200 ${
+                  className={`px-3 py-1.5 rounded-full text-sm transition-all duration-200 ${
                     isActive 
                       ? 'text-primary font-medium' 
                       : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50'
@@ -84,7 +84,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
           <div className="hidden lg:flex items-center gap-6 relative z-10">
             <a
               href="tel:+74950000000"
-              className="text-[14px] text-on-surface-variant hover:text-on-surface transition-colors font-sans"
+              className="text-sm text-on-surface-variant hover:text-on-surface transition-colors font-sans"
             >
               +7 (495) 000-00-00
             </a>
@@ -93,7 +93,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
               <CartIndicator />
               <button
                 onClick={() => document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' })}
-                className="geist-button-primary geist-button-sm px-4 h-9 text-[13px] rounded-[6px]"
+                className="geist-button-primary geist-button-sm px-4 h-9 text-sm rounded-[6px]"
               >
                 {copy.requestAudit[locale]}
               </button>
@@ -187,7 +187,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                     setIsMobileMenuOpen(false);
                     document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="w-full bg-primary text-on-primary px-8 py-5 rounded-full font-black uppercase tracking-widest text-[11px] shadow-xl shadow-primary/10 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
+                  className="w-full bg-primary text-on-primary px-8 py-5 rounded-full font-black uppercase tracking-widest text-xs shadow-xl shadow-primary/10 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
                 >
                   {copy.requestAudit[locale]}
                   <ArrowRight className="w-4 h-4" />

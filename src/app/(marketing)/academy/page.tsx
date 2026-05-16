@@ -99,10 +99,10 @@ export default function AcademyPage() {
                   <span className="verge-mono-label text-primary">{article.category}</span>
                   <span className="verge-mono-label text-on-surface-variant">{article.readTime}</span>
                 </div>
-                <h3 className="font-sans font-bold text-[18px] text-on-surface mb-3 leading-tight group-hover:text-primary transition-colors">
+                <h3 className="font-sans font-bold text-lg text-on-surface mb-3 leading-tight group-hover:text-primary transition-colors">
                   {article.title}
                 </h3>
-                <p className="text-[14px] leading-[1.7] text-on-surface-variant">
+                <p className="text-sm leading-[1.7] text-on-surface-variant">
                   {article.description}
                 </p>
               </a>

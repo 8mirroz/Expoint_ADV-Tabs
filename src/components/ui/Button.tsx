@@ -18,7 +18,7 @@ export function Button({
   
   const variants = {
     // Primary Jelly Pill
-    primary: 'rounded-[var(--radius-24)] bg-primary border-primary text-on-primary hover:bg-white/20 hover:border-[#c2c2c2] hover:text-white',
+    primary: 'rounded-[var(--radius-24)] bg-primary border-primary text-on-primary hover:bg-white/20 hover:border-outline-strong hover:text-white',
     // Secondary Slate Pill
     secondary: 'rounded-[var(--radius-24)] bg-surface border-surface text-on-surface hover:bg-surface-elevated hover:border-outline-strong',
     // Outlined
@@ -27,9 +27,9 @@ export function Button({
   };
 
   const sizes = {
-    sm: 'h-10 px-6 text-[10px]',
-    md: 'h-12 px-8 text-[11px]',
-    lg: 'h-[60px] px-10 text-[13px]',
+    sm: 'h-10 px-6 text-xs',
+    md: 'h-12 px-8 text-xs',
+    lg: 'h-[60px] px-10 text-sm',
   };
 
   return (

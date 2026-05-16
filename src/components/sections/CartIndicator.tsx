@@ -13,7 +13,7 @@ export function CartIndicator() {
             >
                 <ShoppingCart className="w-6 h-6" />
                 {itemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
+                    <span className="absolute -top-1 -right-1 bg-primary text-on-primary text-xs w-5 h-5 flex items-center justify-center rounded-full font-bold">
                         {itemCount}
                     </span>
                 )}

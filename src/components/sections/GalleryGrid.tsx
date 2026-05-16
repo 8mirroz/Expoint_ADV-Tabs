@@ -41,7 +41,7 @@ export default function GalleryGrid({ title, subtitle, items, filters }: Gallery
               <p className="verge-kicker text-primary mb-4">{subtitle}</p>
             )}
             {title && (
-              <h2 className="font-headline text-[36px] md:text-[52px] lg:text-[64px] uppercase leading-[0.85] text-on-surface max-w-3xl">
+              <h2 className="geist-display-xl uppercase text-on-surface max-w-3xl">
                 {title}
               </h2>
             )}
@@ -99,7 +99,7 @@ export default function GalleryGrid({ title, subtitle, items, filters }: Gallery
                   sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <p className="absolute bottom-3 left-3 right-3 text-white text-[12px] font-mono font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 truncate">
+                <p className="absolute bottom-3 left-3 right-3 text-white text-sm font-mono font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 truncate">
                   {item.title}
                 </p>
               </motion.button>
@@ -135,7 +135,7 @@ export default function GalleryGrid({ title, subtitle, items, filters }: Gallery
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
-              <p className="absolute bottom-8 text-white text-center font-mono text-[14px]">
+              <p className="absolute bottom-8 text-white text-center font-mono text-sm">
                 {lightboxItem.title}
               </p>
             </motion.div>

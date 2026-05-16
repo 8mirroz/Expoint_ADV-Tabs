@@ -130,8 +130,8 @@ export default function MapSection() {
         >
           <div className="flex flex-col gap-5">
             <div>
-              <p className="verge-mono-label text-primary/80 mb-2 uppercase tracking-[0.2em] text-[10px] font-bold">Штаб-квартира</p>
-              <h3 className="text-[28px] md:text-[34px] font-sans font-black uppercase leading-[1.05] text-white tracking-tight">
+              <p className="verge-mono-label text-primary/80 mb-2 uppercase tracking-[0.2em] text-xs font-bold">Штаб-квартира</p>
+              <h3 className="text-base md:text-lg font-sans font-black uppercase leading-[1.2] text-white tracking-tight">
                 Москва,<br/>
                 Полимерная 8
               </h3>

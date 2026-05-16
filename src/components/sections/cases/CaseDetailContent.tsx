@@ -46,7 +46,7 @@ export function CaseDetailContent({ caseStudy }: CaseDetailContentProps) {
               {caseStudy.metrics.map((metric, i) => (
                 <div key={i} className="flex flex-col gap-2">
                   <span className="text-primary font-black text-4xl tracking-tighter">{metric.value}</span>
-                  <span className="text-on-surface-variant text-[10px] uppercase tracking-widest font-bold opacity-60">
+                  <span className="text-on-surface-variant text-xs uppercase tracking-widest font-bold opacity-60">
                     {metric.label}
                   </span>
                 </div>
@@ -64,7 +64,7 @@ export function CaseDetailContent({ caseStudy }: CaseDetailContentProps) {
               <div>
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-1.5 h-1.5 bg-accent rounded-full" />
-                  <span className="text-accent font-mono font-bold uppercase tracking-[0.3em] text-[10px]">The Challenge</span>
+                  <span className="text-accent font-mono font-bold uppercase tracking-[0.3em] text-xs">The Challenge</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-on-surface mb-6">
                   Задача клиента
@@ -75,7 +75,7 @@ export function CaseDetailContent({ caseStudy }: CaseDetailContentProps) {
               </div>
 
               <div className="p-8 bento-card bg-surface/40 backdrop-blur-md">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-on-surface/40 mb-6">Project Metadata</h4>
+                <h4 className="text-xs font-black uppercase tracking-widest text-on-surface/40 mb-6">Project Metadata</h4>
                 <div className="space-y-6">
                   <div className="flex justify-between items-center border-b border-outline/10 pb-4">
                     <div className="flex items-center gap-3">
@@ -98,7 +98,7 @@ export function CaseDetailContent({ caseStudy }: CaseDetailContentProps) {
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-1.5 h-1.5 bg-primary rounded-full" />
-                <span className="text-primary font-mono font-bold uppercase tracking-[0.3em] text-[10px]">The Solution</span>
+                <span className="text-primary font-mono font-bold uppercase tracking-[0.3em] text-xs">The Solution</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-on-surface mb-6">
                 Инженерное решение
@@ -137,13 +137,13 @@ export function CaseDetailContent({ caseStudy }: CaseDetailContentProps) {
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link 
               href="/calculator" 
-              className="bg-primary text-on-primary px-12 py-5 font-black uppercase tracking-[0.2em] text-[11px] hover:-translate-y-1 transition-all"
+              className="bg-primary text-on-primary px-12 py-5 font-black uppercase tracking-[0.2em] text-xs hover:-translate-y-1 transition-all"
             >
               Рассчитать стоимость
             </Link>
             <Link 
               href="/contacts" 
-              className="bg-surface border border-outline text-on-surface px-12 py-5 font-black uppercase tracking-[0.2em] text-[11px] hover:bg-surface-variant transition-all"
+              className="bg-surface border border-outline text-on-surface px-12 py-5 font-black uppercase tracking-[0.2em] text-xs hover:bg-surface-variant transition-all"
             >
               Обсудить проект
             </Link>

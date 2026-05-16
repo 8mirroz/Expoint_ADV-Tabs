@@ -17,12 +17,12 @@ const SERVICE_IMAGES: Record<string, string> = {
 };
 
 const SERVICE_ACCENTS: Record<string, string> = {
-  'volumetric-letters': '#FF2D55',
-  'lightbox': '#007AFF',
-  'flex-neon': '#FF9500',
-  'metal-letters': '#FFFFFF',
-  'pylon-signs': '#FFCC00',
-  'roof-installations': '#5856D6',
+  'volumetric-letters': 'var(--category-volumetric)',
+  'lightbox': 'var(--category-lightbox)',
+  'flex-neon': 'var(--category-neon)',
+  'metal-letters': 'var(--category-metal)',
+  'pylon-signs': 'var(--category-pylon)',
+  'roof-installations': 'var(--category-roof)',
 };
 
 const SERVICE_TITLES: Record<string, string> = {
@@ -72,7 +72,7 @@ export default function Services() {
             </h2>
           </div>
           <div className="lg:col-span-5">
-             <p className="text-on-surface-variant text-[18px] leading-relaxed border-l-2 border-primary/10 pl-8 py-2">
+             <p className="text-on-surface-variant text-lg leading-relaxed border-l-2 border-primary/10 pl-8 py-2">
                {t(locale, copy.intro)}
              </p>
           </div>
@@ -146,7 +146,7 @@ export default function Services() {
                     ))}
                   </h3>
                   
-                  <p className="text-white/70 text-[17px] md:text-[19px] leading-relaxed max-w-xl font-light">
+                  <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-xl font-light">
                     {t(locale, copy.customDesc)}
                   </p>
                 </div>
@@ -155,7 +155,7 @@ export default function Services() {
                   <motion.button 
                     whileHover={{ scale: 1.02, translateY: -2 }}
                     whileTap={{ scale: 0.98 }}
-                    className="geist-button-primary w-full sm:w-auto px-12 h-[60px] text-[18px] gap-3 rounded-2xl shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)] hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.5)] transition-all"
+                    className="geist-button-primary w-full sm:w-auto px-12 h-[60px] text-lg gap-3 rounded-2xl shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)] hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.5)] transition-all"
                   >
                     {t(locale, copy.contactUs)}
                     <ArrowRight className="w-5 h-5" />
@@ -163,7 +163,7 @@ export default function Services() {
                   
                   <div className="flex items-center gap-2 py-2.5 px-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                    <p className="text-white/60 text-[14px] font-medium tracking-wide">
+                    <p className="text-white/60 text-sm font-medium tracking-wide">
                       {t(locale, copy.freeEstimate)}
                     </p>
                   </div>

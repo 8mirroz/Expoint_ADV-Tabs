@@ -41,7 +41,7 @@ export function LanguageSwitcher() {
       >
         <div className="flex items-center gap-2">
           <Languages className="w-4 h-4 text-accent" />
-          <span className="text-[11px] font-black uppercase tracking-[0.1em]">{activeLanguage.shortLabel}</span>
+          <span className="text-xs font-black uppercase tracking-[0.1em]">{activeLanguage.shortLabel}</span>
         </div>
         <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -55,7 +55,7 @@ export function LanguageSwitcher() {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="absolute right-0 mt-3 w-64 overflow-hidden rounded-2xl border border-outline bg-surface-elevated/95 backdrop-blur-2xl shadow-premium z-50 p-2"
           >
-            <div className="px-3 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface/40 mb-2">
+            <div className="px-3 py-2 text-xs font-black uppercase tracking-[0.2em] text-on-surface/40 mb-2">
               {t(locale, uiCopy.languageLabel)}
             </div>
 
@@ -78,13 +78,13 @@ export function LanguageSwitcher() {
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-[10px] ${
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs ${
                         isActive ? 'bg-accent text-white' : 'bg-surface-variant text-on-surface/70'
                       }`}>
                         {item.shortLabel}
                       </div>
                       <div className="flex flex-col items-start leading-tight">
-                        <span className="text-[10px] font-black uppercase tracking-widest opacity-40">{item.shortLabel}</span>
+                        <span className="text-xs font-black uppercase tracking-widest opacity-40">{item.shortLabel}</span>
                         <span className="text-sm font-bold tracking-tight">{item.nativeLabel}</span>
                       </div>
                     </div>
