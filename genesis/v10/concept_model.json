@@ -1,0 +1,79 @@
+{
+  "domain": "Presentation Landing Framework — Expoint ADV",
+  "version": "v8",
+  "entities": [
+    {
+      "name": "PageBlueprint",
+      "description": "Декларативное описание страницы: слаг, заголовок, мета-данные, массив секций с параметрами",
+      "type": "config",
+      "relations": ["Section", "PageShell", "SEOMeta"]
+    },
+    {
+      "name": "Section",
+      "description": "Атомарный визуальный блок страницы (Hero, CTA, Stats, FAQ, Gallery, Process и др.)",
+      "type": "component",
+      "relations": ["SectionRegistry", "PageBlueprint"]
+    },
+    {
+      "name": "SectionRegistry",
+      "description": "Реестр всех доступных секций, маппит type -> React Component",
+      "type": "registry",
+      "relations": ["Section", "PageRenderer"]
+    },
+    {
+      "name": "PageShell",
+      "description": "Единый layout-обёртка: Header + main content + Footer + модальные элементы",
+      "type": "layout",
+      "relations": ["Header", "Footer", "PageBlueprint"]
+    },
+    {
+      "name": "PageRenderer",
+      "description": "Компонент, итерирующий PageBlueprint.sections и рендерящий секции из SectionRegistry",
+      "type": "component",
+      "relations": ["SectionRegistry", "PageBlueprint"]
+    },
+    {
+      "name": "SEOMeta",
+      "description": "generateMetadata по данным PageBlueprint — title, description, og:*, schema.org",
+      "type": "utility",
+      "relations": ["PageBlueprint"]
+    },
+    {
+      "name": "NavigationMap",
+      "description": "Структура маршрутов для Header-навигации, breadcrumbs и sitemap",
+      "type": "config",
+      "relations": ["Header", "PageBlueprint"]
+    }
+  ],
+  "flows": [
+    {
+      "name": "PageRendering",
+      "steps": [
+        "Next.js route resolves slug",
+        "page.tsx loads PageBlueprint from registry",
+        "generateMetadata extracts SEO from blueprint",
+        "PageShell wraps content with Header/Footer",
+        "PageRenderer iterates sections array",
+        "SectionRegistry resolves each section type to component",
+        "Each section renders with its typed props"
+      ]
+    },
+    {
+      "name": "NewPageCreation",
+      "steps": [
+        "Developer defines PageBlueprint in pages-registry.ts",
+        "Developer creates route file importing PageRenderer",
+        "Sections auto-resolved from SectionRegistry",
+        "SEO auto-generated from blueprint metadata"
+      ]
+    }
+  ],
+  "dark_matter": [
+    "Breadcrumbs component не реализован, но нужен для навигации",
+    "Нет единой страницы 'О компании' (About)",
+    "Нет страницы портфолио/галереи как отдельного маршрута",
+    "Нет полноценной страницы Контакты (только footer)",
+    "Академия (Academy) — маршрут существует, но контент минимален",
+    "Нет архива кейсов как отдельной browse-страницы"
+  ]
+}
