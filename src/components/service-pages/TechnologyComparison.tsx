@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { TechnologyComparisonItem } from '@/lib/services/types';
 import { Check, X } from 'lucide-react';
 
@@ -33,7 +33,7 @@ export default function TechnologyComparison({ title, items }: TechnologyCompari
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  transition={{ duration: 0.2, delay: index * 0.04 }}
                   viewport={{ once: true }}
                   className="border-b border-outline/10 hover:bg-surface/30 transition-colors group"
                 >

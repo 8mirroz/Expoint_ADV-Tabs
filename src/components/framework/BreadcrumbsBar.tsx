@@ -41,8 +41,17 @@ export function BreadcrumbsBar({ items }: BreadcrumbsBarProps) {
   const [intensities, setIntensities] = useState<number[]>(() =>
     contactActions.map(() => 0)
   );
+  const [isScrolled, setIsScrolled] = useState(false);
   const [proximityRadius, setProximityRadius] = useState(600);
   const contactRef = useRef<HTMLDivElement | null>(null);
+
+  // Track scroll for sticky behavior
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Calculate proximity radius based on viewport size
   useEffect(() => {
@@ -102,19 +111,32 @@ export function BreadcrumbsBar({ items }: BreadcrumbsBarProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <div className="w-full border-b border-white/[0.06] bg-transparent relative z-20">
+      
+      {/* Fake spacer to maintain document flow since the bar is fixed */}
+      <div className="w-full h-[136px]" aria-hidden="true" />
+
+      {/* Fixed Breadcrumbs Bar */}
+      <div 
+        className={`w-full fixed left-0 right-0 z-40 transition-all duration-500 border-b border-white/[0.06] ${
+          isScrolled 
+            ? 'top-[4.5rem] bg-[#0A0A0A]/80 backdrop-blur-xl shadow-md' 
+            : 'top-[5.5rem] bg-transparent'
+        }`}
+      >
         <nav
           aria-label="Breadcrumb"
-          className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4"
+          className={`max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all duration-500 ${
+            isScrolled ? 'py-3' : 'py-4'
+          }`}
         >
           {/* Left: Breadcrumbs Path — white for dark bg contrast */}
-          <ol className="flex items-center flex-wrap gap-1.5 text-[11px] uppercase tracking-[0.08em] text-white/50" style={{ fontFamily: 'var(--font-mono)' }}>
+          <ol className="flex items-center flex-wrap gap-1.5 text-[12px] uppercase tracking-[0.08em] text-white/50" style={{ fontFamily: 'var(--font-mono)' }}>
             <li>
               <Link
                 href="/"
-                className="flex items-center gap-1 text-white/50 hover:text-white transition-colors duration-200"
+                className="flex items-center gap-2 text-white/50 hover:text-white transition-colors duration-200"
               >
-                <Home className="w-3.5 h-3.5" />
+                <Home className="w-4 h-4" />
                 <span>Главная</span>
               </Link>
             </li>
@@ -122,7 +144,7 @@ export function BreadcrumbsBar({ items }: BreadcrumbsBarProps) {
               <li key={item.href} className="flex items-center gap-1.5">
                 <span className="text-white/20">/</span>
                 {index === items.length - 1 ? (
-                  <span className="font-semibold tracking-[0.03em] normal-case text-primary px-2 py-0.5 rounded-[4px] bg-white/[0.06]">
+                  <span className="text-[13px] font-semibold tracking-[0.03em] normal-case text-primary px-2 py-0.5 rounded-[4px] bg-white/[0.06]">
                     {item.label}
                   </span>
                 ) : (

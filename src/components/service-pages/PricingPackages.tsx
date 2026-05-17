@@ -1,54 +1,78 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { PricingPackage } from '@/lib/services/types';
-import { Check } from 'lucide-react';
+import { Check, Star } from 'lucide-react';
+import { useModalStore } from '@/store/useModalStore';
 
 interface PricingPackagesProps {
   packages: PricingPackage[];
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  modalContextLabel?: string;
+  modalSourcePrefix?: string;
 }
 
-export default function PricingPackages({ packages }: PricingPackagesProps) {
+export default function PricingPackages({
+  packages,
+  eyebrow = 'Пакеты под задачу',
+  title = 'Не хотите считать контур вручную? Выберите пакет.',
+  description = 'Пакеты нужны не для скрытия цены, а для понятного выбора сценария: быстрый кастом, рабочий B2B-вариант или комплексный запуск точки.',
+  modalContextLabel = 'Пакет услуги',
+  modalSourcePrefix = 'service_package',
+}: PricingPackagesProps) {
+  const openModal = useModalStore((state) => state.openModal);
+
   return (
-    <section className="py-24 px-6 bg-surface/10">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">
-            Готовые пакеты решений
-          </h2>
-          <p className="text-xl text-on-surface-variant">Выберите оптимальный вариант под ваши задачи</p>
+    <section className="section-padding border-t border-outline bg-surface">
+      <div className="section-container px-6">
+        <div className="mb-14 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <div className="space-y-5">
+            <p className="verge-mono-label text-primary">{eyebrow}</p>
+            <h2 className="geist-display-lg max-w-[16ch] text-balance text-on-surface">
+              {title}
+            </h2>
+          </div>
+          <p className="max-w-3xl text-lg leading-[1.7] text-on-surface-variant">
+            {description}
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {packages.map((pkg, index) => (
             <motion.div
               key={pkg.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.25, delay: index * 0.06 }}
               viewport={{ once: true }}
-              className={`relative flex flex-col p-8 rounded-3xl border transition-all duration-500 ${
+              className={`relative flex flex-col p-7 rounded-[var(--radius-16)] border transition-all duration-300 shadow-sm hover:shadow-md ${
                 pkg.role === 'recommended'
-                  ? 'bg-surface border-accent shadow-[0_0_40px_rgba(0,255,204,0.1)] scale-105 z-10'
-                  : 'bg-surface/50 border-outline/30 hover:border-outline'
+                  ? 'bg-surface border-primary/30 ring-1 ring-primary/10 z-10'
+                  : 'bg-surface border-outline hover:border-primary/30'
               }`}
             >
               {pkg.role === 'recommended' && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent text-background text-xs font-black uppercase tracking-widest rounded-full">
-                  Хит продаж
+                <div className="absolute -top-3 left-6 flex items-center gap-1.5 rounded-full bg-primary px-4 py-1.5">
+                  <Star className="h-3 w-3 text-on-primary" />
+                  <span className="text-xs font-medium text-on-primary uppercase tracking-wider">
+                  Рекомендовано
+                  </span>
                 </div>
               )}
 
               <div className="mb-8">
-                <h3 className="text-2xl font-black uppercase mb-2 tracking-tight">{pkg.title}</h3>
-                <div className="text-3xl font-black text-accent">{pkg.priceLabel}</div>
+                <p className="verge-mono-label mb-4 text-primary">{pkg.id}</p>
+                <h3 className="text-2xl font-black uppercase mb-4 tracking-tight">{pkg.title}</h3>
+                <div className="text-3xl font-black text-on-surface">{pkg.priceLabel}</div>
               </div>
 
               <div className="flex-grow space-y-4 mb-10">
                 {pkg.includes.map((item, i) => (
                   <div key={i} className="flex gap-3 text-sm text-on-surface-variant">
-                    <Check className="w-5 h-5 text-accent shrink-0" />
+                    <Check className="w-5 h-5 text-primary/70 shrink-0" />
                     <span>{item}</span>
                   </div>
                 ))}
@@ -66,10 +90,16 @@ export default function PricingPackages({ packages }: PricingPackagesProps) {
               </div>
 
               <button
+                onClick={() =>
+                  openModal({
+                    context: `${modalContextLabel}: ${pkg.title}`,
+                    source: `${modalSourcePrefix}_${pkg.id}`,
+                  })
+                }
                 className={`w-full py-4 rounded-xl font-black uppercase tracking-widest transition-all ${
                   pkg.role === 'recommended'
-                    ? 'bg-accent text-background hover:scale-[1.02]'
-                    : 'bg-on-surface text-surface hover:bg-accent hover:text-on-surface'
+                    ? 'geist-button-primary'
+                    : 'geist-button-secondary'
                 }`}
               >
                 {pkg.cta}

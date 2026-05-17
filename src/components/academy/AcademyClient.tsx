@@ -105,7 +105,7 @@ export const AcademyClient: React.FC<AcademyClientProps> = ({ articles }) => {
                     </p>
                   </div>
 
-                  <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-neutral-500 group-hover:text-amber-500 group-hover:border-amber-500/50 group-hover:scale-110 group-hover:rotate-[-5deg] transition-all duration-500">
+                  <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-neutral-500 group-hover:text-amber-500 group-hover:border-amber-500/50 group-hover:scale-110 group-hover:-translate-y-1 group-hover:shadow-[0_0_15px_rgba(245,158,11,0.2)] transition-all duration-500">
                     <ArrowRight size={28} />
                   </div>
                 </div>

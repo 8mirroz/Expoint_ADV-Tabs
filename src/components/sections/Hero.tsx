@@ -21,14 +21,13 @@ const copy = {
 } as const;
 
 const features = [
-  { icon: <Box className="w-5 h-5" />, label: { ru: '3D-проектирование', en: '3D Engineering' } },
-  { icon: <ShieldCheck className="w-5 h-5" />, label: { ru: '902-ПП Гарантия', en: '902-PP Shield' } },
-  { icon: <Clock className="w-5 h-5" />, label: { ru: 'Сроки от 3 дней', en: '3-Day Turnaround' } },
+  { icon: <Box className="w-8 h-8" />, label: { ru: 'проектирование', en: 'Engineering' } },
+  { icon: <ShieldCheck className="w-8 h-8" />, label: { ru: '902-ПП Гарантия', en: '902-PP Shield' } },
+  { icon: <Clock className="w-8 h-8" />, label: { ru: 'Сроки от 24 часов', en: 'From 24 Hours' } },
 ];
 
 export default function Hero({ segment }: { segment?: SegmentData }) {
   const { locale } = useLanguage();
-  const segmentTitle = segment ? t(locale, segment.title) : '';
 
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-background pt-20">
@@ -80,8 +79,8 @@ export default function Hero({ segment }: { segment?: SegmentData }) {
             >
               {features.map((f, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <div className="text-primary/40">{f.icon}</div>
-                  <span className="verge-mono-label !text-xs uppercase tracking-widest">{t(locale, f.label)}</span>
+                  <div className="text-accent">{f.icon}</div>
+                  <span className="verge-mono-label !text-xs uppercase tracking-widest text-white font-semibold">{t(locale, f.label)}</span>
                 </div>
               ))}
             </motion.div>

@@ -1,11 +1,13 @@
-import Header from "@/components/sections/Header";
-import Footer from "@/components/sections/Footer";
+import PageShell from "@/components/framework/PageShell";
 
 export default function TermsPage() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-background pt-32 pb-24 relative overflow-hidden">
+    <PageShell
+      breadcrumbs={[
+        { label: 'Условия сервиса', href: '/terms' }
+      ]}
+    >
+      <main className="min-h-screen pt-12 pb-24 relative overflow-hidden">
         {/* Background Atmosphere */}
         <div className="absolute inset-0 pointer-events-none z-0">
           <div className="absolute inset-0 bg-background" />
@@ -58,7 +60,6 @@ export default function TermsPage() {
           </div>
         </section>
       </main>
-      <Footer />
-    </>
+    </PageShell>
   );
 }

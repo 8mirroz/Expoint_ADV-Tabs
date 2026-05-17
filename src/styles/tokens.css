@@ -77,13 +77,19 @@
   --on-secondary: var(--geist-ink);
 
   /* Accent */
-  --accent: var(--geist-link);            
-  --accent-rgb: 0, 112, 243;
-  --on-accent: #ffffff;
+  --accent: #00F5A0;            
+  --accent-rgb: 0, 245, 160;
+  --on-accent: #000000;
 
   /* Accent Warm (de-facto orange used across CTA/hero) */
   --accent-warm: #FF4D00;
   --accent-warm-rgb: 255, 77, 0;
+
+  /* Neon Specific Tokens */
+  --neon-warm: var(--accent-warm);
+  --neon-warm-rgb: var(--accent-warm-rgb);
+  --neon-rgb-primary: #FF4D00;
+  --neon-rgb-secondary: #0070F3;
 
   /* ===========================================
    * CATEGORY COLORS (Service Directions)
@@ -181,6 +187,48 @@
   --motion-duration-fast: 150ms;
   --motion-duration-base: 200ms;
   --motion-duration-slow: 300ms;
+
+  /* ===========================================
+   * BUTTON SYSTEM
+   * =========================================== */
+  --button-font-family: var(--font-header, "Manrope"), var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
+  --button-font-size: 15px;
+  --button-font-size-sm: 13px;
+  --button-font-size-lg: 16px;
+  --button-font-weight: 600;
+  --button-letter-spacing: -0.01em;
+  --button-radius: var(--radius-pill);
+  --button-height-sm: 36px;
+  --button-height-md: 52px;
+  --button-height-lg: 60px;
+  --button-px-sm: 18px;
+  --button-px-md: 28px;
+  --button-px-lg: 32px;
+  --button-border-width: 1px;
+
+  --button-primary-bg: var(--accent);
+  --button-primary-text: var(--on-accent);
+  --button-primary-border: color-mix(in srgb, var(--accent) 82%, black 18%);
+  --button-primary-shadow: 0 12px 30px rgba(var(--accent-rgb), 0.16), inset 0 1px 0 rgba(255,255,255,0.45);
+  --button-primary-shadow-hover: 0 16px 36px rgba(var(--accent-rgb), 0.24), 0 0 0 1px rgba(var(--accent-rgb), 0.14);
+  --button-primary-bg-hover: color-mix(in srgb, var(--accent) 88%, white 12%);
+
+  --button-secondary-bg: rgba(255,255,255,0.74);
+  --button-secondary-bg-hover: rgba(255,255,255,0.9);
+  --button-secondary-border: color-mix(in srgb, var(--outline) 82%, rgba(255,255,255,0.9) 18%);
+  --button-secondary-text: var(--on-surface);
+  --button-secondary-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 10px 24px rgba(15,23,42,0.06);
+
+  --button-outline-bg: transparent;
+  --button-outline-bg-hover: color-mix(in srgb, var(--accent) 6%, white 94%);
+  --button-outline-border: color-mix(in srgb, var(--accent) 44%, var(--outline) 56%);
+  --button-outline-text: var(--on-surface);
+  --button-outline-text-hover: var(--on-surface);
+
+  --button-ghost-bg: transparent;
+  --button-ghost-bg-hover: color-mix(in srgb, var(--accent) 8%, white 92%);
+  --button-ghost-text: var(--on-surface);
+  --button-ghost-text-hover: var(--on-surface);
 }
 
 /* ===========================================
@@ -211,8 +259,8 @@
   --secondary: #000000;
   --on-secondary: #ffffff;
 
-  --accent: #52a8ff;
-  --accent-rgb: 82, 168, 255;
+  --accent: #00F5A0;
+  --accent-rgb: 0, 245, 160;
   --on-accent: #000000;
 
   --outline: #333333;
@@ -221,4 +269,20 @@
   --elevation-1: 0 0 0 1px rgba(255,255,255,0.1);
   --elevation-2: 0px 1px 1px rgba(0,0,0,0.8), 0px 2px 2px rgba(0,0,0,0.8);
   --elevation-3: 0px 2px 2px rgba(0,0,0,0.8), 0px 8px 8px -8px rgba(0,0,0,0.8);
+
+  /* Button System overrides for Dark Mode */
+  --button-secondary-bg: rgba(255, 255, 255, 0.07);
+  --button-secondary-bg-hover: rgba(255, 255, 255, 0.12);
+  --button-secondary-border: rgba(255, 255, 255, 0.15);
+  --button-secondary-text: var(--on-surface);
+  --button-secondary-shadow: none;
+
+  --button-outline-bg-hover: rgba(255, 255, 255, 0.05);
+  --button-outline-border: rgba(255, 255, 255, 0.2);
+  --button-outline-text: var(--on-surface);
+  --button-outline-text-hover: #ffffff;
+
+  --button-ghost-bg-hover: rgba(255, 255, 255, 0.05);
+  --button-ghost-text: var(--on-surface);
+  --button-ghost-text-hover: #ffffff;
 }

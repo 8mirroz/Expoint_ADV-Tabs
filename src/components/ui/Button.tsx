@@ -14,22 +14,19 @@ export function Button({
   children,
   ...props
 }: ButtonProps) {
-  const baseStyles = 'inline-flex items-center justify-center border font-mono uppercase tracking-[1.1px] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]';
+  const baseStyles = 'ui-button focus-visible:ring-2 focus-visible:ring-primary';
   
   const variants = {
-    // Primary Jelly Pill
-    primary: 'rounded-[var(--radius-24)] bg-primary border-primary text-on-primary hover:bg-white/20 hover:border-outline-strong hover:text-white',
-    // Secondary Slate Pill
-    secondary: 'rounded-[var(--radius-24)] bg-surface border-surface text-on-surface hover:bg-surface-elevated hover:border-outline-strong',
-    // Outlined
-    outline: 'rounded-[var(--radius-40)] border-outline bg-transparent text-on-surface hover:border-primary hover:text-primary',
-    ghost: 'rounded-[var(--radius-24)] border-transparent text-on-surface hover:text-[var(--state-hover-link)]',
+    primary: 'ui-button-primary',
+    secondary: 'ui-button-secondary',
+    outline: 'ui-button-outline',
+    ghost: 'ui-button-ghost',
   };
 
   const sizes = {
-    sm: 'h-10 px-6 text-xs',
-    md: 'h-12 px-8 text-xs',
-    lg: 'h-[60px] px-10 text-sm',
+    sm: 'ui-button-sm',
+    md: 'ui-button-md',
+    lg: 'ui-button-lg',
   };
 
   return (

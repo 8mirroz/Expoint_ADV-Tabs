@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import Link from 'next/link';
-import { ArrowRight, Check, Star } from 'lucide-react';
+import { ArrowRight, BriefcaseBusiness, Check, Gem, Network, Rocket, Star } from 'lucide-react';
 
 import { SERVICES } from '@/data/services';
 
@@ -12,9 +12,11 @@ interface ScenarioPackage {
   label: string;
   title: string;
   budget: string;
+  budgetNote?: string;
   audience: string;
   includes: string[];
   timeline: string;
+  decisionNote?: string;
   recommendation: string[];
   riskLevel: 'low' | 'medium' | 'high';
   isPopular?: boolean;
@@ -110,6 +112,13 @@ const riskLabels: Record<string, string> = {
   high: 'Высокий',
 };
 
+const packageIcons: Record<string, typeof Rocket> = {
+  start: Rocket,
+  business: BriefcaseBusiness,
+  premium: Gem,
+  network: Network,
+};
+
 /**
  * Pricing — v10: Scenario-based B2B packages with timeline rail,
  * budget anchors, glassmorphism cards, and motion reveals.
@@ -137,7 +146,7 @@ export default function Pricing({ packages }: PricingProps) {
         >
           <div className="space-y-5">
             <p className="verge-mono-label text-primary">Пакеты под задачу</p>
-            <h2 className="geist-display-lg text-on-surface">
+            <h2 className="geist-display-lg max-w-[16ch] text-balance text-on-surface">
               Не хотите разбираться в сантиметрах? Выберите готовый пакет.
             </h2>
           </div>
@@ -171,7 +180,9 @@ export default function Pricing({ packages }: PricingProps) {
 
         {/* Package Cards */}
         <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
-          {items.map((pkg, index) => (
+          {items.map((pkg, index) => {
+            const Icon = packageIcons[pkg.id] ?? Rocket;
+            return (
             <motion.article
               key={pkg.id}
               initial={{ opacity: 0, y: 30 }}
@@ -192,20 +203,28 @@ export default function Pricing({ packages }: PricingProps) {
               )}
 
               {/* Header */}
-              <div className="flex items-center justify-between gap-3 mb-6">
-                <span className="verge-mono-label text-primary">{pkg.label}</span>
+              <div className="mb-6 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-[14px] border border-primary/15 bg-primary/8 text-primary">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <span className="verge-mono-label text-primary">{pkg.label}</span>
+                </div>
                 <span className={`rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.16em] font-medium ${riskColors[pkg.riskLevel]}`}>
                   Риск: {riskLabels[pkg.riskLevel]}
                 </span>
               </div>
 
               {/* Title & Budget */}
-              <h3 className="text-2xl font-black uppercase tracking-tight text-on-surface">
+              <h3 className="line-clamp-2 min-h-[4rem] text-2xl font-black uppercase tracking-tight text-on-surface">
                 {pkg.title}
               </h3>
               <div className="mt-4 flex items-baseline gap-2">
                 <span className="text-3xl font-black text-on-surface">{pkg.budget}</span>
               </div>
+              {pkg.budgetNote && (
+                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-primary">{pkg.budgetNote}</p>
+              )}
 
               {/* Audience */}
               <p className="mt-4 text-sm leading-6 text-on-surface-variant">{pkg.audience}</p>
@@ -242,6 +261,12 @@ export default function Pricing({ packages }: PricingProps) {
                   ))}
                 </div>
               </div>
+              {pkg.decisionNote && (
+                <div className="mt-6 rounded-[var(--radius-8)] border border-primary/10 bg-primary/5 px-4 py-3">
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-on-surface-variant">Когда выбирать</p>
+                  <p className="mt-1 text-sm leading-6 text-on-surface">{pkg.decisionNote}</p>
+                </div>
+              )}
 
               {/* CTA */}
               <div className="mt-6 pt-2">
@@ -254,7 +279,7 @@ export default function Pricing({ packages }: PricingProps) {
                 </Link>
               </div>
             </motion.article>
-          ))}
+          )})}
         </div>
       </div>
     </section>

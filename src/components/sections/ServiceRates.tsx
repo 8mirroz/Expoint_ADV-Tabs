@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Building2, Landmark, Lightbulb, PanelsTopLeft, ShieldCheck, Sparkles } from 'lucide-react';
 
 import { SERVICES } from '@/data/services';
 
@@ -55,6 +55,15 @@ const bestForMap: Record<string, string> = {
   'metal-letters': 'Премиум / Бутик',
   'pylon-signs': 'ТЦ / Бизнес-парки',
   'roof-installations': 'Корпорации',
+};
+
+const serviceIconMap: Record<string, typeof Building2> = {
+  'volumetric-letters': Building2,
+  'lightbox': PanelsTopLeft,
+  'flex-neon': Sparkles,
+  'metal-letters': ShieldCheck,
+  'pylon-signs': Landmark,
+  'roof-installations': Lightbulb,
 };
 
 function formatSegments(segments: string[]) {
@@ -111,6 +120,7 @@ export default function ServiceRates({ compact = false }: ServiceRatesProps) {
             const complexity = complexityMap[service.id] ?? 3;
             const timeline = timelineMap[service.id] ?? '—';
             const bestFor = bestForMap[service.id] ?? '—';
+            const Icon = serviceIconMap[service.id] ?? Building2;
 
             return (
               <motion.article
@@ -122,11 +132,16 @@ export default function ServiceRates({ compact = false }: ServiceRatesProps) {
               >
                 {/* Header */}
                 <div className="flex items-start justify-between gap-4">
-                  <div>
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[18px] border border-primary/15 bg-primary/8 text-primary">
+                      <Icon className="h-7 w-7" />
+                    </div>
+                    <div>
                     <p className="verge-mono-label text-primary">{formatSegments(service.segments)}</p>
-                    <h3 className="mt-4 text-2xl font-black uppercase tracking-tight text-on-surface">
+                    <h3 className="mt-3 line-clamp-2 min-h-[4rem] text-2xl font-black uppercase tracking-tight text-on-surface">
                       {service.title}
                     </h3>
+                    </div>
                   </div>
                   <span className="rounded-full border border-outline px-3 py-1 text-xs uppercase tracking-[0.16em] text-on-surface-variant shrink-0">
                     {notes?.source_doc_ids.join(', ')}
@@ -152,15 +167,23 @@ export default function ServiceRates({ compact = false }: ServiceRatesProps) {
                 </div>
 
                 {/* Price Block */}
-                <div className="mt-6 rounded-[var(--radius-8)] border border-outline bg-surface-variant/30 px-5 py-5">
-                  <p className="text-xs uppercase tracking-[0.18em] text-on-surface-variant">Базовая ставка</p>
-                  <div className="mt-3 flex items-end gap-3">
-                    <span className="text-4xl font-black leading-none text-on-surface" data-testid={`service-rate-price-${service.id}`}>
+                <div className="mt-6 rounded-[var(--radius-12)] border border-outline bg-surface-variant/30 px-5 py-5">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.18em] text-on-surface-variant">Базовая ставка</p>
+                      <div className="mt-3 flex items-end gap-3">
+                        <span className="text-4xl font-black leading-none text-on-surface" data-testid={`service-rate-price-${service.id}`}>
                       {service.basePrice.toLocaleString('ru-RU')}
-                    </span>
-                    <span className="pb-1 text-sm font-mono uppercase tracking-[0.14em] text-primary" data-testid={`service-rate-unit-${service.id}`}>
+                        </span>
+                        <span className="pb-1 text-sm font-mono uppercase tracking-[0.14em] text-primary" data-testid={`service-rate-unit-${service.id}`}>
                       {service.priceUnit}
-                    </span>
+                        </span>
+                      </div>
+                    </div>
+                    <div className="rounded-[var(--radius-8)] bg-background/70 px-3 py-2 text-right">
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-on-surface-variant">Лучше всего</p>
+                      <p className="mt-1 text-sm font-semibold leading-5 text-on-surface">{bestFor}</p>
+                    </div>
                   </div>
                 </div>
 
@@ -189,7 +212,7 @@ export default function ServiceRates({ compact = false }: ServiceRatesProps) {
 
                 {/* Evidence */}
                 {evidence && (
-                  <blockquote className="mt-6 border-l-2 border-primary/20 pl-4 text-sm italic leading-6 text-on-surface-variant/70">
+                  <blockquote className="mt-6 rounded-[var(--radius-8)] border border-primary/10 bg-primary/5 px-4 py-4 text-sm italic leading-6 text-on-surface-variant/80">
                     {evidence.evidence_snippet}
                   </blockquote>
                 )}

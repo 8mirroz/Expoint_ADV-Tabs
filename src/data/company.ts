@@ -19,8 +19,8 @@ export const COMPANY_INFO = {
   name: 'Expoint ADV',
   foundedYear: 2018,
   address: {
-    ru: 'Москва, ул. Промышленная, д. 12, стр. 3',
-    en: 'Moscow, Promyshlennaya st., 12, bldg. 3',
+    ru: 'Москва, ул. Полимерная, д. 8',
+    en: 'Moscow, Polymernaya st., 8',
   } as LocalizedText,
   phone: '+7 (495) 000-00-00',
   email: 'info@expoint-adv.ru',

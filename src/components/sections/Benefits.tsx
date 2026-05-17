@@ -59,7 +59,7 @@ export default function BenefitsAndWorkflow({ segment }: { segment?: SegmentData
               В Москве действуют жесткие регламенты 902-ПП. Мы проводим предварительный аудит вашего фасада, гарантируя соответствие архитектурному коду города до начала производства.
             </p>
             <Button size="lg" className="group bg-on-surface text-surface hover:bg-accent hover:text-on-accent border-none shadow-premium">
-              <ShieldCheck className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform" />
+              <ShieldCheck className="w-5 h-5 mr-3 group-hover:scale-110 group-hover:translate-x-[-1px] transition-transform" />
               {locale === 'ru' ? 'Проверить объект на соответствие' : locale === 'en' ? 'Check Property Compliance' : 'Проверить объект на соответствие'}
             </Button>
           </div>

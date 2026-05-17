@@ -4,11 +4,10 @@ import Script from 'next/script';
 import HeroGeneric from '@/components/sections/HeroGeneric';
 import StatsSection from '@/components/sections/StatsSection';
 import ProductionDaily from '@/components/sections/ProductionDaily';
-import MissionSection from '@/components/sections/MissionSection';
 import ValuesSection from '@/components/sections/ValuesSection';
 import TeamSection from '@/components/sections/TeamSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import CTASection from '@/components/sections/CTASection';
+import Quiz from '@/components/sections/Quiz';
 import { COMPANY_STATS, COMPANY_VALUES, COMPANY_MISSION } from '@/data/company';
 import { TEAM_MEMBERS } from '@/data/team';
 import { TESTIMONIALS } from '@/data/testimonials';
@@ -40,7 +39,7 @@ export default function AboutPage() {
       />
 
       <StatsSection
-        title="Результаты работы"
+        title="Результаты и опыт"
         items={COMPANY_STATS.map((s) => ({
           value: s.value,
           label: typeof s.label === 'string' ? s.label : s.label.ru || '',
@@ -51,7 +50,7 @@ export default function AboutPage() {
 
       <ProductionDaily />
 
-      <MissionSection />
+
 
       <ValuesSection
         title="Почему выбирают нас"
@@ -78,13 +77,7 @@ export default function AboutPage() {
         items={TESTIMONIALS}
       />
 
-      <CTASection
-        title="Готовы обсудить"
-        titleAccent="проект?"
-        description="Расскажите нам о вашей задаче — мы подготовим расчёт и визуализацию в течение 24 часов."
-        buttonText="Оставить заявку"
-        buttonHref="/contacts"
-      />
+      <Quiz />
 
       <Script
         id="json-ld-about"
@@ -100,7 +93,7 @@ export default function AboutPage() {
             address: {
               '@type': 'PostalAddress',
               addressLocality: 'Москва',
-              streetAddress: 'ул. Промышленная, д. 12, стр. 3',
+              streetAddress: 'ул. Полимерная, д. 8',
             },
             telephone: '+7-495-000-00-00',
             email: 'info@expoint-adv.ru',

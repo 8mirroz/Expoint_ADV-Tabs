@@ -40,6 +40,9 @@ export interface KnowledgeContentMeta {
   claims: ContentEvidenceClaim[];
   last_verified_at: string;
   owner: string;
+  coverage_doc_ids?: string[];
+  target_routes?: string[];
+  quality_status?: 'draft' | 'reviewed' | 'production';
 }
 
 export interface WeeklyKnowledgeKPI {

@@ -20,6 +20,8 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
       variant="story" 
       className={`group flex flex-col h-full hover:border-primary transition-all duration-300 overflow-hidden relative ${className}`}
     >
+      <Link href={getServiceHref(service.id)} aria-label={service.title} className="absolute inset-0 z-30" />
+
       {service.previewVideo && (
         <>
           <video
@@ -55,7 +57,7 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
             {service.title}
           </CardTitle>
           
-          <p className="text-on-surface-variant text-sm font-light leading-relaxed max-w-sm">
+          <p className="text-white/85 text-base font-normal leading-relaxed max-w-sm">
             {service.shortDescription}
           </p>
 
@@ -85,7 +87,7 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
           )}
         </div>
 
-        <div className="mt-6 rounded-[var(--radius-12)] border border-white/10 bg-black/55 backdrop-blur-md p-3">
+        <div className="mt-6 rounded-[var(--radius-12)] border border-white/10 bg-black/55 backdrop-blur-md p-3 relative z-40">
           <div className="flex flex-col gap-3">
             <div className="min-w-0">
               <span className="block text-xs font-mono uppercase tracking-[0.2em] text-on-surface-variant/80">
@@ -101,12 +103,11 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
               </div>
             </div>
 
-            <Link
-              href={getServiceHref(service.id)}
+            <div
               className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-8)] border border-white/90 bg-white px-4 text-xs font-mono font-black uppercase tracking-[0.1em] text-black transition-all duration-300 hover:bg-white/95 focus-visible:shadow-[0_0_0_3px_rgba(255,255,255,0.35)]"
             >
               Рассчитать <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
+            </div>
           </div>
         </div>
       </div>

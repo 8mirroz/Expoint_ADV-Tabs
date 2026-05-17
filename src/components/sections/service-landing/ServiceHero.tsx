@@ -15,20 +15,39 @@ interface ServiceHeroProps {
 
 export function ServiceHero({ service, previewVideo, openModal }: ServiceHeroProps) {
   const { locale } = useLanguage();
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [isAutoplayBlocked, setIsAutoplayBlocked] = React.useState(false);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const startPlay = async () => {
+      try {
+        await video.play();
+      } catch (err) {
+        console.warn('Cinematic video autoplay blocked or failed:', err);
+        setIsAutoplayBlocked(true);
+      }
+    };
+
+    startPlay();
+  }, [previewVideo]);
 
   return (
     <section className="hero-section relative min-h-[90vh] flex items-center px-6 overflow-hidden bg-background">
       <MeshBackground opacity={0.15} />
       
       {/* Optional Cinematic Background */}
-      {previewVideo && (
+      {previewVideo && !isAutoplayBlocked && (
         <div className="absolute inset-0 z-0">
           <video 
+            ref={videoRef}
             autoPlay 
             muted 
             loop 
             playsInline 
-            className="w-full h-full object-cover opacity-10 grayscale scale-105"
+            className="w-full h-full object-cover opacity-10 grayscale scale-105 transition-opacity duration-500"
           >
             <source src={previewVideo} type="video/mp4" />
           </video>
@@ -38,18 +57,7 @@ export function ServiceHero({ service, previewVideo, openModal }: ServiceHeroPro
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="space-y-10">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-surface border border-outline text-primary verge-mono-label backdrop-blur-xl"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            Geist Engineering V8
-          </motion.div>
+
           
           <h1 className="hero-title geist-display-2xl text-on-surface max-w-5xl">
             {service.title.split(' ').map((word, i) => (

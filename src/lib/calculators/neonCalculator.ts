@@ -11,17 +11,17 @@ export interface NeonInputs {
 
 const CONSTANTS = {
   BASE_KIT: 2500,
-  NEON_RATE: 12, // per cm
+  NEON_RATE: 45, // per cm, aligned with current custom-market anchor
   K_FONT: {
     Print: 1.0,
-    Serif: 1.2,
-    Script: 1.5,
+    Serif: 1.15,
+    Script: 1.25,
   },
   K_COLOR: {
     static: 1.0,
-    RGB: 1.8,
+    RGB: 1.5,
   },
-  ASSEMBLY_RATE: 0.3, // 30% of material cost
+  ASSEMBLY_PER_CHAR: 187,
   MIN_PRICE: 9500,
   K_BACKING: {
     none: 0,
@@ -29,21 +29,22 @@ const CONSTANTS = {
     contour: 2500,
     box: 4000,
   },
-  K_URGENCY: 1.2,
+  K_URGENCY: 1.4,
 };
 
 export function calculateNeonPrice(inputs: NeonInputs): DetailedNeonResult {
-  const textLength = inputs.text.length || 1;
+  const textLength = inputs.text.replace(/\s+/g, '').length || 1;
   
   // Estimate neon length in cm based on size and text length
   const heightInCm = inputs.size === 'S' ? 15 : inputs.size === 'M' ? 25 : 40;
-  const estimatedNeonLength = textLength * heightInCm * 1.5; // multiplier for curves
+  const lengthPerCharacter = inputs.size === 'S' ? 30 : inputs.size === 'M' ? 50 : 80;
+  const estimatedNeonLength = textLength * lengthPerCharacter;
   
   const fontMultiplier = CONSTANTS.K_FONT[inputs.fontType];
   const colorMultiplier = inputs.isRGB ? CONSTANTS.K_COLOR.RGB : CONSTANTS.K_COLOR.static;
   
   const neonCost = estimatedNeonLength * CONSTANTS.NEON_RATE * fontMultiplier * colorMultiplier;
-  const assemblyCost = neonCost * CONSTANTS.ASSEMBLY_RATE;
+  const assemblyCost = textLength * CONSTANTS.ASSEMBLY_PER_CHAR;
   const backingCost = CONSTANTS.K_BACKING[inputs.backing];
   
   let total = CONSTANTS.BASE_KIT + neonCost + assemblyCost + backingCost;
@@ -63,7 +64,7 @@ export function calculateNeonPrice(inputs: NeonInputs): DetailedNeonResult {
   }
 
   return {
-    estimatedPriceMin: Math.floor(finalPrice * 0.95),
+    estimatedPriceMin: Math.round(finalPrice),
     estimatedPriceMax: Math.ceil(finalPrice * 1.1),
     recommendedPackage,
     baseKitCost: CONSTANTS.BASE_KIT,
@@ -73,6 +74,7 @@ export function calculateNeonPrice(inputs: NeonInputs): DetailedNeonResult {
     assumptions: [
       `Расчет для текста из ${textLength} симв.`,
       `Высота символов ~${heightInCm} см`,
+      inputs.urgency === 'fast' ? 'Срочность добавляет +40% к расчету' : 'Стандартный срок 3-5 рабочих дней',
     ],
     requiredClarifications: [
       'Точная длина неона зависит от выбранного шрифта',

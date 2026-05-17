@@ -1,23 +1,73 @@
 "use client";
 import { useRef, useEffect, useState, useCallback } from 'react';
-import { motion, useInView, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import Script from 'next/script';
 import { COMPANY_INFO } from '@/data/company';
 
+interface YMapGeoObject {
+  balloon: {
+    open: () => void;
+  };
+}
+
+interface YMapInstance {
+  geoObjects: {
+    add: (object: YMapGeoObject) => void;
+  };
+  behaviors: {
+    disable: (behavior: string) => void;
+  };
+}
+
+interface YMapSearchControl {
+  search: (query: string) => Promise<void>;
+  getResultsArray: () => YMapGeoObject[];
+}
+
+interface YMapsApi {
+  ready: (callback: () => void) => void;
+  Map: new (
+    container: HTMLElement,
+    state: {
+      center: [number, number];
+      zoom: number;
+      controls: string[];
+    },
+    options: {
+      suppressMapOpenBlock: boolean;
+      yandexMapDisablePoiInteractivity: boolean;
+    }
+  ) => YMapInstance;
+  Placemark: new (
+    coordinates: [number, number],
+    properties: Record<string, string>,
+    options: Record<string, string>
+  ) => YMapGeoObject;
+  control: {
+    SearchControl: new (params: {
+      options: {
+        provider: string;
+        noPlacemark: boolean;
+        results: number;
+        useMapBounds: boolean;
+      };
+    }) => YMapSearchControl;
+  };
+}
+
 declare global {
   interface Window {
-    ymaps: any;
+    ymaps?: YMapsApi;
   }
 }
 
 export default function MapSection() {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "200px" });
   const [isLoaded, setIsLoaded] = useState(false);
-  const mapInstance = useRef<any>(null);
+  const mapInstance = useRef<YMapInstance | null>(null);
 
-  const addFallbackPlacemark = useCallback((map: any) => {
+  const addFallbackPlacemark = useCallback((map: YMapInstance) => {
     if (!window.ymaps) return;
     const placemark = new window.ymaps.Placemark(
       [COMPANY_INFO.mapCoordinates.lat, COMPANY_INFO.mapCoordinates.lng],
@@ -35,8 +85,12 @@ export default function MapSection() {
     if (typeof window === 'undefined' || !window.ymaps || !mapContainerRef.current || mapInstance.current) return;
 
     window.ymaps.ready(() => {
+      const ymaps = window.ymaps;
+      const mapContainer = mapContainerRef.current;
+      if (!ymaps || !mapContainer) return;
+
       try {
-        const map = new window.ymaps.Map(mapContainerRef.current, {
+        const map = new ymaps.Map(mapContainer, {
           center: [COMPANY_INFO.mapCoordinates.lat, COMPANY_INFO.mapCoordinates.lng],
           zoom: 14,
           controls: ['zoomControl', 'typeSelector', 'fullscreenControl'],
@@ -47,7 +101,7 @@ export default function MapSection() {
 
         map.behaviors.disable('scrollZoom');
 
-        const searchControl = new window.ymaps.control.SearchControl({
+        const searchControl = new ymaps.control.SearchControl({
           options: {
             provider: 'yandex#search',
             noPlacemark: false,

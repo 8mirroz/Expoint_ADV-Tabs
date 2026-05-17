@@ -9,17 +9,21 @@ import { rules902PP } from '@/data/rules_902pp';
  * ================================================================ */
 const pricingDrivers = [
   {
-    title: 'Габариты и объем символов',
+    title: 'Дизайн и габариты символов',
     description:
       'Для букв расчет начинается с высоты в сантиметрах и количества символов. Для коробов — с площади в квадратных метрах. Для неона — с длины контура в погонных метрах.',
+    impactLabel: 'База сметы',
+    impactValue: 'до 60%',
     sourceDocId: 'NB-003',
     evidenceSnippet:
       'Rate per cm multiplied by letter count is the primary baseline estimator.',
   },
   {
-    title: 'Материал и световой сценарий',
+    title: 'Материалы',
     description:
       'ПВХ, акрил, нержавеющая сталь, тип подсветки (лицевая, контражурная, RGB) — каждая комбинация меняет не только внешний вид, но и эксплуатационный ресурс конструкции.',
+    impactLabel: 'Влияние на бюджет',
+    impactValue: '+15–40%',
     sourceDocId: 'NB-004',
     evidenceSnippet:
       'Material-lighting coupling directly affects luminance stability and service life.',
@@ -28,22 +32,28 @@ const pricingDrivers = [
     title: 'Монтаж, доступ и спецтехника',
     description:
       'Фасадный доступ, высота размещения, ночные работы, автовышка и промышленный альпинизм — эти факторы могут удвоить монтажную часть сметы.',
+    impactLabel: 'Монтажный риск',
+    impactValue: 'x2',
     sourceDocId: 'NB-017',
     evidenceSnippet:
       'Access complexity and night works materially affect final project budget.',
   },
   {
-    title: 'Электрика и безопасность',
+    title: 'Электрика и настройка',
     description:
       'Влагозащищённые блоки питания, кабельная разводка, автоматика 380В для крышных — всё это отдельные статьи бюджета, которые дешёвые подрядчики не включают в прайс.',
+    impactLabel: 'Надежность',
+    impactValue: 'IP67',
     sourceDocId: 'NB-005',
     evidenceSnippet:
       'Power supply quality and IP-rated enclosures determine outdoor reliability.',
   },
   {
-    title: 'Согласование и 902-ПП',
+    title: 'Согласования',
     description:
       'Исторический центр, кровля, сложные фасады — в этих сценариях compliance определяет, какую конструкцию вообще можно ставить, и меняет итоговую смету ещё до производства.',
+    impactLabel: 'Финансовый риск',
+    impactValue: 'до 500 000 ₽',
     sourceDocId: 'NB-006',
     evidenceSnippet:
       'Signage length must be within 70% facade width with 15m absolute cap.',
@@ -63,6 +73,7 @@ const complianceItems = [
     evidenceSnippet: rules902PP[0]?.evidence.evidence_snippet ?? '',
     tone: 'allowed' as const,
     severity: 'low' as const,
+    riskCost: '0 ₽ штрафов',
     consequence: 'Пересогласование задерживает проект на 2-4 недели.',
     prevention: 'Бесплатная предварительная проверка фасада до макетирования.',
   },
@@ -74,6 +85,7 @@ const complianceItems = [
     evidenceSnippet: rules902PP[2]?.evidence.evidence_snippet ?? '',
     tone: 'risk' as const,
     severity: 'high' as const,
+    riskCost: 'до 500 000 ₽',
     consequence: 'Штраф до 500 000 ₽ и принудительный демонтаж за свой счёт.',
     prevention: 'Compliance-проверка на старте и подбор допустимого формата.',
   },
@@ -85,6 +97,7 @@ const complianceItems = [
     evidenceSnippet: rules902PP[4]?.evidence.evidence_snippet ?? '',
     tone: 'risk' as const,
     severity: 'critical' as const,
+    riskCost: 'двойной бюджет',
     consequence: 'Демонтаж + повторное производство = двойной бюджет.',
     prevention: 'Проверяем фасад и зону размещения до запуска в производство.',
   },
@@ -97,6 +110,7 @@ const complianceItems = [
       'Access complexity and night works materially affect final project budget.',
     tone: 'risk' as const,
     severity: 'high' as const,
+    riskCost: 'от 50 000 ₽',
     consequence: 'Аварийный демонтаж и новый монтаж — от 50 000 ₽ сверх сметы.',
     prevention: 'Инженерный расчёт креплений, нагрузки и электроподключения.',
   },
@@ -112,6 +126,7 @@ const scenarioPackages = [
     label: 'Start',
     title: 'Быстрый запуск',
     budget: 'от 40 000 ₽',
+    budgetNote: 'для локальной точки',
     audience: 'ПВЗ, кофейни, небольшие магазины, локальные сервисы.',
     includes: [
       'Базовая вывеска из ПВХ или световой короб',
@@ -120,6 +135,7 @@ const scenarioPackages = [
       'Гарантия 1–3 года',
     ],
     timeline: '5–7 рабочих дней',
+    decisionNote: 'Быстрый старт без избыточной инженерии',
     recommendation: ['volumetric-letters', 'lightbox'],
     riskLevel: 'low' as const,
   },
@@ -128,6 +144,7 @@ const scenarioPackages = [
     label: 'Business',
     title: 'Выбор большинства',
     budget: 'от 90 000 ₽',
+    budgetNote: 'самый частый B2B-сценарий',
     audience: 'Кафе, салоны красоты, аптеки, клиники, street retail.',
     includes: [
       'Объёмные световые буквы с LED Samsung',
@@ -137,6 +154,7 @@ const scenarioPackages = [
       'Гарантия до 5 лет',
     ],
     timeline: '7–12 рабочих дней',
+    decisionNote: 'Оптимум по сроку, внешнему виду и ресурсу',
     recommendation: ['volumetric-letters', 'flex-neon', 'lightbox'],
     riskLevel: 'medium' as const,
     isPopular: true,
@@ -146,6 +164,7 @@ const scenarioPackages = [
     label: 'Premium',
     title: 'Для бренда и архитектуры',
     budget: 'от 150 000 ₽',
+    budgetNote: 'для статуса и архитектуры',
     audience: 'Рестораны, бутики, шоурумы, медцентры, премиальный ритейл.',
     includes: [
       'Нержавеющая сталь, латунь, контражурная подсветка',
@@ -155,6 +174,7 @@ const scenarioPackages = [
       'Гарантия до 5 лет + сервис',
     ],
     timeline: '10–18 рабочих дней',
+    decisionNote: 'Когда фасад и бренд важнее минимальной цены',
     recommendation: ['metal-letters', 'flex-neon', 'volumetric-letters'],
     riskLevel: 'medium' as const,
   },
@@ -163,6 +183,7 @@ const scenarioPackages = [
     label: 'Network',
     title: 'Масштабирование сети',
     budget: 'индивидуально',
+    budgetNote: 'под roll-out и SLA',
     audience: 'Сети ПВЗ, франшизы, аптечные сети, федеральные бренды, ТЦ.',
     includes: [
       'Единый стандарт вывесок для всех точек',
@@ -172,6 +193,7 @@ const scenarioPackages = [
       'Сервисное сопровождение и замена',
     ],
     timeline: 'по графику roll-out',
+    decisionNote: 'Когда нужна управляемая серия, а не одна вывеска',
     recommendation: ['lightbox', 'volumetric-letters', 'pylon-signs'],
     riskLevel: 'low' as const,
   },
@@ -233,6 +255,11 @@ const pricingPreview = {
     'Монтаж под ключ',
     'Проверка по 902-ПП',
   ],
+  meta: [
+    { label: 'Средний ответ', value: '30 мин' },
+    { label: 'Замерщик в Москве', value: '24 ч' },
+    { label: 'Типовой монтаж', value: 'от 4 000 ₽' },
+  ],
 };
 
 /* ================================================================
@@ -254,14 +281,14 @@ export const PRICES_PAGE: PageBlueprint = {
       id: 'hero',
       props: {
         subtitle: 'Commercial Pricing Hub',
-        title: 'Цена начинается',
-        titleAccent: 'с логики проекта',
+        title: 'Цены на вывески',
+        titleAccent: 'без ложной точности',
         description:
-          'Сначала определяем тип конструкции, единицу расчёта и ограничения фасада. Затем даём диапазон бюджета, который можно проверить через калькулятор и уточнить после замера.',
+          'Показываем базовые ставки, реальные монтажные ориентиры и 4 рабочих пакета. Сначала понимаете бюджетный коридор, потом подтверждаете его замером и проверкой фасада.',
         highlights: [
-          'Что влияет на цену: размер, материал, подсветка, монтаж и формат размещения.',
-          'Что можно оценить сейчас: базовую ставку и рабочий диапазон бюджета.',
-          'Следующий шаг — калькулятор: он собирает тип конструкции в ваш проектный сценарий.',
+          'Размер, материал, подсветка и монтаж считаем отдельно, а не прячем в общую цену.',
+          'Типовой монтаж стартует от 4 000 ₽, автовышка — от 17 000 ₽ за смену.',
+          'Пакеты Start, Business и Premium дают понятный диапазон уже на первом экране.',
         ],
         pricingPreview,
         ctaText: 'Открыть калькулятор',
@@ -276,7 +303,7 @@ export const PRICES_PAGE: PageBlueprint = {
       props: {
         title: 'Пять факторов, из которых складывается любая смета.',
         intro:
-          'Мы не обещаем искусственно точную цену до замера. Вместо этого показываем проверяемую логику расчёта: что формирует базу, что меняет материальную часть и что двигает монтажную часть сметы.',
+          'Мы не обещаем фиктивную точность до замера. Вместо этого показываем, где рождается цена, что ускоряет рост сметы и какие цифры нужно проверять до запуска в производство.',
         drivers: pricingDrivers,
         ctaHref: '/calculator',
         ctaLabel: 'Считать по параметрам',
@@ -299,9 +326,9 @@ export const PRICES_PAGE: PageBlueprint = {
       id: 'risk',
       props: {
         title:
-          'Compliance меняет не только риск, но и саму цену проекта.',
+          'Compliance влияет не только на риск, но и на цену.',
         intro:
-          'Для типовых объектов compliance не тормозит продажу, а защищает смету от переделок. Для исторического центра, кровли и сложных фасадов он определяет, какую конструкцию вообще можно считать.',
+          'Для типовых объектов compliance защищает смету от переделок. Для исторического центра, кровли и сложных фасадов он заранее показывает, где вы теряете деньги, сроки и право на монтаж.',
         items: complianceItems,
         primaryCtaHref: '/calculator',
         primaryCtaLabel: 'Считать диапазон',
@@ -315,7 +342,7 @@ export const PRICES_PAGE: PageBlueprint = {
       props: {
         subtitle: 'Verified Inputs',
         title:
-          'Основа страницы — не рекламные обещания, а рабочие исходные данные',
+          'В основе страницы рабочие цифры, а не рекламные формулировки',
         animateOnView: false,
         items: [
           {
@@ -358,7 +385,7 @@ export const PRICES_PAGE: PageBlueprint = {
         title: 'Нужен диапазон бюджета по вашему сценарию?',
         titleAccent: 'Соберите его в калькуляторе',
         description:
-          'Выберите тип конструкции, проверьте стартовую единицу расчёта и получите рабочий коридор бюджета. Для сложных фасадов мы подключим compliance-проверку вторым шагом.',
+          'Выберите тип конструкции, проверьте стартовую единицу расчёта и получите рабочий коридор бюджета. Для сложных фасадов подключим compliance-проверку вторым шагом, а не после производства.',
         buttonText: 'Открыть калькулятор',
         buttonHref: '/calculator',
         secondaryButtonText: 'Написать в WhatsApp',

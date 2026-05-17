@@ -1,7 +1,8 @@
 'use client';
 
-import { motion } from 'motion/react';
-import { Phone, Mail, MapPin, Clock, MessageCircle, Send, ArrowUpRight } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Phone, Mail, MapPin, Clock, MessageCircle, Send, ArrowUpRight, Check, Loader2 } from 'lucide-react';
 import { TechnicalGrid } from '@/components/ui/TechnicalGrid';
 
 interface ContactInfoSectionProps {
@@ -22,7 +23,7 @@ interface ContactInfoSectionProps {
 export default function ContactInfoSection({
   title,
   subtitle,
-  address = 'Москва, ул. Промышленная, д. 12, стр. 3',
+  address = 'Москва, ул. Полимерная, д. 8',
   phone = '+7 (495) 000-00-00',
   email = 'info@expoint-adv.ru',
   telegram = '@expoint_adv',
@@ -30,6 +31,22 @@ export default function ContactInfoSection({
   workingHours = 'Пн–Пт: 9:00–19:00, Сб: 10:00–16:00',
   showForm = true,
 }: ContactInfoSectionProps) {
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '', message: '' });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.phone) {
+      return;
+    }
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }, 1200);
+  };
 
   return (
     <section className="relative section-padding bg-background overflow-hidden">
@@ -75,10 +92,17 @@ export default function ContactInfoSection({
               transition={{ delay: 0.0, duration: 0.4 }}
               className="col-span-2 group relative flex items-end justify-between p-6 bg-surface border border-outline rounded-[var(--radius-12)] hover:border-on-surface/20 hover:shadow-md transition-all duration-300 overflow-hidden min-h-[120px]"
             >
-              {/* Background label */}
-              <span className="absolute top-4 right-6 text-[80px] font-black opacity-[0.03] uppercase leading-none pointer-events-none select-none">
-                ADR
-              </span>
+              {/* Metro Station Indicator */}
+              <div className="absolute top-4 right-6 flex items-center gap-2 bg-background/25 border border-outline/25 backdrop-blur-sm rounded-full px-3.5 py-1.5 z-10 transition-all duration-300 group-hover:border-[#FFD803]/20 hover:scale-[1.01]">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-[#E31E24] shrink-0">
+                  {/* Accurate Moscow Metro M logo */}
+                  <path d="M 1.5,19.5 V 4.5 h 4 l 6.5,9.5 6.5,-9.5 h 4 v 15 h -3 v -10.5 l -7.5,10.5 h -1 L 4.5,9 v 10.5 Z" />
+                </svg>
+                <span className="text-xs font-bold text-[#FFD803]/80 tracking-tight font-sans leading-none">
+                  Авиамоторная
+                </span>
+              </div>
+
               <div>
                 <p className="verge-mono-label text-on-surface-variant mb-2">Адрес производства</p>
                 <p className="text-lg md:text-xl font-semibold text-on-surface tracking-tight group-hover:text-primary transition-colors">
@@ -86,7 +110,6 @@ export default function ContactInfoSection({
                 </p>
               </div>
               <div className="flex items-center gap-2 shrink-0 ml-4">
-                <MapPin className="w-5 h-5 text-on-surface-variant" />
                 <ArrowUpRight className="w-4 h-4 text-on-surface-variant opacity-0 group-hover:opacity-100 transition-all -translate-x-1 group-hover:translate-x-0" />
               </div>
             </motion.a>
@@ -100,14 +123,12 @@ export default function ContactInfoSection({
               transition={{ delay: 0.05, duration: 0.4 }}
               className="group relative flex flex-col justify-between p-5 bg-surface border border-outline rounded-[var(--radius-12)] hover:border-on-surface/20 hover:shadow-md transition-all duration-300 overflow-hidden min-h-[130px]"
             >
-              <span className="absolute bottom-2 right-3 text-[56px] font-black opacity-[0.04] leading-none pointer-events-none select-none">TEL</span>
               <p className="verge-mono-label text-on-surface-variant">Телефон</p>
               <div>
                 <p className="text-base md:text-base font-semibold font-mono text-on-surface group-hover:text-primary transition-colors">
                   {phone}
                 </p>
                 <div className="flex items-center gap-1 mt-1">
-                  <Phone className="w-3.5 h-3.5 text-on-surface-variant/50" />
                   <ArrowUpRight className="w-3 h-3 text-on-surface-variant opacity-0 group-hover:opacity-70 transition-all -translate-x-0.5 group-hover:translate-x-0" />
                 </div>
               </div>
@@ -122,14 +143,12 @@ export default function ContactInfoSection({
               transition={{ delay: 0.08, duration: 0.4 }}
               className="group relative flex flex-col justify-between p-5 bg-surface border border-outline rounded-[var(--radius-12)] hover:border-on-surface/20 hover:shadow-md transition-all duration-300 overflow-hidden min-h-[130px]"
             >
-              <span className="absolute bottom-2 right-3 text-[56px] font-black opacity-[0.04] leading-none pointer-events-none select-none">@</span>
               <p className="verge-mono-label text-on-surface-variant">Email</p>
               <div>
                 <p className="text-base font-semibold text-on-surface group-hover:text-primary transition-colors break-all">
                   {email}
                 </p>
                 <div className="flex items-center gap-1 mt-1">
-                  <Mail className="w-3.5 h-3.5 text-on-surface-variant/50" />
                   <ArrowUpRight className="w-3 h-3 text-on-surface-variant opacity-0 group-hover:opacity-70 transition-all -translate-x-0.5 group-hover:translate-x-0" />
                 </div>
               </div>
@@ -197,49 +216,114 @@ export default function ContactInfoSection({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="relative flex flex-col bg-surface/60 backdrop-blur-xl rounded-[var(--radius-16)] border border-outline/80 p-7 overflow-hidden"
-              onSubmit={(e) => e.preventDefault()}
+              className="relative flex flex-col bg-surface/60 backdrop-blur-xl rounded-[var(--radius-16)] border border-outline/80 p-7 overflow-hidden min-h-[440px]"
+              onSubmit={handleSubmit}
             >
-              {/* Subtle gradient top accent */}
-              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-on-surface/10 to-transparent" />
+              {/* Top Accent Gradient (Mint) */}
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent opacity-80" />
 
-              <div className="mb-6">
-                <h3 className="font-sans font-bold text-xl text-on-surface tracking-tight">
-                  Напишите нам
-                </h3>
-                <p className="text-on-surface-variant text-sm mt-1">Ответим в течение рабочего дня</p>
-              </div>
+              {/* Form Content */}
+              <div className="flex flex-col h-full flex-1">
+                <div className="mb-6">
+                  <h3 className="font-sans font-bold text-xl text-on-surface tracking-tight">
+                    Напишите нам
+                  </h3>
+                  <p className="text-on-surface-variant text-sm mt-1">Ответим в течение рабочего дня</p>
+                </div>
 
-              <div className="flex flex-col gap-3 flex-1">
-                {[
-                  { type: 'text', placeholder: 'Ваше имя' },
-                  { type: 'tel', placeholder: 'Телефон' },
-                  { type: 'email', placeholder: 'Email' },
-                ].map((field) => (
+                <div className="flex flex-col gap-3.5 flex-1">
                   <input
-                    key={field.placeholder}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    className="w-full h-11 px-4 bg-background/50 border border-outline/60 rounded-[var(--radius-8)] text-on-surface text-sm placeholder:text-on-surface-variant/40 focus:border-on-surface/30 focus:bg-background focus:outline-none transition-all"
+                    type="text"
+                    required
+                    placeholder="Ваше имя"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full h-11 px-4 bg-background/70 border border-outline-strong/40 rounded-[var(--radius-8)] text-on-surface text-sm placeholder:text-on-surface-variant/50 hover:border-on-surface/30 focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/30 focus:shadow-[0_0_12px_rgba(0,245,160,0.15)] focus:bg-background focus:outline-none transition-all duration-300"
                   />
-                ))}
-                <textarea
-                  placeholder="Опишите ваш проект"
-                  rows={4}
-                  className="w-full px-4 py-3 bg-background/50 border border-outline/60 rounded-[var(--radius-8)] text-on-surface text-sm placeholder:text-on-surface-variant/40 focus:border-on-surface/30 focus:bg-background focus:outline-none transition-all resize-none"
-                />
-                <button
-                  type="submit"
-                  className="mt-1 w-full h-11 bg-on-surface text-background rounded-[var(--radius-8)] font-mono font-semibold uppercase tracking-[1.5px] text-xs hover:bg-on-surface/85 active:scale-[0.99] transition-all"
-                >
-                  Отправить заявку
-                </button>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="Телефон"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="w-full h-11 px-4 bg-background/70 border border-outline-strong/40 rounded-[var(--radius-8)] text-on-surface text-sm placeholder:text-on-surface-variant/50 hover:border-on-surface/30 focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/30 focus:shadow-[0_0_12px_rgba(0,245,160,0.15)] focus:bg-background focus:outline-none transition-all duration-300"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full h-11 px-4 bg-background/70 border border-outline-strong/40 rounded-[var(--radius-8)] text-on-surface text-sm placeholder:text-on-surface-variant/50 hover:border-on-surface/30 focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/30 focus:shadow-[0_0_12px_rgba(0,245,160,0.15)] focus:bg-background focus:outline-none transition-all duration-300"
+                  />
+                  <textarea
+                    placeholder="Опишите ваш проект"
+                    rows={4}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="w-full px-4 py-3 bg-background/70 border border-outline-strong/40 rounded-[var(--radius-8)] text-on-surface text-sm placeholder:text-on-surface-variant/50 hover:border-on-surface/30 focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/30 focus:shadow-[0_0_12px_rgba(0,245,160,0.15)] focus:bg-background focus:outline-none transition-all duration-300 resize-none"
+                  />
+                  
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="mt-2 w-full h-11 bg-on-surface text-background rounded-[var(--radius-8)] font-mono font-semibold uppercase tracking-[1.5px] text-xs hover:bg-[var(--accent)] hover:text-black hover:shadow-[0_0_20px_rgba(0,245,160,0.3)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Отправка...</span>
+                      </>
+                    ) : (
+                      <span>Отправить заявку</span>
+                    )}
+                  </button>
+                </div>
+
+                {/* Bottom legal note */}
+                <p className="text-xs text-on-surface-variant/40 mt-4 text-center">
+                  Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+                </p>
               </div>
 
-              {/* Bottom legal note */}
-              <p className="text-xs text-on-surface-variant/40 mt-4 text-center">
-                Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
-              </p>
+              {/* Success Pop-up overlay with premium glassmorphism and mint accent */}
+              <AnimatePresence>
+                {isSubmitted && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="absolute inset-0 z-30 flex flex-col items-center justify-center p-6 bg-background/95 backdrop-blur-md text-center"
+                  >
+                    {/* Pulsing mint glow circle */}
+                    <div className="relative mb-5 flex items-center justify-center w-16 h-16 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/30 shadow-[0_0_30px_rgba(0,245,160,0.2)]">
+                      <motion.div
+                        animate={{ scale: [1, 1.15, 1] }}
+                        transition={{ repeat: Infinity, duration: 2 }}
+                        className="absolute inset-0 rounded-full bg-[var(--accent)]/5 border border-[var(--accent)]/20"
+                      />
+                      <Check className="w-8 h-8" />
+                    </div>
+
+                    <h4 className="text-xl font-bold text-on-surface tracking-tight mb-2">
+                      Заявка принята!
+                    </h4>
+                    <p className="text-sm text-on-surface-variant max-w-[280px] leading-relaxed mb-6">
+                      Мы свяжемся с вами в течение рабочего дня для обсуждения деталей вашего проекта.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        setFormData({ name: '', phone: '', email: '', message: '' });
+                      }}
+                      className="px-6 h-10 bg-on-surface text-background rounded-full font-mono font-semibold uppercase tracking-[1px] text-xs hover:bg-[var(--accent)] hover:text-black hover:shadow-[0_0_15px_rgba(0,245,160,0.25)] transition-all duration-300"
+                    >
+                      Отлично
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.form>
           )}
         </div>

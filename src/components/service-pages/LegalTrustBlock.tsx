@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { ShieldCheck, Info } from 'lucide-react';
 
 interface LegalTrustBlockProps {
@@ -53,7 +53,7 @@ export default function LegalTrustBlock({ title, content, bullets }: LegalTrustB
                 <ShieldCheck className="w-64 h-64 text-accent" />
               </div>
               <div className="relative z-10">
-                <div className="w-16 h-16 bg-accent rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-accent/20">
+                <div className="w-16 h-16 bg-accent-warm rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-accent-warm/20">
                   <Info className="w-8 h-8 text-background" />
                 </div>
                 <h3 className="text-2xl font-black uppercase mb-4 tracking-tight">Внимание к деталям</h3>

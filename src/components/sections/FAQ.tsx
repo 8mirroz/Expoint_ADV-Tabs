@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { PlusSquare } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
@@ -38,7 +38,7 @@ interface FAQProps {
 export default function FAQ({ items = FAQS, titleText, introText }: FAQProps) {
   const { locale } = useLanguage();
   const title = {
-    ru: 'Вопросы',
+    ru: 'Часто Задаваемые Вопросы',
     be: 'Пытанні',
     kk: 'Сұрақтар',
     en: 'Questions',
@@ -47,7 +47,7 @@ export default function FAQ({ items = FAQS, titleText, introText }: FAQProps) {
     tt: 'Сораулар',
   } as const;
   const intro = {
-    ru: 'Технические подробности и регламенты производства.',
+    ru: 'Инженерные регламенты, юридические согласования, сроки службы изделий и спецификации материалов.',
     be: 'Тэхнічныя падрабязнасці і рэгламенты вытворчасці.',
     kk: 'Техникалық мәліметтер мен өндіріс регламенттері.',
     en: 'Technical details and production regulations.',
@@ -55,57 +55,74 @@ export default function FAQ({ items = FAQS, titleText, introText }: FAQProps) {
     ce: 'Техникан деталаш а кхолламан регламентанаш а.',
     tt: 'Техник нечкәлекләр һәм җитештерү регламентлары.',
   } as const;
-  const [openIdx, setOpenIdx] = useState<number | null>(0);
+  
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
-    <section className="section-padding bg-secondary relative border-t border-outline">
-      <div className="section-container">
-        <div className="mb-24">
-          <h2 className="text-4xl lg:text-7xl font-headline font-black uppercase tracking-tighter leading-[0.8] text-on-surface">
-            {titleText ?? t(locale, title)}
-            <span className="text-accent">.</span>
-          </h2>
-          <p className="text-on-surface-variant font-light text-lg mt-6">{introText ?? t(locale, intro)}</p>
-        </div>
+    <section className="section-padding bg-black relative border-t border-white/5">
+      <div className="section-container max-w-4xl px-6">
+        <div className="space-y-12">
+          
+          <div className="text-center space-y-4">
+            <span className="verge-kicker text-accent">FAQS & COMPLIANCE</span>
+            <h2 className="text-3xl md:text-5xl lg:text-6xl text-white font-black uppercase tracking-tight text-balance leading-tight">
+              {titleText ?? t(locale, title)}
+            </h2>
+            <p className="text-sm md:text-base text-neutral-500 max-w-2xl mx-auto leading-relaxed">
+              {introText ?? t(locale, intro)}
+            </p>
+          </div>
 
-        <div className="space-y-0 border-t border-outline">
-          {items.map((faq, idx) => {
-            const isOpen = openIdx === idx;
-            return (
-              <div 
-                key={idx} 
-                className={`border-b border-outline transition-all duration-500 overflow-hidden ${isOpen ? 'bg-surface shadow-premium z-10 relative' : ''}`}
-              >
-                <button
-                  className="w-full px-0 py-8 text-left flex justify-between items-center focus:outline-none group"
-                  onClick={() => setOpenIdx(isOpen ? null : idx)}
+          <div className="space-y-4">
+            {items.map((faq, index) => {
+              const isOpen = openIdx === index;
+              return (
+                <div 
+                  key={index}
+                  className="group/faq border border-white/5 bg-white/[0.01] rounded-2xl overflow-hidden transition-all duration-300 hover:border-accent/30 hover:bg-white/[0.02]"
                 >
-                  <span className={`font-headline font-black text-xl md:text-2xl uppercase tracking-tight transition-colors px-4 ${isOpen ? 'text-accent' : 'text-on-surface group-hover:text-accent'}`}>
-                    {faq.q}
-                  </span>
-                  <div className={`w-10 h-10 border flex items-center justify-center transition-all duration-500 mr-4 ${isOpen ? 'border-accent bg-accent text-on-accent rotate-45' : 'border-outline text-on-surface'}`}>
-                    <PlusSquare className="w-5 h-5" />
-                  </div>
-                </button>
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                      <div className="pb-10 px-4 text-on-surface-variant text-base font-light leading-relaxed max-w-3xl">
-                        {faq.a}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
+                  <button
+                    onClick={() => setOpenIdx(isOpen ? null : index)}
+                    className="w-full text-left p-6 md:p-8 flex justify-between items-center gap-6 cursor-pointer focus:outline-none"
+                  >
+                    <div className="space-y-2">
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold">
+                        SYS // FAQ_0{index + 1}
+                      </span>
+                      <h3 className="text-lg md:text-xl font-bold text-white/95 leading-snug group-hover/faq:text-accent transition-colors duration-300">
+                        {faq.q}
+                      </h3>
+                    </div>
+                    <div className="shrink-0 w-10 h-10 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-white transition-all duration-300 group-hover/faq:border-accent/30 group-hover/faq:shadow-[0_0_15px_rgba(0,255,163,0.15)] group-hover/faq:bg-accent/5">
+                      <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180 text-accent' : ''}`} />
+                    </div>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0 }}
+                        animate={{ height: "auto" }}
+                        exit={{ height: 0 }}
+                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        <div className="px-6 md:px-8 pb-8 pt-2 border-t border-white/5 text-base text-neutral-400 leading-relaxed font-light">
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+          
         </div>
       </div>
+      
+      {/* Background ambient grids */}
+      <div className="absolute inset-0 z-0 industrial-grid opacity-10 pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(0,255,163,0.02),transparent_70%)] pointer-events-none" />
     </section>
   );
 }

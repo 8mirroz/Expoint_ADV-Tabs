@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { calculateNeonPrice, NeonPricingParams } from '@/data/neon-pricing';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 

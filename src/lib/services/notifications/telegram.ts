@@ -22,11 +22,58 @@ export interface LeadPayload {
   };
 }
 
-export const sendToTelegram = async (lead: LeadPayload): Promise<boolean> => {
+function escapeTelegramHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+async function callTelegramApi(method: string, payload: Record<string, unknown>): Promise<void> {
   const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+
+  if (!TELEGRAM_BOT_TOKEN) {
+    throw new Error('TELEGRAM_BOT_TOKEN is not configured');
+  }
+
+  const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/${method}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`Telegram API error: ${JSON.stringify(errorData)}`);
+  }
+}
+
+export async function sendTelegramMessage(
+  chatId: string | number,
+  text: string,
+  options?: {
+    parseMode?: 'HTML' | 'MarkdownV2';
+    disableWebPagePreview?: boolean;
+  }
+): Promise<boolean> {
+  try {
+    await callTelegramApi('sendMessage', {
+      chat_id: chatId,
+      text,
+      parse_mode: options?.parseMode ?? 'HTML',
+      disable_web_page_preview: options?.disableWebPagePreview ?? true,
+    });
+    return true;
+  } catch (error) {
+    console.error('[Telegram Error]', error);
+    return false;
+  }
+}
+
+export const sendToTelegram = async (lead: LeadPayload): Promise<boolean> => {
   const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+  if (!process.env.TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
     console.warn('[Telegram] Token or Chat ID not configured. Skipping.');
     return false;
   }
@@ -67,23 +114,24 @@ ${lead.email ? `📧 <b>Email:</b> ${lead.email}` : ''}
   message += `\n-------------------------`;
 
   try {
-    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: message,
-        parse_mode: 'HTML',
-      }),
+    await callTelegramApi('sendMessage', {
+      chat_id: TELEGRAM_CHAT_ID,
+      text: message,
+      parse_mode: 'HTML',
     });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(`Telegram API error: ${JSON.stringify(errorData)}`);
-    }
     return true;
   } catch (error) {
     console.error('[Telegram Error]', error);
     return false;
   }
 };
+
+export function formatKnowledgeTelegramReply(answer: string, confidence?: number): string {
+  const safeAnswer = escapeTelegramHtml(answer);
+  const confidenceLine =
+    typeof confidence === 'number'
+      ? `\n\n<b>Уверенность:</b> ${Math.round(confidence * 100)}%`
+      : '';
+
+  return `💬 <b>Expoint ADV Assistant</b>\n\n${safeAnswer}${confidenceLine}`;
+}

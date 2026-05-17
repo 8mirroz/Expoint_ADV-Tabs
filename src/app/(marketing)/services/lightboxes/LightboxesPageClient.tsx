@@ -1,35 +1,24 @@
 'use client';
 
 import React from 'react';
-import PageShell from '@/components/framework/PageShell';
-import ServiceHero from '@/components/service-pages/ServiceHero';
-import B2BSegmentTabs from '@/components/service-pages/B2BSegmentTabs';
-import ServiceCalculatorShell from '@/components/service-pages/ServiceCalculatorShell';
+import RichServicePageClient from '@/components/service-pages/RichServicePageClient';
 import { LightboxCalculator } from '@/components/calculator/LightboxCalculator';
-import PricingPackages from '@/components/service-pages/PricingPackages';
-import TechnologyComparison from '@/components/service-pages/TechnologyComparison';
-import ServiceFAQ from '@/components/service-pages/ServiceFAQ';
-import FinalCTA from '@/components/service-pages/FinalCTA';
 import { lightboxesData } from '@/data/service-pages/lightboxes';
 
 export default function LightboxesPageClient() {
   return (
-    <PageShell headerVariant="immersive" breadcrumbs={[
-      { label: 'Услуги', href: '/#services' },
-      { label: 'Световые короба', href: '/services/lightboxes' },
-    ]}>
-      <ServiceHero data={lightboxesData.hero} />
-      <B2BSegmentTabs segments={lightboxesData.segments} />
-      <ServiceCalculatorShell 
-        title="Онлайн калькулятор" 
-        description="Рассчитайте стоимость вашего светового короба в трех вариантах исполнения"
-      >
-        <LightboxCalculator />
-      </ServiceCalculatorShell>
-      <PricingPackages packages={lightboxesData.packages} />
-      {lightboxesData.comparison && <TechnologyComparison title={lightboxesData.comparison.title} items={lightboxesData.comparison.items} />}
-      <ServiceFAQ items={lightboxesData.faq} />
-      <FinalCTA title={lightboxesData.finalCTA.title} description={lightboxesData.finalCTA.description} buttonText={lightboxesData.finalCTA.buttonText} />
-    </PageShell>
+    <RichServicePageClient
+      data={lightboxesData}
+      breadcrumbLabel="Световые короба"
+      calculatorTitle="Онлайн ориентир стоимости"
+      calculatorDescription="Считаем площадь, тип исполнения, срочность и условия размещения. Показываем 3 рабочих сценария вместо одной вводящей в заблуждение цифры."
+      calculator={<LightboxCalculator />}
+      segmentDescription="Лайтбокс может быть разным продуктом: быстрый короб для ПВЗ, рабочая фасадная конструкция для стрит-ритейла или композитный премиальный фасад с нормальным монтажом и сервисом."
+      packagesTitle="Пакеты под формат фасада."
+      packagesDescription="Разница между пакетами не декоративная. Меняются материалы, ресурс подсветки, сервис, допуски по монтажу и уверенность в согласовании."
+      faqTitle="Вопросы по коробам и монтажу"
+      finalModalContext="Расчет светового короба"
+      finalModalSource="service_lightboxes_final_cta"
+    />
   );
 }

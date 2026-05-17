@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, BadgeRussianRuble, Clock3, HardHat, ShieldCheck, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 interface PricingPreviewItem {
@@ -13,6 +13,7 @@ interface PricingPreviewItem {
 interface PricingPreviewData {
   items: PricingPreviewItem[];
   badges?: string[];
+  meta?: Array<{ label: string; value: string }>;
 }
 
 interface HeroGenericProps {
@@ -50,6 +51,8 @@ export default function HeroGeneric({
   compact = false,
 }: HeroGenericProps) {
   const hasPricingPanel = pricingPreview && pricingPreview.items.length > 0;
+  const previewIcons = [BadgeRussianRuble, Sparkles, ShieldCheck, HardHat];
+  const metaIcons = [Clock3, HardHat, ShieldCheck];
 
   return (
     <section
@@ -83,7 +86,7 @@ export default function HeroGeneric({
       )}
 
       <div className="section-container relative z-10">
-        <div className={`${hasPricingPanel ? 'grid gap-12 lg:grid-cols-[1fr_380px] lg:items-start' : ''}`}>
+        <div className={`${hasPricingPanel ? 'grid gap-12 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start' : ''}`}>
           {/* Main Content Column */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -95,7 +98,7 @@ export default function HeroGeneric({
               <p className="verge-mono-label text-primary mb-8">{subtitle}</p>
             )}
 
-            <h1 className="geist-display-xl md:text-[64px] lg:text-[80px] xl:text-[96px] text-on-surface">
+            <h1 className="geist-display-xl max-w-5xl text-balance md:text-[64px] lg:text-[78px] xl:text-[92px] text-on-surface">
               {title}
               {titleAccent && (
                 <>
@@ -114,11 +117,19 @@ export default function HeroGeneric({
 
             {highlights && highlights.length > 0 && (
               <div className="mt-10 grid gap-3 md:grid-cols-3">
-                {highlights.map((item) => (
+                {highlights.map((item, index) => (
                   <div
                     key={item}
-                    className="rounded-[var(--radius-8)] border border-outline bg-surface/80 px-4 py-4 text-sm leading-relaxed text-on-surface shadow-sm"
+                    className="rounded-[var(--radius-12)] border border-outline bg-surface/85 px-5 py-5 text-sm leading-relaxed text-on-surface shadow-sm"
                   >
+                    <div className="mb-3 flex items-center gap-2 text-primary">
+                      {index === 0 && <BadgeRussianRuble className="h-4 w-4" />}
+                      {index === 1 && <HardHat className="h-4 w-4" />}
+                      {index === 2 && <ShieldCheck className="h-4 w-4" />}
+                      <span className="text-[10px] uppercase tracking-[0.18em] text-on-surface-variant">
+                        Проверяемый ориентир
+                      </span>
+                    </div>
                     {item}
                   </div>
                 ))}
@@ -158,17 +169,34 @@ export default function HeroGeneric({
               className="hidden lg:flex flex-col gap-0 mt-4"
             >
               {/* Price Cards */}
-              <div className="rounded-t-[var(--radius-16)] border border-outline bg-surface/90 backdrop-blur-sm p-6 shadow-md">
-                <p className="verge-mono-label text-primary mb-5">Ориентиры цен</p>
+              <div className="rounded-t-[var(--radius-20)] border border-outline bg-surface/92 p-6 shadow-md backdrop-blur-sm">
+                <div className="mb-5 flex items-center justify-between gap-4">
+                  <p className="verge-mono-label text-primary">Ориентиры цен</p>
+                  <span className="rounded-full border border-primary/15 bg-primary/5 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-primary">
+                    Real input
+                  </span>
+                </div>
                 <div className="space-y-4">
-                  {pricingPreview.items.map((item) => (
+                  {pricingPreview.items.map((item, index) => {
+                    const Icon = previewIcons[index] ?? BadgeRussianRuble;
+                    return (
                     <div
                       key={item.label}
-                      className="flex items-baseline justify-between gap-3 border-b border-outline/50 pb-3 last:border-0 last:pb-0"
+                      className="flex items-center justify-between gap-3 rounded-[var(--radius-12)] border border-outline/60 bg-background/65 px-4 py-4"
                     >
-                      <span className="text-sm text-on-surface-variant">{item.label}</span>
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <span className="block text-sm font-medium text-on-surface">{item.label}</span>
+                          <span className="text-[11px] uppercase tracking-[0.18em] text-on-surface-variant">
+                            стартовая единица
+                          </span>
+                        </div>
+                      </div>
                       <div className="flex items-baseline gap-1.5">
-                        <span className="text-xl font-bold text-on-surface tabular-nums">
+                        <span className="text-2xl font-black text-on-surface tabular-nums">
                           {item.price}
                         </span>
                         <span className="text-xs font-mono text-primary uppercase">
@@ -176,13 +204,13 @@ export default function HeroGeneric({
                         </span>
                       </div>
                     </div>
-                  ))}
+                  )})}
                 </div>
               </div>
 
               {/* Trust Badges */}
               {pricingPreview.badges && pricingPreview.badges.length > 0 && (
-                <div className="rounded-b-[var(--radius-16)] border border-t-0 border-outline bg-surface-variant/40 backdrop-blur-sm px-6 py-5">
+                <div className="rounded-b-[var(--radius-20)] border border-t-0 border-outline bg-surface-variant/40 px-6 py-5 backdrop-blur-sm">
                   <div className="grid grid-cols-2 gap-3">
                     {pricingPreview.badges.map((badge) => (
                       <div
@@ -194,6 +222,24 @@ export default function HeroGeneric({
                       </div>
                     ))}
                   </div>
+                </div>
+              )}
+              {pricingPreview.meta && pricingPreview.meta.length > 0 && (
+                <div className="mt-4 grid gap-3 rounded-[var(--radius-20)] border border-outline bg-background/70 p-5">
+                  {pricingPreview.meta.map((item, index) => {
+                    const Icon = metaIcons[index] ?? Clock3;
+                    return (
+                      <div key={item.label} className="flex items-center justify-between gap-3 rounded-[var(--radius-12)] border border-outline/50 px-4 py-3">
+                        <div className="flex items-center gap-3">
+                          <Icon className="h-4 w-4 text-primary" />
+                          <span className="text-xs uppercase tracking-[0.18em] text-on-surface-variant">
+                            {item.label}
+                          </span>
+                        </div>
+                        <span className="text-sm font-semibold text-on-surface">{item.value}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </motion.aside>

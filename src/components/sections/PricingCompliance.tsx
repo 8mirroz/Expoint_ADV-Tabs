@@ -12,6 +12,7 @@ interface ComplianceItem {
   evidenceSnippet: string;
   tone: 'allowed' | 'risk';
   severity?: 'low' | 'medium' | 'high' | 'critical';
+  riskCost?: string;
   consequence?: string;
   prevention?: string;
 }
@@ -69,7 +70,7 @@ export default function PricingCompliance({
         >
           <div className="space-y-5">
             <p className="verge-mono-label text-primary">{eyebrow}</p>
-            <h2 className="geist-display-lg text-on-surface">{title}</h2>
+            <h2 className="geist-display-lg max-w-[16ch] text-balance text-on-surface">{title}</h2>
           </div>
           <p className="max-w-3xl text-lg leading-[1.7] text-on-surface-variant">{intro}</p>
         </motion.div>
@@ -91,27 +92,46 @@ export default function PricingCompliance({
               >
                 {/* Top Row: Icon + Severity + Source */}
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className={`flex h-10 w-10 items-center justify-center rounded-full ${isAllowed ? 'bg-primary/8 text-primary' : config.bg + ' ' + config.color}`}>
+                  <div className="flex items-center gap-3.5">
+                    {/* Cooler and Larger Icon Container with Premium Glow & Border */}
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-xl border transition-all duration-300 ${
+                      isAllowed 
+                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.15)] group-hover:shadow-[0_0_25px_rgba(16,185,129,0.35)]' 
+                        : severity === 'critical'
+                        ? 'bg-red-500/10 text-red-400 border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.15)] group-hover:shadow-[0_0_25px_rgba(239,68,68,0.35)]'
+                        : 'bg-amber-500/10 text-amber-400 border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.15)] group-hover:shadow-[0_0_25px_rgba(245,158,11,0.35)]'
+                    }`}>
                       {isAllowed ? (
-                        <ShieldCheck className="h-5 w-5" />
+                        <ShieldCheck className="h-6 w-6" strokeWidth={1.75} />
                       ) : severity === 'critical' ? (
-                        <CircleAlert className="h-5 w-5" />
+                        <CircleAlert className="h-6 w-6" strokeWidth={1.75} />
                       ) : severity === 'high' ? (
-                        <ShieldAlert className="h-5 w-5" />
+                        <ShieldAlert className="h-6 w-6" strokeWidth={1.75} />
                       ) : (
-                        <AlertTriangle className="h-5 w-5" />
+                        <AlertTriangle className="h-6 w-6" strokeWidth={1.75} />
                       )}
                     </div>
-                    <span className={`rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.16em] font-medium ${config.bg} ${config.color}`}>
+                    <span className={`rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.16em] font-mono font-bold ${
+                      isAllowed
+                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/10'
+                        : severity === 'critical'
+                        ? 'bg-red-500/10 text-red-400 border border-red-500/10'
+                        : 'bg-amber-500/10 text-amber-400 border border-amber-500/10'
+                    }`}>
                       {config.label}
                     </span>
                   </div>
-                  <span className="verge-mono-label text-on-surface-variant">{item.sourceDocId}</span>
+                  <span className="verge-mono-label text-white/40 font-semibold">{item.sourceDocId}</span>
                 </div>
 
+                {item.riskCost && (
+                  <div className="mt-5 inline-flex rounded-full border border-primary/15 bg-primary/5 px-3 py-1 text-[11px] font-semibold text-primary">
+                    {item.riskCost}
+                  </div>
+                )}
+
                 {/* Title & Description */}
-                <h3 className="mt-5 text-xl font-black uppercase tracking-tight text-on-surface">{item.title}</h3>
+                <h3 className="mt-4 line-clamp-2 min-h-[3.5rem] text-xl font-black uppercase tracking-tight text-on-surface">{item.title}</h3>
                 <p className="mt-3 text-base leading-7 text-on-surface-variant">{item.description}</p>
 
                 {/* Consequence & Prevention (v10) */}

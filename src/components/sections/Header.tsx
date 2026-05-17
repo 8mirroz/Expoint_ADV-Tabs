@@ -18,7 +18,7 @@ const navItems = [
 ] as const;
 
 const copy = {
-  requestAudit: { ru: 'Запросить аудит', be: 'Запытаць аудыт', kk: 'Аудитті сұрау', en: 'Request Audit', zh: '申请审计', ce: 'Аудит деха', tt: 'Аудит сорау' },
+  requestAudit: { ru: 'Заказать', be: 'Заказаць', kk: 'Тапсырыс беру', en: 'Order', zh: '订购', ce: 'Деха', tt: 'Заказ итү' },
   openMenu: { ru: 'Открыть меню', be: 'Адкрыць меню', kk: 'Мәзірді ашу', en: 'Open menu', zh: '打开菜单', ce: 'Меню дIайаккха', tt: 'Менюны ачу' },
   closeMenu: { ru: 'Закрыть меню', be: 'Закрыць меню', kk: 'Мәзірді жабу', en: 'Close menu', zh: '关闭菜单', ce: 'Меню дIаяккха', tt: 'Менюны ябу' },
   callUs: { ru: 'Связаться с нами', be: 'Звязацца з намі', kk: 'Бізбен байланысыңыз', en: 'Contact us', zh: '联系我们', ce: 'Тхуна деза', tt: 'Безнең белән элемтәгә керегез' },
@@ -80,11 +80,6 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-
-  
-  // Use the immersive variant correctly to adapt visuals
-  const isImmersive = variant === 'immersive';
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -98,38 +93,44 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
 
 
   const desktopHeaderShell = isScrolled
-    ? 'h-[4.5rem] border-b border-[color:rgba(120,120,120,0.08)] bg-transparent backdrop-blur-xl'
+    ? 'h-[4.5rem] border-b border-[color:rgba(120,120,120,0.08)] bg-[#0A0A0A]/80 backdrop-blur-xl'
     : `h-[5.5rem] bg-transparent border-transparent`;
 
+  // Unified transparent pill for the top menu
   const desktopNavShell = isScrolled
-    ? 'border-[color:rgba(138,138,138,0.22)] bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(247,247,245,0.82))] shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_0_0_1px_rgba(255,255,255,0.58),0_12px_26px_rgba(15,23,42,0.08)]'
-    : 'border-[color:rgba(138,138,138,0.14)] bg-[linear-gradient(180deg,rgba(255,255,255,0.7),rgba(250,250,248,0.56))] shadow-[inset_0_1px_0_rgba(255,255,255,0.82),inset_0_0_0_1px_rgba(255,255,255,0.44)]';
+    ? 'border-white/[0.08] bg-white/[0.02] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]'
+    : 'border-white/[0.12] bg-white/[0.04] backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]';
 
   return (
     <header
+      data-variant={variant}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${desktopHeaderShell}`}
     >
       <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
         
-        {/* Left: Logo & Pill Menu container */}
-        <div className="relative z-10 flex shrink-0 items-center gap-4 xl:gap-6">
-          <Link href="/" className="flex items-center gap-3 group outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md animate-fade-in">
-            <span
-              className="text-[1.22rem] font-semibold leading-none tracking-[-0.045em] text-on-surface transition-colors duration-300 group-hover:text-primary sm:text-[1.4rem]"
-              style={{ fontFamily: 'var(--font-header)' }}
-            >
-              Expoint <span className="font-medium text-[color:rgba(84,84,84,0.72)]">Adv</span>
-            </span>
-            <div className="hidden sm:flex items-center gap-2.5">
-              <div className="h-4 w-px bg-[linear-gradient(180deg,rgba(87,87,87,0.08),rgba(87,87,87,0.42),rgba(87,87,87,0.08))]" />
-              <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[color:rgba(59,59,59,0.62)]" style={{ fontFamily: 'var(--font-mono)' }}>
+        {/* Left: Logo (flex-1 for perfect centering of nav) */}
+        <div className="relative z-10 flex flex-1 items-center justify-start">
+          <Link href="/" className="group rounded-md outline-none focus-visible:ring-2 focus-visible:ring-primary animate-fade-in">
+            <div className="flex flex-col items-start gap-1">
+              <span
+                className="text-[1.22rem] font-semibold leading-none tracking-[-0.045em] text-white transition-colors duration-300 group-hover:text-primary sm:text-[1.4rem]"
+                style={{ fontFamily: 'var(--font-header)' }}
+              >
+                Expoint <span className="font-medium text-white/70">Adv</span>
+              </span>
+              <span
+                className="hidden sm:block text-[10px] font-medium uppercase leading-none tracking-[0.22em] text-white/55 transition-colors duration-300 group-hover:text-white/75"
+                style={{ fontFamily: 'var(--font-mono)' }}
+              >
                 Engineering
               </span>
             </div>
           </Link>
+        </div>
 
-          {/* Center: Premium Desktop Pill Navigation */}
-          <nav className={`hidden xl:flex items-center rounded-full border p-1.5 transition-all duration-500 ${desktopNavShell}`}>
+        {/* Center: Premium Desktop Pill Navigation (Unified Transparent) */}
+        <div className="relative z-10 hidden xl:flex shrink-0 items-center justify-center">
+          <nav className={`flex items-center rounded-full border p-1.5 transition-all duration-500 ${desktopNavShell}`}>
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
               return (
@@ -142,14 +143,14 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                   {isActive && (
                     <motion.div
                       layoutId="active-nav-pill"
-                      className="absolute inset-0 rounded-full border border-[color:rgba(var(--accent-rgb),0.18)] bg-[linear-gradient(180deg,rgba(28,28,28,0.08),rgba(28,28,28,0.03))] shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_20px_rgba(15,23,42,0.06)]"
+                      className="absolute inset-0 rounded-full border border-white/[0.12] bg-white/[0.08]"
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
                   )}
                   <span className={`relative z-10 transition-colors duration-300 ${
                     isActive 
-                      ? 'text-primary'
-                      : 'text-[color:rgba(38,38,38,0.68)] group-hover:text-on-surface'
+                      ? 'text-white'
+                      : 'text-white/60 group-hover:text-white'
                   }`}>
                     {item.label[locale]}
                   </span>
@@ -159,11 +160,8 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
           </nav>
         </div>
 
-        {/* Adaptive Gap */}
-        <div className="flex-grow" />
-
-        {/* Right: Actions Section */}
-        <div className="relative z-10 hidden items-center gap-2.5 lg:flex xl:gap-3">
+        {/* Right: Actions Section (flex-1 for perfect centering) */}
+        <div className="relative z-10 hidden items-center justify-end gap-2.5 lg:flex flex-1 xl:gap-3">
 
           {/* Language Switcher — minimal pill style */}
           <LanguageSwitcher />
@@ -174,7 +172,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
           {/* Login/Registration Button — pill style matching nav */}
           <button
             type="button"
-            className="hidden h-9 items-center rounded-full border border-[color:rgba(138,138,138,0.18)] bg-transparent px-5 text-[13px] font-semibold tracking-[-0.01em] text-[color:rgba(38,38,38,0.72)] transition-all duration-300 hover:bg-[rgba(0,0,0,0.04)] hover:text-on-surface active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-primary xl:inline-flex"
+            className="hidden xl:inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-5 text-[13px] font-semibold tracking-[-0.01em] text-white/90 transition-all duration-300 hover:-translate-y-px hover:bg-white/[0.1] hover:text-white active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-primary"
             style={{ fontFamily: 'var(--font-header)' }}
           >
             {locale === 'ru' ? 'Вход' : 'Sign In'}

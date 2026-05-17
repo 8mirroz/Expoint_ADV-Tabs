@@ -19,7 +19,7 @@ export default function PageShell({
   headerVariant = 'default',
   breadcrumbs,
   showFooter = true,
-  showAssistant = true,
+  showAssistant = false,
   withMesh = false,
 }: PageShellProps) {
   return (

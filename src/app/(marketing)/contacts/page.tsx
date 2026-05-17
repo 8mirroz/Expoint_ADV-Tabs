@@ -8,7 +8,7 @@ import { COMPANY_INFO } from '@/data/company';
 
 export const metadata: Metadata = {
   title: 'Контакты | Expoint ADV',
-  description: 'Свяжитесь с Expoint ADV: адрес производства, телефон, email, Telegram. Москва, ул. Промышленная, д. 12.',
+  description: 'Свяжитесь с Expoint ADV: адрес производства, телефон, email, Telegram. Москва, ул. Полимерная, д. 8.',
   openGraph: {
     title: 'Контакты | Expoint ADV Engineering',
     description: 'Адрес, телефон, email и карта проезда к производству Expoint ADV.',
@@ -54,7 +54,7 @@ export default function ContactsPage() {
             address: {
               '@type': 'PostalAddress',
               addressLocality: 'Москва',
-              streetAddress: 'ул. Промышленная, д. 12, стр. 3',
+              streetAddress: 'ул. Полимерная, д. 8',
               addressCountry: 'RU',
             },
             openingHours: 'Mo-Fr 09:00-19:00, Sa 10:00-16:00',

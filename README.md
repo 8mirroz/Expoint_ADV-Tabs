@@ -28,6 +28,27 @@ View your app in AI Studio: https://ai.studio/apps/5cb867c9-622c-4594-b1c1-e5f0e
 The local working mode for this project is fixed port `3000`.
 Use `http://localhost:3000` for development, debugging, preview, and change verification.
 
+## Telegram Knowledge Bot
+
+The repo now includes a Telegram webhook endpoint at `/api/telegram/webhook`.
+It accepts plain-text Telegram messages, forwards them into the current knowledge runtime, and returns the answer back into the same chat.
+
+Required env:
+
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_WEBHOOK_SECRET` recommended for webhook validation
+- `NBLLM_RUNTIME_DISABLED=false` if knowledge replies should stay enabled
+
+Webhook registration example:
+
+`curl -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/setWebhook" -H "Content-Type: application/json" -d '{"url":"https://YOUR_DOMAIN/api/telegram/webhook","secret_token":"'"$TELEGRAM_WEBHOOK_SECRET"'"}'`
+
+Quick live check after deploy:
+
+1. Send `/start` to the bot in Telegram.
+2. Send a plain text question like `Сколько стоит акриловая вывеска?`
+3. Verify the bot responds with a knowledge-based answer.
+
 ## Docker: Optional Local / Staging (without TLS)
 
 Docker is not part of the default day-to-day workflow for this project.

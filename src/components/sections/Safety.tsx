@@ -34,7 +34,7 @@ const benefits = [
     titleKey: 'riskTitle' as const,
     bodyKey: 'riskBody' as const,
     metric: '500 000 ₽',
-    metricLabel: { ru: 'экономия на штрафах', en: 'saved in fines', be: 'эканомія на штрафах', kk: 'айыппұлдардан үнемдеу', zh: '罚款节省', ce: 'штрафашна экономи', tt: 'штрафлардан экономия' },
+    metricLabel: { ru: 'риск штрафа', en: 'risk of fine', be: 'рызыка штрафу', kk: 'айыппұл тәуекелі', zh: '罚款风险', ce: 'штрафан риск', tt: 'штраф куркынычы' },
     colorClass: 'text-error',
     bgClass: 'bg-error/15',
     borderClass: 'border-error/40',
@@ -90,18 +90,27 @@ export default function Safety() {
                       : "bg-surface-variant/20 border-outline/60"
                   )}
                 >
+                  {/* Left: Premium Glowing Icon Container */}
                   <div className={cn(
-                    "w-12 h-12 rounded-2xl flex items-center justify-center mb-10 transition-colors",
-                    benefit.highContrast ? "bg-error/10" : "bg-surface-variant/40"
+                    "w-12 h-12 rounded-xl border flex items-center justify-center mb-10 transition-all duration-500",
+                    benefit.highContrast 
+                      ? "bg-red-500/10 text-red-400 border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.15)] group-hover:shadow-[0_0_25px_rgba(239,68,68,0.35)]" 
+                      : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.15)] group-hover:shadow-[0_0_25px_rgba(16,185,129,0.35)]"
                   )}>
-                    <Icon className={cn("w-6 h-6", benefit.colorClass)} />
+                    <Icon className="w-6 h-6" strokeWidth={1.75} />
                   </div>
                   
-                  <div className="absolute top-8 right-8 text-right">
-                    <p className="text-2xl font-bold tracking-tight text-on-surface">
+                  {/* Right: Highly Expressive Glowing Gradient Metric */}
+                  <div className="absolute top-8 right-8 text-right flex flex-col items-end">
+                    <span className={cn(
+                      "text-[28px] md:text-[32px] font-bold tracking-tight leading-none font-mono drop-shadow-[0_0_15px_rgba(var(--accent-rgb),0.2)]",
+                      benefit.highContrast 
+                        ? "bg-gradient-to-r from-red-400 to-rose-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(239,68,68,0.25)]" 
+                        : "bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(16,185,129,0.25)]"
+                    )}>
                       {benefit.metric}
-                    </p>
-                    <p className="text-xs text-on-surface-variant/40 font-black mt-1 uppercase tracking-[0.2em]">
+                    </span>
+                    <p className="text-[10px] text-on-surface-variant/40 font-mono font-bold mt-1.5 uppercase tracking-[0.2em]">
                       {t(locale, benefit.metricLabel)}
                     </p>
                   </div>

@@ -4,8 +4,7 @@ import { motion } from 'motion/react';
 import { Camera, Clock, ArrowUpRight, Play, LayoutGrid } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
-import { CASE_STUDIES } from '@/data/cases';
-import Link from 'next/link';
+import Image from 'next/image';
 
 const copy = {
   eyebrow: { ru: 'Инженерный дневник', be: 'Інжынерны дзённік', kk: 'Инженерлік күнделік', en: 'Engineering Journal', zh: '工程日志', ce: 'Инженерни дневник', tt: 'Инженерлык көндәлеге' },
@@ -20,8 +19,12 @@ const copy = {
 export default function ProductionDaily() {
   const { locale } = useLanguage();
 
-  // We'll treat some cases as "Daily log entries"
-  const dailyEntries = CASE_STUDIES.slice(0, 6);
+  const dailyImages = [
+    '091a5e86.jpg', '09ba4e73.jpg', '0cf2d2b5.jpg', '1e89eea1.jpg',
+    '1fabb426.jpg', '2f550d03.jpg', '3479be55.jpg', '45e3d6f6.jpg',
+    '499ba8a1.jpg', '5cb11fe2.jpg', '650acc77.jpg', '6943801d.jpg',
+    '6f7ae1f8.jpg', '813b92d9.jpg', '8222c284.jpg', 'af402a9f.jpg'
+  ];
 
   return (
     <section id="daily" className="section-padding bg-background relative overflow-hidden border-t border-outline">
@@ -57,76 +60,44 @@ export default function ProductionDaily() {
             </div>
           </div>
 
-          <div className="flex flex-col items-start md:items-end gap-6">
-             <div className="text-right hidden md:block">
-               <p className="text-on-surface-variant text-sm font-light max-w-[280px] leading-relaxed">
-                 Ежедневный поток задач: от резки акрила до финальных испытаний светотехники.
-               </p>
-             </div>
-             <Link 
-               href="/cases"
-               className="group flex items-center gap-4 bg-surface border border-outline px-8 py-5 text-xs font-black uppercase tracking-widest text-on-surface hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-500 shadow-xl"
-             >
-               <LayoutGrid className="w-4 h-4" />
-               {t(locale, copy.viewFull)}
-               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-             </Link>
-          </div>
+
         </div>
 
-        {/* Live Archive Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {dailyEntries.map((item, idx) => (
+        {/* Live Archive Gallery Grid */}
+        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+          {dailyImages.map((img, idx) => (
             <motion.div
-              key={item.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.6 }}
-              className="relative aspect-square md:aspect-[4/5] bg-surface group overflow-hidden border border-outline/10 hover:border-primary/30 transition-all duration-700"
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "50px" }}
+              transition={{ delay: (idx % 4) * 0.1, duration: 0.6 }}
+              className="relative w-full break-inside-avoid bg-surface group overflow-hidden border border-outline/10 hover:border-primary/30 transition-all duration-500 rounded-sm"
             >
                {/* Background Media */}
-               <div className="absolute inset-0 z-0 grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-105">
-                 {item.videoUrl ? (
-                   <video src={item.videoUrl} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-40 group-hover:opacity-80" />
-                 ) : (
-                   <div className={`w-full h-full ${item.imageBg} opacity-20 group-hover:opacity-40`} />
-                 )}
-                 <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent opacity-60" />
+               <div className="relative w-full overflow-hidden" style={{ minHeight: '200px' }}>
+                 <Image 
+                   src={`/img/daily/${img}`} 
+                   alt={`Production log ${idx}`}
+                   width={600}
+                   height={800}
+                   className="w-full h-auto object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
+                 />
+                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60" />
                </div>
 
                {/* Meta Tag */}
                <div className="absolute top-4 left-4 z-20 flex flex-col gap-1">
                  <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2 py-1 rounded-sm border border-white/5">
                    <Clock className="w-3 h-3 text-primary" />
-                   <span className="text-[8px] font-mono font-bold text-white uppercase tracking-tighter">Log_{idx + 22} / 14:20</span>
+                   <span className="text-[8px] font-mono font-bold text-white uppercase tracking-tighter">Log_{idx + 22}</span>
                  </div>
-                 <span className="text-xs font-black uppercase tracking-widest text-accent drop-shadow-lg">{item.clientName}</span>
-               </div>
-
-               {/* Content */}
-               <div className="absolute inset-0 z-10 p-8 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-white mb-4 leading-none">
-                    {item.title}
-                  </h3>
-                  <div className="h-px w-0 group-hover:w-full bg-primary transition-all duration-700 mb-4" />
-                  <p className="text-white/40 text-xs font-light leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">
-                    {item.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between mt-6 pt-6 border-t border-white/5">
-                    <span className="text-[9px] font-mono text-white/30 uppercase tracking-widest">{item.term}</span>
-                    <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-primary transition-colors">
-                      {item.videoUrl ? <Play className="w-3 h-3 text-white fill-white" /> : <Camera className="w-3 h-3 text-white" />}
-                    </div>
-                  </div>
                </div>
 
                {/* Blueprint HUD Overlay (On Hover) */}
                <div className="absolute inset-0 z-15 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                  <div className="absolute top-0 right-0 w-20 h-20 border-r border-t border-primary/20" />
-                  <div className="absolute bottom-0 left-0 w-20 h-20 border-l border-b border-primary/20" />
-                  <div className="absolute top-1/2 left-4 w-12 h-px bg-primary/20" />
+                  <div className="absolute top-0 right-0 w-16 h-16 border-r-2 border-t-2 border-primary/40" />
+                  <div className="absolute bottom-0 left-0 w-16 h-16 border-l-2 border-b-2 border-primary/40" />
                </div>
             </motion.div>
           ))}

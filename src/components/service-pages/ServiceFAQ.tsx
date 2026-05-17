@@ -1,22 +1,23 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { FAQItem } from '@/lib/services/types';
 import { ChevronDown } from 'lucide-react';
 
 interface ServiceFAQProps {
   items: FAQItem[];
+  title?: string;
 }
 
-export default function ServiceFAQ({ items }: ServiceFAQProps) {
+export default function ServiceFAQ({ items, title = 'Частые вопросы' }: ServiceFAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
     <section className="py-24 px-6">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-12 text-center">
-          Частые вопросы
+          {title}
         </h2>
 
         <div className="space-y-4">
@@ -45,7 +46,7 @@ export default function ServiceFAQ({ items }: ServiceFAQProps) {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
                   >
                     <div className="px-8 pb-6 text-on-surface-variant leading-relaxed">
                       {item.answer}

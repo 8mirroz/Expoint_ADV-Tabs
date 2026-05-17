@@ -50,10 +50,10 @@ export const SERVICES: Service[] = [
     priceUnit: '₽/см',
     segments: ['horeca', 'retail', 'clinics', 'corporate'],
     technicalSpecs: [
-      { label: 'Материал лицевой части', value: 'Акрил 3-5мм (Altuglas)' },
-      { label: 'Материал бортов', value: 'ПВХ / Алюминий / Сталь' },
-      { label: 'Подсветка', value: 'LED модули Samsung / Elf' },
-      { label: 'Срок службы', value: 'до 50 000 часов' }
+      { label: 'Материал лицевой части', value: 'Акрил 2-10 мм' },
+      { label: 'Подсветка', value: 'LED Samsung' },
+      { label: 'Профиль борта', value: 'Алюминий' },
+      { label: 'Ресурс', value: 'Ресурс 50к ч.' }
     ],
     faq: [
       { 
@@ -112,10 +112,10 @@ export const SERVICES: Service[] = [
     priceUnit: '₽/м²',
     segments: ['retail', 'franchise'],
     technicalSpecs: [
-      { label: 'Профиль', value: 'Алюминиевый 90/130мм' },
-      { label: 'Лицевая панель', value: 'Акрил / Сотовый поликарбонат' },
-      { label: 'Изображение', value: 'УФ-печать / Пленка Oracal' },
-      { label: 'Глубина', value: 'от 60 до 150 мм' }
+      { label: 'Нанесение', value: 'УФ-печать' },
+      { label: 'Лицевая панель', value: 'Лицевой акрил' },
+      { label: 'Основа', value: 'Сотовый карбонат' },
+      { label: 'Глубина', value: 'Глубина 60-250 мм' }
     ],
     faq: [
       { question: 'Что лучше: баннер или акрил?', answer: 'Акрил выглядит премиальнее и лучше рассеивает свет, но ограничен размером листа (3х2м). Для больших коробов мы используем транслюцентный баннер.' },
@@ -154,6 +154,7 @@ export const SERVICES: Service[] = [
       owner: 'engineering-team',
     }
   },
+
   {
     id: 'flex-neon',
     title: 'Гибкий неон',
@@ -168,10 +169,10 @@ export const SERVICES: Service[] = [
     priceUnit: '₽/м.п.',
     segments: ['horeca', 'retail', 'corporate'],
     technicalSpecs: [
-      { label: 'Тип неона', value: 'Силиконовый 2-го поколения (6х12 / 8x16)' },
-      { label: 'Основание', value: 'Прозрачный акрил 5-8мм' },
-      { label: 'Кратность реза', value: '10-25 мм' },
-      { label: 'Питание', value: '12В (блок питания в комплекте)' }
+      { label: 'Тип', value: 'Силиконовый неон' },
+      { label: 'Основание', value: 'Акрил 5-8 мм' },
+      { label: 'Питание', value: 'Питание 12В' },
+      { label: 'Управление', value: 'Контроллер яркости' }
     ],
     faq: [
       { question: 'Насколько это безопасно?', answer: 'Гибкий неон работает от 12 вольт, он не нагревается и не содержит стекла или газа, что делает его идеальным для помещений.' },
@@ -224,10 +225,10 @@ export const SERVICES: Service[] = [
     priceUnit: '₽/см',
     segments: ['corporate', 'horeca', 'retail'],
     technicalSpecs: [
-      { label: 'Сталь', value: 'AISI 304 (пищевая нержавейка)' },
-      { label: 'Толщина', value: '0.8 - 1.5 мм' },
-      { label: 'Тип обработки', value: 'Зеркало / Шлиф / Булат' },
-      { label: 'Метод сборки', value: 'Лазерная микросварка' }
+      { label: 'Сталь', value: 'AISI 304 нержавейка' },
+      { label: 'Толщина', value: 'Толщина 0.8-1.5 мм' },
+      { label: 'Тип обработки', value: 'Зеркало / Шлиф' },
+      { label: 'Метод сборки', value: 'Лазерная сварка' }
     ],
     faq: [
       { question: 'Будут ли буквы ржаветь?', answer: 'Мы используем сталь AISI 304, которая устойчива к коррозии в условиях городской среды. Для морского климата предлагаем AISI 316.' },
@@ -280,10 +281,10 @@ export const SERVICES: Service[] = [
     priceUnit: '₽/изделие',
     segments: ['corporate', 'franchise', 'retail'],
     technicalSpecs: [
-      { label: 'Каркас', value: 'Профильная стальная труба' },
-      { label: 'Облицовка', value: 'Композит (АКП) / Алюминий' },
-      { label: 'Фундамент', value: 'Армированный бетон с анкерной группой' },
-      { label: 'Вес конструкции', value: 'от 150 до 1500 кг' }
+      { label: 'Каркас', value: 'Стальной каркас' },
+      { label: 'Облицовка', value: 'Облицовка АКП / Al' },
+      { label: 'Фундамент', value: 'Армобетонный базис' },
+      { label: 'Вес конструкции', value: 'Вес 150-1500 кг' }
     ],
     faq: [
       { question: 'Нужен ли проект фундамента?', answer: 'Да, мы обязательно рассчитываем нагрузки и готовим проект закладных деталей для обеспечения устойчивости.' },
@@ -337,10 +338,10 @@ export const SERVICES: Service[] = [
     priceUnit: '₽/проект',
     segments: ['corporate', 'franchise'],
     technicalSpecs: [
-      { label: 'Тип конструкции', value: 'Световые буквы / Панно' },
-      { label: 'Каркас', value: 'Горячекатаная сталь с антикором' },
-      { label: 'Ветровая нагрузка', value: 'Расчет по СНиП (I-V районы)' },
-      { label: 'Питание', value: '380В с системой автоматики' }
+      { label: 'Тип конструкции', value: 'Буквы / Панно' },
+      { label: 'Каркас', value: 'Горячекатаная сталь' },
+      { label: 'Ветровая нагрузка', value: 'Расчет по СНиП' },
+      { label: 'Питание', value: 'Питание 380В / Авто' }
     ],
     faq: [
       { 
