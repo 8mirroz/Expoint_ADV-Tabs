@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useEffect, useRef } from 'react';
-import { Check, Languages, ChevronDown } from 'lucide-react';
+import { Check, Globe, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 import { useLanguage } from '@/components/i18n/LanguageProvider';
@@ -32,18 +32,18 @@ export function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => setIsOpen((value) => !value)}
-        className={`relative h-11 min-w-[90px] flex items-center justify-between gap-2 rounded-xl border border-outline bg-surface-elevated px-4 text-on-surface hover:bg-surface-variant transition-all duration-[var(--motion-duration-base)] ease-[var(--motion-ease-standard)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:scale-95 group ${
-          isOpen ? 'bg-surface-variant ring-2 ring-accent/20' : ''
+        className={`relative h-9 flex items-center justify-between gap-1.5 rounded-full border border-[color:rgba(138,138,138,0.18)] bg-transparent px-3 text-[color:rgba(38,38,38,0.72)] transition-all duration-300 hover:bg-[rgba(0,0,0,0.04)] hover:text-on-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:scale-95 group ${
+          isOpen ? 'bg-[rgba(0,0,0,0.04)] ring-2 ring-accent/20' : ''
         }`}
         aria-expanded={isOpen}
         aria-label={t(locale, uiCopy.languageLabel)}
         title={t(locale, uiCopy.languageLabel)}
       >
-        <div className="flex items-center gap-2">
-          <Languages className="w-4 h-4 text-accent" />
-          <span className="text-xs font-black uppercase tracking-[0.1em]">{activeLanguage.shortLabel}</span>
+        <div className="flex items-center gap-1.5">
+          <Globe className="w-3.5 h-3.5 opacity-60 group-hover:text-primary group-hover:opacity-100 transition-all" />
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em]" style={{ fontFamily: 'var(--font-mono)' }}>{activeLanguage.shortLabel}</span>
         </div>
-        <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-3 h-3 opacity-40 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       <AnimatePresence>

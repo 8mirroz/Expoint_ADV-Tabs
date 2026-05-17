@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { calculateNeonPrice, NeonInputs } from '@/lib/calculators/neonCalculator';
 import { DetailedNeonResult } from '@/lib/calculators/pricingTypes';
+import { SCNEventBus } from '@/lib/analytics/scn-events';
 
 export function NeonCalculatorV10() {
   const [inputs, setInputs] = useState<NeonInputs>({
@@ -16,6 +17,18 @@ export function NeonCalculatorV10() {
   });
 
   const result = useMemo(() => calculateNeonPrice(inputs), [inputs]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      SCNEventBus.track('scn_price_calculated', {
+        productType: 'neon',
+        pageSlug: '/services/neon',
+        priceTotal: result.estimatedPriceMin,
+        length: result.neonLength,
+      });
+    }, 1000); // Debounce analytics
+    return () => clearTimeout(timeout);
+  }, [result.estimatedPriceMin, result.neonLength]);
 
   return (
     <div className="w-full max-w-5xl mx-auto bg-surface/50 border border-outline/30 rounded-[2.5rem] p-6 md:p-12 shadow-2xl relative overflow-hidden backdrop-blur-2xl">

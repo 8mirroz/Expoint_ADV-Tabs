@@ -3,6 +3,7 @@ import { Card, CardTitle } from './Card';
 import { Service } from '../../data/services';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { getServiceHref } from '@/lib/utils';
 
 export interface ServiceCardProps {
   service: Service;
@@ -90,21 +91,21 @@ export function ServiceCard({ service, icon, variant = 'standard', className }: 
               <span className="block text-xs font-mono uppercase tracking-[0.2em] text-on-surface-variant/80">
                 от
               </span>
-              <div className="font-headline flex items-baseline gap-2">
-                <span className="text-4xl font-black text-white leading-none tabular-nums">
+              <div className="font-headline flex items-baseline gap-1.5 whitespace-nowrap">
+                <span className="text-3xl font-black text-white leading-none tabular-nums whitespace-nowrap">
                   {service.basePrice.toLocaleString('ru-RU')}
                 </span>
-                <span className="text-sm font-mono uppercase tracking-[0.12em] text-on-surface-variant/90">
+                <span className="text-xs font-mono uppercase tracking-[0.12em] text-white/50 whitespace-nowrap self-end mb-[2px]">
                   {service.priceUnit}
                 </span>
               </div>
             </div>
 
             <Link
-              href={`/services/${service.id}`}
+              href={getServiceHref(service.id)}
               className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-8)] border border-white/90 bg-white px-4 text-xs font-mono font-black uppercase tracking-[0.1em] text-black transition-all duration-300 hover:bg-white/95 focus-visible:shadow-[0_0_0_3px_rgba(255,255,255,0.35)]"
             >
-              Рассчитать <ArrowRight className="h-4 w-4" />
+              Рассчитать <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
         </div>

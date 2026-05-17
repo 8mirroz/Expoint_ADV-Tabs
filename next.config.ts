@@ -18,6 +18,25 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/services/lightbox',
+        destination: '/services/lightboxes',
+        permanent: true,
+      },
+      {
+        source: '/services/flex-neon',
+        destination: '/services/neon',
+        permanent: true,
+      },
+      {
+        source: '/services/pylon-signs',
+        destination: '/services/wayfinding',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -1,13 +1,12 @@
 "use client";
+
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, ArrowRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { Menu, X, ArrowRight, MessageCircle, Send } from 'lucide-react';
+import { motion, AnimatePresence, type Variants } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
-import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import Link from 'next/link';
-import { useCartStore } from '@/store/useCartStore';
 import { CartIndicator } from '@/components/sections/CartIndicator';
 
 const navItems = [
@@ -22,7 +21,57 @@ const copy = {
   requestAudit: { ru: 'Запросить аудит', be: 'Запытаць аудыт', kk: 'Аудитті сұрау', en: 'Request Audit', zh: '申请审计', ce: 'Аудит деха', tt: 'Аудит сорау' },
   openMenu: { ru: 'Открыть меню', be: 'Адкрыць меню', kk: 'Мәзірді ашу', en: 'Open menu', zh: '打开菜单', ce: 'Меню дIайаккха', tt: 'Менюны ачу' },
   closeMenu: { ru: 'Закрыть меню', be: 'Закрыць меню', kk: 'Мәзірді жабу', en: 'Close menu', zh: '关闭菜单', ce: 'Меню дIаяккха', tt: 'Менюны ябу' },
-  callUs: { ru: 'Связаться с нами', be: 'Звязацца з намі', kk: 'Бізбен байланысыңыз', en: 'Contact us', zh: '联系我们', ce: 'Тхуна деза', tt: 'Безнең белән элемтәгә керегез' }
+  callUs: { ru: 'Связаться с нами', be: 'Звязацца з намі', kk: 'Бізбен байланысыңыз', en: 'Contact us', zh: '联系我们', ce: 'Тхуна деза', tt: 'Безнең белән элемтәгә керегез' },
+  directLine: { ru: 'Прямая линия', be: 'Прамая лінія', kk: 'Тікелей желі', en: 'Direct line', zh: '直连线路', ce: 'Нийсса лини', tt: 'Туры линия' },
+  language: { ru: 'Язык', be: 'Мова', kk: 'Тіл', en: 'Language', zh: '语言', ce: 'Мотт', tt: 'Тел' },
+  telegram: { ru: 'Telegram', be: 'Telegram', kk: 'Telegram', en: 'Telegram', zh: 'Telegram', ce: 'Telegram', tt: 'Telegram' },
+  whatsapp: { ru: 'WhatsApp', be: 'WhatsApp', kk: 'WhatsApp', en: 'WhatsApp', zh: 'WhatsApp', ce: 'WhatsApp', tt: 'WhatsApp' },
+};
+
+const PHONE_LABEL = '+7 (495) 000-00-00';
+const PHONE_HREF = 'tel:+74950000000';
+
+const contactActions = [
+  {
+    id: 'telegram',
+    href: 'https://t.me/expoint_adv',
+    labelKey: 'telegram',
+    icon: Send,
+    brandColor: 'var(--brand-telegram)',
+    softGlow: 'rgba(38, 165, 228, 0.3)',
+  },
+  {
+    id: 'whatsapp',
+    href: 'https://wa.me/74950000000',
+    labelKey: 'whatsapp',
+    icon: MessageCircle,
+    brandColor: 'var(--brand-whatsapp)',
+    softGlow: 'rgba(37, 211, 102, 0.28)',
+  },
+] as const;
+
+// Framer Motion Variants for Staggered Mobile Menu
+const menuVariants: Variants = {
+  hidden: { y: '-100%', opacity: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const } },
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    transition: { 
+      duration: 0.6, 
+      ease: [0.22, 1, 0.36, 1] as const,
+      staggerChildren: 0.05,
+      delayChildren: 0.1
+    } 
+  }
+};
+
+const itemVariants: Variants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    transition: { type: 'spring' as const, damping: 20, stiffness: 100 }
+  }
 };
 
 export default function Header({ variant = 'default' }: { variant?: 'default' | 'immersive' }) {
@@ -30,154 +79,228 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+
+  
+  // Use the immersive variant correctly to adapt visuals
   const isImmersive = variant === 'immersive';
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
+    // Trigger once on mount to avoid hydration mismatch if already scrolled
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+
+
+  const desktopHeaderShell = isScrolled
+    ? 'h-[4.5rem] border-b border-[color:rgba(120,120,120,0.08)] bg-transparent backdrop-blur-xl'
+    : `h-[5.5rem] bg-transparent border-transparent`;
+
+  const desktopNavShell = isScrolled
+    ? 'border-[color:rgba(138,138,138,0.22)] bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(247,247,245,0.82))] shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_0_0_1px_rgba(255,255,255,0.58),0_12px_26px_rgba(15,23,42,0.08)]'
+    : 'border-[color:rgba(138,138,138,0.14)] bg-[linear-gradient(180deg,rgba(255,255,255,0.7),rgba(250,250,248,0.56))] shadow-[inset_0_1px_0_rgba(255,255,255,0.82),inset_0_0_0_1px_rgba(255,255,255,0.44)]';
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 h-16 transition-all duration-300 ${isScrolled
-          ? 'bg-background/80 backdrop-blur-md border-b border-outline shadow-sm'
-          : 'bg-background/0 border-b border-transparent'
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${desktopHeaderShell}`}
     >
-      <div className="section-container h-full px-6">
-        <div className="flex items-center justify-between h-full relative w-full">
-          {/* Logo Section */}
-          <Link href="/" className="flex items-center gap-3 group relative z-10 shrink-0">
-            <span className="font-sans text-xl font-semibold tracking-[-1.1px] text-on-surface leading-none">
-              Expoint <span className="text-primary-light font-normal">Adv</span>
+      <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
+        
+        {/* Left: Logo & Pill Menu container */}
+        <div className="relative z-10 flex shrink-0 items-center gap-4 xl:gap-6">
+          <Link href="/" className="flex items-center gap-3 group outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md animate-fade-in">
+            <span
+              className="text-[1.22rem] font-semibold leading-none tracking-[-0.045em] text-on-surface transition-colors duration-300 group-hover:text-primary sm:text-[1.4rem]"
+              style={{ fontFamily: 'var(--font-header)' }}
+            >
+              Expoint <span className="font-medium text-[color:rgba(84,84,84,0.72)]">Adv</span>
             </span>
-            <div className="hidden sm:flex items-center gap-2">
-              <div className="w-[1px] h-3 bg-outline" />
-              <span className="text-xs font-mono text-on-surface-variant uppercase tracking-wider">Engineering</span>
+            <div className="hidden sm:flex items-center gap-2.5">
+              <div className="h-4 w-px bg-[linear-gradient(180deg,rgba(87,87,87,0.08),rgba(87,87,87,0.42),rgba(87,87,87,0.08))]" />
+              <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[color:rgba(59,59,59,0.62)]" style={{ fontFamily: 'var(--font-mono)' }}>
+                Engineering
+              </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-1">
+          {/* Center: Premium Desktop Pill Navigation */}
+          <nav className={`hidden xl:flex items-center rounded-full border p-1.5 transition-all duration-500 ${desktopNavShell}`}>
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
               return (
                 <Link
                   key={item.id}
                   href={item.href}
-                  className={`px-3 py-1.5 rounded-full text-sm transition-all duration-200 ${
-                    isActive 
-                      ? 'text-primary font-medium' 
-                      : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50'
-                  }`}
+                  className="group relative rounded-full px-5 py-2.5 text-[15px] font-semibold tracking-[-0.01em] outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary"
+                  style={{ fontFamily: 'var(--font-header)' }}
                 >
-                  {item.label[locale]}
+                  {isActive && (
+                    <motion.div
+                      layoutId="active-nav-pill"
+                      className="absolute inset-0 rounded-full border border-[color:rgba(var(--accent-rgb),0.18)] bg-[linear-gradient(180deg,rgba(28,28,28,0.08),rgba(28,28,28,0.03))] shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_20px_rgba(15,23,42,0.06)]"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                  <span className={`relative z-10 transition-colors duration-300 ${
+                    isActive 
+                      ? 'text-primary'
+                      : 'text-[color:rgba(38,38,38,0.68)] group-hover:text-on-surface'
+                  }`}>
+                    {item.label[locale]}
+                  </span>
                 </Link>
               );
             })}
           </nav>
+        </div>
 
-          {/* Actions Section */}
-          <div className="hidden lg:flex items-center gap-6 relative z-10">
-            <a
-              href="tel:+74950000000"
-              className="text-sm text-on-surface-variant hover:text-on-surface transition-colors font-sans"
-            >
-              +7 (495) 000-00-00
-            </a>
+        {/* Adaptive Gap */}
+        <div className="flex-grow" />
 
-            <div className="flex items-center gap-3">
-              <CartIndicator />
-              <button
-                onClick={() => document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' })}
-                className="geist-button-primary geist-button-sm px-4 h-9 text-sm rounded-[6px]"
-              >
-                {copy.requestAudit[locale]}
-              </button>
-            </div>
-            
-            <div className="flex items-center h-8 gap-2 px-2 border border-outline rounded-[6px] bg-surface">
-              <LanguageSwitcher />
-            </div>
-          </div>
+        {/* Right: Actions Section */}
+        <div className="relative z-10 hidden items-center gap-2.5 lg:flex xl:gap-3">
 
-          {/* Mobile Menu Toggle & Actions */}
-          <div className="lg:hidden flex items-center gap-4">
-            <CartIndicator />
-            <button
-              className="p-1.5 rounded-[6px] border border-outline bg-surface transition-all active:scale-95"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label={isMobileMenuOpen ? copy.closeMenu[locale] : copy.openMenu[locale]}
-            >
+          {/* Language Switcher — minimal pill style */}
+          <LanguageSwitcher />
+
+          {/* Cart Icon */}
+          <CartIndicator />
+
+          {/* Login/Registration Button — pill style matching nav */}
+          <button
+            type="button"
+            className="hidden h-9 items-center rounded-full border border-[color:rgba(138,138,138,0.18)] bg-transparent px-5 text-[13px] font-semibold tracking-[-0.01em] text-[color:rgba(38,38,38,0.72)] transition-all duration-300 hover:bg-[rgba(0,0,0,0.04)] hover:text-on-surface active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-primary xl:inline-flex"
+            style={{ fontFamily: 'var(--font-header)' }}
+          >
+            {locale === 'ru' ? 'Вход' : 'Sign In'}
+          </button>
+
+          {/* CTA Button — clockwise rainbow border glow */}
+          <button
+            onClick={() => document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' })}
+            className="rainbow-btn flex h-9 items-center justify-center rounded-full px-5 text-[13px] font-semibold outline-none transition-all hover:scale-[1.03] active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary cursor-pointer"
+            style={{ fontFamily: 'var(--font-header)' }}
+          >
+            <span className="relative z-10">{copy.requestAudit[locale]}</span>
+          </button>
+        </div>
+
+        {/* Mobile Menu Toggle */}
+        <div className="lg:hidden flex items-center gap-4 relative z-50">
+          <CartIndicator />
+          <button
+            className={`rounded-2xl border p-2.5 transition-all active:scale-[0.92] ${
+              isMobileMenuOpen || isScrolled
+                ? 'border-[color:rgba(128,128,128,0.22)] bg-[rgba(255,255,255,0.84)] text-on-surface shadow-[0_10px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl'
+                : 'border-[color:rgba(128,128,128,0.16)] bg-[rgba(255,255,255,0.58)] text-on-surface backdrop-blur-sm'
+            }`}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? copy.closeMenu[locale] : copy.openMenu[locale]}
+          >
+            <motion.div animate={{ rotate: isMobileMenuOpen ? 90 : 0 }} transition={{ type: "spring", stiffness: 200, damping: 20 }}>
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
+            </motion.div>
+          </button>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Luxury Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-background/95 backdrop-blur-3xl z-40 lg:hidden"
+              exit={{ opacity: 0, transition: { delay: 0.3 } }}
+              className="fixed inset-0 bg-background/60 backdrop-blur-2xl z-40 lg:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
+            
             <motion.div
-              initial={{ y: '-100%', opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: '-100%', opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-x-0 top-0 h-[85vh] bg-surface z-50 shadow-2xl lg:hidden flex flex-col p-8 rounded-b-[2rem] border-b border-outline/20"
+              variants={menuVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              className="fixed inset-x-0 top-0 z-40 flex h-[85vh] flex-col rounded-b-[2.5rem] border-b border-[color:rgba(120,120,120,0.18)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(247,247,244,0.94))] px-6 pb-8 pt-24 shadow-[0_24px_80px_rgba(15,23,42,0.18)] backdrop-blur-3xl lg:hidden sm:px-8"
             >
-              <div className="flex items-center justify-between mb-12">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-primary flex items-center justify-center rounded-xl font-black text-on-primary text-lg">EX</div>
-                  <div className="flex flex-col">
-                    <span className="font-headline font-bold text-lg uppercase tracking-tighter">Expoint</span>
-                    <span className="text-[8px] font-bold tracking-[0.3em] uppercase opacity-40 leading-none">Engineering</span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center bg-secondary/50 rounded-full transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+              <div className="flex flex-col gap-6 mb-auto overflow-y-auto pb-8 scrollbar-hide">
+                {navItems.map((item) => {
+                  const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+                  return (
+                    <motion.div key={item.id} variants={itemVariants}>
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`group flex items-center justify-between border-b border-[color:rgba(120,120,120,0.08)] pb-4 text-[2rem] font-semibold tracking-[-0.04em] transition-all sm:text-[2.3rem] ${
+                          isActive ? 'text-primary' : 'text-on-surface hover:text-primary'
+                        }`}
+                        style={{ fontFamily: 'var(--font-header)' }}
+                      >
+                        <span>{item.label[locale]}</span>
+                        <div className="mx-6 h-px flex-grow origin-left scale-x-0 bg-[linear-gradient(90deg,rgba(var(--accent-rgb),0.02),rgba(var(--accent-rgb),0.32),rgba(var(--accent-rgb),0.02))] transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                        <motion.div
+                          initial={{ x: -10, opacity: 0 }}
+                          whileInView={{ x: 0, opacity: 1 }}
+                          transition={{ delay: 0.2 }}
+                        >
+                          <ArrowRight className={`w-6 h-6 transition-transform duration-300 group-hover:translate-x-2 ${isActive ? 'text-primary' : 'text-on-surface-variant'}`} />
+                        </motion.div>
+                      </Link>
+                    </motion.div>
+                  );
+                })}
               </div>
 
-              <div className="flex flex-col gap-6 mb-auto overflow-y-auto pb-8">
-                {navItems.map((item, index) => (
-                  <motion.div key={item.id}>
-                    <Link
-                      href={item.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`text-3xl font-black uppercase tracking-tight transition-all flex items-center justify-between group ${
-                        pathname === item.href ? 'text-primary' : 'text-on-surface hover:text-primary'
-                      }`}
+              <motion.div variants={itemVariants} className="space-y-5 border-t border-[color:rgba(120,120,120,0.12)] pt-8">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1.35fr_0.9fr]">
+                  <div className="rounded-[24px] border border-[color:rgba(120,120,120,0.16)] bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(245,245,241,0.84))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_14px_28px_rgba(15,23,42,0.07)]">
+                    <span className="mb-3 block text-[10px] uppercase tracking-[0.22em] text-[color:rgba(67,67,67,0.54)]" style={{ fontFamily: 'var(--font-mono)' }}>
+                      {copy.callUs[locale]}
+                    </span>
+                    <a
+                      href={PHONE_HREF}
+                      className="mb-4 block text-[1.35rem] font-semibold leading-tight tracking-[-0.04em] text-on-surface"
+                      style={{ fontFamily: 'var(--font-header)' }}
                     >
-                      <span>{item.label[locale]}</span>
-                      <div className="h-[2px] flex-grow mx-4 bg-outline/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-                      <ArrowRight className="w-6 h-6 text-primary" />
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="pt-8 border-t border-outline/20 space-y-8">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-secondary/30 rounded-2xl">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-on-surface/30 block mb-2">{copy.callUs[locale]}</span>
-                    <a href="tel:+74950000000" className="text-sm font-black text-on-surface font-mono">+7 495 000-0000</a>
+                      {PHONE_LABEL}
+                    </a>
+                    <div className="flex items-center gap-3">
+                      {contactActions.map((action) => {
+                        const Icon = action.icon;
+                        return (
+                          <a
+                            key={action.id}
+                            href={action.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={copy[action.labelKey][locale]}
+                            className="relative flex h-12 w-12 items-center justify-center rounded-full border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                            style={{
+                              background: `radial-gradient(circle at 50% 38%, color-mix(in srgb, ${action.brandColor} 28%, white), color-mix(in srgb, ${action.brandColor} 12%, transparent))`,
+                              borderColor: `color-mix(in srgb, ${action.brandColor} 34%, rgba(255,255,255,0.94))`,
+                              boxShadow: `0 0 18px ${action.softGlow}, inset 0 1px 0 rgba(255,255,255,0.92)`,
+                            }}
+                          >
+                            <span
+                              className="absolute h-3 w-3 rounded-full"
+                              style={{ backgroundColor: action.brandColor }}
+                            />
+                            <Icon className="relative z-10 h-5 w-5" style={{ color: action.brandColor }} />
+                          </a>
+                        );
+                      })}
+                    </div>
                   </div>
-                  <div className="p-4 bg-secondary/30 rounded-2xl flex flex-col justify-center">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-on-surface/30 block mb-2">Language</span>
+
+                  <div className="flex flex-col justify-center rounded-[24px] border border-[color:rgba(120,120,120,0.12)] bg-[rgba(255,255,255,0.74)] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.88)]">
+                    <span className="mb-3 block text-[10px] uppercase tracking-[0.22em] text-[color:rgba(67,67,67,0.54)]" style={{ fontFamily: 'var(--font-mono)' }}>
+                      {copy.language[locale]}
+                    </span>
                     <LanguageSwitcher />
                   </div>
                 </div>
@@ -187,12 +310,13 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                     setIsMobileMenuOpen(false);
                     document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="w-full bg-primary text-on-primary px-8 py-5 rounded-full font-black uppercase tracking-widest text-xs shadow-xl shadow-primary/10 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
+                  className="flex w-full items-center justify-center gap-3 rounded-[20px] bg-primary px-8 py-5 text-[13px] font-semibold uppercase tracking-[0.14em] text-on-primary shadow-[0_18px_30px_rgba(23,23,23,0.18)] transition-all hover:bg-primary/90 active:scale-[0.98]"
+                  style={{ fontFamily: 'var(--font-header)' }}
                 >
                   {copy.requestAudit[locale]}
                   <ArrowRight className="w-4 h-4" />
                 </button>
-              </div>
+              </motion.div>
             </motion.div>
           </>
         )}

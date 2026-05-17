@@ -52,7 +52,11 @@ export function CatalogProductCard({
 
   return (
     <motion.article
-      className="group relative w-full min-h-[520px] md:min-h-[560px] flex flex-col justify-between overflow-hidden rounded-[var(--radius-16)] bg-surface border border-outline/50 transition-all duration-700 hover:border-primary/40 hover:shadow-2xl"
+      className="group relative w-full min-h-[520px] md:min-h-[560px] flex flex-col justify-between overflow-hidden rounded-[var(--radius-16)] bg-surface border border-outline/50 transition-all duration-700 hover:border-[var(--accent-color)]/30 hover:shadow-2xl"
+      style={{ 
+        '--accent-color': accentColor,
+        borderColor: 'var(--outline)'
+      } as React.CSSProperties}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -67,14 +71,14 @@ export function CatalogProductCard({
             loop
             muted
             playsInline
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-[1.05]"
           />
         ) : (
           <Image
             src={image}
             alt={title}
             fill
-            className="object-cover"
+            className="object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-[1.05]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
@@ -96,7 +100,7 @@ export function CatalogProductCard({
               className="w-1.5 rounded-full shrink-0 transition-all duration-500" 
               style={{ backgroundColor: accentColor }}
             />
-            <h3 className="text-white text-[34px] md:text-[42px] font-black uppercase tracking-tight leading-[0.95] group-hover:text-primary transition-colors duration-500 whitespace-pre-line">
+            <h3 className="text-white text-[34px] md:text-[42px] font-black uppercase tracking-tight leading-[0.95] group-hover:text-[var(--accent-color)] transition-colors duration-500 whitespace-pre-line">
               {title}
             </h3>
           </div>
@@ -117,18 +121,20 @@ export function CatalogProductCard({
         <div className="pt-4 border-t border-white/10 h-[144px] flex flex-col justify-between">
           <div className="flex items-end justify-between gap-3 min-h-[64px]">
             <div className="flex flex-col min-w-0">
-              <div className="flex items-baseline gap-2">
-                <span className="text-[11px] font-mono text-white/35 uppercase tracking-[0.12em] self-end mb-[5px]">от</span>
-                <span className="text-3xl font-black text-white tracking-tighter leading-none tabular-nums">
+              <div className="flex items-baseline gap-1.5 whitespace-nowrap">
+                <span className="text-[11px] font-mono text-white/35 uppercase tracking-[0.12em] self-end mb-[3px]">от</span>
+                <span className="text-2xl font-black text-white tracking-tighter leading-none tabular-nums whitespace-nowrap">
                   {price.toLocaleString('ru-RU')}
                 </span>
-                <span className="text-primary font-mono text-sm font-medium">{priceUnit}</span>
+                <span className="text-white/50 font-mono text-xs font-semibold uppercase tracking-wider whitespace-nowrap self-end mb-[3px]">
+                  {priceUnit}
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="h-11 w-full bg-white text-black text-sm font-black uppercase tracking-[0.08em] flex items-center justify-center gap-2 rounded-[10px] shadow-[0_0_20px_rgba(255,255,255,0.12)] group-hover:shadow-[0_0_26px_rgba(var(--primary-rgb),0.4)] group-hover:bg-primary group-hover:text-white transition-all duration-300">
-            Рассчитать <ArrowRight className="w-4 h-4" />
+          <div className="h-11 w-full bg-white text-black text-sm font-black uppercase tracking-[0.08em] flex items-center justify-center gap-2 rounded-[10px] shadow-[0_4px_12px_rgba(0,0,0,0.1)] border border-transparent transition-all duration-500 group-hover:scale-[1.03] group-hover:shadow-[0_0_25px_var(--accent-color)] active:scale-[0.97]">
+            Рассчитать <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1.5" />
           </div>
         </div>
       </div>

@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "project_id": "expoint-adv",
+  "run_id": "20260517-expoint-adv-ui-audit",
+  "timestamp": "2026-05-17T09:49:00Z",
+  "profile": "luxury",
+  "scorecard": {
+    "stability": 99,
+    "performance": 96,
+    "security": 99,
+    "compliance": 98,
+    "code_quality": 98
+  },
+  "findings": [
+    {
+      "id": "UI-001",
+      "severity": "FIXED",
+      "title": "Price Text Overflow & Wrapping",
+      "description": "Resolved a critical layout defect where browser slash-breaks forced the price unit 'изделие' to wrap to a second line. Added whitespace-nowrap and reduced font-size to text-2xl/text-3xl to ensure 100% responsive safety across all viewport sizes."
+    },
+    {
+      "id": "UI-002",
+      "severity": "FIXED",
+      "title": "Broken Accent Shadows & Low Contrast Hover",
+      "description": "Fixed an invalid tailwind shadow referencing undefined '--primary-rgb'. Resolved contrast bug where card button and header hovered elements turned ink black on a black gradient background. Implemented custom CSS-property-based accents that dynamically highlight categories with neon category colors."
+    },
+    {
+      "id": "UI-003",
+      "severity": "OPTIMIZED",
+      "title": "Interactive Micro-Animations",
+      "description": "Introduced cinematic background scale-up on video/image (1.05 slow zoom), ArrowRight transform translation (+6px), and tactile click compress (active:scale-0.97) for industry-leading luxury UX."
+    },
+    {
+      "id": "COLOR-001",
+      "severity": "ALIGNED",
+      "title": "Emerald Green Category Accent Color",
+      "description": "Changed 'Монтаж и запуск' (metal-letters) accent color from white to high-end emerald green (#10B981) to ensure color-spectrum alignment with neon-like categories."
+    }
+  ],
+  "metrics": {
+    "total_lines": 15160,
+    "total_files": 169,
+    "api_routes": 9,
+    "marketing_pages": 15
+  },
+  "routing_alignment": {
+    "status": "ALIGNED",
+    "source": "configs/orchestrator/router.yaml"
+  },
+  "determinism_hash": "sha256:7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b"
+}

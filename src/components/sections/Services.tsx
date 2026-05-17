@@ -6,6 +6,8 @@ import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
 import { SERVICES } from '@/data/services';
 import { CatalogProductCard } from '@/components/ui/CatalogProductCard';
+import { getServiceHref } from '@/lib/utils';
+
 
 const SERVICE_IMAGES: Record<string, string> = {
   'volumetric-letters': '/img/adv/volumetric-letters.png',
@@ -98,7 +100,7 @@ export default function Services() {
                 image={SERVICE_IMAGES[service.id] || 'https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2070&auto=format&fit=crop'}
                 previewVideo={service.previewVideo}
                 specs={service.technicalSpecs || []}
-                href={`/services/${service.id}`}
+                href={getServiceHref(service.id)}
                 accentColor={SERVICE_ACCENTS[service.id]}
               />
             </motion.div>

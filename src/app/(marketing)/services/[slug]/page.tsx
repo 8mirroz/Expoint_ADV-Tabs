@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { SERVICES } from '@/data/services';
 import { ServiceLandingContent } from './ServiceLandingContent';
+import { getServiceHref } from '@/lib/utils';
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -49,7 +50,7 @@ export default async function ServiceLandingPage({ params }: ServicePageProps) {
       headerVariant="immersive"
       breadcrumbs={[
         { label: 'Услуги', href: '/#services' },
-        { label: service.title, href: `/services/${service.id}` },
+        { label: service.title, href: getServiceHref(service.id) },
       ]}
       withMesh
     >

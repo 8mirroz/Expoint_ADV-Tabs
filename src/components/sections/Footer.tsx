@@ -28,8 +28,8 @@ const copy = {
 
 const hardwareItems = [
   { label: 'Объемные буквы', href: '/services/volumetric-letters' },
-  { label: 'Неон', href: '/services/flex-neon' },
-  { label: 'Лайтбоксы', href: '/services/lightbox' },
+  { label: 'Неон', href: '/services/neon' },
+  { label: 'Лайтбоксы', href: '/services/lightboxes' },
   { label: 'Индивидуальные решения', href: '/services' },
 ] as const;
 

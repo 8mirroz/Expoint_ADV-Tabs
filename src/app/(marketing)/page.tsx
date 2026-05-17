@@ -5,7 +5,6 @@ import Safety from '../../components/sections/Safety';
 import Process from '../../components/sections/Process';
 import Clients from '../../components/sections/Clients';
 import MapSection from '../../components/sections/MapSection';
-import AssistantWidget from '../../components/ai/AssistantWidget';
 import Script from 'next/script';
 
 import { generateLocalBusinessSchema, generateFAQSchema } from '../../lib/seo/schema';
@@ -26,7 +25,6 @@ export default function MarketingPage() {
       <Safety />
       <Process />
       <MapSection />
-      <AssistantWidget />
     </PageShell>
   );
 }

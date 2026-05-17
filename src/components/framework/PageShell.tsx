@@ -2,6 +2,7 @@ import Header from '@/components/sections/Header';
 import Footer from '@/components/sections/Footer';
 import ConsultationModal from '@/components/ui/ConsultationModal';
 import { CookieBanner } from '@/components/compliance/CookieBanner';
+import AssistantWidget from '@/components/ai/AssistantWidget';
 import { BreadcrumbsBar } from './BreadcrumbsBar';
 import type { PageShellProps } from './types';
 
@@ -34,6 +35,7 @@ export default function PageShell({
       </div>
 
       {showFooter && <Footer />}
+      {showAssistant && <AssistantWidget />}
       <ConsultationModal />
       <CookieBanner />
     </div>
