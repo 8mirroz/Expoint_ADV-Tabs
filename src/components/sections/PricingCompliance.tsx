@@ -29,10 +29,10 @@ interface PricingComplianceProps {
 }
 
 const severityConfig: Record<string, { label: string; color: string; bg: string }> = {
-  low: { label: 'Низкий', color: 'text-success', bg: 'bg-success/10' },
-  medium: { label: 'Средний', color: 'text-warning', bg: 'bg-warning/10' },
-  high: { label: 'Высокий', color: 'text-accent-warm', bg: 'bg-accent-warm/10' },
-  critical: { label: 'Критичный', color: 'text-error', bg: 'bg-error/10' },
+  low: { label: 'Низкий', color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+  medium: { label: 'Средний', color: 'text-emerald-300', bg: 'bg-emerald-400/10' },
+  high: { label: 'Высокий', color: 'text-teal-400', bg: 'bg-teal-500/10' },
+  critical: { label: 'Критичный', color: 'text-[#00ffa3]', bg: 'bg-[#00ffa3]/10' },
 };
 
 /**
@@ -98,8 +98,10 @@ export default function PricingCompliance({
                       isAllowed 
                         ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.15)] group-hover:shadow-[0_0_25px_rgba(16,185,129,0.35)]' 
                         : severity === 'critical'
-                        ? 'bg-red-500/10 text-red-400 border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.15)] group-hover:shadow-[0_0_25px_rgba(239,68,68,0.35)]'
-                        : 'bg-amber-500/10 text-amber-400 border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.15)] group-hover:shadow-[0_0_25px_rgba(245,158,11,0.35)]'
+                        ? 'bg-[#00ffa3]/10 text-[#00ffa3] border-[#00ffa3]/20 shadow-[0_0_15px_rgba(0,255,163,0.15)] group-hover:shadow-[0_0_25px_rgba(0,255,163,0.35)]'
+                        : severity === 'high'
+                        ? 'bg-teal-500/10 text-teal-400 border-teal-500/20 shadow-[0_0_15px_rgba(20,184,166,0.15)] group-hover:shadow-[0_0_25px_rgba(20,184,166,0.35)]'
+                        : 'bg-emerald-400/10 text-emerald-300 border-emerald-400/20 shadow-[0_0_15px_rgba(52,211,153,0.15)] group-hover:shadow-[0_0_25px_rgba(52,211,153,0.35)]'
                     }`}>
                       {isAllowed ? (
                         <ShieldCheck className="h-6 w-6" strokeWidth={1.75} />
@@ -115,8 +117,10 @@ export default function PricingCompliance({
                       isAllowed
                         ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/10'
                         : severity === 'critical'
-                        ? 'bg-red-500/10 text-red-400 border border-red-500/10'
-                        : 'bg-amber-500/10 text-amber-400 border border-amber-500/10'
+                        ? 'bg-[#00ffa3]/10 text-[#00ffa3] border border-[#00ffa3]/20'
+                        : severity === 'high'
+                        ? 'bg-teal-500/10 text-teal-400 border border-teal-500/10'
+                        : 'bg-emerald-400/10 text-emerald-300 border border-emerald-400/10'
                     }`}>
                       {config.label}
                     </span>
@@ -138,14 +142,14 @@ export default function PricingCompliance({
                 {(item.consequence || item.prevention) && (
                   <div className="mt-5 grid gap-3 sm:grid-cols-2">
                     {item.consequence && (
-                      <div className="rounded-[var(--radius-8)] border border-outline bg-error/3 px-4 py-3">
-                        <p className="text-[10px] uppercase tracking-[0.18em] text-error/80 mb-1">Последствие</p>
+                      <div className="rounded-[var(--radius-8)] border border-[#00ffa3]/15 bg-[#00ffa3]/5 px-4 py-3">
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-[#00ffa3]/80 mb-1">Последствие</p>
                         <p className="text-sm leading-6 text-on-surface-variant">{item.consequence}</p>
                       </div>
                     )}
                     {item.prevention && (
-                      <div className="rounded-[var(--radius-8)] border border-outline bg-success/3 px-4 py-3">
-                        <p className="text-[10px] uppercase tracking-[0.18em] text-success/80 mb-1">Как предотвратить</p>
+                      <div className="rounded-[var(--radius-8)] border border-emerald-500/15 bg-emerald-500/5 px-4 py-3">
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-emerald-400/80 mb-1">Как предотвратить</p>
                         <p className="text-sm leading-6 text-on-surface-variant">{item.prevention}</p>
                       </div>
                     )}

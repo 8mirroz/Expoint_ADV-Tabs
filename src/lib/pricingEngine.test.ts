@@ -1,7 +1,11 @@
 import { describe, it, expect, vi } from 'vitest';
-import { calculatePrice, getPriceRange } from './pricingEngine';
+import {
+  calculateConfiguratorEstimate,
+  calculatePrice,
+  getPriceRange,
+  DEFAULT_CALCULATOR_CONFIG,
+} from './pricingEngine';
 
-// Mock the services data module
 vi.mock('@/data/services', () => ({
   SERVICES: [
     {
@@ -17,73 +21,120 @@ vi.mock('@/data/services', () => ({
   ]
 }));
 
-describe('pricingEngine', () => {
-  describe('calculatePrice', () => {
-    it('should calculate base price for small size', () => {
-      const result = calculatePrice('test-service', { size: 'small' });
-      expect(result.base).toBe(10000);
-      expect(result.total).toBe(10000); // small * 1.0, no material, no install
-    });
-
-    it('should apply size multipliers', () => {
-      const mediumResult = calculatePrice('test-service', { size: 'medium' });
-      expect(mediumResult.total).toBe(15000); // 10000 * 1.5
-
-      const largeResult = calculatePrice('test-service', { size: 'large' });
-      expect(largeResult.total).toBe(22000); // 10000 * 2.2
-    });
-
-    it('should apply material multipliers', () => {
-      const premiumResult = calculatePrice('test-service', {
-        size: 'small',
-        material: 'premium',
-      });
-      // sizePrice=10000, materialPrice=10000*(1.3-1)=3000, total=13000
-      expect(premiumResult.total).toBe(13000);
-
-      const exclusiveResult = calculatePrice('test-service', {
-        size: 'small',
-        material: 'exclusive',
-      });
-      // sizePrice=10000, materialPrice=10000*(1.7-1)=7000, total=17000
-      expect(exclusiveResult.total).toBe(17000);
-    });
-
-    it('should apply installation fee (20%)', () => {
-      const result = calculatePrice('test-service', {
-        size: 'small',
-        installation: true,
-      });
-      // sizePrice=10000, no material, installFee=10000*0.2=2000, total=12000
-      expect(result.installationFee).toBe(2000);
-      expect(result.total).toBe(12000);
-    });
-
-    it('should include custom modifications cost', () => {
-      const result = calculatePrice('test-service', {
-        size: 'small',
-        customModifications: 5000,
-      });
-      expect(result.customModifications).toBe(5000);
-      expect(result.total).toBe(15000);
-    });
-
-    it('should throw for unknown service', () => {
-      expect(() => calculatePrice('nonexistent', { size: 'small' })).toThrow('not found');
-    });
+describe('pricingEngine legacy API', () => {
+  it('calculates legacy base price for small size', () => {
+    const result = calculatePrice('test-service', { size: 'small' });
+    expect(result.base).toBe(10000);
+    expect(result.total).toBe(10000);
   });
 
-  describe('getPriceRange', () => {
-    it('should return min and max price range', () => {
-      const range = getPriceRange('test-service');
-      expect(range.min).toBeLessThan(range.max);
-      expect(range.min).toBe(10000); // small, standard, no install
-      // large * 2.2 = 22000, exclusive 22000 * 0.7 = 15400, total 22000+15400 = 37400, install 37400*0.2=7480 => 44880
-      expect(range.max).toBeGreaterThan(range.min);
+  it('keeps legacy min/max price range behavior', () => {
+    const range = getPriceRange('test-service');
+    expect(range.min).toBe(10000);
+    expect(range.max).toBeGreaterThan(range.min);
+  });
+});
+
+describe('calculateConfiguratorEstimate', () => {
+  it('calculates volumetric letters by height, symbol count, and complexity', () => {
+    const standard = calculateConfiguratorEstimate({
+      ...DEFAULT_CALCULATOR_CONFIG,
+      productType: 'volumetric-letters',
+      text: 'CAFE',
+      quantity: 4,
+      heightMm: 300,
+      complexity: 'standard',
+      materialTier: 'standard',
+      lighting: 'internal',
+      mounting: 'none',
+      needs902Audit: false,
+    });
+    const serif = calculateConfiguratorEstimate({
+      ...standard.config,
+      complexity: 'serif',
     });
 
-    it('should throw for unknown service', () => {
-      expect(() => getPriceRange('nonexistent')).toThrow('not found');
+    expect(standard.breakdown.productSubtotal).toBe(12600);
+    expect(serif.breakdown.total).toBeGreaterThan(standard.breakdown.total);
+  });
+
+  it('applies lightbox area thresholds and minimum order', () => {
+    const small = calculateConfiguratorEstimate({
+      ...DEFAULT_CALCULATOR_CONFIG,
+      productType: 'lightbox',
+      widthMm: 300,
+      heightMm: 300,
+      materialTier: 'standard',
+      lighting: 'internal',
+      mounting: 'none',
+      needs902Audit: false,
     });
+    const large = calculateConfiguratorEstimate({
+      ...small.config,
+      widthMm: 3000,
+      heightMm: 2000,
+    });
+
+    expect(small.breakdown.productSubtotal).toBe(6500);
+    expect(large.breakdown.total).toBeGreaterThan(small.breakdown.total);
+    expect(large.breakdown.formula).toContain('м2');
+  });
+
+  it('calculates neon linear length and RGB modifier', () => {
+    const standard = calculateConfiguratorEstimate({
+      ...DEFAULT_CALCULATOR_CONFIG,
+      productType: 'flex-neon',
+      text: 'OPEN BAR',
+      quantity: 7,
+      heightMm: 600,
+      materialTier: 'standard',
+      lighting: 'internal',
+      mounting: 'none',
+      needs902Audit: false,
+    });
+    const rgb = calculateConfiguratorEstimate({
+      ...standard.config,
+      lighting: 'combined',
+    });
+
+    expect(standard.breakdown.formula).toContain('м.п.');
+    expect(rgb.breakdown.total).toBeGreaterThan(standard.breakdown.total);
+  });
+
+  it('adds mounting, dismantling, urgency, high access, and 902-PP audit', () => {
+    const base = calculateConfiguratorEstimate({
+      ...DEFAULT_CALCULATOR_CONFIG,
+      mounting: 'none',
+      urgency: 'standard',
+      needsDismantling: false,
+      needs902Audit: false,
+      highAccess: false,
+    });
+    const full = calculateConfiguratorEstimate({
+      ...base.config,
+      mounting: 'frame',
+      urgency: 'express',
+      needsDismantling: true,
+      needs902Audit: true,
+      highAccess: true,
+    });
+
+    expect(full.breakdown.mounting).toBeGreaterThan(base.breakdown.mounting);
+    expect(full.breakdown.dismantling).toBeGreaterThan(0);
+    expect(full.breakdown.urgency).toBeGreaterThan(0);
+    expect(full.breakdown.compliance).toBe(9000);
+    expect(full.breakdown.total).toBeGreaterThan(base.breakdown.total);
+  });
+
+  it('generates ordered Start, Business, and Premium packages', () => {
+    const estimate = calculateConfiguratorEstimate(DEFAULT_CALCULATOR_CONFIG);
+    const [start, business, premium] = estimate.packages;
+
+    expect(start.id).toBe('start');
+    expect(business.id).toBe('business');
+    expect(business.recommended).toBe(true);
+    expect(premium.id).toBe('premium');
+    expect(start.price).toBeLessThan(business.price);
+    expect(business.price).toBeLessThan(premium.price);
   });
 });

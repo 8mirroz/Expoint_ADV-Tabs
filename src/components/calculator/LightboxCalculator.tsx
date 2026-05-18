@@ -163,7 +163,7 @@ export function LightboxCalculator() {
                 ))}
               </ul>
 
-              <button className={`w-full py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all ${
+              <button className={`w-full py-4 rounded-full font-black uppercase tracking-widest text-xs transition-all ${
                 isRecommended ? 'bg-accent text-background hover:scale-[1.02]' : 'bg-on-surface text-surface hover:bg-accent hover:text-on-surface'
               }`}>
                 Выбрать расчет

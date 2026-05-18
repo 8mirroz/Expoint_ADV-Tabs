@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from 'react';
-import { ChevronRight, ArrowLeft, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { ChevronRight, ArrowLeft, CheckCircle2, ShieldCheck, User, Phone, Building2, LayoutTemplate, Sparkles, Network, PencilRuler, Maximize2, Hammer, Zap, CalendarDays, Clock, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
 import { MeshBackground } from '@/components/ui/MeshBackground';
 import { TurnstileWidget } from '@/components/ui/TurnstileWidget';
 import { Loader2 } from 'lucide-react';
+import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card';
 
 const QUIZ_QUESTIONS = [
   {
@@ -40,6 +41,35 @@ const QUIZ_QUESTIONS = [
   }
 ];
 
+const getOptionIcon = (stepIndex: number, optionIndex: number) => {
+  switch (stepIndex) {
+    case 0:
+      switch (optionIndex) {
+        case 0: return <Building2 className="w-5 h-5" />;
+        case 1: return <LayoutTemplate className="w-5 h-5" />;
+        case 2: return <Sparkles className="w-5 h-5" />;
+        case 3: return <Network className="w-5 h-5" />;
+      }
+      break;
+    case 1:
+      switch (optionIndex) {
+        case 0: return <PencilRuler className="w-5 h-5" />;
+        case 1: return <ShieldCheck className="w-5 h-5" />;
+        case 2: return <Maximize2 className="w-5 h-5" />;
+        case 3: return <Hammer className="w-5 h-5" />;
+      }
+      break;
+    case 2:
+      switch (optionIndex) {
+        case 0: return <Zap className="w-5 h-5" />;
+        case 1: return <CalendarDays className="w-5 h-5" />;
+        case 2: return <Clock className="w-5 h-5" />;
+      }
+      break;
+  }
+  return <CheckCircle2 className="w-5 h-5" />;
+};
+
 export default function Quiz() {
   const { locale } = useLanguage();
   const copy = {
@@ -61,9 +91,11 @@ export default function Quiz() {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [contactInfo, setContactInfo] = useState({ phone: '', name: '' });
+  const [contactInfo, setContactInfo] = useState({ phone: '', name: '', email: '' });
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [generatedOrderId, setGeneratedOrderId] = useState('');
+  const [submittedTime, setSubmittedTime] = useState('');
 
   const handleOptionSelect = (option: string) => {
     setAnswers(prev => ({ ...prev, [currentStep]: option }));
@@ -95,11 +127,20 @@ export default function Quiz() {
           ...contactInfo,
           context: `Quiz Answers: ${JSON.stringify(answers)}`,
           source: 'Quiz',
+          consent: true,
           turnstileToken
         }),
       });
 
       if (response.ok) {
+        setGeneratedOrderId('EXP-' + Math.floor(10000000 + Math.random() * 90000000));
+        setSubmittedTime(new Date().toLocaleDateString("ru-RU", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+        }));
         setIsSubmitted(true);
       } else {
         const err = await response.json();
@@ -122,34 +163,34 @@ export default function Quiz() {
 
       <div className="section-container relative z-10">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-surface-variant/80 border border-outline/50 rounded-full verge-mono-label text-accent mb-6 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-surface-variant/80 border border-outline/50 rounded-full verge-mono-label text-[#00aa6c] font-semibold mb-6 shadow-sm">
             <ShieldCheck className="w-4 h-4" />
             <span className="text-xs font-mono tracking-widest uppercase">{t(locale, copy.badge)}</span>
           </div>
-          <h2 className="geist-display-lg text-white mb-6">
-            {t(locale, copy.title)}<span className="text-accent">.</span>
+          <h2 className="geist-display-lg text-on-surface mb-6">
+            {t(locale, copy.title)}<span className="text-[#00aa6c]">.</span>
           </h2>
-          <p className="text-neutral-400 text-lg leading-[28px] max-w-2xl mx-auto font-light">Параметрический расчет стоимости и 3D-моделирование объекта.</p>
+          <p className="text-on-surface-variant text-lg leading-[28px] max-w-2xl mx-auto font-light">Параметрический расчет стоимости и 3D-моделирование объекта.</p>
         </div>
 
-        <div className="bg-surface/10 backdrop-blur-md border border-outline/30 relative overflow-hidden rounded-2xl shadow-xl hover:shadow-[0_0_40px_rgba(0,245,160,0.03)] transition-all duration-700">
+        <div className="bg-surface border border-outline/85 relative overflow-hidden rounded-2xl shadow-premium transition-all duration-500">
           {/* Premium Glow Effect */}
-          <div className="absolute inset-0 z-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-30 pointer-events-none" />
+          <div className="absolute inset-0 z-0 bg-gradient-to-br from-accent/[0.03] via-transparent to-transparent opacity-20 pointer-events-none" />
           
           {/* Tech Corner Accents */}
-          <div className="absolute top-0 right-0 w-6 h-6 border-r border-t border-outline/30 pointer-events-none rounded-tr-2xl" />
-          <div className="absolute bottom-0 left-0 w-6 h-6 border-l border-b border-outline/30 pointer-events-none rounded-bl-2xl" />
+          <div className="absolute top-0 right-0 w-6 h-6 border-r border-t border-outline pointer-events-none rounded-tr-2xl" />
+          <div className="absolute bottom-0 left-0 w-6 h-6 border-l border-b border-outline pointer-events-none rounded-bl-2xl" />
           
           {!isSubmitted ? (
             <div className="p-8 md:p-16 relative z-10">
               <div className="mb-12">
-                <div className="flex justify-between verge-mono-label text-neutral-200 mb-4 text-xs tracking-wider uppercase font-mono">
+                <div className="flex justify-between verge-mono-label text-on-surface-variant mb-4 text-xs tracking-wider uppercase font-mono">
                   <span className="font-bold">{t(locale, copy.phase)} 0{currentStep + 1} / 0{QUIZ_QUESTIONS.length + 1}</span>
-                  <span className="text-accent font-bold">{Math.round((currentStep / (QUIZ_QUESTIONS.length + 1)) * 100)}% {t(locale, copy.synced)}</span>
+                  <span className="text-[#00aa6c] font-bold">{Math.round((currentStep / (QUIZ_QUESTIONS.length + 1)) * 100)}% {t(locale, copy.synced)}</span>
                 </div>
-                <div className="w-full bg-outline/10 h-2 rounded-full overflow-hidden relative border border-outline/20">
+                <div className="w-full bg-outline/40 h-2 rounded-full overflow-hidden relative border border-outline/65">
                   <motion.div 
-                    className="bg-accent h-full rounded-full shadow-[0_0_10px_rgba(0,245,160,0.5)]"
+                    className="bg-[linear-gradient(90deg,var(--accent),#00D285)] h-full rounded-full shadow-[0_0_10px_rgba(0,245,160,0.2)]"
                     animate={{ width: `${((currentStep) / (QUIZ_QUESTIONS.length + 1)) * 100}%` }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                   />
@@ -165,7 +206,7 @@ export default function Quiz() {
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    <h3 className="geist-display-sm text-white mb-8 tracking-tight font-medium">
+                    <h3 className="geist-display-sm text-on-surface mb-8 tracking-tight font-medium">
                       {QUIZ_QUESTIONS[currentStep].question}
                     </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -175,15 +216,22 @@ export default function Quiz() {
                           <button
                             key={idx}
                             onClick={() => handleOptionSelect(option)}
-                            className={`text-left w-full p-6 border transition-all duration-500 group rounded-xl relative overflow-hidden
+                            className={`text-left w-full p-6 border transition-all duration-500 group rounded-xl relative overflow-hidden flex items-center gap-4
                               ${isSelected 
-                                ? 'border-accent bg-accent/5 shadow-[0_0_20px_rgba(0,245,160,0.06)]' 
-                                : 'border-outline/35 hover:border-accent/40 bg-surface/10 hover:bg-surface/20'}`}
+                                ? 'border-accent bg-accent/[0.04] shadow-[0_0_25px_rgba(0,245,160,0.06)]' 
+                                : 'border-outline hover:border-accent/40 bg-surface hover:bg-surface-variant/40'}`}
                           >
                             {isSelected && (
                                <div className="absolute top-0 right-0 w-4 h-4 border-r border-t border-accent" />
                             )}
-                            <span className={`text-sm font-bold tracking-wide transition-colors duration-300 ${isSelected ? 'text-accent' : 'text-neutral-300 group-hover:text-white'}`}>
+                            <div className={`p-3 rounded-lg border transition-all duration-300 shrink-0
+                              ${isSelected 
+                                ? 'bg-accent/15 border-accent/30 text-[#00aa6c] font-bold' 
+                                : 'bg-surface-variant border-outline text-on-surface-variant group-hover:border-accent/20 group-hover:text-[#00aa6c] group-hover:bg-accent/10'}`}
+                            >
+                              {getOptionIcon(currentStep, idx)}
+                            </div>
+                            <span className={`text-sm font-bold tracking-wide transition-colors duration-300 ${isSelected ? 'text-[#00aa6c]' : 'text-on-surface-variant group-hover:text-on-surface'}`}>
                               {option}
                             </span>
                           </button>
@@ -198,39 +246,74 @@ export default function Quiz() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4 }}
                   >
-                    <h3 className="geist-display-sm text-white mb-4 tracking-tight font-medium">{t(locale, copy.finalData)}</h3>
-                    <p className="text-neutral-300 text-base font-light mb-10">Введите данные для формирования технического задания и 3D-макета.</p>
+                    <h3 className="geist-display-sm text-on-surface mb-4 tracking-tight font-medium">{t(locale, copy.finalData)}</h3>
+                    <p className="text-on-surface-variant text-base font-light mb-10">Введите данные для формирования технического задания и 3D-макета.</p>
                     
-                    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="verge-mono-label text-neutral-200 mb-2 block text-xs tracking-wider uppercase font-mono font-medium">{t(locale, copy.nameLabel)}</label>
-                        <input 
-                          type="text" 
-                          required
-                          placeholder="Имя / Компания"
-                          className="w-full bg-surface/10 border border-outline/35 focus:border-accent/60 p-5 focus:outline-none text-white font-sans text-sm transition-all duration-300 rounded-xl placeholder:text-neutral-400 focus:shadow-[0_0_20px_rgba(0,245,160,0.06)]"
-                          value={contactInfo.name}
-                          onChange={(e) => setContactInfo({...contactInfo, name: e.target.value})}
-                        />
+                    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="md:col-span-2">
+                        <label className="verge-mono-label text-on-surface-variant mb-3 block text-[10px] tracking-[0.2em] uppercase font-mono font-bold">{t(locale, copy.nameLabel)}</label>
+                        <div className="relative group">
+                          <span className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-on-surface-variant/80 group-focus-within:text-[#00aa6c] group-hover:text-on-surface transition-colors duration-300">
+                            <User className="w-5 h-5" />
+                          </span>
+                          <input 
+                            type="text" 
+                            required
+                            placeholder="Имя / Название компании"
+                            className="w-full bg-surface border border-outline hover:border-outline-strong/40 focus:border-accent p-5 pl-14 focus:outline-none text-on-surface font-sans text-sm transition-all duration-300 rounded-xl placeholder:text-on-surface-variant/60 focus:shadow-[0_0_20px_rgba(0,245,160,0.06)] focus:bg-surface font-medium"
+                            value={contactInfo.name}
+                            onChange={(e) => setContactInfo({...contactInfo, name: e.target.value})}
+                          />
+                          {/* Inner Tech Corner Accent for Premium Cyberpunk Feel */}
+                          <div className="absolute right-3 bottom-3 w-1.5 h-1.5 border-r border-b border-outline pointer-events-none group-focus-within:border-accent group-hover:border-outline-strong transition-colors duration-300" />
+                        </div>
                       </div>
+                      
                       <div>
-                        <label className="verge-mono-label text-neutral-200 mb-2 block text-xs tracking-wider uppercase font-mono font-medium">{t(locale, copy.phoneLabel)}</label>
-                        <input 
-                          type="tel" 
-                          required
-                          placeholder="+7 (___) ___-__-__"
-                          className="w-full bg-surface/10 border border-outline/35 focus:border-accent/60 p-5 focus:outline-none text-white font-sans text-sm transition-all duration-300 rounded-xl placeholder:text-neutral-400 focus:shadow-[0_0_20px_rgba(0,245,160,0.06)]"
-                          value={contactInfo.phone}
-                          onChange={(e) => setContactInfo({...contactInfo, phone: e.target.value})}
-                        />
+                        <label className="verge-mono-label text-on-surface-variant mb-3 block text-[10px] tracking-[0.2em] uppercase font-mono font-bold">{t(locale, copy.phoneLabel)}</label>
+                        <div className="relative group">
+                          <span className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-on-surface-variant/80 group-focus-within:text-[#00aa6c] group-hover:text-on-surface transition-colors duration-300">
+                            <Phone className="w-5 h-5" />
+                          </span>
+                          <input 
+                            type="tel" 
+                            required
+                            placeholder="+7 (999) 999-99-99"
+                            className="w-full bg-surface border border-outline hover:border-outline-strong/40 focus:border-accent p-5 pl-14 focus:outline-none text-on-surface font-sans text-sm transition-all duration-300 rounded-xl placeholder:text-on-surface-variant/60 focus:shadow-[0_0_20px_rgba(0,245,160,0.06)] focus:bg-surface font-medium"
+                            value={contactInfo.phone}
+                            onChange={(e) => setContactInfo({...contactInfo, phone: e.target.value})}
+                          />
+                          {/* Inner Tech Corner Accent for Premium Cyberpunk Feel */}
+                          <div className="absolute right-3 bottom-3 w-1.5 h-1.5 border-r border-b border-outline pointer-events-none group-focus-within:border-accent group-hover:border-outline-strong transition-colors duration-300" />
+                        </div>
                       </div>
+
+                      <div>
+                        <label className="verge-mono-label text-on-surface-variant mb-3 block text-[10px] tracking-[0.2em] uppercase font-mono font-bold">Email для сметы и макета</label>
+                        <div className="relative group">
+                          <span className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-on-surface-variant/80 group-focus-within:text-[#00aa6c] group-hover:text-on-surface transition-colors duration-300">
+                            <Mail className="w-5 h-5" />
+                          </span>
+                          <input 
+                            type="email" 
+                            required
+                            placeholder="your@email.com"
+                            className="w-full bg-surface border border-outline hover:border-outline-strong/40 focus:border-accent p-5 pl-14 focus:outline-none text-on-surface font-sans text-sm transition-all duration-300 rounded-xl placeholder:text-on-surface-variant/60 focus:shadow-[0_0_20px_rgba(0,245,160,0.06)] focus:bg-surface font-medium"
+                            value={contactInfo.email}
+                            onChange={(e) => setContactInfo({...contactInfo, email: e.target.value})}
+                          />
+                          {/* Inner Tech Corner Accent for Premium Cyberpunk Feel */}
+                          <div className="absolute right-3 bottom-3 w-1.5 h-1.5 border-r border-b border-outline pointer-events-none group-focus-within:border-accent group-hover:border-outline-strong transition-colors duration-300" />
+                        </div>
+                      </div>
+
                       <div className="md:col-span-2">
                         <TurnstileWidget onVerify={setTurnstileToken} />
                       </div>
 
                       {error && (
                         <div className="md:col-span-2 p-4 bg-error/10 border border-error/20 text-error text-xs font-bold uppercase tracking-wider text-center rounded-xl">
-                          {error}
+                          ОШИБКА: {error}
                         </div>
                       )}
 
@@ -258,38 +341,32 @@ export default function Quiz() {
               {currentStep > 0 && (
                 <button 
                   onClick={handleBack}
-                  className="mt-12 verge-mono-label text-neutral-400 hover:text-accent flex items-center gap-2 transition-colors duration-300 text-xs tracking-wider uppercase font-mono"
+                  className="mt-12 verge-mono-label text-on-surface-variant hover:text-[#00aa6c] flex items-center gap-2 transition-colors duration-300 text-xs tracking-wider uppercase font-mono font-bold animate-fade-in"
                 >
                   <ArrowLeft className="w-4 h-4" /> {t(locale, copy.back)}
                 </button>
               )}
             </div>
           ) : (
-             <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="p-16 text-center flex flex-col items-center justify-center min-h-[500px] relative z-10"
-             >
-                <div className="w-20 h-20 bg-accent/5 border border-accent/20 rounded-2xl flex items-center justify-center mb-8 relative group-hover:scale-115 transition-all duration-500 shadow-[0_0_20px_rgba(0,245,160,0.1)]">
-                  <CheckCircle2 className="w-9 h-9 text-accent" />
-                </div>
-                <h3 className="geist-display-md text-white mb-4 tracking-tight">{t(locale, copy.success)}</h3>
-                <p className="text-neutral-400 text-lg font-light max-w-md mx-auto mb-12">
-                  Инженерный отдел получил ваши данные. Предварительный расчет будет готов в течение 15 минут.
-                </p>
-                <div className="border border-outline/35 p-8 max-w-md mx-auto bg-surface/20 backdrop-blur-md rounded-2xl relative shadow-[0_0_30px_rgba(0,245,160,0.02)]">
-                   <p className="verge-mono-label text-accent mb-4 text-xs tracking-wider uppercase font-mono font-bold">{t(locale, copy.bonus)}</p>
-                   <p className="text-base font-light text-neutral-300 mb-8">Пришлите фото фасада в WhatsApp, и мы активируем приоритетное 3D-моделирование.</p>
-                   <a
-                     href="https://wa.me/74950000000"
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     className="w-full bg-accent text-black font-bold uppercase tracking-widest text-xs px-8 py-5 rounded-full hover:bg-accent/90 hover:shadow-[0_0_25px_rgba(0,245,160,0.4)] hover:scale-[1.01] transition-all duration-300 inline-flex items-center justify-center"
-                   >
-                     {t(locale, copy.whatsapp)}
-                   </a>
-                </div>
-             </motion.div>
+            <div className="p-6 sm:p-12 flex items-center justify-center min-h-[500px] relative z-10 w-full animate-fade-in">
+          <OrderConfirmationCard
+          orderId={generatedOrderId}
+          paymentMethod={answers[0] || "Комплексный расчет"}
+          dateTime={submittedTime}
+          totalAmount="Бесплатный расчет"
+          onGoToAccount={() => window.open("https://wa.me/74950000000", "_blank")}
+          title="Расчет успешно запущен"
+          buttonText="Активировать 3D-макет в WhatsApp"
+          details={[
+          { label: "Номер заявки", value: generatedOrderId },
+          { label: "Тип конструкции", value: answers[0] || "Комплексное решение" },
+           { label: "Дизайн и АХК", value: answers[1] || "Проверка на нормы" },
+              { label: "Сроки проекта", value: answers[2] || "Стандартные" },
+                 { label: "Статус расчета", value: "В разработке (15 мин)", isBold: true },
+                ]}
+                className="mx-auto border-outline bg-surface shadow-premium"
+              />
+            </div>
           )}
         </div>
       </div>

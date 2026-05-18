@@ -122,7 +122,7 @@ export function InstallationBriefForm() {
 
           <button
             onClick={() => setSubmitted(true)}
-            className="w-full py-5 bg-on-surface text-surface font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-accent hover:text-on-surface transition-all active:scale-95 flex items-center justify-center gap-4 shadow-xl"
+            className="w-full py-5 bg-on-surface text-surface font-black uppercase tracking-[0.2em] rounded-full hover:bg-accent hover:text-on-surface transition-all active:scale-95 flex items-center justify-center gap-4 shadow-xl"
           >
             <span>Отправить на расчет</span>
             <Send className="w-5 h-5" />

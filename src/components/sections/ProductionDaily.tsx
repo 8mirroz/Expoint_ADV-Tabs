@@ -12,8 +12,7 @@ const copy = {
   titleBottom: { ru: 'Производства', be: 'Вытворчасці', kk: 'Өндіріс', en: 'Production', zh: '生产', ce: 'Кхолламан', tt: 'Җитештерү' },
   archiveTitle: { ru: 'Архив кейсов', be: 'Архіў кейсаў', kk: 'Кейстер мұрағаты', en: 'Case Archive', zh: '案例归档', ce: 'Кейсаш архив', tt: 'Кейслар архивы' },
   implemented: { ru: 'Реализованные проекты', be: 'Рэалізаваныя праекты', kk: 'Іске асырылған жобалар', en: 'Implemented Projects', zh: '已完成项目', ce: 'Кхолламан проекташ', tt: 'Тормышка ашырылган проектлар' },
-  viewFull: { ru: 'Открыть полный архив', be: 'Адкрыць поўны архіў', kk: 'Толық мұрағатты ашу', en: 'Open Full Archive', zh: '查看完整档案', ce: 'Архив дIаделло', tt: 'Тулы архивны ачу' },
-  liveNow: { ru: 'Сейчас в цеху', be: 'Зараз у цэху', kk: 'Қазір цехта', en: 'Live in Workshop', zh: '车间实况', ce: 'Цехехь ду', tt: 'Хәзер цехта' }
+  viewFull: { ru: 'Открыть полный архив', be: 'Адкрыць поўны архіў', kk: 'Толық мұрағатты ашу', en: 'Open Full Archive', zh: '查看完整档案', ce: 'Архив дIаделло', tt: 'Тулы архивны ачу' }
 };
 
 export default function ProductionDaily() {
@@ -51,11 +50,6 @@ export default function ProductionDaily() {
               <div className="flex flex-col">
                 <span className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">{t(locale, copy.implemented)}</span>
                 <span className="text-3xl font-headline text-on-surface">540+</span>
-              </div>
-              <div className="w-px h-10 bg-outline/10" />
-              <div className="flex flex-col">
-                <span className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">{t(locale, copy.liveNow)}</span>
-                <span className="text-3xl font-headline text-primary">12</span>
               </div>
             </div>
           </div>

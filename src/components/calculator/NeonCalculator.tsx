@@ -160,7 +160,7 @@ export function NeonCalculator() {
             </div>
           </div>
 
-          <button className="w-full py-4 bg-on-surface text-surface font-bold uppercase tracking-widest rounded-lg hover:bg-accent hover:text-on-surface transition-colors">
+          <button className="w-full py-4 bg-on-surface text-surface font-bold uppercase tracking-widest rounded-full hover:bg-accent hover:text-on-surface transition-colors">
             {locale === 'ru' ? 'Отправить в WhatsApp' : 'Send to WhatsApp'}
           </button>
         </div>

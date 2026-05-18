@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { leadSchema } from '@/lib/validators/lead';
 import { notifyAll } from '@/lib/services/notifications/orchestrator';
+import { sendConfirmationToLead } from '@/lib/services/notifications/email';
 import { db } from '@/db';
 import { leads } from '@/db/schema';
 
@@ -22,7 +23,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, phone, source, context, turnstileToken } = validatedData.data;
+    const { name, phone, email, source, context, turnstileToken } = validatedData.data;
 
     // 2. Verify Turnstile Token
     if (!TURNSTILE_SECRET_KEY) {
@@ -53,11 +54,16 @@ export async function POST(req: Request) {
     // 3.5 Save to Database
     if (process.env.POSTGRES_URL) {
       try {
+        const finalContext = [
+          email ? `Email: ${email}` : null,
+          context
+        ].filter(Boolean).join('\n\n');
+
         await db.insert(leads).values({
           name,
           phone,
           source: source || 'Website',
-          context: context || null,
+          context: finalContext || null,
           segment: validatedData.data.segment || null,
         });
       } catch (dbError) {
@@ -69,10 +75,18 @@ export async function POST(req: Request) {
     await notifyAll({
       name,
       phone,
+      email,
       source: source || 'Website',
       type: 'consultation',
       message: context,
     });
+
+    // 5. Send direct confirmation email to the lead
+    if (email) {
+      sendConfirmationToLead(email, name).catch(err => {
+        console.error('[API/Lead] Failed to send direct confirmation email to lead:', err);
+      });
+    }
 
     return NextResponse.json(
       { 

@@ -20,7 +20,7 @@ export default function B2BSegmentTabs({
   const [activeTab, setActiveTab] = useState(segments[0].id);
 
   return (
-    <section className="section-padding border-t border-outline bg-background">
+    <section id="anatomy" className="scroll-mt-28 section-padding border-t border-outline bg-background">
       <div className="section-container px-6">
         <div className="mb-12 grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <div>

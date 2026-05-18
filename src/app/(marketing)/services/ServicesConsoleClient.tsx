@@ -21,7 +21,9 @@ import {
 import { Service } from '@/data/services';
 import { useModalStore } from '@/store/useModalStore';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { getServiceHref } from '@/lib/utils';
+import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
 
 interface ServicesConsoleClientProps {
   services: Service[];
@@ -33,6 +35,7 @@ export default function ServicesConsoleClient({ services }: ServicesConsoleClien
   const [faqExpandedIdx, setFaqExpandedIdx] = useState<number | null>(null);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
   const openModal = useModalStore((state) => state.openModal);
+  const router = useRouter();
 
   const activeService = services.find(s => s.id === activeId) || services[0];
   const activeIndex = services.findIndex(s => s.id === activeId);
@@ -114,8 +117,12 @@ export default function ServicesConsoleClient({ services }: ServicesConsoleClien
             className="grid grid-cols-12 gap-6 items-stretch"
           >
             
-            {/* Bento Block 1: Cinematic Media Console (7 cols) */}
-            <div className="col-span-7 group/media relative rounded-3xl border border-white/[0.05] bg-white/[0.02] backdrop-blur-md overflow-hidden aspect-video shadow-2xl flex flex-col justify-between p-6">
+            {/* Bento Block 1: Cinematic Media Console (7 cols) — теперь полностью кликабельный на паспорт направления */}
+            <Link
+              href={getServiceHref(activeService.id)}
+              className="col-span-7 group/media relative rounded-3xl border border-white/[0.05] bg-white/[0.02] backdrop-blur-md overflow-hidden aspect-video shadow-2xl flex flex-col justify-between p-6 cursor-pointer hover:border-accent/30 hover:shadow-[0_0_50px_rgba(0,245,160,0.08)] transition-all duration-300"
+              title="Открыть паспорт направления"
+            >
               
               {/* background video or gradient */}
               <div className="absolute inset-0 z-0">
@@ -164,28 +171,34 @@ export default function ServicesConsoleClient({ services }: ServicesConsoleClien
                   </h3>
                 </div>
 
-                <Link 
-                  href={getServiceHref(activeService.id)}
-                  className="w-9 h-9 border border-white/10 bg-white/5 backdrop-blur-md hover:bg-accent hover:border-accent hover:text-black transition-all duration-300 rounded-xl flex items-center justify-center text-white cursor-pointer shrink-0"
-                  title="Открыть паспорт направления"
+                <div 
+                  className="w-9 h-9 border border-white/10 bg-white/5 backdrop-blur-md group-hover/media:bg-accent group-hover/media:border-accent group-hover/media:text-black transition-all duration-300 rounded-xl flex items-center justify-center text-white shrink-0"
                 >
                   <Maximize2 className="w-3.5 h-3.5" />
-                </Link>
+                </div>
               </div>
 
               {/* HUD Hover grid effect */}
               <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,163,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,163,0.02)_1px,transparent_1px)] bg-[size:12px_12px] opacity-0 group-hover/media:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
-            </div>
+            </Link>
 
-            {/* Bento Block 2: Tech Specification Passport (5 cols) */}
-            <div className="col-span-5 group/passport relative rounded-3xl border border-white/[0.05] bg-white/[0.02] backdrop-blur-md p-6 flex flex-col justify-between overflow-hidden shadow-2xl">
+            {/* Bento Block 2: Tech Specification Passport (5 cols) — теперь ведет на характеристики на странице услуги */}
+            <Link
+              href={`${getServiceHref(activeService.id)}#anatomy`}
+              className="col-span-5 group/passport relative rounded-3xl border border-white/[0.05] bg-white/[0.02] backdrop-blur-md p-6 flex flex-col justify-between overflow-hidden shadow-2xl cursor-pointer hover:border-accent/30 hover:shadow-[0_0_50px_rgba(0,245,160,0.08)] transition-all duration-300"
+              title="Открыть характеристики"
+            >
               
               {/* HUD top row */}
               <div className="flex items-center justify-between mb-6 relative z-10">
                 <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
                   REG // COMP_0{activeIndex + 1}
                 </span>
-                <div className="w-1.5 h-1.5 rounded-full bg-neutral-600 group-hover/passport:bg-accent group-hover/passport:shadow-[0_0_8px_#00FFA3] transition-all duration-300" />
+                <div 
+                  className="w-9 h-9 border border-white/10 bg-white/5 backdrop-blur-md group-hover/passport:bg-accent group-hover/passport:border-accent group-hover/passport:text-black transition-all duration-300 rounded-xl flex items-center justify-center text-white shrink-0"
+                >
+                  <Maximize2 className="w-3.5 h-3.5" />
+                </div>
               </div>
 
               {/* Content */}
@@ -224,9 +237,7 @@ export default function ServicesConsoleClient({ services }: ServicesConsoleClien
 
               {/* HUD Hover grid effect */}
               <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,163,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,163,0.02)_1px,transparent_1px)] bg-[size:12px_12px] opacity-0 group-hover/passport:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
-            </div>
-
-            {/* Bento Block 3: Engineering Memorandum & pricing CTA (12 cols) */}
+            </Link>            {/* Bento Block 3: Engineering Memorandum & pricing CTA (12 cols) */}
             <div className="col-span-12 group/memo relative rounded-3xl border border-white/[0.05] bg-white/[0.02] backdrop-blur-md p-6 md:p-8 overflow-hidden shadow-2xl">
               
               {/* HUD top row */}
@@ -239,42 +250,55 @@ export default function ServicesConsoleClient({ services }: ServicesConsoleClien
 
               <div className="grid grid-cols-12 gap-8 items-center relative z-10">
                 
-                {/* Left side: Engineering Memorandum (8 cols) */}
+                {/* Left side: Engineering Memorandum (8 cols) — ведет на SLA регламенты на странице услуги */}
                 {activeService.expertNotes && (
-                  <div className="col-span-8 space-y-5 border-r border-white/5 pr-8">
-                    <div className="flex items-center gap-3">
-                      <FileText className="w-4 h-4 text-accent" />
-                      <h4 className="text-xs font-mono uppercase tracking-widest text-white">ENGINEERING MEMORANDUM</h4>
+                  <Link
+                    href={`${getServiceHref(activeService.id)}#process`}
+                    className="col-span-8 space-y-5 border-r border-white/5 pr-8 block cursor-pointer group/memolink hover:border-r-accent/30 transition-all duration-300"
+                    title="Подробнее об этапах и SLA"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <FileText className="w-4 h-4 text-accent" />
+                        <h4 className="text-xs font-mono uppercase tracking-widest text-white group-hover/memolink:text-accent transition-colors">ENGINEERING MEMORANDUM</h4>
+                      </div>
+                      <div className="w-6 h-6 border border-white/10 bg-white/5 group-hover/memolink:bg-accent group-hover/memolink:border-accent group-hover/memolink:text-black transition-all duration-300 rounded-lg flex items-center justify-center text-white shrink-0">
+                        <ArrowRight className="w-3 h-3" />
+                      </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6 text-xs">
-                      <div className="space-y-1.5">
-                        <span className="block font-mono uppercase tracking-wider text-accent text-[9px]">Материалы сборки</span>
-                        <p className="text-neutral-350 leading-relaxed font-light">{activeService.expertNotes.materials}</p>
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <span className="block font-mono uppercase tracking-widest text-accent text-[10px] md:text-xs font-bold">Материалы сборки</span>
+                        <p className="text-xs md:text-sm text-neutral-300 leading-relaxed font-light">{activeService.expertNotes.materials}</p>
                       </div>
-                      <div className="space-y-1.5">
-                        <span className="block font-mono uppercase tracking-wider text-accent text-[9px]">Ограничения фасадного размещения</span>
-                        <p className="text-neutral-350 leading-relaxed font-light">{activeService.expertNotes.constraints}</p>
+                      <div className="space-y-2">
+                        <span className="block font-mono uppercase tracking-widest text-accent text-[10px] md:text-xs font-bold">Ограничения фасадного размещения</span>
+                        <p className="text-xs md:text-sm text-neutral-300 leading-relaxed font-light">{activeService.expertNotes.constraints}</p>
                       </div>
                     </div>
 
                     {/* Timeline of process */}
                     {activeService.processSteps && (
-                      <div className="grid grid-cols-4 gap-4 pt-4 border-t border-white/5 relative">
+                      <div className="grid grid-cols-4 gap-4 pt-6 border-t border-white/5 relative">
                         {activeService.processSteps.map((step, i) => (
-                          <div key={i} className="space-y-1.5 relative group/step">
-                            <div className="flex items-center gap-2">
-                              <span className="w-5 h-5 rounded-md border border-white/10 bg-white/5 flex items-center justify-center text-[10px] font-mono text-neutral-300 group-hover/step:border-accent group-hover/step:text-accent transition-colors">
+                          <div key={i} className="space-y-2.5 relative group/step">
+                            <div className="flex items-center gap-2.5">
+                              <span className="w-7 h-7 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-xs font-mono text-neutral-300 group-hover/step:border-accent/40 group-hover/step:bg-accent/5 group-hover/step:text-accent transition-all duration-300 shadow-[0_0_10px_rgba(0,0,0,0.3)] shrink-0">
                                 0{i + 1}
                               </span>
-                              <span className="text-[10px] font-bold uppercase text-white tracking-tight">{step.title}</span>
+                              <span className="text-xs md:text-[13px] font-black uppercase text-white tracking-wider group-hover/step:text-accent/90 transition-colors duration-300 truncate" title={step.title}>
+                                {step.title}
+                              </span>
                             </div>
-                            <p className="text-[10px] text-neutral-500 leading-snug font-light line-clamp-2">{step.description}</p>
+                            <p className="text-[11px] md:text-xs text-neutral-400 leading-relaxed font-light group-hover/step:text-neutral-300 transition-colors duration-300">
+                              {step.description}
+                            </p>
                           </div>
                         ))}
                       </div>
                     )}
-                  </div>
+                  </Link>
                 )}
 
                 {/* Right side: Pricing and Rainbow CTA (4 cols) */}
@@ -294,18 +318,28 @@ export default function ServicesConsoleClient({ services }: ServicesConsoleClien
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-3">
-                    <button 
-                      onClick={() => openModal({ context: `Расчет стоимости: ${activeService.title}`, source: 'services_console_hud' })}
-                      className="rainbow-btn w-full h-[54px] rounded-xl flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer select-none shrink-0"
+                  <div className="flex flex-col gap-2.5">
+                    {/* Primary Button: Online Price Builder */}
+                    <HoverBorderGradient 
+                      onClick={() => router.push(`${getServiceHref(activeService.id)}#calculator`)}
+                      containerClassName="w-full hover:scale-[1.02] active:scale-[0.97] transition-all cursor-pointer"
+                      className="w-full h-[52px] rounded-xl flex items-center justify-center gap-2 text-xs font-black uppercase tracking-wider text-accent bg-black/90 hover:text-white"
                     >
-                      Рассчитать проект
+                      Онлайн-конструктор
                       <ArrowRight className="w-4 h-4" />
+                    </HoverBorderGradient>
+
+                    {/* Secondary Button: Quick Modal Request */}
+                    <button
+                      onClick={() => openModal({ context: `Расчет стоимости: ${activeService.title}`, source: 'services_console_hud' })}
+                      className="w-full h-[44px] rounded-xl border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 text-white/90 text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer flex items-center justify-center gap-1.5"
+                    >
+                      Быстрая заявка
                     </button>
                     
-                    <div className="flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-xl bg-white/[0.01] border border-white/5">
+                    <div className="flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-white/[0.01] border border-white/5">
                       <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#00FFA3]" />
-                      <p className="text-neutral-500 text-[10px] font-mono uppercase tracking-wider">
+                      <p className="text-neutral-500 text-[9px] font-mono uppercase tracking-wider">
                         SLA // Расчет за 30 минут
                       </p>
                     </div>
@@ -448,21 +482,32 @@ export default function ServicesConsoleClient({ services }: ServicesConsoleClien
                         )}
 
                         {/* CTA block */}
-                        <div className="pt-4 flex flex-col gap-3">
-                          <button
-                            onClick={() => openModal({ context: `Мобильный расчет: ${service.title}`, source: 'services_console_mobile' })}
-                            className="rainbow-btn w-full h-12 text-xs font-bold uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 cursor-pointer"
+                        <div className="pt-4 flex flex-col gap-2.5">
+                          {/* Primary Button: Online Price Builder */}
+                          <HoverBorderGradient
+                            onClick={() => router.push(`${getServiceHref(service.id)}#calculator`)}
+                            containerClassName="w-full hover:scale-[1.02] active:scale-[0.97] transition-all cursor-pointer"
+                            className="w-full h-[46px] text-xs font-black uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 text-accent bg-black/90 hover:text-white"
                           >
-                            Рассчитать стоимость
+                            Онлайн-конструктор
                             <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
+                          </HoverBorderGradient>
 
-                          <Link
-                            href={getServiceHref(service.id)}
-                            className="geist-button-secondary w-full h-12 text-xs font-bold uppercase tracking-wider border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 rounded-xl flex items-center justify-center cursor-pointer"
-                          >
-                            Подробнее о направлении
-                          </Link>
+                          {/* Secondary Grid: Quick Request & More Info */}
+                          <div className="grid grid-cols-2 gap-2">
+                            <button
+                              onClick={() => openModal({ context: `Мобильный расчет: ${service.title}`, source: 'services_console_mobile' })}
+                              className="w-full h-12 text-[10px] font-bold uppercase tracking-widest border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 rounded-xl flex items-center justify-center cursor-pointer text-white/90 transition-all duration-300"
+                            >
+                              Быстрая заявка
+                            </button>
+                            <Link
+                              href={getServiceHref(service.id)}
+                              className="w-full h-12 text-[10px] font-bold uppercase tracking-widest border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 rounded-xl flex items-center justify-center cursor-pointer text-white/90 transition-all duration-300"
+                            >
+                              Все параметры
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </motion.div>
@@ -476,7 +521,7 @@ export default function ServicesConsoleClient({ services }: ServicesConsoleClien
 
       {/* 4. INTEGRATED SEO FAQ ACCORDION SECTION */}
       {allFaqs.length > 0 && (
-        <section className="mt-32 pt-24 border-t border-white/5 section-container max-w-4xl px-6">
+        <section className="mt-16 pt-12 border-t border-white/5 section-container max-w-4xl px-6">
           <div className="space-y-12">
             <div className="text-center space-y-4">
               <span className="verge-kicker text-accent">FAQS & COMPLIANCE</span>

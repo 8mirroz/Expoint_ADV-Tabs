@@ -6,20 +6,7 @@ export interface LeadPayload {
   source?: string;
   type: 'lead' | 'quote' | 'consultation';
   message?: string;
-  calculatorData?: {
-    text: string;
-    productType?: string;
-    heightCm: number;
-    materialId: string;
-    lightingId: string;
-    priceRange: { min: number; max: number; currency: string };
-    count?: number;
-    complexity?: string;
-    mounting?: string;
-    urgency?: string;
-    faceColor?: string;
-    sideColor?: string;
-  };
+  calculatorData?: any;
 }
 
 function escapeTelegramHtml(value: string): string {
@@ -96,8 +83,28 @@ ${lead.email ? `📧 <b>Email:</b> ${lead.email}` : ''}
   }
 
   if (lead.calculatorData) {
-    const calc = lead.calculatorData;
-    message += `\n\n<b>🛠 Данные расчета:</b>
+    if ('pricingInput' in lead.calculatorData) {
+      const calc = lead.calculatorData;
+      const input = calc.pricingInput;
+      const pkg = calc.selectedPackage;
+      message += `\n\n<b>🛠 B2B SCN Расчет:</b>
+📐 <b>Продукт:</b> ${calc.productType}
+📏 <b>Размеры:</b> ${input.dimensions.widthMm || 0}x${input.dimensions.heightMm || 0} мм
+📝 <b>Текст:</b> ${input.text || '-'}
+🎨 <b>Материал:</b> ${input.material || '-'}
+✨ <b>Подсветка:</b> ${input.lighting || 'none'}
+📦 <b>Пакет:</b> ${pkg?.title || 'Стандарт'}
+🚦 <b>Комплаенс (902-ПП):</b> ${calc.complianceRisk?.level.toUpperCase() || 'NONE'} (${calc.complianceRisk?.requiresEngineerReview ? 'Требуется аудит!' : 'ОК'})
+🔥 <b>Скоринг лида:</b> Grade ${calc.leadScore?.grade.toUpperCase() || 'N/A'} (Приоритет: ${calc.leadScore?.salesPriority || 'normal'})`;
+
+      if (pkg) {
+        message += `\n\n<b>💰 Бюджет: ${pkg.priceFrom.toLocaleString('ru-RU')} RUB</b>`;
+      } else {
+        message += `\n\n<b>💰 Бюджет: ${calc.pricingResult.basePrice.toLocaleString('ru-RU')} RUB</b>`;
+      }
+    } else {
+      const calc = lead.calculatorData;
+      message += `\n\n<b>🛠 Данные расчета:</b>
 🏷 <b>Текст:</b> ${calc.text}
 📐 <b>Тип:</b> ${calc.productType || '-'}
 📏 <b>Высота:</b> ${calc.heightCm} см
@@ -106,8 +113,9 @@ ${lead.email ? `📧 <b>Email:</b> ${lead.email}` : ''}
 🎨 <b>Цвета:</b> ${calc.faceColor || '-'}/${calc.sideColor || '-'}
 🔧 <b>Монтаж:</b> ${calc.mounting || '-'}`;
 
-    if (calc.priceRange) {
-      message += `\n\n<b>💰 Бюджет: ${calc.priceRange.min.toLocaleString('ru-RU')} - ${calc.priceRange.max.toLocaleString('ru-RU')} ${calc.priceRange.currency}</b>`;
+      if (calc.priceRange) {
+        message += `\n\n<b>💰 Бюджет: ${calc.priceRange.min.toLocaleString('ru-RU')} - ${calc.priceRange.max.toLocaleString('ru-RU')} ${calc.priceRange.currency}</b>`;
+      }
     }
   }
 

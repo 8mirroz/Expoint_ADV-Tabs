@@ -1,24 +1,22 @@
 import { ShoppingCart } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
+import { useCartDrawerStore } from '@/store/useCartDrawerStore';
 
 export function CartIndicator() {
     const { items } = useCartStore();
-    const itemCount = items.reduce((total, item) => total + (item.quantity || 0), 0);
+    const { openDrawer } = useCartDrawerStore();
+    const itemCount = items.reduce((total, item) => total + (item.quantity || 1), 0);
 
     return (
-        <div className="relative">
-            <button
-                className="relative h-9 w-9 flex items-center justify-center rounded-full border border-white/[0.12] bg-white/[0.04] text-white/90 transition-all duration-300 hover:bg-white/[0.1] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:scale-95"
-                onClick={() => window.location.href = '/cart'}
-                aria-label="Корзина"
-            >
-                <ShoppingCart className="w-[18px] h-[18px]" />
-                {itemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-primary text-on-primary text-xs w-5 h-5 flex items-center justify-center rounded-full font-bold">
-                        {itemCount}
-                    </span>
-                )}
-            </button>
-        </div>
+        <button
+            className="group inline-flex h-[34px] items-center gap-2 rounded-full border border-white/[0.12] bg-[linear-gradient(180deg,rgba(10,10,10,0.82),rgba(16,16,16,0.76))] px-3 text-white/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-300 hover:-translate-y-px hover:border-accent/40 hover:text-white hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_0_16px_rgba(0,245,160,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 active:scale-[0.97]"
+            onClick={openDrawer}
+            aria-label="Корзина"
+        >
+            <ShoppingCart className="h-[15px] w-[15px] shrink-0 transition-transform duration-300 group-hover:scale-105" />
+            <span className="text-[12px] font-semibold tracking-[-0.01em] tabular-nums">
+                {itemCount}
+            </span>
+        </button>
     );
 }

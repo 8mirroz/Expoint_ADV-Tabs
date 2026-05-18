@@ -169,6 +169,7 @@ export const volumetricLettersData: ServicePageData = {
     },
   ],
   comparison: {
+    variant: 'premium-dark',
     title: 'Лицевая подсветка vs контражур',
     items: [
       {

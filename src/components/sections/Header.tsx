@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, MessageCircle, Send } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Menu, X, ArrowRight, MessageCircle, Send, AtSign } from 'lucide-react';
 import { motion, AnimatePresence, type Variants } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import Link from 'next/link';
 import { CartIndicator } from '@/components/sections/CartIndicator';
+import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
 
 const navItems = [
   { id: 'services', href: '/services', label: { ru: 'Услуги', be: 'Паслугі', kk: 'Қызметтер', en: 'Services', zh: '服务', ce: 'ГIуллакхаш', tt: 'Хезмәтләр' } },
@@ -26,6 +27,7 @@ const copy = {
   language: { ru: 'Язык', be: 'Мова', kk: 'Тіл', en: 'Language', zh: '语言', ce: 'Мотт', tt: 'Тел' },
   telegram: { ru: 'Telegram', be: 'Telegram', kk: 'Telegram', en: 'Telegram', zh: 'Telegram', ce: 'Telegram', tt: 'Telegram' },
   whatsapp: { ru: 'WhatsApp', be: 'WhatsApp', kk: 'WhatsApp', en: 'WhatsApp', zh: 'WhatsApp', ce: 'WhatsApp', tt: 'WhatsApp' },
+  email: { ru: 'Email', be: 'Email', kk: 'Email', en: 'Email', zh: 'Email', ce: 'Email', tt: 'Email' },
 };
 
 const PHONE_LABEL = '+7 (495) 000-00-00';
@@ -47,6 +49,14 @@ const contactActions = [
     icon: MessageCircle,
     brandColor: 'var(--brand-whatsapp)',
     softGlow: 'rgba(37, 211, 102, 0.28)',
+  },
+  {
+    id: 'email',
+    href: 'mailto:info@expoint-adv.ru',
+    labelKey: 'email',
+    icon: AtSign,
+    brandColor: '#00ffa3',
+    softGlow: 'rgba(0, 255, 163, 0.28)',
   },
 ] as const;
 
@@ -79,6 +89,66 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  const [intensities, setIntensities] = useState<number[]>(() =>
+    contactActions.map(() => 0)
+  );
+  const [proximityRadius, setProximityRadius] = useState(600);
+  const contactRef = useRef<HTMLDivElement | null>(null);
+
+  // Calculate proximity radius based on viewport size
+  useEffect(() => {
+    if (pathname !== '/') return;
+    const updateRadius = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      setProximityRadius(Math.max(vw * 0.66, vh * 0.33));
+    };
+    updateRadius();
+    window.addEventListener('resize', updateRadius, { passive: true });
+    return () => window.removeEventListener('resize', updateRadius);
+  }, [pathname]);
+
+  // Global window-level proximity tracking so animation starts from 2/3 of screen away
+  useEffect(() => {
+    if (pathname !== '/') return;
+    const handleGlobalMouseMove = (event: MouseEvent) => {
+      if (!contactRef.current) return;
+      const nodes = contactRef.current.querySelectorAll<HTMLAnchorElement>('[data-contact-node="true"]');
+      const nextIntensities = Array.from(nodes).map((node) => {
+        const rect = node.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dist = Math.hypot(event.clientX - cx, event.clientY - cy);
+        return Math.max(0, Math.min(1, 1 - dist / proximityRadius));
+      });
+      setIntensities(nextIntensities);
+    };
+
+    window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
+  }, [pathname, proximityRadius]);
+
+  const handleEmailClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigator.clipboard.writeText('info@expoint-adv.ru').then(() => {
+      setShowToast(true);
+    });
+
+    setTimeout(() => {
+      window.location.href = 'mailto:info@expoint-adv.ru';
+    }, 120);
+  };
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,9 +162,12 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
 
 
 
+  const isHomepage = pathname === '/';
   const desktopHeaderShell = isScrolled
     ? 'h-[4.5rem] border-b border-[color:rgba(120,120,120,0.08)] bg-[#0A0A0A]/80 backdrop-blur-xl'
-    : `h-[5.5rem] bg-transparent border-transparent`;
+    : isHomepage
+      ? 'h-[5.5rem] bg-transparent border-transparent'
+      : 'h-[5.5rem] bg-[#0A0A0A] border-b border-white/[0.06]';
 
   // Unified transparent pill for the top menu
   const desktopNavShell = isScrolled
@@ -161,31 +234,137 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
         </div>
 
         {/* Right: Actions Section (flex-1 for perfect centering) */}
-        <div className="relative z-10 hidden items-center justify-end gap-2.5 lg:flex flex-1 xl:gap-3">
+        <div className="relative z-10 hidden flex-col items-end gap-1.5 lg:flex flex-1">
+          {/* Top Row: Language, Cart, Login, CTA */}
+          <div className="flex items-center gap-2.5 xl:gap-3 animate-fade-in">
+            {/* Language Switcher — minimal pill style */}
+            <LanguageSwitcher />
 
-          {/* Language Switcher — minimal pill style */}
-          <LanguageSwitcher />
+            {/* Cart Icon */}
+            <CartIndicator />
 
-          {/* Cart Icon */}
-          <CartIndicator />
+            {/* Login/Registration Button — pill style matching nav */}
+            <button
+              type="button"
+              className="hidden xl:inline-flex h-[34px] items-center rounded-full border border-white/[0.14] bg-[linear-gradient(180deg,rgba(10,10,10,0.84),rgba(16,16,16,0.78))] px-5 text-[13px] font-semibold tracking-[-0.01em] text-white/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-all duration-300 hover:-translate-y-px hover:border-accent/70 hover:bg-[linear-gradient(180deg,rgba(12,12,12,0.94),rgba(20,20,20,0.88))] hover:text-white hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_18px_rgba(0,245,160,0.14)] active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+              style={{ fontFamily: 'var(--font-header)' }}
+            >
+              {locale === 'ru' ? 'Вход' : 'Sign In'}
+            </button>
 
-          {/* Login/Registration Button — pill style matching nav */}
-          <button
-            type="button"
-            className="hidden xl:inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-5 text-[13px] font-semibold tracking-[-0.01em] text-white/90 transition-all duration-300 hover:-translate-y-px hover:bg-white/[0.1] hover:text-white active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-primary"
-            style={{ fontFamily: 'var(--font-header)' }}
-          >
-            {locale === 'ru' ? 'Вход' : 'Sign In'}
-          </button>
+            {/* CTA Button — с премиальной анимацией вращающегося градиента контура */}
+            <HoverBorderGradient
+              type="button"
+              onClick={() => document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' })}
+              containerClassName="h-[34px] bg-transparent backdrop-blur-none p-[1.5px] hover:-translate-y-px shadow-[0_0_18px_rgba(0,255,163,0.22),inset_0_1px_0_rgba(255,255,255,0.08)] hover:shadow-[0_0_25px_rgba(0,255,163,0.5),_0_0_45px_rgba(121,40,202,0.35),_inset_0_1px_0_rgba(255,255,255,0.15)] transition-all duration-300"
+              className="h-full px-5 py-0 bg-[linear-gradient(180deg,rgba(32,32,35,0.96),rgba(20,20,22,0.92))] hover:bg-[linear-gradient(180deg,rgba(44,44,48,0.98),rgba(28,28,30,0.95))] flex items-center justify-center gap-2 text-[13px] font-semibold tracking-[-0.01em] text-white hover:text-white transition-all duration-300"
+              style={{ fontFamily: 'var(--font-header)' }}
+            >
+              <span className="relative z-10">{copy.requestAudit[locale]}</span>
+              <ArrowRight className="relative z-10 h-3.5 w-3.5 text-accent transition-transform duration-300 group-hover:translate-x-0.5" />
+            </HoverBorderGradient>
+          </div>
 
-          {/* CTA Button — clockwise rainbow border glow */}
-          <button
-            onClick={() => document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' })}
-            className="rainbow-btn flex h-9 items-center justify-center rounded-full px-5 text-[13px] font-semibold outline-none transition-all hover:scale-[1.03] active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary cursor-pointer"
-            style={{ fontFamily: 'var(--font-header)' }}
-          >
-            <span className="relative z-10">{copy.requestAudit[locale]}</span>
-          </button>
+          {/* Bottom Row: Phone, Separator, Social & Email Actions (only on homepage to avoid duplicate with BreadcrumbsBar) */}
+          {pathname === '/' && (
+            <div
+              ref={contactRef}
+              className="flex items-center gap-5 animate-fade-in"
+            >
+              {/* Phone number — no icon, extra bold, larger, white for contrast */}
+              <a
+                href={PHONE_HREF}
+                className="text-white/90 hover:text-primary transition-colors cursor-pointer"
+              >
+                <span
+                  className="text-[18px] font-extrabold leading-none tracking-[-0.03em]"
+                  style={{ fontFamily: 'var(--font-header)' }}
+                >
+                  {PHONE_LABEL}
+                </span>
+              </a>
+
+              <div className="h-4 w-px bg-white/[0.12]" />
+
+              {/* Morphing dots: pulsing dots -> brand icons on proximity */}
+              <div className="flex items-center gap-3">
+                {contactActions.map((action, index) => {
+                  const Icon = action.icon;
+                  const intensity = intensities[index] ?? 0;
+
+                  // Points (dots) continue pulsing and remain fully visible until mouse is very close to the source (intensity > 0.58)
+                  // At that point they rapidly shrink in scale and fade out completely by 0.78
+                  const dotOpacity = intensity < 0.58
+                    ? 1
+                    : intensity > 0.78
+                      ? 0
+                      : Math.max(0, (0.78 - intensity) / 0.20);
+
+                  const dotScale = intensity < 0.58
+                    ? 1
+                    : intensity > 0.78
+                      ? 0
+                      : (0.78 - intensity) / 0.20;
+
+                  // Icons start showing up very close to the source (intensity > 0.62)
+                  // and transition beautifully using a smooth quadratic curve
+                  const iconOpacity = intensity < 0.62
+                    ? 0
+                    : intensity > 0.94
+                      ? 1
+                      : Math.pow((intensity - 0.62) / 0.32, 1.8);
+
+                  // Nonlinear scale and glow for high-end micro-interaction
+                  const scale = 1 + Math.pow(intensity, 2) * 0.3;
+                  const glowSize = Math.pow(intensity, 2) * 16;
+
+                  return (
+                    <a
+                      key={action.id}
+                      data-contact-node="true"
+                      href={action.href}
+                      onClick={action.id === 'email' ? handleEmailClick : undefined}
+                      target={action.id === 'email' ? undefined : "_blank"}
+                      rel={action.id === 'email' ? undefined : "noopener noreferrer"}
+                      aria-label={copy[action.labelKey as keyof typeof copy][locale as 'ru']}
+                      className="relative flex h-7 w-7 items-center justify-center transition-transform duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary cursor-pointer"
+                      style={{
+                        transform: `scale(${scale})`,
+                      }}
+                    >
+                      {/* Bare pulsing dot (default state — shrinks & fades moderately close) */}
+                      <span
+                        aria-hidden="true"
+                        className={`absolute rounded-full ${dotOpacity > 0.1 ? 'animate-pulse' : ''}`}
+                        style={{
+                          width: '7px',
+                          height: '7px',
+                          backgroundColor: action.brandColor,
+                          boxShadow: `0 0 ${5 + glowSize}px ${action.softGlow}`,
+                          opacity: dotOpacity,
+                          transform: `scale(${dotScale})`,
+                          transition: 'opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
+                          pointerEvents: 'none',
+                        }}
+                      />
+
+                      {/* Brand icon (revealed very close, smoothly fades out at distance) */}
+                      <Icon
+                        className="relative z-10 h-4.5 w-4.5"
+                        style={{
+                          color: action.brandColor,
+                          opacity: iconOpacity,
+                          filter: `drop-shadow(0 0 ${3 + glowSize}px ${action.softGlow})`,
+                          transform: `scale(${0.6 + iconOpacity * 0.4})`,
+                          transition: 'opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
+                        }}
+                      />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -268,30 +447,15 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                       {PHONE_LABEL}
                     </a>
                     <div className="flex items-center gap-3">
-                      {contactActions.map((action) => {
-                        const Icon = action.icon;
-                        return (
-                          <a
-                            key={action.id}
-                            href={action.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={copy[action.labelKey][locale]}
-                            className="relative flex h-12 w-12 items-center justify-center rounded-full border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                            style={{
-                              background: `radial-gradient(circle at 50% 38%, color-mix(in srgb, ${action.brandColor} 28%, white), color-mix(in srgb, ${action.brandColor} 12%, transparent))`,
-                              borderColor: `color-mix(in srgb, ${action.brandColor} 34%, rgba(255,255,255,0.94))`,
-                              boxShadow: `0 0 18px ${action.softGlow}, inset 0 1px 0 rgba(255,255,255,0.92)`,
-                            }}
-                          >
-                            <span
-                              className="absolute h-3 w-3 rounded-full"
-                              style={{ backgroundColor: action.brandColor }}
-                            />
-                            <Icon className="relative z-10 h-5 w-5" style={{ color: action.brandColor }} />
-                          </a>
-                        );
-                      })}
+                      {contactActions.map((action) => (
+                        <ProximityContactIcon
+                          key={action.id}
+                          action={action}
+                          locale={locale}
+                          onClick={action.id === 'email' ? handleEmailClick : undefined}
+                          isMobile={true}
+                        />
+                      ))}
                     </div>
                   </div>
 
@@ -319,6 +483,160 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
           </>
         )}
       </AnimatePresence>
+
+      {/* Premium Clipboard Notification Popup */}
+      <AnimatePresence>
+        {showToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: 20, scale: 0.95, filter: 'blur(4px)' }}
+            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+            className="fixed bottom-6 right-6 z-[100] flex items-center gap-3.5 rounded-2xl border border-white/[0.08] bg-black/85 p-4 pl-5 shadow-[0_24px_50px_rgba(0,0,0,0.5),_0_0_30px_rgba(0,255,163,0.15)] backdrop-blur-xl"
+          >
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent/10 border border-accent/20">
+              <AtSign className="h-5 w-5 text-accent animate-pulse" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[13px] font-bold text-white tracking-[-0.01em]">
+                {locale === 'ru' ? 'Адрес скопирован!' : 'Email Copied!'}
+              </span>
+              <span className="text-[11px] text-white/50 font-mono">
+                info@expoint-adv.ru
+              </span>
+            </div>
+            <button
+              onClick={() => setShowToast(false)}
+              className="ml-2 rounded-lg p-1 text-white/40 hover:bg-white/5 hover:text-white transition-colors"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
+  );
+}
+
+function ProximityContactIcon({
+  action,
+  locale,
+  onClick,
+  isMobile = false,
+}: {
+  action: typeof contactActions[number];
+  locale: string;
+  onClick?: (e: React.MouseEvent) => void;
+  isMobile?: boolean;
+}) {
+  const iconRef = useRef<HTMLAnchorElement>(null);
+  const [proximityOpacity, setProximityOpacity] = useState(1);
+  const wasFullyFadedRef = useRef(false);
+
+  useEffect(() => {
+    if (isMobile) {
+      setProximityOpacity(1);
+      return;
+    }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!iconRef.current) return;
+      const rect = iconRef.current.getBoundingClientRect();
+      
+      const x = Math.max(rect.left, Math.min(e.clientX, rect.right));
+      const y = Math.max(rect.top, Math.min(e.clientY, rect.bottom));
+      
+      const dx = e.clientX - x;
+      const dy = e.clientY - y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      let opacity = 1;
+      if (wasFullyFadedRef.current) {
+        if (distance <= 80) {
+          opacity = 0;
+        } else if (distance >= 180) {
+          opacity = 1;
+          wasFullyFadedRef.current = false;
+        } else {
+          opacity = (distance - 80) / (180 - 80);
+        }
+      } else {
+        if (distance <= 10) {
+          opacity = 0;
+          wasFullyFadedRef.current = true;
+        } else if (distance >= 50) {
+          opacity = 1;
+        } else {
+          opacity = (distance - 10) / (50 - 10);
+        }
+      }
+      
+      setProximityOpacity(opacity);
+    };
+
+    const supportsHover = window.matchMedia('(hover: hover)').matches;
+    if (supportsHover) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      return () => window.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, [isMobile]);
+
+  const Icon = action.icon;
+  const isEmail = action.id === 'email';
+
+  if (isMobile) {
+    return (
+      <a
+        href={action.href}
+        onClick={onClick}
+        target={isEmail ? undefined : "_blank"}
+        rel={isEmail ? undefined : "noopener noreferrer"}
+        aria-label={copy[action.labelKey as keyof typeof copy][locale as 'ru']}
+        className="relative flex h-12 w-12 items-center justify-center rounded-full border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer active:scale-[0.94] transition-all duration-300"
+        style={{
+          background: `radial-gradient(circle at 50% 38%, color-mix(in srgb, ${action.brandColor} 28%, white), color-mix(in srgb, ${action.brandColor} 12%, transparent))`,
+          borderColor: `color-mix(in srgb, ${action.brandColor} 34%, rgba(255,255,255,0.94))`,
+          boxShadow: `0 0 18px ${action.softGlow}, inset 0 1px 0 rgba(255,255,255,0.92)`,
+        }}
+      >
+        <span
+          className="absolute h-3 w-3 rounded-full"
+          style={{ backgroundColor: action.brandColor }}
+        />
+        <Icon className="relative z-10 h-5 w-5" style={{ color: action.brandColor }} />
+      </a>
+    );
+  }
+
+  return (
+    <a
+      ref={iconRef}
+      href={action.href}
+      onClick={onClick}
+      target={isEmail ? undefined : "_blank"}
+      rel={isEmail ? undefined : "noopener noreferrer"}
+      aria-label={copy[action.labelKey as keyof typeof copy][locale as 'ru']}
+      className="group relative flex h-7 w-7 items-center justify-center rounded-full border transition-all duration-300 hover:scale-[1.08] active:scale-[0.94] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+      style={{
+        background: `radial-gradient(circle at 50% 38%, color-mix(in srgb, ${action.brandColor} calc(20% * ${proximityOpacity}), white), color-mix(in srgb, ${action.brandColor} calc(8% * ${proximityOpacity}), transparent))`,
+        borderColor: `color-mix(in srgb, ${action.brandColor} calc(24% * ${proximityOpacity}), rgba(255,255,255,calc(0.08 * ${proximityOpacity})))`,
+        boxShadow: `0 0 calc(12px * ${proximityOpacity}) ${action.softGlow}`,
+      }}
+    >
+      <span
+        className="absolute h-1.5 w-1.5 rounded-full transition-opacity duration-300"
+        style={{
+          backgroundColor: action.brandColor,
+          opacity: proximityOpacity * 0.6,
+        }}
+      />
+      <Icon
+        className="relative z-10 h-3 w-3 transition-all duration-300 group-hover:scale-110"
+        style={{
+          color: action.brandColor,
+          opacity: 0.9 + (1 - proximityOpacity) * 0.1,
+        }}
+      />
+    </a>
   );
 }

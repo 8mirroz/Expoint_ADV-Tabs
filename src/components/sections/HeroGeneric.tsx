@@ -66,13 +66,7 @@ export default function HeroGeneric({
         <div className="geist-mesh-gradient absolute inset-0 transform -translate-y-1/2 opacity-60" />
       </div>
 
-      {/* Technical Label (HUD style) */}
-      <div className="absolute top-10 right-10 z-10 hidden lg:block">
-        <div className="flex flex-col items-end gap-1 opacity-20">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-on-surface">LOC: 55.7558° N, 37.6173° E</span>
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-on-surface">EST: 2018 / REV: 4.0</span>
-        </div>
-      </div>
+
 
       {/* Optional background image with overlay */}
       {bgImage && (
@@ -86,34 +80,36 @@ export default function HeroGeneric({
       )}
 
       <div className="section-container relative z-10">
-        <div className={`${hasPricingPanel ? 'grid gap-12 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start' : ''}`}>
+        <div className={`${hasPricingPanel ? 'grid gap-12 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-stretch' : ''}`}>
           {/* Main Content Column */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-            className="max-w-4xl"
+            className={`max-w-4xl ${hasPricingPanel ? 'flex flex-col justify-between h-full' : ''}`}
           >
-            {subtitle && (
-              <p className="verge-mono-label text-primary mb-8">{subtitle}</p>
-            )}
-
-            <h1 className="geist-display-xl max-w-5xl text-balance md:text-[64px] lg:text-[78px] xl:text-[92px] text-on-surface">
-              {title}
-              {titleAccent && (
-                <>
-                  {' '}
-                  <span className="text-primary">{titleAccent}</span>
-                </>
+            <div>
+              {subtitle && (
+                <p className="verge-mono-label text-primary mb-8">{subtitle}</p>
               )}
-              .
-            </h1>
 
-            {description && (
-              <p className="mt-8 max-w-2xl text-lg md:text-xl leading-[1.6] text-on-surface-variant">
-                {description}
-              </p>
-            )}
+              <h1 className="geist-display-xl max-w-5xl text-balance md:text-[64px] lg:text-[78px] xl:text-[92px] text-on-surface">
+                {title}
+                {titleAccent && (
+                  <>
+                    {' '}
+                    <span className="text-primary">{titleAccent}</span>
+                  </>
+                )}
+                .
+              </h1>
+
+              {description && (
+                <p className="mt-8 max-w-2xl text-lg md:text-xl leading-[1.6] text-on-surface-variant">
+                  {description}
+                </p>
+              )}
+            </div>
 
             {highlights && highlights.length > 0 && (
               <div className="mt-10 grid gap-3 md:grid-cols-3">
@@ -135,29 +131,6 @@ export default function HeroGeneric({
                 ))}
               </div>
             )}
-
-            {(ctaText || secondaryCtaText) && (
-              <div className="mt-12 flex flex-col gap-4 sm:flex-row">
-                {ctaText && (
-                  <Link
-                    href={ctaHref}
-                    className="geist-button-primary h-[52px] group"
-                  >
-                    <span>{ctaText}</span>
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                )}
-                {secondaryCtaText && secondaryCtaHref && (
-                  <Link
-                    href={secondaryCtaHref}
-                    className="geist-button-secondary h-[52px]"
-                  >
-                    <span>{secondaryCtaText}</span>
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                )}
-              </div>
-            )}
           </motion.div>
 
           {/* Pricing Preview Panel (optional, v10) */}
@@ -166,77 +139,86 @@ export default function HeroGeneric({
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="hidden lg:flex flex-col gap-0 mt-4"
+              className="hidden lg:flex flex-col justify-between h-full mt-4"
             >
-              {/* Price Cards */}
-              <div className="rounded-t-[var(--radius-20)] border border-outline bg-surface/92 p-6 shadow-md backdrop-blur-sm">
-                <div className="mb-5 flex items-center justify-between gap-4">
-                  <p className="verge-mono-label text-primary">Ориентиры цен</p>
-                  <span className="rounded-full border border-primary/15 bg-primary/5 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-primary">
-                    Real input
-                  </span>
-                </div>
-                <div className="space-y-4">
-                  {pricingPreview.items.map((item, index) => {
-                    const Icon = previewIcons[index] ?? BadgeRussianRuble;
-                    return (
-                    <div
-                      key={item.label}
-                      className="flex items-center justify-between gap-3 rounded-[var(--radius-12)] border border-outline/60 bg-background/65 px-4 py-4"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
-                          <Icon className="h-5 w-5" />
+              <div className="flex flex-col gap-0">
+                {/* Price Cards */}
+                <div className="rounded-t-[var(--radius-20)] border border-white/[0.08] bg-zinc-950/80 p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+                  <div className="mb-5 flex items-center justify-between gap-4">
+                    <p className="verge-mono-label text-primary">Ориентиры цен</p>
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[#00ffa3]/20 bg-[#00ffa3]/5 px-3 py-1 text-[10px] uppercase tracking-widest text-[#00ffa3] font-mono">
+                      <span className="w-1 h-1 bg-[#00ffa3] rounded-full animate-pulse" />
+                      Real input
+                    </span>
+                  </div>
+                  <div className="space-y-3">
+                    {pricingPreview.items.map((item, index) => {
+                      const Icon = previewIcons[index] ?? BadgeRussianRuble;
+                      return (
+                        <div
+                          key={item.label}
+                          className="group flex items-center justify-between gap-4 rounded-[var(--radius-12)] border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.12] px-4 py-3.5 transition-all duration-300"
+                        >
+                          <div className="flex items-center gap-3 min-w-0 flex-1">
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary transition-colors group-hover:bg-primary/20">
+                              <Icon className="h-5 w-5" />
+                            </div>
+                            <div className="min-w-0">
+                              <span className="block text-sm font-semibold text-white/90 truncate">{item.label}</span>
+                              <span className="block text-[9px] font-mono tracking-widest text-neutral-500 uppercase">
+                                стартовая единица
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex items-baseline gap-1.5 shrink-0 whitespace-nowrap text-right justify-end">
+                            <span className="text-2xl font-bold tracking-tight text-white tabular-nums whitespace-nowrap">
+                              {item.price}
+                            </span>
+                            <span className="text-[10px] font-mono text-primary uppercase tracking-wider whitespace-nowrap select-none">
+                              {item.unit}
+                            </span>
+                          </div>
                         </div>
-                        <div>
-                          <span className="block text-sm font-medium text-on-surface">{item.label}</span>
-                          <span className="text-[11px] uppercase tracking-[0.18em] text-on-surface-variant">
-                            стартовая единица
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="text-2xl font-black text-on-surface tabular-nums">
-                          {item.price}
-                        </span>
-                        <span className="text-xs font-mono text-primary uppercase">
-                          {item.unit}
-                        </span>
-                      </div>
-                    </div>
-                  )})}
-                </div>
-              </div>
-
-              {/* Trust Badges */}
-              {pricingPreview.badges && pricingPreview.badges.length > 0 && (
-                <div className="rounded-b-[var(--radius-20)] border border-t-0 border-outline bg-surface-variant/40 px-6 py-5 backdrop-blur-sm">
-                  <div className="grid grid-cols-2 gap-3">
-                    {pricingPreview.badges.map((badge) => (
-                      <div
-                        key={badge}
-                        className="flex items-center gap-2 text-xs text-on-surface-variant"
-                      >
-                        <span className="h-1 w-1 shrink-0 rounded-full bg-primary" />
-                        <span>{badge}</span>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
-              )}
+
+                {/* Trust Badges */}
+                {pricingPreview.badges && pricingPreview.badges.length > 0 && (
+                  <div className="rounded-b-[var(--radius-20)] border border-t-0 border-white/[0.08] bg-zinc-900/30 px-6 py-5 shadow-[0_15px_40px_rgba(0,0,0,0.3)] backdrop-blur-md">
+                    <div className="grid grid-cols-2 gap-3">
+                      {pricingPreview.badges.map((badge) => (
+                        <div
+                          key={badge}
+                          className="flex items-center gap-2 text-xs text-neutral-400 font-sans"
+                        >
+                          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#00ffa3] shadow-[0_0_8px_rgba(0,255,163,0.8)]" />
+                          <span>{badge}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Meta Data (HUD-style indicators) */}
               {pricingPreview.meta && pricingPreview.meta.length > 0 && (
-                <div className="mt-4 grid gap-3 rounded-[var(--radius-20)] border border-outline bg-background/70 p-5">
+                <div className="mt-4 grid gap-2.5 rounded-[var(--radius-20)] border border-white/[0.06] bg-zinc-950/60 p-5 shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
                   {pricingPreview.meta.map((item, index) => {
                     const Icon = metaIcons[index] ?? Clock3;
                     return (
-                      <div key={item.label} className="flex items-center justify-between gap-3 rounded-[var(--radius-12)] border border-outline/50 px-4 py-3">
+                      <div
+                        key={item.label}
+                        className="flex items-center justify-between gap-3 rounded-[var(--radius-12)] border border-white/[0.04] bg-white/[0.01] hover:bg-white/[0.03] px-4 py-3 transition-colors duration-300"
+                      >
                         <div className="flex items-center gap-3">
-                          <Icon className="h-4 w-4 text-primary" />
-                          <span className="text-xs uppercase tracking-[0.18em] text-on-surface-variant">
+                          <Icon className="h-4 w-4 text-[#00ffa3]/80" />
+                          <span className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase">
                             {item.label}
                           </span>
                         </div>
-                        <span className="text-sm font-semibold text-on-surface">{item.value}</span>
+                        <span className="text-xs font-semibold text-white/90 font-sans">{item.value}</span>
                       </div>
                     );
                   })}
@@ -245,6 +227,30 @@ export default function HeroGeneric({
             </motion.aside>
           )}
         </div>
+
+        {/* CTA Buttons - Positioned below the aligned content baseline grid */}
+        {(ctaText || secondaryCtaText) && (
+          <div className="mt-12 flex flex-col gap-4 sm:flex-row relative z-10">
+            {ctaText && (
+              <Link
+                href={ctaHref}
+                className="geist-button-primary h-[52px] group"
+              >
+                <span>{ctaText}</span>
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            )}
+            {secondaryCtaText && secondaryCtaHref && (
+              <Link
+                href={secondaryCtaHref}
+                className="geist-button-secondary h-[52px]"
+              >
+                <span>{secondaryCtaText}</span>
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Bottom border */}

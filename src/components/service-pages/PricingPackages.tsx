@@ -26,7 +26,7 @@ export default function PricingPackages({
   const openModal = useModalStore((state) => state.openModal);
 
   return (
-    <section className="section-padding border-t border-outline bg-surface">
+    <section id="packages" className="scroll-mt-28 section-padding border-t border-outline bg-surface">
       <div className="section-container px-6">
         <div className="mb-14 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div className="space-y-5">
@@ -96,7 +96,7 @@ export default function PricingPackages({
                     source: `${modalSourcePrefix}_${pkg.id}`,
                   })
                 }
-                className={`w-full py-4 rounded-xl font-black uppercase tracking-widest transition-all ${
+                className={`w-full py-4 rounded-full font-black uppercase tracking-widest transition-all ${
                   pkg.role === 'recommended'
                     ? 'geist-button-primary'
                     : 'geist-button-secondary'

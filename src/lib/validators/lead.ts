@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const leadSchema = z.object({
   name: z.string().min(2, 'Имя слишком короткое').max(100),
   phone: z.string().min(10, 'Введите корректный номер телефона').max(20),
+  email: z.string().email('Некорректный email').optional().or(z.literal('')),
   consent: z.boolean().refine(val => val === true, 'Необходимо согласие на обработку данных'),
   segment: z.string().optional(),
   source: z.string().optional(),

@@ -1,53 +1,71 @@
-import React from 'react';
+import { Suspense } from 'react';
+import type { Metadata } from 'next';
+import PageShell from '@/components/framework/PageShell';
 import { CalculatorContainer } from '@/components/calculator/CalculatorContainer';
-import { Metadata } from 'next';
+import { MeshBackground } from '@/components/ui/MeshBackground';
 
 export const metadata: Metadata = {
-  title: 'Промышленный калькулятор вывесок | Expoint ADV',
-  description: 'Рассчитайте стоимость изготовления объемных букв и наружной рекламы в режиме реального времени. Профессиональная конфигурация по стандартам Reklamastroy.',
+  title: 'Калькулятор-конфигуратор вывесок | Expoint ADV',
+  description: 'Соберите рекламную конструкцию онлайн: объемные буквы, лайтбокс, гибкий неон, монтаж и проверка по 902-ПП. Получите 3 предварительных варианта сметы.',
 };
-
-import { MeshBackground } from '@/components/ui/MeshBackground';
 
 export default function CalculatorPage() {
   return (
-    <main className="min-h-screen bg-background pt-32 pb-24 px-6 relative overflow-hidden">
-      <MeshBackground opacity={0.1} />
-      <div className="section-container relative z-10 mb-20">
-        <div className="max-w-4xl">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="h-px w-8 bg-primary" />
-            <p className="text-primary verge-mono-label">
-              Конфигурация в реальном времени
-            </p>
+    <PageShell
+      headerVariant="default"
+      breadcrumbs={[
+        { label: 'Главная', href: '/' },
+        { label: 'Калькулятор', href: '/calculator' },
+      ]}
+      showFooter
+      showAssistant
+      withMesh
+    >
+      <section className="relative overflow-hidden bg-background px-6 pb-16 pt-28 md:pb-24 md:pt-36">
+        <MeshBackground opacity={0.08} />
+        <div className="section-container relative z-10">
+          <div className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_420px] lg:items-end">
+            <div className="max-w-4xl">
+              <div className="mb-6 flex items-center gap-3">
+                <div className="h-px w-10 bg-accent" />
+                <p className="verge-mono-label text-accent">
+                  B2B quote configurator / snapshot 2026-05-18
+                </p>
+              </div>
+              <h1 className="geist-display-2xl mb-8 text-on-surface">
+                Соберите вывеску как <span className="text-accent-warm">инженерный setup</span>
+              </h1>
+              <p className="max-w-2xl text-lg leading-relaxed text-on-surface-variant md:text-xl">
+                Конфигуратор считает предварительную смету по типу конструкции, материалам,
+                подсветке, монтажному доступу и проверке по 902-ПП. Результат можно сохранить
+                в quote cart и вернуться к редактированию setup.
+              </p>
+            </div>
+
+            <div className="rounded-[28px] border border-outline bg-surface p-6 shadow-elevation-2">
+              <p className="verge-mono-label mb-4 text-on-surface-variant">Что получит клиент</p>
+              <div className="space-y-3 text-sm text-on-surface-variant">
+                <div className="flex items-start gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-accent" />
+                  3 варианта сметы: Start / Business / Premium.
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-accent" />
+                  Прозрачный breakdown: производство, монтаж, срочность, 902-ПП.
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-accent" />
+                  Возможность изменить setup из корзины перед заявкой.
+                </div>
+              </div>
+            </div>
           </div>
-          <h1 className="geist-display-2xl text-on-surface mb-8">
-            Соберите свою <span className="text-primary">Айдентику</span>
-          </h1>
-          <p className="text-on-surface-variant text-lg md:text-xl leading-relaxed max-w-2xl font-light">
-            Проектируйте свою вывеску в реальном времени. Наш 3D-движок мгновенно рассчитывает стоимость с учетом материалов, сложности монтажа и требований 902-ПП.
-          </p>
+
+          <Suspense fallback={<div className="rounded-3xl border border-outline bg-surface p-8 text-on-surface">Загрузка конфигуратора...</div>}>
+            <CalculatorContainer />
+          </Suspense>
         </div>
-      </div>
-      
-      <div className="section-container relative z-10">
-        <CalculatorContainer />
-      </div>
-      
-      <div className="section-container relative z-10 mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="p-8 bg-surface border border-outline rounded-2xl shadow-sm group hover:border-primary/20 transition-all">
-          <h4 className="geist-display-sm !text-base text-on-surface mb-3 uppercase">Точность расчета</h4>
-          <p className="text-sm text-on-surface-variant leading-relaxed">Алгоритм базируется на актуальной стоимости материалов и нормо-часах производства.</p>
-        </div>
-        <div className="p-8 bg-surface border border-outline rounded-2xl shadow-sm group hover:border-primary/20 transition-all">
-          <h4 className="geist-display-sm !text-base text-on-surface mb-3 uppercase">Build Sheet</h4>
-          <p className="text-sm text-on-surface-variant leading-relaxed">После завершения вы получите PDF-спецификацию для согласования внутри компании.</p>
-        </div>
-        <div className="p-8 bg-surface border border-outline rounded-2xl shadow-sm group hover:border-primary/20 transition-all">
-          <h4 className="geist-display-sm !text-base text-on-surface mb-3 uppercase">Прямая интеграция</h4>
-          <p className="text-sm text-on-surface-variant leading-relaxed">Данные мгновенно передаются в производственный отдел для подтверждения сроков.</p>
-        </div>
-      </div>
-    </main>
+      </section>
+    </PageShell>
   );
 }

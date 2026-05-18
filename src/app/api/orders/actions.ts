@@ -20,6 +20,44 @@ interface OrderData {
     deliveryDate?: Date;
 }
 
+function formatOrderItem(item: OrderItem): string {
+    const metadata = item.metadata;
+    const calculatorConfig = metadata?.calculatorConfig as {
+        productType?: string;
+        businessSegment?: string;
+        text?: string;
+        widthMm?: number;
+        heightMm?: number;
+        depthMm?: number;
+        lighting?: string;
+        mounting?: string;
+        needs902Audit?: boolean;
+    } | undefined;
+    const selectedPackage = metadata?.selectedPackage as { title?: string; price?: number } | undefined;
+    const priceBreakdown = metadata?.priceBreakdown as { total?: number; sourceSnapshot?: { version?: string; verifiedAt?: string } } | undefined;
+
+    const setup = calculatorConfig
+        ? [
+            `тип=${calculatorConfig.productType || '-'}`,
+            `сегмент=${calculatorConfig.businessSegment || '-'}`,
+            `текст=${calculatorConfig.text || '-'}`,
+            `размер=${calculatorConfig.widthMm || 0}x${calculatorConfig.heightMm || 0}x${calculatorConfig.depthMm || 0} мм`,
+            `подсветка=${calculatorConfig.lighting || '-'}`,
+            `монтаж=${calculatorConfig.mounting || '-'}`,
+            `902-ПП=${calculatorConfig.needs902Audit ? 'да' : 'нет'}`,
+        ].join('; ')
+        : item.description;
+
+    const packageLine = selectedPackage
+        ? `; пакет=${selectedPackage.title}; предварительная цена=${selectedPackage.price?.toLocaleString('ru-RU')} ₽`
+        : '';
+    const snapshotLine = priceBreakdown?.sourceSnapshot
+        ? `; snapshot=${priceBreakdown.sourceSnapshot.version} (${priceBreakdown.sourceSnapshot.verifiedAt})`
+        : '';
+
+    return `- ${item.name}: ${setup}${packageLine}${snapshotLine}`;
+}
+
 export async function submitOrder(orderData: OrderData) {
     try {
         const dateInfo = orderData.readinessDate && orderData.deliveryDate
@@ -34,7 +72,7 @@ export async function submitOrder(orderData: OrderData) {
             consent: true,
             turnstileToken: 'none',
             email: orderData.email,
-            message: `Заказ на сумму ${orderData.total} ₽\nАдрес: ${orderData.address}${dateInfo}\n\nПозиции заказа:\n${orderData.items.map(item => `- ${item.name}: ${item.description}`).join('\n')}`,
+            message: `Предварительная quote-cart смета на сумму ${orderData.total} ₽\nФинальная стоимость подтверждается после инженерной проверки, фото/замера и проверки монтажного доступа.\nАдрес: ${orderData.address}${dateInfo}\n\nПозиции заказа:\n${orderData.items.map(formatOrderItem).join('\n')}`,
         });
 
         // Очищаем корзину после успешного создания заказа

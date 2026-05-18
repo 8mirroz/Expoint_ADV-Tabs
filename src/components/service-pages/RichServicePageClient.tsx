@@ -73,7 +73,11 @@ export default function RichServicePageClient({
       />
       <ServiceCaseCards data={data} />
       {data.comparison && (
-        <TechnologyComparison title={data.comparison.title} items={data.comparison.items} />
+        <TechnologyComparison
+          title={data.comparison.title}
+          items={data.comparison.items}
+          variant={data.comparison.variant}
+        />
       )}
       {data.materials && <MaterialSlider title={data.materials.title} options={data.materials.options} />}
       {data.legal && (

@@ -1,6 +1,7 @@
 import Header from '@/components/sections/Header';
 import Footer from '@/components/sections/Footer';
 import ConsultationModal from '@/components/ui/ConsultationModal';
+import CartDrawer from '@/components/cart/CartDrawer';
 import { CookieBanner } from '@/components/compliance/CookieBanner';
 import AssistantWidget from '@/components/ai/AssistantWidget';
 import { BreadcrumbsBar } from './BreadcrumbsBar';
@@ -37,6 +38,7 @@ export default function PageShell({
       {showFooter && <Footer />}
       {showAssistant && <AssistantWidget />}
       <ConsultationModal />
+      <CartDrawer />
       <CookieBanner />
     </div>
   );

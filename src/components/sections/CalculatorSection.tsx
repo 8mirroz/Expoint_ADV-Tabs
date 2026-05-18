@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { motion } from 'motion/react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { CalculatorContainer } from '../calculator/CalculatorContainer';
@@ -65,7 +65,9 @@ export default function CalculatorSection() {
           className="relative"
         >
           <div className="bg-surface border border-outline shadow-elevation-2 rounded-3xl relative overflow-hidden">
-             <CalculatorContainer />
+             <Suspense fallback={<div className="p-8 text-on-surface">Загрузка калькулятора...</div>}>
+               <CalculatorContainer />
+             </Suspense>
           </div>
         </motion.div>
       </div>

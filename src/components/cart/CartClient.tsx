@@ -22,15 +22,15 @@ export function CartClient() {
     };
 
     return (
-        <div className="bg-white/5 border border-white/10 p-8">
+        <div className="bg-surface border border-outline p-8 md:p-10 rounded-3xl shadow-xs text-on-surface">
             {items.length === 0 ? (
                 <div className="text-center py-16">
-                    <ShoppingCart className="w-16 h-16 mx-auto text-gray-600 mb-4" />
-                    <h3 className="text-xl font-bold text-white mb-4">Корзина пуста</h3>
-                    <p className="text-gray-400 mb-6">В вашей корзине пока нет товаров.</p>
+                    <ShoppingCart className="w-16 h-16 mx-auto text-on-surface-variant/30 mb-4" />
+                    <h3 className="text-xl font-bold text-on-surface mb-2">Корзина пуста</h3>
+                    <p className="text-on-surface-variant mb-6 text-sm">В вашей корзине пока нет выбранных товаров или услуг.</p>
                     <a
                         href="/catalog"
-                        className="inline-block bg-jelly-mint text-canvas px-6 py-3 font-polysans font-bold hover:bg-jelly-mint/80 transition-colors"
+                        className="inline-block bg-primary hover:bg-accent text-on-primary hover:text-on-accent px-6 py-3 font-bold rounded-full transition-all shadow-xs"
                     >
                         Перейти в каталог
                     </a>
@@ -46,19 +46,21 @@ export function CartClient() {
                             />
                         ))}
 
-                        <div className="border-t border-white/20 pt-6 mt-8">
-                            <div className="flex justify-between items-center">
-                                <span className="text-xl font-bold">Итого: {total.toLocaleString('ru-RU')} ₽</span>
-                                <div className="flex gap-4">
+                        <div className="border-t border-outline pt-6 mt-8">
+                            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                                <span className="text-xl font-black text-on-surface">
+                                    Итого: <span className="text-accent">{total.toLocaleString('ru-RU')} ₽</span>
+                                </span>
+                                <div className="flex gap-4 w-full sm:w-auto">
                                     <Button
                                         onClick={handleClearCart}
-                                        className="bg-red-500 hover:bg-red-600"
+                                        className="flex-1 sm:flex-initial bg-transparent hover:bg-accent/10 text-accent border border-accent/20 hover:border-accent/40 font-bold rounded-full transition-all"
                                     >
-                                        Очистить корзину
+                                        Очистить
                                     </Button>
                                     <a
                                         href="/checkout"
-                                        className="inline-block bg-jelly-mint text-canvas px-6 py-3 font-polys1ans font-bold hover:bg-jelly-mint/80 transition-colors"
+                                        className="flex-1 sm:flex-initial text-center bg-primary hover:bg-accent text-on-primary hover:text-on-accent px-6 py-3 font-bold rounded-full transition-all shadow-md hover:shadow-lg"
                                     >
                                         Оформить заказ
                                     </a>

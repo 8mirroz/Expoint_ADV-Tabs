@@ -84,7 +84,7 @@ export function ServiceProcessTimeline({ data }: ServiceDataProps) {
   if (!data.process?.length) return null;
 
   return (
-    <section className="section-padding border-t border-outline bg-background">
+    <section id="process" className="scroll-mt-28 section-padding border-t border-outline bg-background">
       <div className="section-container">
         <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>

@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import type { SectionConfig } from './types';
 
 // === Existing Sections ===
-const Hero = dynamic(() => import('@/components/sections/Hero'));
+const HeroSection = dynamic(() => import('@/components/sections/Hero'));
 const Services = dynamic(() => import('@/components/sections/Services'));
 const Safety = dynamic(() => import('@/components/sections/Safety'));
 const Process = dynamic(() => import('@/components/sections/Process'));
@@ -39,7 +39,7 @@ const PricingCompliance = dynamic(() => import('@/components/sections/PricingCom
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const SECTION_REGISTRY: Record<string, React.ComponentType<any>> = {
   // Existing sections
-  'hero-home': Hero,
+  'hero-home': HeroSection,
   'services': Services,
   'safety': Safety,
   'process': Process,

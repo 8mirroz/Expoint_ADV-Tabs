@@ -112,6 +112,7 @@ export interface ServicePageData {
   process?: ProcessStep[];
   leadMagnets?: LeadMagnet[];
   comparison?: {
+    variant?: 'default' | 'premium-dark';
     title: string;
     items: TechnologyComparisonItem[];
   };

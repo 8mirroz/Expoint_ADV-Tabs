@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Script from 'next/script';
-import { Home, Send, MessageCircle } from 'lucide-react';
+import { Home, Send, MessageCircle, AtSign } from 'lucide-react';
 import type { BreadcrumbItem } from './types';
 
 interface BreadcrumbsBarProps {
@@ -26,6 +26,14 @@ const contactActions = [
     icon: MessageCircle,
     brandColor: '#25D366',
     softGlow: 'rgba(37, 211, 102, 0.35)',
+  },
+  {
+    id: 'email',
+    href: 'mailto:info@expoint-adv.ru',
+    label: 'Email',
+    icon: AtSign,
+    brandColor: '#00ffa3',
+    softGlow: 'rgba(0, 255, 163, 0.35)',
   },
 ] as const;
 
@@ -115,12 +123,11 @@ export function BreadcrumbsBar({ items }: BreadcrumbsBarProps) {
       {/* Fake spacer to maintain document flow since the bar is fixed */}
       <div className="w-full h-[136px]" aria-hidden="true" />
 
-      {/* Fixed Breadcrumbs Bar */}
       <div 
         className={`w-full fixed left-0 right-0 z-40 transition-all duration-500 border-b border-white/[0.06] ${
           isScrolled 
             ? 'top-[4.5rem] bg-[#0A0A0A]/80 backdrop-blur-xl shadow-md' 
-            : 'top-[5.5rem] bg-transparent'
+            : 'top-[5.5rem] bg-[#0A0A0A]'
         }`}
       >
         <nav
@@ -179,65 +186,76 @@ export function BreadcrumbsBar({ items }: BreadcrumbsBarProps) {
 
             <div className="h-4 w-px bg-white/[0.12]" />
 
-            {/* Morphing dots: bare pulsing dots → brand icon on proximity */}
+            {/* Morphing dots: pulsing dots -> brand icons on proximity */}
             <div className="flex items-center gap-3">
               {contactActions.map((action, index) => {
                 const Icon = action.icon;
                 const intensity = intensities[index] ?? 0;
 
-                // Dot fully fades out, icon fully fades in — no overlap
-                const dotOpacity = intensity < 0.15
+                // Points (dots) continue pulsing and remain fully visible until mouse is very close to the source (intensity > 0.58)
+                // At that point they rapidly shrink in scale and fade out completely by 0.78
+                const dotOpacity = intensity < 0.58
                   ? 1
-                  : intensity > 0.45
+                  : intensity > 0.78
                     ? 0
-                    : Math.max(0, (0.45 - intensity) / 0.3);
+                    : Math.max(0, (0.78 - intensity) / 0.20);
 
-                const iconOpacity = intensity < 0.25
+                const dotScale = intensity < 0.58
+                  ? 1
+                  : intensity > 0.78
+                    ? 0
+                    : (0.78 - intensity) / 0.20;
+
+                // Icons start showing up very close to the source (intensity > 0.62)
+                // and transition beautifully using a smooth quadratic curve
+                const iconOpacity = intensity < 0.62
                   ? 0
-                  : intensity > 0.6
+                  : intensity > 0.94
                     ? 1
-                    : Math.min(1, (intensity - 0.25) / 0.35);
+                    : Math.pow((intensity - 0.62) / 0.32, 1.8);
 
-                const scale = 1 + intensity * 0.35;
-                const glowSize = intensity * 20;
+                // Nonlinear scale and glow for high-end micro-interaction
+                const scale = 1 + Math.pow(intensity, 2) * 0.3;
+                const glowSize = Math.pow(intensity, 2) * 16;
 
                 return (
                   <a
                     key={action.id}
                     data-contact-node="true"
                     href={action.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target={action.id === 'email' ? undefined : "_blank"}
+                    rel={action.id === 'email' ? undefined : "noopener noreferrer"}
                     aria-label={action.label}
-                    className="relative flex h-7 w-7 items-center justify-center transition-transform duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+                    className="relative flex h-7 w-7 items-center justify-center transition-transform duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
                     style={{
                       transform: `scale(${scale})`,
                     }}
                   >
-                    {/* Bare pulsing dot (default state — fully hidden when icon shows) */}
+                    {/* Bare pulsing dot (default state — shrinks & fades moderately close) */}
                     <span
                       aria-hidden="true"
-                      className={`absolute rounded-full ${dotOpacity > 0.05 ? 'animate-pulse' : ''}`}
+                      className={`absolute rounded-full ${dotOpacity > 0.1 ? 'animate-pulse' : ''}`}
                       style={{
-                        width: '8px',
-                        height: '8px',
+                        width: '7px',
+                        height: '7px',
                         backgroundColor: action.brandColor,
-                        boxShadow: `0 0 ${6 + glowSize}px ${action.softGlow}`,
+                        boxShadow: `0 0 ${5 + glowSize}px ${action.softGlow}`,
                         opacity: dotOpacity,
-                        transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
+                        transform: `scale(${dotScale})`,
+                        transition: 'opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
                         pointerEvents: 'none',
                       }}
                     />
 
-                    {/* Brand icon (revealed on proximity — dot is gone by then) */}
+                    {/* Brand icon (revealed very close, smoothly fades out at distance) */}
                     <Icon
-                      className="relative z-10 h-5 w-5"
+                      className="relative z-10 h-4.5 w-4.5"
                       style={{
                         color: action.brandColor,
                         opacity: iconOpacity,
-                        filter: `drop-shadow(0 0 ${4 + glowSize}px ${action.softGlow})`,
-                        transform: `scale(${0.5 + iconOpacity * 0.5})`,
-                        transition: 'opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease',
+                        filter: `drop-shadow(0 0 ${3 + glowSize}px ${action.softGlow})`,
+                        transform: `scale(${0.6 + iconOpacity * 0.4})`,
+                        transition: 'opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
                       }}
                     />
                   </a>

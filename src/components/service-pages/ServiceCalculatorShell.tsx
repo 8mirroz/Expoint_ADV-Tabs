@@ -11,7 +11,7 @@ interface ServiceCalculatorShellProps {
 
 export default function ServiceCalculatorShell({ children, title, description }: ServiceCalculatorShellProps) {
   return (
-    <section id="calculator" className="section-padding border-t border-outline bg-surface relative z-20">
+    <section id="calculator" className="scroll-mt-28 section-padding border-t border-outline bg-surface relative z-20">
       <div className="section-container px-6">
         <div className="mb-14 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           {title && (

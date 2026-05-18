@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { SERVICES } from '@/data/services';
-import PersonalOrderCTA from '@/components/sections/PersonalOrderCTA';
+import DesignProjectCTA from '@/components/sections/DesignProjectCTA';
 import PageShell from '@/components/framework/PageShell';
 import ServicesConsoleClient from './ServicesConsoleClient';
 import { Factory, ShieldCheck, FileCheck2, Wrench } from 'lucide-react';
@@ -72,7 +72,13 @@ export default function ServicesPage() {
   };
 
   return (
-    <PageShell headerVariant="immersive" showFooter={true}>
+    <PageShell 
+      headerVariant="immersive" 
+      showFooter={true}
+      breadcrumbs={[
+        { label: 'Услуги и цены', href: '/services' }
+      ]}
+    >
       {/* Schema.org Structured Data */}
       <script
         type="application/ld+json"
@@ -157,39 +163,31 @@ export default function ServicesPage() {
                 return (
                   <div 
                     key={i} 
-                    className="group relative flex flex-col justify-between p-5 md:p-6 bg-surface/30 border border-outline/25 rounded-2xl transition-all duration-300 hover:border-accent/40 hover:bg-surface/50 hover:shadow-[0_0_24px_rgba(0,245,160,0.1)] hover:-translate-y-1.5 overflow-hidden"
+                    className="group relative flex flex-col justify-between p-6 bg-surface/30 border border-outline/20 rounded-2xl transition-all duration-300 hover:border-accent/45 hover:bg-surface/55 hover:shadow-[0_0_24px_rgba(0,245,160,0.1)] hover:-translate-y-1.5 overflow-hidden"
                   >
-                    {/* HUD corner accents */}
-                    <div className="absolute top-0 right-0 w-3.5 h-3.5 border-r border-t border-outline/20 group-hover:border-accent transition-colors duration-300" />
-                    <div className="absolute bottom-0 left-0 w-3.5 h-3.5 border-l border-b border-outline/20 group-hover:border-accent transition-colors duration-300" />
-
-                    {/* Top corner light dot & HUD code */}
-                    <div className="flex items-center justify-between gap-4 mb-8 relative z-10">
-                      <span className="text-[9px] font-mono text-on-surface-variant/40 uppercase tracking-[0.2em] group-hover:text-on-surface-variant/60 transition-colors">{stat.code}</span>
-                      <div className="w-1.5 h-1.5 rounded-full bg-on-surface-variant/20 group-hover:bg-accent group-hover:shadow-[0_0_8px_rgba(0,245,160,0.8)] animate-pulse transition-all duration-300" />
+                    {/* Icon container */}
+                    <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-accent shadow-[0_0_10px_rgba(0,255,163,0.02)] group-hover:border-accent/30 group-hover:shadow-[0_0_15px_rgba(0,255,163,0.1)] transition-all duration-300">
+                      <Icon className="h-6 w-6" />
                     </div>
 
-                    {/* Metric and Icon */}
-                    <div className="flex items-baseline justify-between gap-2 relative z-10 mb-4">
-                      <div className="flex items-baseline min-w-0 flex-wrap gap-x-1.5 gap-y-1">
-                        <span className="text-2xl md:text-3xl lg:text-4xl font-black text-white tracking-tight group-hover:text-accent transition-colors duration-300 leading-none font-sans">
-                          {stat.value}
+                    {/* Metric value and unit */}
+                    <div className="relative z-10 flex items-end gap-1.5 mb-2">
+                      <span className="text-[1.55rem] md:text-[1.8rem] lg:text-[2rem] font-semibold text-white tracking-[-0.015em] group-hover:text-accent transition-colors duration-300 leading-none font-sans">
+                        {stat.value}
+                      </span>
+                      {stat.unit && (
+                        <span className="text-[1.05rem] md:text-[1.2rem] lg:text-[1.3rem] font-medium text-white/88 tracking-[0.01em] group-hover:text-accent/92 transition-colors duration-300 leading-none font-sans">
+                          {stat.unit}
                         </span>
-                        {stat.unit && (
-                          <span className="text-2xl md:text-3xl lg:text-4xl font-black text-white tracking-tight group-hover:text-accent transition-colors duration-300 leading-none font-sans">
-                            {stat.unit}
-                          </span>
-                        )}
-                      </div>
-                      <Icon className="w-5.5 h-5.5 text-on-surface-variant/15 group-hover:text-accent/70 group-hover:scale-105 transition-all duration-300 shrink-0" />
+                      )}
                     </div>
 
                     {/* Description labels */}
                     <div className="relative z-10 mt-2 border-t border-outline/10 pt-3">
-                      <span className="block text-xs font-bold text-white uppercase tracking-wide group-hover:text-accent transition-colors">
+                      <span className="block text-xs font-semibold text-white/95 uppercase tracking-[0.11em] group-hover:text-accent transition-colors">
                         {stat.label}
                       </span>
-                      <span className="block text-[10px] text-on-surface-variant/60 mt-1 font-medium leading-normal">
+                      <span className="block text-[12px] text-neutral-200/90 mt-1.5 font-medium leading-relaxed">
                         {stat.sub}
                       </span>
                     </div>
@@ -207,17 +205,13 @@ export default function ServicesPage() {
         </section>
 
         {/* Dynamic Services Interactive Console */}
-        <section id="services" className="py-24 bg-surface relative">
+        <section id="services" className="pt-24 pb-10 bg-surface relative">
           <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-accent/20 to-transparent" />
           <ServicesConsoleClient services={SERVICES} />
         </section>
 
-        {/* Personal Order CTA */}
-        <section className="py-24 px-6 lg:px-20 bg-surface">
-          <div className="section-container">
-            <PersonalOrderCTA />
-          </div>
-        </section>
+        {/* Design Project CTA Block */}
+        <DesignProjectCTA className="mt-12 mb-20" />
       </main>
     </PageShell>
   );

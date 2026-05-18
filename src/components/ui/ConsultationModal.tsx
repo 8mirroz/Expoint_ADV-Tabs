@@ -130,10 +130,10 @@ export default function ConsultationModal() {
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   {/* Name */}
                   <div>
-                    <label className="block text-sm font-medium text-on-surface mb-2">Имя</label>
+                    <label className="block text-sm font-semibold text-on-surface mb-2">Имя</label>
                     <input
                       {...register('name')}
-                      className="w-full rounded-xl bg-surface border border-outline p-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-accent transition-colors"
+                      className="w-full rounded-xl bg-background border border-outline-strong/40 p-3.5 text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
                       placeholder="Иван Иванов"
                     />
                     {errors.name && <p className="text-error text-sm mt-1">{errors.name.message}</p>}
@@ -141,10 +141,10 @@ export default function ConsultationModal() {
 
                   {/* Phone */}
                   <div>
-                    <label className="block text-sm font-medium text-on-surface mb-2">Телефон</label>
+                    <label className="block text-sm font-semibold text-on-surface mb-2">Телефон</label>
                     <input
                       {...register('phone')}
-                      className="w-full rounded-xl bg-surface border border-outline p-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-accent transition-colors"
+                      className="w-full rounded-xl bg-background border border-outline-strong/40 p-3.5 text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
                       placeholder="+7 (999) 000-00-00"
                     />
                     {errors.phone && <p className="text-error text-sm mt-1">{errors.phone.message}</p>}
@@ -192,7 +192,7 @@ export default function ConsultationModal() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                  className="w-full rounded-xl bg-primary hover:bg-accent text-on-primary hover:text-on-accent p-4 font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-2 transition-all disabled:opacity-50 shadow-neon active:scale-[0.98]"
+                  className="w-full rounded-full bg-primary hover:bg-accent text-on-primary hover:text-on-accent p-4 font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-2 transition-all disabled:opacity-50 shadow-neon active:scale-[0.98]"
                 >
                     {isSubmitting ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
