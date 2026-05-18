@@ -266,15 +266,15 @@ export default function ContactInfoSection({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="mt-2 w-full h-11 bg-on-surface text-background rounded-[var(--radius-8)] font-mono font-semibold uppercase tracking-[1.5px] text-xs hover:bg-[var(--accent)] hover:text-black hover:shadow-[0_0_20px_rgba(0,245,160,0.3)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                    className="btn-premium-glow mt-2 w-full h-11 text-black rounded-[var(--radius-8)] font-mono font-semibold uppercase tracking-[1.5px] text-xs hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <Loader2 className="w-4 h-4 animate-spin text-black" />
                         <span>Отправка...</span>
                       </>
                     ) : (
-                      <span>Отправить заявку</span>
+                      <span>Оставить заявку</span>
                     )}
                   </button>
                 </div>
@@ -295,7 +295,7 @@ export default function ContactInfoSection({
                     className="absolute inset-0 z-30 flex flex-col items-center justify-center p-6 bg-background/95 backdrop-blur-md text-center"
                   >
                     {/* Pulsing mint glow circle */}
-                    <div className="relative mb-5 flex items-center justify-center w-16 h-16 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/30 shadow-[0_0_30px_rgba(0,245,160,0.2)]">
+                    <div className="relative mb-5 flex items-center justify-center w-16 h-16 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/30 shadow-[0_0_30px_rgba(0,245,160,0.25)]">
                       <motion.div
                         animate={{ scale: [1, 1.15, 1] }}
                         transition={{ repeat: Infinity, duration: 2 }}
@@ -328,6 +328,28 @@ export default function ContactInfoSection({
           )}
         </div>
       </div>
+      <style>{`
+        @keyframes gradient-move {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .btn-premium-glow {
+          background: linear-gradient(135deg, #00ffa3 0%, #00f5a0 25%, #05c3de 50%, #7928ca 100%);
+          background-size: 200% 200%;
+          animation: gradient-move 4s ease infinite;
+          box-shadow: 0 0 20px rgba(0, 255, 163, 0.25), 0 0 40px rgba(121, 40, 202, 0.15);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-premium-glow:hover {
+          background-position: 100% 50%;
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 0 30px rgba(0, 255, 163, 0.45), 0 0 60px rgba(121, 40, 202, 0.35);
+        }
+        .btn-premium-glow:active {
+          transform: translateY(0) scale(0.98);
+        }
+      `}</style>
     </section>
   );
 }

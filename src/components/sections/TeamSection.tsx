@@ -62,7 +62,7 @@ export default function TeamSection({ title, subtitle, members }: TeamSectionPro
                     src={member.imageUrl}
                     alt={typeof member.name === 'string' ? member.name : ''}
                     fill
-                    className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                    className="object-cover group-hover:scale-105 transition-all duration-700"
                     sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                   />
                 ) : (

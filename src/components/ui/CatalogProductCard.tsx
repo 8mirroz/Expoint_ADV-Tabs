@@ -66,7 +66,7 @@ export function CatalogProductCard({
       <Link href={href} aria-label={title} className="absolute inset-0 z-30" />
 
       {/* Background Visuals */}
-      <div className="absolute inset-0 z-0 transition-all duration-[2s] ease-out grayscale group-hover:grayscale-0 opacity-70 group-hover:opacity-100">
+      <div className="absolute inset-0 z-0 transition-all duration-[2s] ease-out opacity-85 group-hover:opacity-100">
         {previewVideo ? (
           <video
             ref={videoRef}

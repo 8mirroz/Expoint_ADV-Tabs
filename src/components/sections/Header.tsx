@@ -234,7 +234,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
         </div>
 
         {/* Right: Actions Section (flex-1 for perfect centering) */}
-        <div className="relative z-10 hidden flex-col items-end gap-1.5 lg:flex flex-1">
+        <div className="relative z-10 hidden flex-col items-end lg:flex flex-1">
           {/* Top Row: Language, Cart, Login, CTA */}
           <div className="flex items-center gap-2.5 xl:gap-3 animate-fade-in">
             {/* Language Switcher — minimal pill style */}
@@ -266,10 +266,10 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
           </div>
 
           {/* Bottom Row: Phone, Separator, Social & Email Actions (only on homepage to avoid duplicate with BreadcrumbsBar) */}
-          {pathname === '/' && (
+          {!isScrolled && pathname === '/' && (
             <div
               ref={contactRef}
-              className="flex items-center gap-5 animate-fade-in"
+              className="absolute top-full mt-2 right-0 flex items-center gap-5 animate-fade-in"
             >
               {/* Phone number — no icon, extra bold, larger, white for contrast */}
               <a

@@ -1,24 +1,26 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
+  Activity,
   ArrowRight,
   BadgeCheck,
   Calculator,
   Check,
   FileText,
+  FileCog,
   Layers,
   Ruler,
+  Sparkles,
   ShieldCheck,
   Upload,
+  ClipboardList,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { useCartStore } from '@/store/useCartStore';
 import { useCartDrawerStore } from '@/store/useCartDrawerStore';
 import {
-  calculateConfiguratorEstimate,
   DEFAULT_CALCULATOR_CONFIG,
   type BusinessSegment,
   type CalculatorComplexity,
@@ -29,8 +31,8 @@ import {
   type CalculatorProductType,
   type CalculatorUrgency,
   type QuotePackage,
-  type QuotePackageId,
 } from '@/lib/pricingEngine';
+import { createExpointSalesEngine, useSalesEngineStore, type CapabilityState } from '@/lib/salesEngine';
 
 interface CalculatorContainerProps {
   serviceId?: string;
@@ -107,67 +109,50 @@ function getPackageTone(pkg: QuotePackage, selected: boolean): string {
 export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
   const searchParams = useSearchParams();
   const cartItemId = searchParams.get('cartItem');
-  const { items, addItem, updateItem } = useCartStore();
   const { openDrawer } = useCartDrawerStore();
-  const cartItem = cartItemId ? items.find((candidate) => candidate.id === cartItemId) : undefined;
-  const cartConfig = cartItem?.metadata?.calculatorConfig;
-  const [selectedPackageOverride, setSelectedPackageOverride] = useState<QuotePackageId | null>(null);
   const [isSaved, setIsSaved] = useState(false);
-  const [draftConfig, setDraftConfig] = useState<CalculatorConfig | null>(null);
-  const config = draftConfig ?? cartConfig ?? {
-    ...DEFAULT_CALCULATOR_CONFIG,
-    productType: productFromService(serviceId),
-  };
-  const selectedPackageId = selectedPackageOverride ?? cartItem?.metadata?.selectedPackage?.id ?? 'business';
+  const initializedKeyRef = useRef<string | null>(null);
+  const draft = useSalesEngineStore((state) => state.draft);
+  const salesEngine = useMemo(() => createExpointSalesEngine(), []);
+  const estimate = draft.estimate;
+  const selectedPackage = draft.selectedPackage;
+  const capabilityIcons = {
+    lead_scoring: Activity,
+    pdf_proposal: FileCog,
+    ai_visualization: Sparkles,
+    follow_up: ClipboardList,
+  } as const;
 
-  const estimate = useMemo(() => calculateConfiguratorEstimate(config), [config]);
-  const selectedPackage = estimate.packages.find((pkg) => pkg.id === selectedPackageId) ?? estimate.packages[1];
-  const activeProduct = productOptions.find((item) => item.id === estimate.config.productType) ?? productOptions[0];
+  useEffect(() => {
+    const nextKey = cartItemId ? `cart:${cartItemId}` : `service:${serviceId ?? 'default'}`;
+    if (initializedKeyRef.current === nextKey) return;
+
+    if (cartItemId) {
+      salesEngine.resume(cartItemId);
+    } else {
+      salesEngine.patchConfig({
+        ...DEFAULT_CALCULATOR_CONFIG,
+        productType: productFromService(serviceId),
+      });
+    }
+    initializedKeyRef.current = nextKey;
+  }, [cartItemId, salesEngine, serviceId]);
 
   const updateConfig = <K extends keyof CalculatorConfig>(key: K, value: CalculatorConfig[K]) => {
     setIsSaved(false);
-    setDraftConfig((current) => ({
-      ...(current ?? config),
-      [key]: value,
-    }));
+    salesEngine.patchConfig({ [key]: value } as Partial<CalculatorConfig>);
   };
 
   const updateText = (text: string) => {
     setIsSaved(false);
-    setDraftConfig((current) => ({
-      ...(current ?? config),
+    salesEngine.patchConfig({
       text,
       quantity: Math.max(1, text.replace(/\s/g, '').length),
-    }));
+    });
   };
 
   const handleSaveToCart = () => {
-    const id = cartItemId || `calc-${Date.now().toString(36)}`;
-    const item = {
-      id,
-      type: 'custom' as const,
-      name: activeProduct.label,
-      price: selectedPackage.price,
-      description: `${selectedPackage.title}: ${estimate.config.text}, ${estimate.config.widthMm}x${estimate.config.heightMm} мм`,
-      metadata: {
-        customDimensions: {
-          width: estimate.config.widthMm,
-          height: estimate.config.heightMm,
-          depth: estimate.config.depthMm,
-        },
-        calculatorConfig: estimate.config,
-        selectedPackage,
-        priceBreakdown: estimate.breakdown,
-        sourceSnapshotVersion: estimate.breakdown.sourceSnapshot.version,
-        editUrl: `/calculator?cartItem=${id}`,
-      },
-    };
-
-    if (cartItemId && items.some((candidate) => candidate.id === cartItemId)) {
-      updateItem(cartItemId, item);
-    } else {
-      addItem(item);
-    }
+    salesEngine.saveQuoteCart();
     setIsSaved(true);
     openDrawer();
   };
@@ -419,11 +404,11 @@ export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
             </div>
 
             <div className="space-y-3">
-              {estimate.packages.map((pkg) => (
+              {estimate.packages.map((pkg: QuotePackage) => (
                 <button
                   key={pkg.id}
                   type="button"
-                  onClick={() => setSelectedPackageOverride(pkg.id)}
+                  onClick={() => salesEngine.selectPackage(pkg.id)}
                   className={`w-full rounded-3xl border p-5 text-left transition-all ${getPackageTone(pkg, selectedPackage.id === pkg.id)}`}
                 >
                   <div className="flex items-start justify-between gap-4">
@@ -441,7 +426,7 @@ export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
                     {selectedPackage.id === pkg.id && <Check className="h-5 w-5 text-accent" />}
                   </div>
                   <ul className="mt-4 space-y-2">
-                    {pkg.included.slice(0, 3).map((line) => (
+                    {pkg.included.slice(0, 3).map((line: string) => (
                       <li key={line} className="flex items-start gap-2 text-xs text-on-surface-variant">
                         <BadgeCheck className="mt-0.5 h-3.5 w-3.5 text-accent" />
                         {line}
@@ -470,12 +455,54 @@ export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
               ))}
             </div>
 
+            <div className="rounded-3xl border border-outline bg-surface p-5">
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <div>
+                  <p className="verge-mono-label text-accent">Черновик заявки</p>
+                  <p className="mt-2 text-sm font-bold text-on-surface">{draft.projectBrief}</p>
+                </div>
+                <span className="rounded-full border border-outline bg-background px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                  {draft.stage === 'configured' && 'Настройка'}
+                  {draft.stage === 'capture' && 'Сбор данных'}
+                  {draft.stage === 'quoted' && 'Расчет цены'}
+                  {draft.stage === 'carted' && 'В корзине'}
+                  {draft.stage === 'submitted' && 'Заявка отправлена'}
+                  {!['configured', 'capture', 'quoted', 'carted', 'submitted'].includes(draft.stage) && draft.stage}
+                </span>
+              </div>
+              <div className="space-y-2">
+                {draft.capabilities.map((capability: CapabilityState) => {
+                  const Icon = capabilityIcons[capability.id];
+                  return (
+                    <div key={capability.id} className="rounded-2xl border border-outline bg-background p-3">
+                      <div className="flex items-center gap-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-outline bg-surface">
+                          <Icon className="h-4 w-4 text-accent" />
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold uppercase tracking-wider text-on-surface">{capability.title}</p>
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                            {capability.status === 'active' && 'Активен'}
+                            {capability.status === 'coming-next' && 'В очереди'}
+                            {capability.status === 'operator-reviewed' && 'На проверке'}
+                            {capability.status === 'queued-manual-assist' && 'Очередь AI'}
+                            {!['active', 'coming-next', 'operator-reviewed', 'queued-manual-assist'].includes(capability.status) && capability.status}
+                          </p>
+                        </div>
+                      </div>
+                      <p className="mt-2 text-xs text-on-surface-variant">{capability.description}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
             <Button
               type="button"
               onClick={handleSaveToCart}
               className="h-14 w-full rounded-2xl bg-primary text-on-primary hover:bg-accent hover:text-on-accent"
             >
-              {cartItemId ? 'Сохранить setup' : 'Добавить setup в корзину'}
+              {draft.cartItemId ? 'Сохранить setup' : 'Добавить setup в корзину'}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             {isSaved && (

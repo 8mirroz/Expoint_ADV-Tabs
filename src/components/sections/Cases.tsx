@@ -76,7 +76,7 @@ export default function Cases() {
                     <video
                       src={item.videoUrl}
                       autoPlay loop muted playsInline
-                      className="h-full w-full object-cover grayscale transition-all duration-1000 group-hover:scale-105 group-hover:grayscale-0 opacity-40 group-hover:opacity-60"
+                      className="h-full w-full object-cover transition-all duration-1000 group-hover:scale-105 opacity-60 group-hover:opacity-85"
                     />
                   ) : (
                     <div className={cn("h-full w-full opacity-10 group-hover:opacity-20 transition-opacity", item.imageBg)} />

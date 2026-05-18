@@ -192,20 +192,43 @@ export default function ConsultationModal() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                  className="w-full rounded-full bg-primary hover:bg-accent text-on-primary hover:text-on-accent p-4 font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-2 transition-all disabled:opacity-50 shadow-neon active:scale-[0.98]"
-                >
+                    className="btn-premium-glow w-full rounded-full p-4 font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-2 text-black transition-all disabled:opacity-50 active:scale-[0.98]"
+                  >
                     {isSubmitting ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
                       <>
-                        <Send className="w-5 h-5" />
-                        Отправить запрос
+                        <Send className="w-5 h-5 text-black" />
+                        Оставить заявку
                       </>
                     )}
                   </button>
                 </form>
               </>
             )}
+            
+            <style>{`
+              @keyframes gradient-move {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+              }
+              .btn-premium-glow {
+                background: linear-gradient(135deg, #00ffa3 0%, #00f5a0 25%, #05c3de 50%, #7928ca 100%);
+                background-size: 200% 200%;
+                animation: gradient-move 4s ease infinite;
+                box-shadow: 0 0 20px rgba(0, 255, 163, 0.25), 0 0 40px rgba(121, 40, 202, 0.15);
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+              }
+              .btn-premium-glow:hover {
+                background-position: 100% 50%;
+                transform: translateY(-2px) scale(1.02);
+                box-shadow: 0 0 30px rgba(0, 255, 163, 0.45), 0 0 60px rgba(121, 40, 202, 0.35);
+              }
+              .btn-premium-glow:active {
+                transform: translateY(0) scale(0.98);
+              }
+            `}</style>
           </motion.div>
         </div>
       )}

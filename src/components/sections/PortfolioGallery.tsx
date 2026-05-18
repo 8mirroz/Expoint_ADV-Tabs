@@ -61,7 +61,7 @@ export default function PortfolioGallery() {
                   src={`/img/${img}`}
                   alt={`Project ${index + 1}`}
                   fill
-                  className="object-cover opacity-60 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                  className="object-cover opacity-90 group-hover:opacity-100 transition-all duration-700 scale-105 group-hover:scale-100"
                   sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 16vw"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-transparent opacity-60" />

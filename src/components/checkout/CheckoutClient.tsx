@@ -5,19 +5,13 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useCartStore } from '@/store/useCartStore';
 import { cn } from '@/lib/utils';
-import { submitOrder } from '@/app/api/orders/actions';
 import { DeliveryCalendar } from './DeliveryCalendar';
-
-interface FormData {
-    name: string;
-    email: string;
-    phone: string;
-    company: string;
-    address: string;
-}
+import { createExpointSalesEngine, useSalesEngineStore, type CapabilityState } from '@/lib/salesEngine';
 
 export const CheckoutClient = () => {
     const { items, getTotal } = useCartStore();
+    const salesDraft = useSalesEngineStore((state) => state.draft);
+    const salesEngine = createExpointSalesEngine();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -39,16 +33,8 @@ export const CheckoutClient = () => {
         setSubmitResult(null);
 
         try {
-            const result = await submitOrder({
+            const result = await salesEngine.submit({
                 ...formData,
-                items: items.map(item => ({
-                    id: item.id,
-                    name: item.name,
-                    price: item.price || 0,
-                    description: item.description || '',
-                    metadata: item.metadata,
-                })),
-                total: getTotal(),
                 readinessDate: dates?.readiness,
                 deliveryDate: dates?.delivery,
             });
@@ -109,6 +95,38 @@ export const CheckoutClient = () => {
 
                 {/* Order Summary */}
                 <div className="bg-surface border border-outline p-8 rounded-3xl shadow-xs">
+                    <div className="mb-6 rounded-2xl border border-outline bg-background p-5">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                            <div>
+                                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-accent">Статус автоматизации</p>
+                                <p className="mt-2 text-sm font-bold text-on-surface">{salesDraft.projectBrief}</p>
+                            </div>
+                            <span className="rounded-full border border-outline bg-surface px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                                {salesDraft.stage === 'configured' && 'Настройка'}
+                                {salesDraft.stage === 'capture' && 'Сбор данных'}
+                                {salesDraft.stage === 'quoted' && 'Расчет цены'}
+                                {salesDraft.stage === 'carted' && 'В корзине'}
+                                {salesDraft.stage === 'submitted' && 'Заявка отправлена'}
+                                {!['configured', 'capture', 'quoted', 'carted', 'submitted'].includes(salesDraft.stage) && salesDraft.stage}
+                            </span>
+                        </div>
+                        <div className="mt-4 grid gap-2 md:grid-cols-2">
+                            {salesDraft.capabilities.map((capability: CapabilityState) => (
+                                <div key={capability.id} className="rounded-2xl border border-outline bg-surface px-3 py-3">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface">{capability.title}</p>
+                                    <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-accent">
+                                        {capability.status === 'active' && 'Активен'}
+                                        {capability.status === 'coming-next' && 'В очереди'}
+                                        {capability.status === 'operator-reviewed' && 'На проверке'}
+                                        {capability.status === 'queued-manual-assist' && 'Очередь AI'}
+                                        {!['active', 'coming-next', 'operator-reviewed', 'queued-manual-assist'].includes(capability.status) && capability.status}
+                                    </p>
+                                    <p className="mt-2 text-xs text-on-surface-variant">{capability.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
                     <h3 className="text-2xl font-black mb-3 uppercase tracking-tight text-on-surface">Ваш расчет</h3>
                     <p className="mb-8 text-sm text-on-surface-variant">
                         Корзина фиксирует предварительную смету. Финальная стоимость подтверждается инженером после фото, замера и проверки монтажного доступа.

@@ -13,6 +13,8 @@ interface CartItemProps {
 export function CartItem({ item, onRemove, onEdit }: CartItemProps) {
     const selectedPackage = item.metadata?.selectedPackage;
     const calculatorConfig = item.metadata?.calculatorConfig;
+    const salesStage = item.metadata?.salesStage;
+    const projectBrief = item.metadata?.projectBrief;
 
     return (
         <div className="flex items-center justify-between p-5 bg-background border border-outline rounded-2xl transition-all hover:bg-background/80">
@@ -24,9 +26,19 @@ export function CartItem({ item, onRemove, onEdit }: CartItemProps) {
                         <span className="rounded-full border border-outline bg-surface px-2.5 py-1">
                             Пакет: {selectedPackage.title}
                         </span>
+                        {salesStage && (
+                            <span className="rounded-full border border-outline bg-surface px-2.5 py-1">
+                                Stage: {salesStage}
+                            </span>
+                        )}
                         <span className="rounded-full border border-outline bg-surface px-2.5 py-1">
                             Предварительная смета
                         </span>
+                    </div>
+                )}
+                {projectBrief && (
+                    <div className="mt-2 text-xs text-on-surface-variant">
+                        {projectBrief}
                     </div>
                 )}
                 {calculatorConfig && (

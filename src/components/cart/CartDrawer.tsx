@@ -133,6 +133,8 @@ export default function CartDrawer() {
                     const isPack = item.type === 'pack';
                     const calculatorConfig = item.metadata?.calculatorConfig;
                     const selectedPackage = item.metadata?.selectedPackage;
+                    const salesStage = item.metadata?.salesStage;
+                    const projectBrief = item.metadata?.projectBrief;
                     
                     return (
                       <motion.div
@@ -180,11 +182,42 @@ export default function CartDrawer() {
                               <span className="rounded-full border border-[#00ffa3]/20 bg-[#00ffa3]/10 px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-[#00ffa3]">
                                 {selectedPackage.title}
                               </span>
+                              {salesStage && (
+                                <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-neutral-300">
+                                  {salesStage}
+                                </span>
+                              )}
                               <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-neutral-400">
                                 Quote setup
                               </span>
                             </div>
                           )}
+
+{projectBrief && (
+                             <p className="mt-3 text-[11px] leading-relaxed text-neutral-400">
+                               {projectBrief}
+                             </p>
+                           )}
+
+                           {item.metadata?.capabilities && (
+                             <div className="mt-3 grid grid-cols-2 gap-2">
+                               {(item.metadata.capabilities as Array<{ id: string; title: string; status: string; description: string }>).map((cap) => {
+                                 const tone = cap.status === 'active'
+                                   ? 'border-[#00ffa3]/20 bg-[#00ffa3]/5'
+                                   : cap.status === 'operator-reviewed'
+                                     ? 'border-amber-400/20 bg-amber-400/5'
+                                     : cap.status === 'queued-manual-assist'
+                                       ? 'border-cyan-400/20 bg-cyan-400/5'
+                                       : 'border-white/8 bg-white/2';
+                                 return (
+                                   <div key={cap.id} className={`rounded-lg border px-2.5 py-1.5 ${tone}`}>
+                                     <p className="text-[9px] font-bold uppercase tracking-wider text-white/80">{cap.title}</p>
+                                     <p className="text-[8px] font-bold uppercase tracking-widest text-neutral-400">{cap.status}</p>
+                                   </div>
+                                 );
+                               })}
+                             </div>
+                           )}
 
                           {calculatorConfig && (
                             <div className="mt-3 grid grid-cols-2 gap-2 text-[10px] font-mono text-neutral-450">

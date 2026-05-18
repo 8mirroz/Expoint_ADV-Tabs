@@ -85,7 +85,7 @@ export default function PersonalOrderCTA({ className = '' }: { className?: strin
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      className={`relative overflow-hidden group rounded-3xl border border-white/10 bg-black shadow-[0_24px_70px_rgba(0,0,0,0.45)] transition-all duration-700 ${className}`}
+      className={`relative overflow-hidden group rounded-3xl border border-white/10 bg-black shadow-[0_24px_70px_rgba(0,0,0,0.45)] transition-all duration-700 max-w-[1140px] mx-auto ${className}`}
     >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
@@ -101,31 +101,49 @@ export default function PersonalOrderCTA({ className = '' }: { className?: strin
       </div>
       
       {/* Content */}
-      <div className="relative z-10 grid gap-8 p-8 md:p-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 lg:p-12">
+      <div className="relative z-10 grid gap-8 p-6 md:p-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10 lg:p-10">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
           className="flex min-h-full flex-col justify-between space-y-8"
         >
-          <div>
-            <div className="flex items-center gap-3 mb-5">
-              <span className="cta-kicker verge-mono-label text-primary tracking-[0.22em] font-medium">
-                {t(locale, copy.customProduction).toUpperCase()}
-              </span>
+          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-[1fr_200px] lg:grid-cols-[1fr_240px] items-center">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="cta-kicker verge-mono-label text-primary tracking-[0.22em] font-medium text-xs">
+                  {t(locale, copy.customProduction).toUpperCase()}
+                </span>
+              </div>
+              
+              <h3
+                className="mb-4 font-headline font-semibold text-[2rem] md:text-[2.6rem] lg:text-[3rem] leading-[0.92] tracking-[-0.03em] text-white"
+              >
+                {t(locale, copy.customQuestion).split('\n').map((line, i) => (
+                  <span key={i} className="cta-title-line block first-letter:text-accent/95">{line}</span>
+                ))}
+              </h3>
+              
+              <p className="cta-desc text-white/80 text-sm md:text-base leading-[1.6] max-w-xl font-normal tracking-[-0.01em]">
+                {t(locale, copy.customDesc)}
+              </p>
             </div>
-            
-            <h3
-              className="mb-5 font-headline font-semibold text-[2.3rem] md:text-[3.2rem] lg:text-[4rem] leading-[0.88] tracking-[-0.03em] text-white"
-            >
-              {t(locale, copy.customQuestion).split('\n').map((line, i) => (
-                <span key={i} className="cta-title-line block first-letter:text-accent/95">{line}</span>
-              ))}
-            </h3>
-            
-            <p className="cta-desc text-white/92 text-lg md:text-xl leading-[1.5] max-w-2xl font-normal tracking-[-0.01em]">
-              {t(locale, copy.customDesc)}
-            </p>
+
+            {/* STUNNING BLUEPRINT IMAGE */}
+            <div className="relative group overflow-hidden rounded-2xl border border-white/10 bg-black/40 p-1.5 shadow-2xl transition-all duration-500 hover:border-accent/30 hover:shadow-[0_0_30px_rgba(0,255,163,0.15)] max-w-[240px] mx-auto md:mx-0">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10 pointer-events-none" />
+              <img 
+                src="/img/adv/blueprint-graphics.png" 
+                alt="Blueprint Design" 
+                className="w-full h-auto object-cover rounded-xl opacity-90 transition-transform duration-700 group-hover:scale-[1.06]"
+              />
+              <div className="absolute top-3 right-3 z-20 flex h-5 w-5 items-center justify-center rounded-full bg-accent/20 border border-accent/40 animate-pulse">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+              </div>
+              <p className="absolute bottom-2 left-3 z-20 font-mono text-[8px] uppercase tracking-[0.15em] text-white/50">
+                Signage DWG v1.0
+              </p>
+            </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3">
@@ -155,20 +173,20 @@ export default function PersonalOrderCTA({ className = '' }: { className?: strin
             })}
           </div>
 
-          <div className="cta-actions flex flex-col-reverse sm:flex-row items-stretch sm:items-center gap-4 w-full max-w-3xl sm:justify-between">
+          <div className="cta-actions flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full justify-start">
             <motion.button 
               onClick={() => openModal({ context: 'Индивидуальный проект', source: 'services_cta' })}
               whileHover={{ scale: 1.01, translateY: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="geist-button-primary group w-full sm:w-auto sm:ml-auto h-[58px] px-10 text-base md:text-lg gap-3"
+              className="geist-button-primary group w-full sm:w-auto h-[54px] px-8 text-sm md:text-base gap-3"
             >
               {t(locale, copy.contactUs)}
-              <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </motion.button>
             
-            <div className="w-full sm:w-auto flex items-center justify-center sm:justify-start gap-2 py-3 px-5 rounded-xl bg-black/38 border border-white/14 backdrop-blur-md">
-              <div className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_rgba(0,245,160,0.65)]" />
-              <p className="text-white/78 text-sm md:text-[0.95rem] font-medium tracking-[0.01em]">
+            <div className="w-full sm:w-auto flex items-center justify-center sm:justify-start gap-2 py-2.5 px-4 rounded-xl bg-black/38 border border-white/10 backdrop-blur-md">
+              <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse shadow-[0_0_8px_rgba(0,245,160,0.65)]" />
+              <p className="text-white/70 text-xs md:text-sm font-medium tracking-[0.01em]">
                 {t(locale, copy.freeEstimate)}
               </p>
             </div>
@@ -179,7 +197,7 @@ export default function PersonalOrderCTA({ className = '' }: { className?: strin
           initial={{ opacity: 0, x: 24 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.25, duration: 0.8 }}
-          className="cta-panel relative overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(8,8,10,0.82),rgba(5,5,7,0.92))] p-7 shadow-[0_22px_54px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.05)]"
+          className="cta-panel relative overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(8,8,10,0.82),rgba(5,5,7,0.92))] p-6 shadow-[0_22px_54px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.05)]"
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_18%,rgba(0,245,160,0.08),transparent_40%)]" />
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(0,255,180,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,180,0.018)_1px,transparent_1px)] bg-[size:16px_16px] opacity-45" />
@@ -236,15 +254,7 @@ export default function PersonalOrderCTA({ className = '' }: { className?: strin
 
             <div className="space-y-5 border-t border-white/10 pt-5">
               <div>
-                <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-accent/88">Связь напрямую</p>
-                <a
-                  href="tel:+74950000000"
-                  className="mt-2 block text-[2.5rem] font-black leading-[0.92] tracking-[-0.05em] text-white transition-colors duration-300 hover:text-accent"
-                >
-                  +7 (495)
-                  <br />
-                  000-00-00
-                </a>
+                <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-accent/88">Обсудить проект</p>
               </div>
 
               <div className="flex items-center gap-3">
