@@ -91,44 +91,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
-  const [intensities, setIntensities] = useState<number[]>(() =>
-    contactActions.map(() => 0)
-  );
-  const [proximityRadius, setProximityRadius] = useState(600);
-  const contactRef = useRef<HTMLDivElement | null>(null);
-
-  // Calculate proximity radius based on viewport size
-  useEffect(() => {
-    if (pathname !== '/') return;
-    const updateRadius = () => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      setProximityRadius(Math.max(vw * 0.66, vh * 0.33));
-    };
-    updateRadius();
-    window.addEventListener('resize', updateRadius, { passive: true });
-    return () => window.removeEventListener('resize', updateRadius);
-  }, [pathname]);
-
-  // Global window-level proximity tracking so animation starts from 2/3 of screen away
-  useEffect(() => {
-    if (pathname !== '/') return;
-    const handleGlobalMouseMove = (event: MouseEvent) => {
-      if (!contactRef.current) return;
-      const nodes = contactRef.current.querySelectorAll<HTMLAnchorElement>('[data-contact-node="true"]');
-      const nextIntensities = Array.from(nodes).map((node) => {
-        const rect = node.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dist = Math.hypot(event.clientX - cx, event.clientY - cy);
-        return Math.max(0, Math.min(1, 1 - dist / proximityRadius));
-      });
-      setIntensities(nextIntensities);
-    };
-
-    window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
-  }, [pathname, proximityRadius]);
+  // Removed global proximity variables & effects since the bottom contact row is removed from desktop header
 
   const handleEmailClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -265,106 +228,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
             </HoverBorderGradient>
           </div>
 
-          {/* Bottom Row: Phone, Separator, Social & Email Actions (only on homepage to avoid duplicate with BreadcrumbsBar) */}
-          {!isScrolled && pathname === '/' && (
-            <div
-              ref={contactRef}
-              className="absolute top-full mt-2 right-0 flex items-center gap-5 animate-fade-in"
-            >
-              {/* Phone number — no icon, extra bold, larger, white for contrast */}
-              <a
-                href={PHONE_HREF}
-                className="text-white/90 hover:text-primary transition-colors cursor-pointer"
-              >
-                <span
-                  className="text-[18px] font-extrabold leading-none tracking-[-0.03em]"
-                  style={{ fontFamily: 'var(--font-header)' }}
-                >
-                  {PHONE_LABEL}
-                </span>
-              </a>
-
-              <div className="h-4 w-px bg-white/[0.12]" />
-
-              {/* Morphing dots: pulsing dots -> brand icons on proximity */}
-              <div className="flex items-center gap-3">
-                {contactActions.map((action, index) => {
-                  const Icon = action.icon;
-                  const intensity = intensities[index] ?? 0;
-
-                  // Points (dots) continue pulsing and remain fully visible until mouse is very close to the source (intensity > 0.58)
-                  // At that point they rapidly shrink in scale and fade out completely by 0.78
-                  const dotOpacity = intensity < 0.58
-                    ? 1
-                    : intensity > 0.78
-                      ? 0
-                      : Math.max(0, (0.78 - intensity) / 0.20);
-
-                  const dotScale = intensity < 0.58
-                    ? 1
-                    : intensity > 0.78
-                      ? 0
-                      : (0.78 - intensity) / 0.20;
-
-                  // Icons start showing up very close to the source (intensity > 0.62)
-                  // and transition beautifully using a smooth quadratic curve
-                  const iconOpacity = intensity < 0.62
-                    ? 0
-                    : intensity > 0.94
-                      ? 1
-                      : Math.pow((intensity - 0.62) / 0.32, 1.8);
-
-                  // Nonlinear scale and glow for high-end micro-interaction
-                  const scale = 1 + Math.pow(intensity, 2) * 0.3;
-                  const glowSize = Math.pow(intensity, 2) * 16;
-
-                  return (
-                    <a
-                      key={action.id}
-                      data-contact-node="true"
-                      href={action.href}
-                      onClick={action.id === 'email' ? handleEmailClick : undefined}
-                      target={action.id === 'email' ? undefined : "_blank"}
-                      rel={action.id === 'email' ? undefined : "noopener noreferrer"}
-                      aria-label={copy[action.labelKey as keyof typeof copy][locale as 'ru']}
-                      className="relative flex h-7 w-7 items-center justify-center transition-transform duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary cursor-pointer"
-                      style={{
-                        transform: `scale(${scale})`,
-                      }}
-                    >
-                      {/* Bare pulsing dot (default state — shrinks & fades moderately close) */}
-                      <span
-                        aria-hidden="true"
-                        className={`absolute rounded-full ${dotOpacity > 0.1 ? 'animate-pulse' : ''}`}
-                        style={{
-                          width: '7px',
-                          height: '7px',
-                          backgroundColor: action.brandColor,
-                          boxShadow: `0 0 ${5 + glowSize}px ${action.softGlow}`,
-                          opacity: dotOpacity,
-                          transform: `scale(${dotScale})`,
-                          transition: 'opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
-                          pointerEvents: 'none',
-                        }}
-                      />
-
-                      {/* Brand icon (revealed very close, smoothly fades out at distance) */}
-                      <Icon
-                        className="relative z-10 h-4.5 w-4.5"
-                        style={{
-                          color: action.brandColor,
-                          opacity: iconOpacity,
-                          filter: `drop-shadow(0 0 ${3 + glowSize}px ${action.softGlow})`,
-                          transform: `scale(${0.6 + iconOpacity * 0.4})`,
-                          transition: 'opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
-                        }}
-                      />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+          {/* Removed phone & social contact row from desktop header as requested */}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -535,7 +399,7 @@ function ProximityContactIcon({
 
   useEffect(() => {
     if (isMobile) {
-      setProximityOpacity(1);
+      wasFullyFadedRef.current = false;
       return;
     }
 

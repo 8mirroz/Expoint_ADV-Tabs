@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useCartStore } from '@/store/useCartStore';
 import { useSalesEngineStore, initialSalesDraft, type SalesEngineAdapters } from './useSalesEngineStore';
 import { createExpointSalesEngine } from '@/lib/salesEngine';
+import type { CalculatorHandoffAsset } from '@/components/calculator/calculator.types';
 
 const adapters: SalesEngineAdapters = {
   submitLead: async () => ({ success: true, message: 'lead ok' }),
@@ -66,6 +67,17 @@ describe('useSalesEngineStore', () => {
   });
 
   it('resume hydrates from cart metadata into active draft', () => {
+    const handoffAsset: CalculatorHandoffAsset = {
+      id: 'asset-1',
+      kind: 'facade_photo',
+      filename: 'facade.png',
+      mimeType: 'image/png',
+      sizeBytes: 1024,
+      status: 'uploaded',
+      fileKey: 'uploads/leads/facade.png',
+      uploadedAt: '2026-05-18T12:00:00.000Z',
+    };
+    useSalesEngineStore.getState().addHandoffAssets([handoffAsset]);
     const saved = useSalesEngineStore.getState().saveQuoteCart();
     useSalesEngineStore.setState({ draft: initialSalesDraft });
 
@@ -73,6 +85,9 @@ describe('useSalesEngineStore', () => {
     expect(resumed).not.toBeNull();
     expect(resumed?.cartItemId).toBe(saved.cartItemId);
     expect(resumed?.selectedPackageId).toBe(saved.selectedPackageId);
+    expect(resumed?.handoffAssets).toHaveLength(1);
+    expect(resumed?.handoffAssets[0]?.fileKey).toBe('uploads/leads/facade.png');
+    expect(['collecting', 'ready']).toContain(resumed?.handoffStatus);
   });
 
   it('submit builds checkout-safe payload and advances stage', async () => {

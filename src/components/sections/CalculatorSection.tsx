@@ -66,7 +66,7 @@ export default function CalculatorSection() {
         >
           <div className="bg-surface border border-outline shadow-elevation-2 rounded-3xl relative overflow-hidden">
              <Suspense fallback={<div className="p-8 text-on-surface">Загрузка калькулятора...</div>}>
-               <CalculatorContainer />
+               <CalculatorContainer surface="section" />
              </Suspense>
           </div>
         </motion.div>

@@ -3,7 +3,7 @@ import Footer from '@/components/sections/Footer';
 import ConsultationModal from '@/components/ui/ConsultationModal';
 import CartDrawer from '@/components/cart/CartDrawer';
 import { CookieBanner } from '@/components/compliance/CookieBanner';
-import AssistantWidget from '@/components/ai/AssistantWidget';
+// import AssistantWidget from '@/components/ai/AssistantWidget';
 import { BreadcrumbsBar } from './BreadcrumbsBar';
 import type { PageShellProps } from './types';
 
@@ -36,7 +36,7 @@ export default function PageShell({
       </div>
 
       {showFooter && <Footer />}
-      {showAssistant && <AssistantWidget />}
+      {/* showAssistant && <AssistantWidget /> */}
       <ConsultationModal />
       <CartDrawer />
       <CookieBanner />

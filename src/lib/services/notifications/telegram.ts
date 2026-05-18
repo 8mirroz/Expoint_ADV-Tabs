@@ -6,7 +6,63 @@ export interface LeadPayload {
   source?: string;
   type: 'lead' | 'quote' | 'consultation';
   message?: string;
-  calculatorData?: any;
+  calculatorData?: unknown;
+}
+
+interface SCNCalculatorData {
+  productType?: string;
+  pricingInput: {
+    dimensions: {
+      widthMm?: number;
+      heightMm?: number;
+    };
+    text?: string;
+    material?: string;
+    lighting?: string;
+  };
+  selectedPackage?: {
+    title?: string;
+    priceFrom: number;
+  };
+  complianceRisk?: {
+    level?: string;
+    requiresEngineerReview?: boolean;
+  };
+  leadScore?: {
+    grade?: string;
+    salesPriority?: string;
+  };
+  pricingResult: {
+    basePrice: number;
+  };
+}
+
+interface LegacyCalculatorData {
+  text?: string;
+  productType?: string;
+  heightCm?: number;
+  lightingId?: string;
+  materialId?: string;
+  faceColor?: string;
+  sideColor?: string;
+  mounting?: string;
+  priceRange?: {
+    min: number;
+    max: number;
+    currency: string;
+  };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isSCNCalculatorData(value: unknown): value is SCNCalculatorData {
+  return isRecord(value) && isRecord(value.pricingInput) && isRecord(value.pricingResult);
+}
+
+function isLegacyCalculatorData(value: unknown): value is LegacyCalculatorData {
+  return isRecord(value);
 }
 
 function escapeTelegramHtml(value: string): string {
@@ -83,7 +139,7 @@ ${lead.email ? `📧 <b>Email:</b> ${lead.email}` : ''}
   }
 
   if (lead.calculatorData) {
-    if ('pricingInput' in lead.calculatorData) {
+    if (isSCNCalculatorData(lead.calculatorData)) {
       const calc = lead.calculatorData;
       const input = calc.pricingInput;
       const pkg = calc.selectedPackage;
@@ -94,15 +150,15 @@ ${lead.email ? `📧 <b>Email:</b> ${lead.email}` : ''}
 🎨 <b>Материал:</b> ${input.material || '-'}
 ✨ <b>Подсветка:</b> ${input.lighting || 'none'}
 📦 <b>Пакет:</b> ${pkg?.title || 'Стандарт'}
-🚦 <b>Комплаенс (902-ПП):</b> ${calc.complianceRisk?.level.toUpperCase() || 'NONE'} (${calc.complianceRisk?.requiresEngineerReview ? 'Требуется аудит!' : 'ОК'})
-🔥 <b>Скоринг лида:</b> Grade ${calc.leadScore?.grade.toUpperCase() || 'N/A'} (Приоритет: ${calc.leadScore?.salesPriority || 'normal'})`;
+🚦 <b>Комплаенс (902-ПП):</b> ${calc.complianceRisk?.level?.toUpperCase?.() || 'NONE'} (${calc.complianceRisk?.requiresEngineerReview ? 'Требуется аудит!' : 'ОК'})
+🔥 <b>Скоринг лида:</b> Grade ${calc.leadScore?.grade?.toUpperCase?.() || 'N/A'} (Приоритет: ${calc.leadScore?.salesPriority || 'normal'})`;
 
       if (pkg) {
         message += `\n\n<b>💰 Бюджет: ${pkg.priceFrom.toLocaleString('ru-RU')} RUB</b>`;
       } else {
         message += `\n\n<b>💰 Бюджет: ${calc.pricingResult.basePrice.toLocaleString('ru-RU')} RUB</b>`;
       }
-    } else {
+    } else if (isLegacyCalculatorData(lead.calculatorData)) {
       const calc = lead.calculatorData;
       message += `\n\n<b>🛠 Данные расчета:</b>
 🏷 <b>Текст:</b> ${calc.text}

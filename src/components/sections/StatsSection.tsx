@@ -80,7 +80,7 @@ export default function StatsSection({
             {subtitle ? (
               <p className="verge-mono-label text-accent uppercase tracking-[0.2em] text-xs mb-3">{subtitle}</p>
             ) : (
-              <p className="verge-mono-label text-accent uppercase tracking-[0.2em] text-xs mb-3">// PERFORMANCE & METRICS</p>
+              <p className="verge-mono-label text-accent uppercase tracking-[0.2em] text-xs mb-3">{'PERFORMANCE & METRICS'}</p>
             )}
             {title && (
               <h2 className="geist-display-lg max-w-[18ch] text-balance md:text-4xl lg:text-[48px] text-on-surface font-semibold tracking-[-0.03em]">

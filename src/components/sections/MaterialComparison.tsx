@@ -52,6 +52,7 @@ const TIERS: MaterialTier[] = [
 
 export function MaterialComparison() {
   const [activeTier, setActiveTier] = useState<string>('premium');
+  const activeTierData = TIERS.find((t) => t.id === activeTier);
 
   return (
     <div className="w-full bg-surface border border-outline relative overflow-hidden group/lab shadow-elevation-1 rounded-xl">
@@ -104,9 +105,9 @@ export function MaterialComparison() {
       {/* Lab Analysis Area */}
       <div className="p-10 md:p-20 relative z-10">
         <AnimatePresence mode="wait">
-          {TIERS.map((tier) => tier.id === activeTier && (
+          {activeTierData && (
             <motion.div
-              key={tier.id}
+              key={activeTierData.id}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
@@ -120,20 +121,20 @@ export function MaterialComparison() {
                     animate={{ opacity: 1, y: 0 }}
                     className="inline-flex items-center gap-4 px-4 py-2 bg-surface border border-outline rounded-full text-primary verge-mono-label"
                   >
-                    {tier.id === 'premium' ? <Star className="w-3.5 h-3.5 text-primary fill-primary/10" /> : <Shield className="w-3.5 h-3.5" />}
-                    <span>{tier.label}</span>
+                    {activeTierData.id === 'premium' ? <Star className="w-3.5 h-3.5 text-primary fill-primary/10" /> : <Shield className="w-3.5 h-3.5" />}
+                    <span>{activeTierData.label}</span>
                   </motion.div>
                   
                   <div className="space-y-2">
                     <div className="verge-mono-label text-on-surface-variant/60 mb-2">Estimated Value</div>
                     <h3 className="geist-display-lg text-on-surface">
-                      {tier.price}
+                      {activeTierData.price}
                     </h3>
                   </div>
                 </div>
                 
                 <p className="text-on-surface-variant leading-[28px] text-lg font-sans border-l border-outline pl-10 max-w-xl">
-                  {tier.description}
+                  {activeTierData.description}
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 max-w-md">
@@ -168,9 +169,9 @@ export function MaterialComparison() {
                    </div>
                 </div>
                 
-                {tier.specs.map((spec, idx) => (
+                {activeTierData.specs.map((spec, idx) => (
                     <motion.div 
-                    key={idx} 
+                    key={spec.label} 
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.1 }}
@@ -199,7 +200,7 @@ export function MaterialComparison() {
                 ))}
               </div>
             </motion.div>
-          ))}
+          )}
         </AnimatePresence>
       </div>
 

@@ -63,6 +63,10 @@ async function generateProposalAPI(draft: SalesEngineDraft, items: Array<{ id: s
         items,
         total,
         projectBrief,
+        capabilities: draft.capabilities,
+        handoffAssets: draft.handoffAssets,
+        handoffRequirements: draft.handoffRequirements,
+        handoffStatus: draft.handoffStatus,
       }),
     });
     const data = await response.json();

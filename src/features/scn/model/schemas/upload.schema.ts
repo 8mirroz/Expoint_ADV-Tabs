@@ -22,7 +22,7 @@ export const UploadAttachmentSchema = z.object({
       const parts = name.split('.');
       if (parts.length < 2) return false;
       const ext = parts.pop()?.toLowerCase();
-      return ext ? ALLOWED_EXTENSIONS.includes(ext as any) : false;
+      return ext ? (ALLOWED_EXTENSIONS as readonly string[]).includes(ext) : false;
     }, {
       message: `Недопустимый тип файла. Разрешены: ${ALLOWED_EXTENSIONS.join(', ')}`
     }),

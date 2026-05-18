@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 import { UploadPreSignSchema } from '@/lib/services/leadSchemas';
+import { createUploadContract } from '@/app/api/upload/shared';
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    
-    // Validate request body
     const result = UploadPreSignSchema.safeParse(body);
     if (!result.success) {
       return NextResponse.json(
@@ -15,19 +14,16 @@ export async function POST(req: Request) {
     }
 
     const fileData = result.data;
-
-    // Simulate generating a pre-signed URL (e.g. AWS S3 or Yandex Object Storage)
-    const mockUploadUrl = `https://storage.expoint-adv.local/upload?token=${Date.now()}`;
-    const mockFileKey = `uploads/leads/${Date.now()}_${fileData.filename.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-
-    console.log('Generated pre-signed URL for:', fileData.filename);
+    const uploadContract = createUploadContract({
+      filename: fileData.filename,
+      contentType: fileData.contentType,
+      size: fileData.size,
+    });
 
     return NextResponse.json({
       success: true,
-      uploadUrl: mockUploadUrl,
-      fileKey: mockFileKey,
+      ...uploadContract,
     }, { status: 200 });
-
   } catch (error) {
     console.error('Upload pre-sign error:', error);
     return NextResponse.json(

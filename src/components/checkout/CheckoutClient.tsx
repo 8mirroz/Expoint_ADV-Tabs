@@ -131,6 +131,18 @@ export const CheckoutClient = () => {
                     <p className="mb-8 text-sm text-on-surface-variant">
                         Корзина фиксирует предварительную смету. Финальная стоимость подтверждается инженером после фото, замера и проверки монтажного доступа.
                     </p>
+                    <div className="mb-6 rounded-2xl border border-outline bg-background p-4">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-accent">Handoff readiness</p>
+                        <p className="mt-2 text-sm text-on-surface">
+                            {salesDraft.handoffStatus === 'ready' && 'Материалы готовы к операторскому review.'}
+                            {salesDraft.handoffStatus === 'collecting' && 'Часть материалов уже сохранена, но checklist еще не закрыт.'}
+                            {salesDraft.handoffStatus === 'missing' && 'Материалы для финального подтверждения пока не приложены.'}
+                        </p>
+                        <p className="mt-2 text-xs text-on-surface-variant">
+                            {salesDraft.handoffRequirements.filter((item) => item.satisfied).length} / {salesDraft.handoffRequirements.length} пунктов checklist закрыто
+                            {salesDraft.handoffAssets.length > 0 ? ` · файлов: ${salesDraft.handoffAssets.length}` : ''}
+                        </p>
+                    </div>
                     <div className="space-y-4">
                         {items.map((item) => (
                             <div key={item.id} className="flex justify-between items-center p-5 bg-background border border-outline rounded-2xl transition-all hover:bg-background/80">
@@ -140,6 +152,12 @@ export const CheckoutClient = () => {
                                     {item.metadata?.selectedPackage && (
                                         <p className="text-[10px] font-bold uppercase tracking-wider text-accent mt-2">
                                             Пакет: {item.metadata.selectedPackage.title} · Snapshot {item.metadata.sourceSnapshotVersion}
+                                        </p>
+                                    )}
+                                    {item.metadata?.handoffStatus && (
+                                        <p className="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant mt-2">
+                                            Handoff: {item.metadata.handoffStatus}
+                                            {Array.isArray(item.metadata.handoffAssets) && item.metadata.handoffAssets.length > 0 ? ` · файлов ${item.metadata.handoffAssets.length}` : ''}
                                         </p>
                                     )}
                                 </div>

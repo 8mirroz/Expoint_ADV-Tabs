@@ -4,7 +4,7 @@ import SmoothScroll from "@/components/motion/SmoothScroll";
 import { LanguageProvider } from "@/components/i18n/LanguageProvider";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import GSAPProvider from "@/components/motion/GSAPProvider";
-import { Inter, JetBrains_Mono, Manrope } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import ConsultationModal from "@/components/ui/ConsultationModal";
 import { CookieBanner } from "@/components/compliance/CookieBanner";
 import { PostHogProvider } from "@/components/analytics/PostHogProvider";
@@ -22,12 +22,6 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const manrope = Manrope({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-header",
-  display: "swap",
-});
-
 export const viewport: Viewport = {
   themeColor: '#ffffff',
 };
@@ -41,7 +35,7 @@ export const metadata: Metadata = {
   description: "B2B производство вывесок, объемных букв и систем навигации. Промышленный подход к дизайну и качеству. Онлайн калькулятор Reklamastroy.",
   openGraph: {
     title: 'Expoint ADV | Наружная реклама',
-    description: 'Производство премиальной наружной рекламы в Москве.',
+    description: 'Производство премиальной наружной рекламы in Москве.',
     url: 'https://expoint-adv.ru',
     siteName: 'Expoint ADV',
     images: [
@@ -69,7 +63,7 @@ export default function RootLayout({
 
   return (
     <html lang="ru" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} ${manrope.variable} font-sans bg-background text-on-surface`} suppressHydrationWarning>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans bg-background text-on-surface`} suppressHydrationWarning>
         {gaId && (
           <>
             <Script

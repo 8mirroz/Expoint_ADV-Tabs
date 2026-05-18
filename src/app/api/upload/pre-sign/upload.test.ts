@@ -28,7 +28,9 @@ describe('POST /api/upload/pre-sign', () => {
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json.success).toBe(true);
-    expect(json.uploadUrl).toContain('https://storage.expoint-adv.local');
+    expect(json.uploadUrl).toContain('/api/upload/local?');
     expect(json.fileKey).toContain('project.pdf');
+    expect(json.method).toBe('PUT');
+    expect(json.expiresAt).toBeTypeOf('string');
   });
 });

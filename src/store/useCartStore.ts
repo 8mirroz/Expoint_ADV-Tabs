@@ -1,17 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { CalculatorConfig, PriceBreakdown, QuotePackage } from '@/lib/pricingEngine';
-
-type CapabilityStage = 'capture' | 'configured' | 'quoted' | 'carted' | 'submitted';
-type HonestCapability = 'pdf_proposal' | 'ai_visualization' | 'lead_scoring' | 'follow_up';
-type HonestCapabilityStatus = 'coming-next' | 'active' | 'operator-reviewed' | 'queued-manual-assist';
-
-interface CapabilityState {
-  id: HonestCapability;
-  title: string;
-  status: HonestCapabilityStatus;
-  description: string;
-}
+import type { CapabilityStage, CapabilityState } from '@/types/sales';
+import type { CalculatorHandoffAsset, HandoffRequirement, HandoffStatus } from '@/components/calculator/calculator.types';
 
 export type CartItemType = 'pack' | 'custom';
 
@@ -29,6 +20,9 @@ export interface CalculatorCartMetadata extends Record<string, unknown> {
   salesStage?: CapabilityStage;
   capabilities?: CapabilityState[];
   projectBrief?: string;
+  handoffAssets?: CalculatorHandoffAsset[];
+  handoffRequirements?: HandoffRequirement[];
+  handoffStatus?: HandoffStatus;
 }
 
 export interface CartItem {

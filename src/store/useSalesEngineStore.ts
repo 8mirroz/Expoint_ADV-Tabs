@@ -9,6 +9,13 @@ import {
   type QuotePackageId,
 } from '@/lib/pricingEngine';
 import { useCartStore, type CalculatorCartMetadata, type CartItem } from '@/store/useCartStore';
+import {
+  buildHandoffRequirements,
+  deriveHandoffStatus,
+  type CalculatorHandoffAsset,
+  type HandoffRequirement,
+  type HandoffStatus,
+} from '@/components/calculator/calculator.types';
 
 export type CapabilityStage = 'capture' | 'configured' | 'quoted' | 'carted' | 'submitted';
 export type HonestCapability = 'pdf_proposal' | 'ai_visualization' | 'lead_scoring' | 'follow_up';
@@ -60,6 +67,9 @@ export interface SalesEngineDraft {
   source: string;
   startedAt: string | null;
   lastUpdatedAt: string | null;
+  handoffAssets: CalculatorHandoffAsset[];
+  handoffRequirements: HandoffRequirement[];
+  handoffStatus: HandoffStatus;
   submitStatus: 'idle' | 'submitting' | 'submitted' | 'error';
   submitMessage: string | null;
 }
@@ -151,6 +161,8 @@ function createDraft(configInput?: Partial<CalculatorConfig>, lead?: Omit<SalesL
   const estimate = calculateConfiguratorEstimate(configInput ?? inferConfigFromLead(lead ?? undefined));
   const selectedPackage = estimate.packages.find((pkg) => pkg.id === 'business') ?? estimate.packages[0];
   const now = new Date().toISOString();
+  const handoffAssets: CalculatorHandoffAsset[] = [];
+  const handoffRequirements = buildHandoffRequirements(estimate.config, handoffAssets);
 
   return {
     lead: lead ?? null,
@@ -165,9 +177,67 @@ function createDraft(configInput?: Partial<CalculatorConfig>, lead?: Omit<SalesL
     source: lead?.source ?? 'sales-engine',
     startedAt: now,
     lastUpdatedAt: now,
+    handoffAssets,
+    handoffRequirements,
+    handoffStatus: deriveHandoffStatus(handoffRequirements, handoffAssets),
     submitStatus: 'idle',
     submitMessage: null,
   };
+}
+
+function syncHandoffState(
+  config: CalculatorConfig,
+  handoffAssets: CalculatorHandoffAsset[],
+): Pick<SalesEngineDraft, 'handoffAssets' | 'handoffRequirements' | 'handoffStatus'> {
+  const handoffRequirements = buildHandoffRequirements(config, handoffAssets);
+  return {
+    handoffAssets,
+    handoffRequirements,
+    handoffStatus: deriveHandoffStatus(handoffRequirements, handoffAssets),
+  };
+}
+
+function withSynchronizedHandoff(
+  draft: SalesEngineDraft,
+  overrides?: Partial<Pick<SalesEngineDraft, 'config' | 'handoffAssets'>>
+): SalesEngineDraft {
+  const nextConfig = overrides?.config ?? draft.config;
+  const nextAssets = overrides?.handoffAssets ?? draft.handoffAssets;
+  return {
+    ...draft,
+    ...syncHandoffState(nextConfig, nextAssets),
+  };
+}
+
+function normalizePersistedDraft(
+  draft: Partial<SalesEngineDraft> | undefined
+): SalesEngineDraft {
+  const baseDraft = createDraft(
+    draft?.config ?? DEFAULT_CALCULATOR_CONFIG,
+    draft?.lead ?? null,
+    draft?.stage ?? 'configured',
+    draft?.cartItemId ?? null
+  );
+
+  if (!draft) return baseDraft;
+
+  const mergedDraft: SalesEngineDraft = {
+    ...baseDraft,
+    ...draft,
+    estimate: draft.estimate ?? baseDraft.estimate,
+    selectedPackage: draft.selectedPackage ?? baseDraft.selectedPackage,
+    selectedPackageId: draft.selectedPackageId ?? baseDraft.selectedPackageId,
+    config: draft.config ?? baseDraft.config,
+    capabilities: Array.isArray(draft.capabilities) ? draft.capabilities : baseDraft.capabilities,
+    handoffAssets: Array.isArray(draft.handoffAssets) ? draft.handoffAssets : [],
+    handoffRequirements: Array.isArray(draft.handoffRequirements) ? draft.handoffRequirements : baseDraft.handoffRequirements,
+    handoffStatus: draft.handoffStatus ?? baseDraft.handoffStatus,
+  };
+
+  return withSynchronizedHandoff(mergedDraft, {
+    config: mergedDraft.config,
+    handoffAssets: mergedDraft.handoffAssets,
+  });
 }
 
 function makeDraftItem(draft: SalesEngineDraft, itemId?: string): CartItem {
@@ -186,6 +256,9 @@ function makeDraftItem(draft: SalesEngineDraft, itemId?: string): CartItem {
     salesStage: 'carted',
     capabilities: buildCapabilities('carted'),
     projectBrief: draft.projectBrief,
+    handoffAssets: draft.handoffAssets,
+    handoffRequirements: draft.handoffRequirements,
+    handoffStatus: draft.handoffStatus,
   };
 
   return {
@@ -229,6 +302,9 @@ interface SalesEngineState {
   start: (input: SalesLeadInput, adapters?: SalesEngineAdapters) => Promise<{ success: boolean; message: string }>;
   patchConfig: (patch: Partial<CalculatorConfig>) => SalesEngineDraft;
   selectPackage: (packageId: QuotePackageId) => SalesEngineDraft;
+  addHandoffAssets: (assets: CalculatorHandoffAsset[]) => SalesEngineDraft;
+  updateHandoffAsset: (assetId: string, patch: Partial<CalculatorHandoffAsset>) => SalesEngineDraft;
+  removeHandoffAsset: (assetId: string) => SalesEngineDraft;
   saveQuoteCart: () => SalesEngineDraft;
   resume: (cartItemId: string) => SalesEngineDraft | null;
   submit: (input: SalesSubmitInput, adapters?: SalesEngineAdapters) => Promise<{ success: boolean; message: string }>;
@@ -292,8 +368,9 @@ export const useSalesEngineStore = create<SalesEngineState>()(
           capabilities: buildCapabilities(nextStage),
           lastUpdatedAt: new Date().toISOString(),
         };
-        set({ draft: nextDraft });
-        return nextDraft;
+        const synchronizedDraft = withSynchronizedHandoff(nextDraft, { config: nextEstimate.config });
+        set({ draft: synchronizedDraft });
+        return synchronizedDraft;
       },
       selectPackage: (packageId) => {
         const current = get().draft;
@@ -307,6 +384,39 @@ export const useSalesEngineStore = create<SalesEngineState>()(
           capabilities: buildCapabilities(nextStage),
           lastUpdatedAt: new Date().toISOString(),
         };
+        set({ draft: nextDraft });
+        return nextDraft;
+      },
+      addHandoffAssets: (assets) => {
+        const current = get().draft;
+        const nextDraft = withSynchronizedHandoff({
+          ...current,
+          handoffAssets: [...current.handoffAssets, ...assets],
+          lastUpdatedAt: new Date().toISOString(),
+        });
+        set({ draft: nextDraft });
+        return nextDraft;
+      },
+      updateHandoffAsset: (assetId, patch) => {
+        const current = get().draft;
+        const nextAssets = current.handoffAssets.map((asset) =>
+          asset.id === assetId ? { ...asset, ...patch } : asset
+        );
+        const nextDraft = withSynchronizedHandoff({
+          ...current,
+          handoffAssets: nextAssets,
+          lastUpdatedAt: new Date().toISOString(),
+        });
+        set({ draft: nextDraft });
+        return nextDraft;
+      },
+      removeHandoffAsset: (assetId) => {
+        const current = get().draft;
+        const nextDraft = withSynchronizedHandoff({
+          ...current,
+          handoffAssets: current.handoffAssets.filter((asset) => asset.id !== assetId),
+          lastUpdatedAt: new Date().toISOString(),
+        });
         set({ draft: nextDraft });
         return nextDraft;
       },
@@ -353,11 +463,18 @@ export const useSalesEngineStore = create<SalesEngineState>()(
           capabilities: Array.isArray(metadata.capabilities) ? (metadata.capabilities as CapabilityState[]) : buildCapabilities(nextStage),
           projectBrief: typeof metadata.projectBrief === 'string' ? metadata.projectBrief : get().draft.projectBrief,
           lastUpdatedAt: new Date().toISOString(),
+          handoffAssets: Array.isArray(metadata.handoffAssets) ? metadata.handoffAssets : [],
+          handoffRequirements: Array.isArray(metadata.handoffRequirements) ? metadata.handoffRequirements : [],
+          handoffStatus: metadata.handoffStatus === 'ready' || metadata.handoffStatus === 'collecting' ? metadata.handoffStatus : 'missing',
           submitStatus: 'idle',
           submitMessage: null,
         };
-        set({ draft: nextDraft });
-        return nextDraft;
+        const synchronizedDraft = withSynchronizedHandoff(nextDraft, {
+          config: estimate.config,
+          handoffAssets: nextDraft.handoffAssets,
+        });
+        set({ draft: synchronizedDraft });
+        return synchronizedDraft;
       },
       submit: async (input, adapters = defaultSalesEngineAdapters) => {
         const current = get().draft;
@@ -395,6 +512,30 @@ export const useSalesEngineStore = create<SalesEngineState>()(
     }),
     {
       name: 'expoint_sales_engine_v1',
+      version: 2,
+      migrate: (persistedState) => {
+        const state = persistedState as Partial<SalesEngineState> | undefined;
+        if (!state?.draft) return persistedState;
+        return {
+          ...state,
+          draft: normalizePersistedDraft(state.draft),
+        };
+      },
+      merge: (persistedState, currentState) => {
+        const state = persistedState as Partial<SalesEngineState> | undefined;
+        if (!state?.draft) {
+          return {
+            ...currentState,
+            ...state,
+          };
+        }
+
+        return {
+          ...currentState,
+          ...state,
+          draft: normalizePersistedDraft(state.draft),
+        };
+      },
     }
   )
 );

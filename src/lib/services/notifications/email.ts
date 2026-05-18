@@ -1,6 +1,56 @@
 import nodemailer from 'nodemailer';
 import type { LeadPayload } from './telegram'; // Import shared type
 
+interface SCNCalculatorData {
+  productType?: string;
+  pricingInput: {
+    dimensions: {
+      widthMm?: number;
+      heightMm?: number;
+    };
+    text?: string;
+    material?: string;
+    lighting?: string;
+  };
+  selectedPackage?: {
+    title?: string;
+    priceFrom: number;
+  };
+  complianceRisk?: {
+    level?: string;
+  };
+  leadScore?: {
+    grade?: string;
+  };
+  pricingResult: {
+    basePrice: number;
+  };
+}
+
+interface LegacyCalculatorData {
+  text?: string;
+  heightCm?: number;
+  materialId?: string;
+  lightingId?: string;
+  priceRange?: {
+    min: number;
+    max: number;
+    currency: string;
+  };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isSCNCalculatorData(value: unknown): value is SCNCalculatorData {
+  return isRecord(value) && isRecord(value.pricingInput) && isRecord(value.pricingResult);
+}
+
+function isLegacyCalculatorData(value: unknown): value is LegacyCalculatorData {
+  return isRecord(value);
+}
+
 export const sendToEmail = async (lead: LeadPayload): Promise<boolean> => {
   const SMTP_HOST = process.env.SMTP_HOST;
   const SMTP_PORT = process.env.SMTP_PORT;
@@ -32,7 +82,7 @@ export const sendToEmail = async (lead: LeadPayload): Promise<boolean> => {
     
     ${(() => {
       if (!lead.calculatorData) return '';
-      if ('pricingInput' in lead.calculatorData) {
+      if (isSCNCalculatorData(lead.calculatorData)) {
         const calc = lead.calculatorData;
         const input = calc.pricingInput;
         const pkg = calc.selectedPackage;
@@ -45,13 +95,16 @@ export const sendToEmail = async (lead: LeadPayload): Promise<boolean> => {
             <li><strong>Материал:</strong> ${input.material || '-'}</li>
             <li><strong>Подсветка:</strong> ${input.lighting || 'none'}</li>
             <li><strong>Выбранный пакет:</strong> ${pkg?.title || 'Стандарт'}</li>
-            <li><strong>Комплаенс (902-ПП):</strong> ${calc.complianceRisk?.level.toUpperCase() || 'NONE'}</li>
-            <li><strong>Скоринг лида:</strong> Grade ${calc.leadScore?.grade.toUpperCase() || 'N/A'}</li>
+            <li><strong>Комплаенс (902-ПП):</strong> ${calc.complianceRisk?.level?.toUpperCase?.() || 'NONE'}</li>
+            <li><strong>Скоринг лида:</strong> Grade ${calc.leadScore?.grade?.toUpperCase?.() || 'N/A'}</li>
             <li><b>Бюджет: ${(pkg ? pkg.priceFrom : calc.pricingResult.basePrice).toLocaleString('ru-RU')} RUB</b></li>
           </ul>
         `;
-      } else {
+      }
+
+      if (isLegacyCalculatorData(lead.calculatorData)) {
         const calc = lead.calculatorData;
+        const priceRange = calc.priceRange;
         return `
           <h3>Данные конфигуратора:</h3>
           <ul>
@@ -59,10 +112,12 @@ export const sendToEmail = async (lead: LeadPayload): Promise<boolean> => {
             <li>Высота: ${calc.heightCm} см</li>
             <li>Материал: ${calc.materialId}</li>
             <li>Подсветка: ${calc.lightingId}</li>
-            <li><b>Бюджет: ${calc.priceRange.min.toLocaleString('ru-RU')} - ${calc.priceRange.max.toLocaleString('ru-RU')} ${calc.priceRange.currency}</b></li>
+            <li><b>Бюджет: ${priceRange ? `${priceRange.min.toLocaleString('ru-RU')} - ${priceRange.max.toLocaleString('ru-RU')} ${priceRange.currency}` : 'Не указан'}</b></li>
           </ul>
         `;
       }
+
+      return '';
     })()}
   `;
 

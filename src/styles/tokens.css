@@ -191,7 +191,7 @@
   /* ===========================================
    * BUTTON SYSTEM
    * =========================================== */
-  --button-font-family: var(--font-header, "Manrope"), var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
+  --button-font-family: var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
   --button-font-size: 15px;
   --button-font-size-sm: 13px;
   --button-font-size-lg: 16px;

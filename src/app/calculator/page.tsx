@@ -18,7 +18,6 @@ export default function CalculatorPage() {
         { label: 'Калькулятор', href: '/calculator' },
       ]}
       showFooter
-      showAssistant
       withMesh
     >
       <section className="relative overflow-hidden bg-background px-6 pb-16 pt-28 md:pb-24 md:pt-36">
@@ -62,7 +61,7 @@ export default function CalculatorPage() {
           </div>
 
           <Suspense fallback={<div className="rounded-3xl border border-outline bg-surface p-8 text-on-surface">Загрузка конфигуратора...</div>}>
-            <CalculatorContainer />
+            <CalculatorContainer surface="page" />
           </Suspense>
         </div>
       </section>

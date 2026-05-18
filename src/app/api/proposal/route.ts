@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import type { CapabilityState } from '@/store/useSalesEngineStore';
+import type { CalculatorHandoffAsset, HandoffRequirement, HandoffStatus } from '@/components/calculator/calculator.types';
 
 interface ProposalRequest {
   name: string;
@@ -17,6 +18,9 @@ interface ProposalRequest {
   total: number;
   projectBrief?: string;
   capabilities?: CapabilityState[];
+  handoffAssets?: CalculatorHandoffAsset[];
+  handoffRequirements?: HandoffRequirement[];
+  handoffStatus?: HandoffStatus;
 }
 
 // POST /api/proposal/generate

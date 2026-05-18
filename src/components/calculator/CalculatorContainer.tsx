@@ -8,17 +8,18 @@ import {
   BadgeCheck,
   Calculator,
   Check,
-  FileText,
+  ClipboardList,
   FileCog,
+  FileText,
   Layers,
   Ruler,
-  Sparkles,
   ShieldCheck,
-  Upload,
-  ClipboardList,
+  Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { CalculatorHandoffPanel } from './CalculatorHandoffPanel';
+import { useCalculatorHandoff } from './hooks/useCalculatorHandoff';
 import { useCartDrawerStore } from '@/store/useCartDrawerStore';
 import {
   DEFAULT_CALCULATOR_CONFIG,
@@ -36,15 +37,16 @@ import { createExpointSalesEngine, useSalesEngineStore, type CapabilityState } f
 
 interface CalculatorContainerProps {
   serviceId?: string;
+  surface?: 'page' | 'section';
 }
 
 const productOptions: { id: CalculatorProductType; label: string; description: string }[] = [
-  { id: 'volumetric-letters', label: 'Объемные световые буквы', description: 'Расчет за сантиметр высоты и количество символов' },
-  { id: 'lightbox', label: 'Световой короб', description: 'Расчет по площади, форме и подсветке' },
-  { id: 'flex-neon', label: 'Гибкий неон', description: 'Расчет по длине контура, цвету и подложке' },
-  { id: 'metal-letters', label: 'Нержавеющие буквы', description: 'Премиальная фасадная или интерьерная айдентика' },
-  { id: 'pylon-signs', label: 'Стела / навигация', description: 'Проектная оценка инженерной конструкции' },
-  { id: 'roof-installations', label: 'Крышная установка', description: 'Крупноформатный проект с инженерной проверкой' },
+  { id: 'volumetric-letters', label: 'Объемные световые буквы', description: 'Расчет за сантиметр высоты и количество символов.' },
+  { id: 'lightbox', label: 'Световой короб', description: 'Расчет по площади, форме и сценарию монтажа.' },
+  { id: 'flex-neon', label: 'Гибкий неон', description: 'Расчет по длине контура, цвету свечения и подложке.' },
+  { id: 'metal-letters', label: 'Нержавеющие буквы', description: 'Премиальная фасадная и интерьерная айдентика.' },
+  { id: 'pylon-signs', label: 'Стела / навигация', description: 'Проектная оценка инженерной конструкции.' },
+  { id: 'roof-installations', label: 'Крышная установка', description: 'Крупноформатный проект с инженерной проверкой.' },
 ];
 
 const segmentOptions: { id: BusinessSegment; label: string }[] = [
@@ -56,9 +58,9 @@ const segmentOptions: { id: BusinessSegment; label: string }[] = [
 ];
 
 const materialOptions: { id: CalculatorMaterialTier; label: string; description: string }[] = [
-  { id: 'standard', label: 'Standard', description: 'ПВХ, акрил, базовая гарантия' },
-  { id: 'premium', label: 'Premium', description: 'Премиум акрил, усиленная электрика' },
-  { id: 'exclusive', label: 'Exclusive', description: 'Металл, сложная отделка, расширенный ресурс' },
+  { id: 'standard', label: 'Standard', description: 'ПВХ, акрил, базовая гарантия.' },
+  { id: 'premium', label: 'Premium', description: 'Премиум акрил и усиленная электрика.' },
+  { id: 'exclusive', label: 'Exclusive', description: 'Металл, сложная отделка и расширенный ресурс.' },
 ];
 
 const lightingOptions: { id: CalculatorLighting; label: string }[] = [
@@ -87,6 +89,33 @@ const urgencyOptions: { id: CalculatorUrgency; label: string; description: strin
   { id: 'express', label: 'Экспресс', description: '3-5 рабочих дней, +40%' },
 ];
 
+const stepOrder = ['product', 'geometry', 'services', 'quote'] as const;
+type CalculatorStep = typeof stepOrder[number];
+type ResumeStatus = 'fresh' | 'resumed' | 'stale';
+
+const stepMeta: Record<CalculatorStep, { index: string; title: string; body: string }> = {
+  product: {
+    index: '01',
+    title: 'Тип и сегмент',
+    body: 'Определяем тип конструкции и бизнес-контекст, чтобы применить корректные допущения и pricing anchors.',
+  },
+  geometry: {
+    index: '02',
+    title: 'Габариты и визуал',
+    body: 'Фиксируем текст, размеры, материалы и сценарий свечения. Предпросмотр и смета обновляются сразу.',
+  },
+  services: {
+    index: '03',
+    title: 'Монтаж и согласование',
+    body: 'Добавляем монтажный доступ, срочность и проверку по 902-ПП. Это влияет на финальную упаковку сделки.',
+  },
+  quote: {
+    index: '04',
+    title: 'Коммерческая смета',
+    body: 'Сравните пакеты Start / Business / Premium и сохраните выбранный setup в quote cart.',
+  },
+};
+
 function productFromService(serviceId?: string): CalculatorProductType {
   if (serviceId === 'lightbox' || serviceId === 'lightboxes') return 'lightbox';
   if (serviceId === 'flex-neon' || serviceId === 'neon') return 'flex-neon';
@@ -106,37 +135,78 @@ function getPackageTone(pkg: QuotePackage, selected: boolean): string {
   return 'border-outline bg-white';
 }
 
-export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
+function getOptionLabel<T extends string>(options: Array<{ id: T; label: string }>, value: T): string {
+  return options.find((option) => option.id === value)?.label ?? value;
+}
+
+function getStepIndex(step: CalculatorStep): number {
+  return stepOrder.indexOf(step);
+}
+
+export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorContainerProps) {
   const searchParams = useSearchParams();
   const cartItemId = searchParams.get('cartItem');
+  const requestedType = searchParams.get('type') ?? serviceId;
+  const flowKey = cartItemId ? `cart:${cartItemId}` : `service:${requestedType ?? 'default'}`;
   const { openDrawer } = useCartDrawerStore();
   const [isSaved, setIsSaved] = useState(false);
+  const [flowState, setFlowState] = useState<{ key: string; step: CalculatorStep; resumeStatus: ResumeStatus }>(() => ({
+    key: flowKey,
+    step: cartItemId ? 'quote' : 'product',
+    resumeStatus: 'fresh',
+  }));
   const initializedKeyRef = useRef<string | null>(null);
   const draft = useSalesEngineStore((state) => state.draft);
   const salesEngine = useMemo(() => createExpointSalesEngine(), []);
   const estimate = draft.estimate;
   const selectedPackage = draft.selectedPackage;
+  const isCompact = surface === 'section';
+  const currentStep = flowState.key === flowKey ? flowState.step : cartItemId ? 'quote' : 'product';
+  const resumeStatus = flowState.key === flowKey ? flowState.resumeStatus : 'fresh';
+  const stepIndex = getStepIndex(currentStep);
+  const isFirstStep = stepIndex === 0;
+  const isLastStep = stepIndex === stepOrder.length - 1;
+  const step = stepMeta[currentStep];
   const capabilityIcons = {
     lead_scoring: Activity,
     pdf_proposal: FileCog,
     ai_visualization: Sparkles,
     follow_up: ClipboardList,
   } as const;
+  const handoff = useCalculatorHandoff(surface);
 
   useEffect(() => {
-    const nextKey = cartItemId ? `cart:${cartItemId}` : `service:${serviceId ?? 'default'}`;
+    const nextKey = flowKey;
     if (initializedKeyRef.current === nextKey) return;
 
+    const productType = productFromService(requestedType);
+    let nextResumeStatus: ResumeStatus = 'fresh';
+
     if (cartItemId) {
-      salesEngine.resume(cartItemId);
+      const resumedDraft = salesEngine.resume(cartItemId);
+      if (!resumedDraft) {
+        salesEngine.patchConfig({
+          ...DEFAULT_CALCULATOR_CONFIG,
+          productType,
+        });
+        nextResumeStatus = 'stale';
+      } else {
+        nextResumeStatus = 'resumed';
+      }
     } else {
       salesEngine.patchConfig({
         ...DEFAULT_CALCULATOR_CONFIG,
-        productType: productFromService(serviceId),
+        productType,
       });
     }
+
+    setFlowState({
+      key: nextKey,
+      step: cartItemId ? 'quote' : 'product',
+      resumeStatus: nextResumeStatus,
+    });
     initializedKeyRef.current = nextKey;
-  }, [cartItemId, salesEngine, serviceId]);
+  }, [cartItemId, flowKey, requestedType, salesEngine]);
 
   const updateConfig = <K extends keyof CalculatorConfig>(key: K, value: CalculatorConfig[K]) => {
     setIsSaved(false);
@@ -157,284 +227,509 @@ export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
     openDrawer();
   };
 
-  return (
-    <div className="relative overflow-hidden rounded-[32px] border border-outline bg-surface shadow-elevation-2">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.025)_1px,transparent_1px)] bg-[size:28px_28px] opacity-70" />
-      <div className="relative grid grid-cols-1 xl:grid-cols-[340px_1fr_360px]">
-        <aside className="border-b border-outline bg-surface/86 p-6 xl:border-b-0 xl:border-r">
-          <div className="mb-6 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-accent/30 bg-accent/10 text-accent">
-              <Calculator className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="verge-mono-label text-accent">Quote configurator</p>
-              <h2 className="text-lg font-black tracking-tight">Параметры setup</h2>
-            </div>
+  const goToStep = (nextStep: CalculatorStep) => {
+    setFlowState((current) => ({
+      key: flowKey,
+      step: nextStep,
+      resumeStatus: current.resumeStatus,
+    }));
+  };
+
+  const goNext = () => {
+    if (isLastStep) return;
+    setFlowState((current) => ({
+      key: flowKey,
+      step: stepOrder[stepIndex + 1],
+      resumeStatus: current.resumeStatus,
+    }));
+  };
+
+  const goBack = () => {
+    if (isFirstStep) return;
+    setFlowState((current) => ({
+      key: flowKey,
+      step: stepOrder[stepIndex - 1],
+      resumeStatus: current.resumeStatus,
+    }));
+  };
+
+  const handleReviewParameters = () => {
+    setFlowState({
+      key: flowKey,
+      step: 'product',
+      resumeStatus: 'fresh',
+    });
+  };
+
+  const handleStayOnQuote = () => {
+    setFlowState({
+      key: flowKey,
+      step: 'quote',
+      resumeStatus: 'fresh',
+    });
+  };
+
+  const summaryItems = [
+    {
+      label: 'Конструкция',
+      value: getOptionLabel(productOptions, estimate.config.productType),
+    },
+    {
+      label: 'Сегмент',
+      value: getOptionLabel(segmentOptions, estimate.config.businessSegment),
+    },
+    {
+      label: 'Размер',
+      value: `${estimate.config.widthMm} x ${estimate.config.heightMm} x ${estimate.config.depthMm} мм`,
+    },
+    {
+      label: 'Материал / свет',
+      value: `${getOptionLabel(materialOptions, estimate.config.materialTier)} / ${getOptionLabel(lightingOptions, estimate.config.lighting)}`,
+    },
+    {
+      label: 'Монтаж / срок',
+      value: `${getOptionLabel(mountingOptions, estimate.config.mounting)} / ${getOptionLabel(urgencyOptions, estimate.config.urgency)}`,
+    },
+  ];
+
+  const renderProductStep = () => (
+    <div className="space-y-6">
+      <OptionGroup title="Тип конструкции">
+        <div className="space-y-3">
+          {productOptions.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => updateConfig('productType', item.id)}
+              className={`w-full rounded-2xl border p-4 text-left transition-all ${
+                estimate.config.productType === item.id
+                  ? 'border-accent bg-accent/10'
+                  : 'border-outline bg-background hover:border-accent/30'
+              }`}
+            >
+              <span className="block text-sm font-black text-on-surface">{item.label}</span>
+              <span className="mt-1 block text-xs text-on-surface-variant">{item.description}</span>
+            </button>
+          ))}
+        </div>
+      </OptionGroup>
+
+      <OptionGroup title="Сегмент бизнеса">
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+          {segmentOptions.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => updateConfig('businessSegment', item.id)}
+              className={`rounded-xl border px-3 py-3 text-xs font-bold uppercase tracking-wider transition-all ${
+                estimate.config.businessSegment === item.id
+                  ? 'border-primary bg-primary text-on-primary'
+                  : 'border-outline bg-background text-on-surface-variant hover:border-primary/30'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </OptionGroup>
+    </div>
+  );
+
+  const renderGeometryStep = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <Input
+          label="Текст / бренд"
+          value={estimate.config.text}
+          onChange={(event) => updateText(event.target.value)}
+          className="rounded-2xl bg-background text-lg font-black"
+        />
+        <div className="grid grid-cols-3 gap-3">
+          <Input
+            label="Ширина, мм"
+            type="number"
+            min={100}
+            value={estimate.config.widthMm}
+            onChange={(event) => updateConfig('widthMm', Number(event.target.value))}
+            className="rounded-2xl bg-background"
+          />
+          <Input
+            label="Высота, мм"
+            type="number"
+            min={100}
+            value={estimate.config.heightMm}
+            onChange={(event) => updateConfig('heightMm', Number(event.target.value))}
+            className="rounded-2xl bg-background"
+          />
+          <Input
+            label="Глубина, мм"
+            type="number"
+            min={20}
+            value={estimate.config.depthMm}
+            onChange={(event) => updateConfig('depthMm', Number(event.target.value))}
+            className="rounded-2xl bg-background"
+          />
+        </div>
+      </div>
+
+      <div className="rounded-[28px] border border-outline bg-black p-6 text-white shadow-2xl">
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="verge-mono-label text-accent">Live industrial preview</p>
+            <h3 className="mt-2 text-3xl font-black tracking-[-0.04em] text-white md:text-5xl">
+              {estimate.config.text || 'EXPOINT'}
+            </h3>
           </div>
-
-          <div className="space-y-6">
-            <div>
-              <label className="verge-mono-label mb-3 block text-on-surface-variant">Тип конструкции</label>
-              <div className="space-y-2">
-                {productOptions.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => updateConfig('productType', item.id)}
-                    className={`w-full rounded-2xl border p-4 text-left transition-all ${
-                      estimate.config.productType === item.id
-                        ? 'border-accent bg-accent/10'
-                        : 'border-outline bg-background hover:border-accent/30'
-                    }`}
-                  >
-                    <span className="block text-sm font-black text-on-surface">{item.label}</span>
-                    <span className="mt-1 block text-xs text-on-surface-variant">{item.description}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="verge-mono-label mb-3 block text-on-surface-variant">Сегмент</label>
-              <div className="grid grid-cols-2 gap-2">
-                {segmentOptions.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => updateConfig('businessSegment', item.id)}
-                    className={`rounded-xl border px-3 py-2 text-xs font-bold uppercase tracking-wider transition-all ${
-                      estimate.config.businessSegment === item.id
-                        ? 'border-primary bg-primary text-on-primary'
-                        : 'border-outline bg-background text-on-surface-variant hover:border-primary/30'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-right font-mono text-xs text-white/60">
+            <div>{estimate.config.widthMm} x {estimate.config.heightMm} мм</div>
+            <div>{estimate.config.lighting} / {estimate.config.materialTier}</div>
           </div>
-        </aside>
+        </div>
 
-        <section className="space-y-8 p-6 md:p-8">
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-            <Input
-              label="Текст / бренд"
-              value={estimate.config.text}
-              onChange={(event) => updateText(event.target.value)}
-              className="rounded-2xl bg-background text-lg font-black"
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          {[
+            { icon: Ruler, label: 'Символов', value: estimate.config.quantity },
+            { icon: Layers, label: 'Формула', value: estimate.breakdown.formula },
+            { icon: ShieldCheck, label: '902-ПП', value: estimate.config.needs902Audit ? 'проверка включена' : 'без проверки' },
+            { icon: FileText, label: 'Snapshot', value: estimate.breakdown.sourceSnapshot.verifiedAt },
+          ].map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.label} className="min-h-24 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                <Icon className="mb-3 h-4 w-4 text-accent" />
+                <p className="font-mono text-[10px] uppercase tracking-wider text-white/40">{item.label}</p>
+                <p className="mt-1 line-clamp-2 text-xs font-bold text-white">{item.value}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <OptionGroup title="Материал">
+          {materialOptions.map((item) => (
+            <ToggleCard
+              key={item.id}
+              active={estimate.config.materialTier === item.id}
+              title={item.label}
+              description={item.description}
+              onClick={() => updateConfig('materialTier', item.id)}
             />
-            <div className="grid grid-cols-3 gap-3">
-              <Input
-                label="Ширина, мм"
-                type="number"
-                min={100}
-                value={estimate.config.widthMm}
-                onChange={(event) => updateConfig('widthMm', Number(event.target.value))}
-                className="rounded-2xl bg-background"
+          ))}
+        </OptionGroup>
+
+        <OptionGroup title="Подсветка">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {lightingOptions.map((item) => (
+              <SmallToggle
+                key={item.id}
+                active={estimate.config.lighting === item.id}
+                label={item.label}
+                onClick={() => updateConfig('lighting', item.id)}
               />
-              <Input
-                label="Высота, мм"
-                type="number"
-                min={100}
-                value={estimate.config.heightMm}
-                onChange={(event) => updateConfig('heightMm', Number(event.target.value))}
-                className="rounded-2xl bg-background"
-              />
-              <Input
-                label="Глубина, мм"
-                type="number"
-                min={20}
-                value={estimate.config.depthMm}
-                onChange={(event) => updateConfig('depthMm', Number(event.target.value))}
-                className="rounded-2xl bg-background"
-              />
-            </div>
+            ))}
           </div>
+        </OptionGroup>
+      </div>
 
-          <div className="rounded-[28px] border border-outline bg-black p-6 text-white shadow-2xl">
-            <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+      <OptionGroup title="Сложность шрифта">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          {complexityOptions.map((item) => (
+            <SmallToggle
+              key={item.id}
+              active={estimate.config.complexity === item.id}
+              label={item.label}
+              onClick={() => updateConfig('complexity', item.id)}
+            />
+          ))}
+        </div>
+      </OptionGroup>
+    </div>
+  );
+
+  const renderServicesStep = () => (
+    <div className="space-y-6">
+      <OptionGroup title="Монтаж и срок">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {mountingOptions.map((item) => (
+            <SmallToggle
+              key={item.id}
+              active={estimate.config.mounting === item.id}
+              label={item.label}
+              onClick={() => updateConfig('mounting', item.id)}
+            />
+          ))}
+        </div>
+        <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {urgencyOptions.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => updateConfig('urgency', item.id)}
+              className={`rounded-2xl border p-4 text-left transition-all ${
+                estimate.config.urgency === item.id ? 'border-accent bg-accent/10' : 'border-outline bg-background'
+              }`}
+            >
+              <span className="block text-xs font-black uppercase tracking-wider text-on-surface">{item.label}</span>
+              <span className="mt-1 block text-xs text-on-surface-variant">{item.description}</span>
+            </button>
+          ))}
+        </div>
+      </OptionGroup>
+
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+        <CheckOption
+          checked={estimate.config.needs902Audit}
+          label="Проверка по 902-ПП"
+          onClick={() => updateConfig('needs902Audit', !estimate.config.needs902Audit)}
+        />
+        <CheckOption
+          checked={estimate.config.needsDismantling}
+          label="Нужен демонтаж старой вывески"
+          onClick={() => updateConfig('needsDismantling', !estimate.config.needsDismantling)}
+        />
+        <CheckOption
+          checked={estimate.config.highAccess}
+          label="Высота / автовышка"
+          onClick={() => updateConfig('highAccess', !estimate.config.highAccess)}
+        />
+      </div>
+
+      <CalculatorHandoffPanel
+        selectedKind={handoff.selectedKind}
+        assets={handoff.assets}
+        requirements={handoff.requirements}
+        handoffStatus={handoff.handoffStatus}
+        error={handoff.error}
+        onKindChange={handoff.setSelectedKind}
+        onFileChange={handoff.handleFileChange}
+        onUploadAsset={handoff.uploadAsset}
+        onRemoveAsset={handoff.removeAsset}
+      />
+    </div>
+  );
+
+  const renderQuoteStep = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {estimate.packages.map((pkg: QuotePackage) => (
+          <button
+            key={pkg.id}
+            type="button"
+            onClick={() => salesEngine.selectPackage(pkg.id)}
+            className={`rounded-3xl border p-5 text-left transition-all ${getPackageTone(pkg, selectedPackage.id === pkg.id)}`}
+          >
+            <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="verge-mono-label text-accent">Live industrial preview</p>
-                <h3 className="mt-2 text-3xl font-black tracking-[-0.04em] text-white md:text-5xl">
-                  {estimate.config.text || 'EXPOINT'}
-                </h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-black text-on-surface">{pkg.title}</h3>
+                  {pkg.recommended && (
+                    <span className="rounded-full bg-accent px-2 py-1 text-[9px] font-black uppercase tracking-wider text-on-accent">
+                      выбор большинства
+                    </span>
+                  )}
+                </div>
+                <p
+                  className="mt-2 text-3xl font-black tracking-[-0.04em] text-on-surface"
+                  data-testid={`package-price-${pkg.id}`}
+                >
+                  {formatRub(pkg.price)}
+                </p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-right font-mono text-xs text-white/60">
-                <div>{estimate.config.widthMm} x {estimate.config.heightMm} мм</div>
-                <div>{estimate.config.lighting} / {estimate.config.materialTier}</div>
-              </div>
+              {selectedPackage.id === pkg.id && <Check className="h-5 w-5 text-accent" />}
             </div>
 
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {[
-                { icon: Ruler, label: 'Символов', value: estimate.config.quantity },
-                { icon: Layers, label: 'Формула', value: estimate.breakdown.formula },
-                { icon: ShieldCheck, label: '902-ПП', value: estimate.config.needs902Audit ? 'проверка включена' : 'без проверки' },
-                { icon: FileText, label: 'Snapshot', value: estimate.breakdown.sourceSnapshot.verifiedAt },
-              ].map((item) => {
-                const Icon = item.icon;
+            <div className="mt-5 space-y-3">
+              <div>
+                <p className="verge-mono-label mb-2 text-on-surface-variant">Что входит</p>
+                <ul className="space-y-2">
+                  {pkg.included.map((line: string) => (
+                    <li key={line} className="flex items-start gap-2 text-sm text-on-surface-variant">
+                      <BadgeCheck className="mt-0.5 h-4 w-4 text-accent" />
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <p className="verge-mono-label mb-2 text-on-surface-variant">На что обратить внимание</p>
+                <ul className="space-y-2">
+                  {pkg.risks.map((line: string) => (
+                    <li key={line} className="text-sm text-on-surface-variant">
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      <div className="rounded-[28px] border border-outline bg-surface p-5">
+        <p className="verge-mono-label mb-3 text-on-surface-variant">Логика выдачи</p>
+        <p className="text-sm leading-relaxed text-on-surface-variant">
+          Пакеты считаются из одной и той же расчетной базы. Отличается упаковка решения, уровень материалов,
+          инженерное сопровождение и допустимый риск для проекта.
+        </p>
+      </div>
+    </div>
+  );
+
+  return (
+    <div
+      className="relative overflow-hidden rounded-[32px] border border-outline bg-surface shadow-elevation-2"
+      data-surface={surface}
+      data-step={currentStep}
+    >
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.025)_1px,transparent_1px)] bg-[size:28px_28px] opacity-70" />
+      <div className={`relative grid grid-cols-1 ${isCompact ? 'xl:grid-cols-[1fr_320px]' : 'xl:grid-cols-[1fr_360px]'}`}>
+        <section className={`${isCompact ? 'p-5 md:p-6' : 'p-6 md:p-8'} space-y-6`}>
+          {resumeStatus === 'stale' && (
+            <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4" data-testid="stale-recovery-banner">
+              <p className="text-sm font-bold text-amber-900">Не удалось восстановить прошлую смету.</p>
+              <p className="mt-1 text-sm text-amber-800">
+                Мы открыли новый предварительный расчет по выбранному типу конструкции. Проверьте параметры перед сохранением setup в корзину.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Button type="button" variant="outline" onClick={handleReviewParameters}>
+                  Проверить параметры
+                </Button>
+                <Button type="button" onClick={handleStayOnQuote}>
+                  Остаться в смете
+                </Button>
+              </div>
+            </div>
+          )}
+
+          <div className={`flex flex-col gap-4 ${isCompact ? 'md:flex-row md:items-end md:justify-between' : 'lg:flex-row lg:items-end lg:justify-between'}`}>
+            <div className="max-w-3xl">
+              <div className="mb-3 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-accent/30 bg-accent/10 text-accent">
+                  <Calculator className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="verge-mono-label text-accent">{isCompact ? 'Embedded configurator' : 'Quote configurator'}</p>
+                  <h2 className={`${isCompact ? 'text-xl' : 'text-2xl'} font-black tracking-tight text-on-surface`}>
+                    {step.title}
+                  </h2>
+                </div>
+              </div>
+              <p className="max-w-2xl text-sm leading-relaxed text-on-surface-variant md:text-base">
+                {step.body}
+              </p>
+            </div>
+
+            <div className={`grid ${isCompact ? 'grid-cols-2' : 'grid-cols-4'} gap-2`}>
+              {stepOrder.map((stepId) => {
+                const meta = stepMeta[stepId];
+                const active = stepId === currentStep;
+                const completed = getStepIndex(stepId) < stepIndex;
                 return (
-                  <div key={item.label} className="min-h-24 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                    <Icon className="mb-3 h-4 w-4 text-accent" />
-                    <p className="font-mono text-[10px] uppercase tracking-wider text-white/40">{item.label}</p>
-                    <p className="mt-1 line-clamp-2 text-xs font-bold text-white">{item.value}</p>
-                  </div>
+                  <button
+                    key={stepId}
+                    type="button"
+                    onClick={() => goToStep(stepId)}
+                    aria-label={`Шаг ${meta.index}: ${meta.title}`}
+                    aria-current={active ? 'step' : undefined}
+                    className={`rounded-2xl border px-3 py-3 text-left transition-all ${
+                      active
+                        ? 'border-accent bg-accent/10'
+                        : completed
+                          ? 'border-primary/30 bg-primary/5'
+                          : 'border-outline bg-background hover:border-accent/20'
+                    }`}
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-on-surface-variant">{meta.index}</p>
+                    <p className="mt-1 text-xs font-black text-on-surface">{meta.title}</p>
+                  </button>
                 );
               })}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-            <OptionGroup title="Материал">
-              {materialOptions.map((item) => (
-                <ToggleCard
-                  key={item.id}
-                  active={estimate.config.materialTier === item.id}
-                  title={item.label}
-                  description={item.description}
-                  onClick={() => updateConfig('materialTier', item.id)}
-                />
-              ))}
-            </OptionGroup>
-
-            <OptionGroup title="Подсветка">
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {lightingOptions.map((item) => (
-                  <SmallToggle
-                    key={item.id}
-                    active={estimate.config.lighting === item.id}
-                    label={item.label}
-                    onClick={() => updateConfig('lighting', item.id)}
-                  />
-                ))}
-              </div>
-            </OptionGroup>
-
-            <OptionGroup title="Сложность шрифта">
-              <div className="grid grid-cols-3 gap-2">
-                {complexityOptions.map((item) => (
-                  <SmallToggle
-                    key={item.id}
-                    active={estimate.config.complexity === item.id}
-                    label={item.label}
-                    onClick={() => updateConfig('complexity', item.id)}
-                  />
-                ))}
-              </div>
-            </OptionGroup>
-
-            <OptionGroup title="Монтаж и срок">
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {mountingOptions.map((item) => (
-                  <SmallToggle
-                    key={item.id}
-                    active={estimate.config.mounting === item.id}
-                    label={item.label}
-                    onClick={() => updateConfig('mounting', item.id)}
-                  />
-                ))}
-              </div>
-              <div className="mt-3 grid grid-cols-2 gap-2">
-                {urgencyOptions.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => updateConfig('urgency', item.id)}
-                    className={`rounded-2xl border p-4 text-left transition-all ${
-                      estimate.config.urgency === item.id ? 'border-accent bg-accent/10' : 'border-outline bg-background'
-                    }`}
-                  >
-                    <span className="block text-xs font-black uppercase tracking-wider">{item.label}</span>
-                    <span className="mt-1 block text-xs text-on-surface-variant">{item.description}</span>
-                  </button>
-                ))}
-              </div>
-            </OptionGroup>
+          {currentStep === 'product' && renderProductStep()}
+          {currentStep === 'geometry' && renderGeometryStep()}
+          <div className={currentStep === 'services' ? 'block' : 'hidden'} aria-hidden={currentStep !== 'services'}>
+            {renderServicesStep()}
           </div>
+          {currentStep === 'quote' && renderQuoteStep()}
 
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-            <CheckOption
-              checked={estimate.config.needs902Audit}
-              label="Проверка по 902-ПП"
-              onClick={() => updateConfig('needs902Audit', !estimate.config.needs902Audit)}
-            />
-            <CheckOption
-              checked={estimate.config.needsDismantling}
-              label="Нужен демонтаж старой вывески"
-              onClick={() => updateConfig('needsDismantling', !estimate.config.needsDismantling)}
-            />
-            <CheckOption
-              checked={estimate.config.highAccess}
-              label="Высота / автовышка"
-              onClick={() => updateConfig('highAccess', !estimate.config.highAccess)}
-            />
-          </div>
-
-          <div className="rounded-[28px] border border-dashed border-outline bg-background p-6">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-outline bg-surface">
-                  <Upload className="h-5 w-5 text-accent" />
-                </div>
-                <div>
-                  <h3 className="text-base font-black">Фото фасада и логотип</h3>
-                  <p className="mt-1 max-w-xl text-sm text-on-surface-variant">
-                    В MVP это presale-зона без загрузки файла: приложите фото на этапе заявки, инженер подтвердит монтажный доступ и финальную цену.
-                  </p>
-                </div>
-              </div>
-              <span className="verge-mono-label rounded-full border border-outline bg-surface px-3 py-1 text-on-surface-variant">
-                Upload-ready
-              </span>
+          <div className="flex flex-col gap-3 border-t border-outline pt-4 sm:flex-row sm:items-center sm:justify-between">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={goBack}
+              disabled={isFirstStep}
+              className="rounded-2xl"
+            >
+              Назад
+            </Button>
+            <div className="flex items-center gap-3">
+              <p className="text-xs uppercase tracking-[0.18em] text-on-surface-variant">
+                Шаг {stepIndex + 1} из {stepOrder.length}
+              </p>
+              {!isLastStep && (
+                <Button
+                  type="button"
+                  onClick={goNext}
+                  className="rounded-2xl bg-primary text-on-primary hover:bg-accent hover:text-on-accent"
+                >
+                  Далее
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              )}
             </div>
           </div>
         </section>
 
-        <aside className="border-t border-outline bg-background p-6 xl:border-l xl:border-t-0">
+        <aside className="border-t border-outline bg-background p-5 xl:p-6 xl:border-l xl:border-t-0">
           <div className="sticky top-28 space-y-5">
             <div>
               <p className="verge-mono-label text-accent">Предварительная смета</p>
-              <div className="mt-2 text-4xl font-black tracking-[-0.05em] text-on-surface">
+              <div
+                className="mt-2 text-4xl font-black tracking-[-0.05em] text-on-surface"
+                data-testid="calculator-total"
+              >
                 {formatRub(selectedPackage.price)}
               </div>
               <p className="mt-2 text-sm text-on-surface-variant">
-                Не является офертой. Финальная цена после проверки фото, замера и доступа к фасаду.
+                Не является офертой. Финальная цена подтверждается после фото, замера и доступа к фасаду.
               </p>
             </div>
 
-            <div className="space-y-3">
-              {estimate.packages.map((pkg: QuotePackage) => (
-                <button
-                  key={pkg.id}
-                  type="button"
-                  onClick={() => salesEngine.selectPackage(pkg.id)}
-                  className={`w-full rounded-3xl border p-5 text-left transition-all ${getPackageTone(pkg, selectedPackage.id === pkg.id)}`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-lg font-black">{pkg.title}</h3>
-                        {pkg.recommended && (
-                          <span className="rounded-full bg-accent px-2 py-1 text-[9px] font-black uppercase tracking-wider text-on-accent">
-                            выбор большинства
-                          </span>
-                        )}
-                      </div>
-                      <p className="mt-1 text-2xl font-black text-on-surface">{formatRub(pkg.price)}</p>
+            <div className="rounded-3xl border border-outline bg-surface p-5">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <div>
+                  <p className="verge-mono-label text-on-surface-variant">Активный пакет</p>
+                  <p className="mt-1 text-lg font-black text-on-surface">{selectedPackage.title}</p>
+                </div>
+                <span className="rounded-full border border-outline bg-background px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                  Шаг {step.index}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                {summaryItems.map((item, index) => {
+                  const isWide = index === 0 || index === 3 || index === 4;
+                  return (
+                    <div
+                      key={item.label}
+                      className={`rounded-2xl border border-outline bg-background px-3 py-3 ${
+                        isWide ? "col-span-2" : "col-span-1"
+                      }`}
+                    >
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                        {item.label}
+                      </p>
+                      <p className="mt-1 text-sm font-bold text-on-surface leading-tight">
+                        {item.value}
+                      </p>
                     </div>
-                    {selectedPackage.id === pkg.id && <Check className="h-5 w-5 text-accent" />}
-                  </div>
-                  <ul className="mt-4 space-y-2">
-                    {pkg.included.slice(0, 3).map((line: string) => (
-                      <li key={line} className="flex items-start gap-2 text-xs text-on-surface-variant">
-                        <BadgeCheck className="mt-0.5 h-3.5 w-3.5 text-accent" />
-                        {line}
-                      </li>
-                    ))}
-                  </ul>
-                </button>
-              ))}
+                  );
+                })}
+              </div>
             </div>
 
             <div className="rounded-3xl border border-outline bg-surface p-5">
@@ -456,59 +751,92 @@ export function CalculatorContainer({ serviceId }: CalculatorContainerProps) {
             </div>
 
             <div className="rounded-3xl border border-outline bg-surface p-5">
-              <div className="mb-3 flex items-start justify-between gap-3">
-                <div>
-                  <p className="verge-mono-label text-accent">Черновик заявки</p>
-                  <p className="mt-2 text-sm font-bold text-on-surface">{draft.projectBrief}</p>
-                </div>
-                <span className="rounded-full border border-outline bg-background px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
-                  {draft.stage === 'configured' && 'Настройка'}
-                  {draft.stage === 'capture' && 'Сбор данных'}
-                  {draft.stage === 'quoted' && 'Расчет цены'}
-                  {draft.stage === 'carted' && 'В корзине'}
-                  {draft.stage === 'submitted' && 'Заявка отправлена'}
-                  {!['configured', 'capture', 'quoted', 'carted', 'submitted'].includes(draft.stage) && draft.stage}
-                </span>
-              </div>
-              <div className="space-y-2">
-                {draft.capabilities.map((capability: CapabilityState) => {
-                  const Icon = capabilityIcons[capability.id];
-                  return (
-                    <div key={capability.id} className="rounded-2xl border border-outline bg-background p-3">
-                      <div className="flex items-center gap-2">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-outline bg-surface">
-                          <Icon className="h-4 w-4 text-accent" />
-                        </div>
-                        <div>
-                          <p className="text-[11px] font-bold uppercase tracking-wider text-on-surface">{capability.title}</p>
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
-                            {capability.status === 'active' && 'Активен'}
-                            {capability.status === 'coming-next' && 'В очереди'}
-                            {capability.status === 'operator-reviewed' && 'На проверке'}
-                            {capability.status === 'queued-manual-assist' && 'Очередь AI'}
-                            {!['active', 'coming-next', 'operator-reviewed', 'queued-manual-assist'].includes(capability.status) && capability.status}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="mt-2 text-xs text-on-surface-variant">{capability.description}</p>
-                    </div>
-                  );
-                })}
-              </div>
+              <p className="verge-mono-label mb-3 text-on-surface-variant">Handoff readiness</p>
+              <p className="text-sm font-bold text-on-surface">
+                {draft.handoffStatus === 'ready' && 'Материалы готовы к review'}
+                {draft.handoffStatus === 'collecting' && 'Материалы частично собраны'}
+                {draft.handoffStatus === 'missing' && 'Не хватает материалов для review'}
+              </p>
+              <p className="mt-2 text-xs text-on-surface-variant">
+                {draft.handoffRequirements.filter((item) => item.satisfied).length} / {draft.handoffRequirements.length} пунктов checklist закрыто
+                {draft.handoffAssets.length > 0 ? ` · файлов: ${draft.handoffAssets.length}` : ''}
+              </p>
             </div>
 
-            <Button
-              type="button"
-              onClick={handleSaveToCart}
-              className="h-14 w-full rounded-2xl bg-primary text-on-primary hover:bg-accent hover:text-on-accent"
-            >
-              {draft.cartItemId ? 'Сохранить setup' : 'Добавить setup в корзину'}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            {isSaved && (
-              <p className="text-center text-xs font-bold uppercase tracking-wider text-accent">
-                Setup сохранен в quote cart
-              </p>
+            {currentStep === 'quote' ? (
+              <>
+                <div className="rounded-3xl border border-outline bg-surface p-5">
+                  <div className="mb-3 flex items-start justify-between gap-3">
+                    <div>
+                      <p className="verge-mono-label text-accent">Черновик заявки</p>
+                      <p className="mt-2 text-sm font-bold text-on-surface">{draft.projectBrief}</p>
+                    </div>
+                    <span className="rounded-full border border-outline bg-background px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                      {draft.stage === 'configured' && 'Настройка'}
+                      {draft.stage === 'capture' && 'Сбор данных'}
+                      {draft.stage === 'quoted' && 'Расчет цены'}
+                      {draft.stage === 'carted' && 'В корзине'}
+                      {draft.stage === 'submitted' && 'Заявка отправлена'}
+                      {!['configured', 'capture', 'quoted', 'carted', 'submitted'].includes(draft.stage) && draft.stage}
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    {draft.capabilities.map((capability: CapabilityState) => {
+                      const Icon = capabilityIcons[capability.id];
+                      return (
+                        <div key={capability.id} className="rounded-2xl border border-outline bg-background p-3">
+                          <div className="flex items-center gap-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-outline bg-surface">
+                              <Icon className="h-4 w-4 text-accent" />
+                            </div>
+                            <div>
+                              <p className="text-[11px] font-bold uppercase tracking-wider text-on-surface">{capability.title}</p>
+                              <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                                {capability.status === 'active' && 'Активен'}
+                                {capability.status === 'coming-next' && 'В очереди'}
+                                {capability.status === 'operator-reviewed' && 'На проверке'}
+                                {capability.status === 'queued-manual-assist' && 'Очередь AI'}
+                                {!['active', 'coming-next', 'operator-reviewed', 'queued-manual-assist'].includes(capability.status) && capability.status}
+                              </p>
+                            </div>
+                          </div>
+                          <p className="mt-2 text-xs text-on-surface-variant">{capability.description}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <Button
+                  type="button"
+                  onClick={handleSaveToCart}
+                  className="h-14 w-full rounded-2xl bg-primary text-on-primary hover:bg-accent hover:text-on-accent"
+                >
+                  {draft.cartItemId ? 'Сохранить setup' : 'Добавить setup в корзину'}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                {isSaved && (
+                  <p className="text-center text-xs font-bold uppercase tracking-wider text-accent">
+                    Setup сохранен в quote cart
+                  </p>
+                )}
+              </>
+            ) : (
+              <div className="rounded-3xl border border-outline bg-surface p-5">
+                <p className="verge-mono-label mb-3 text-accent">Следующий шаг</p>
+                <p className="text-sm leading-relaxed text-on-surface-variant">
+                  Полный выбор пакета и сохранение setup доступны на шаге 4. До этого момента смета уже считается live,
+                  но финальное решение лучше принимать после проверки сервисных условий.
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => goToStep('quote')}
+                  className="mt-4 w-full rounded-2xl"
+                >
+                  Перейти к смете
+                </Button>
+              </div>
             )}
           </div>
         </aside>

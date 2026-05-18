@@ -135,6 +135,8 @@ export default function CartDrawer() {
                     const selectedPackage = item.metadata?.selectedPackage;
                     const salesStage = item.metadata?.salesStage;
                     const projectBrief = item.metadata?.projectBrief;
+                    const handoffStatus = item.metadata?.handoffStatus;
+                    const handoffAssets = Array.isArray(item.metadata?.handoffAssets) ? item.metadata.handoffAssets : [];
                     
                     return (
                       <motion.div
@@ -190,6 +192,11 @@ export default function CartDrawer() {
                               <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-neutral-400">
                                 Quote setup
                               </span>
+                              {handoffStatus && (
+                                <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-neutral-300">
+                                  Handoff {handoffStatus}
+                                </span>
+                              )}
                             </div>
                           )}
 
@@ -199,7 +206,7 @@ export default function CartDrawer() {
                              </p>
                            )}
 
-                           {item.metadata?.capabilities && (
+                          {item.metadata?.capabilities && (
                              <div className="mt-3 grid grid-cols-2 gap-2">
                                {(item.metadata.capabilities as Array<{ id: string; title: string; status: string; description: string }>).map((cap) => {
                                  const tone = cap.status === 'active'
@@ -217,7 +224,14 @@ export default function CartDrawer() {
                                  );
                                })}
                              </div>
-                           )}
+                          )}
+
+                          {handoffStatus && (
+                            <div className="mt-3 rounded-md border border-white/[0.06] bg-white/[0.02] px-2.5 py-2 text-[10px] font-mono text-neutral-350">
+                              {handoffStatus === 'ready' ? 'Материалы готовы к review' : handoffStatus === 'collecting' ? 'Материалы частично собраны' : 'Не хватает материалов для review'}
+                              {handoffAssets.length > 0 ? ` · файлов: ${handoffAssets.length}` : ''}
+                            </div>
+                          )}
 
                           {calculatorConfig && (
                             <div className="mt-3 grid grid-cols-2 gap-2 text-[10px] font-mono text-neutral-450">

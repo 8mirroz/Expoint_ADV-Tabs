@@ -15,6 +15,8 @@ export function CartItem({ item, onRemove, onEdit }: CartItemProps) {
     const calculatorConfig = item.metadata?.calculatorConfig;
     const salesStage = item.metadata?.salesStage;
     const projectBrief = item.metadata?.projectBrief;
+    const handoffStatus = item.metadata?.handoffStatus;
+    const handoffAssets = item.metadata?.handoffAssets;
 
     return (
         <div className="flex items-center justify-between p-5 bg-background border border-outline rounded-2xl transition-all hover:bg-background/80">
@@ -34,6 +36,11 @@ export function CartItem({ item, onRemove, onEdit }: CartItemProps) {
                         <span className="rounded-full border border-outline bg-surface px-2.5 py-1">
                             Предварительная смета
                         </span>
+                        {handoffStatus && (
+                            <span className="rounded-full border border-outline bg-surface px-2.5 py-1">
+                                Handoff: {handoffStatus}
+                            </span>
+                        )}
                     </div>
                 )}
                 {projectBrief && (
@@ -44,6 +51,11 @@ export function CartItem({ item, onRemove, onEdit }: CartItemProps) {
                 {calculatorConfig && (
                     <div className="mt-2 text-xs text-on-surface-variant">
                         {calculatorConfig.text} · {calculatorConfig.heightMm} мм · {calculatorConfig.lighting}
+                    </div>
+                )}
+                {handoffStatus && (
+                    <div className="mt-2 text-xs text-on-surface-variant">
+                        {handoffStatus === 'ready' ? 'Материалы готовы к review' : handoffStatus === 'collecting' ? 'Материалы собираются' : 'Не хватает материалов'}{Array.isArray(handoffAssets) && handoffAssets.length > 0 ? ` · файлов: ${handoffAssets.length}` : ''}
                     </div>
                 )}
                 {!!(item.metadata?.customDimensions) && (

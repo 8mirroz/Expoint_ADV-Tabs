@@ -7,7 +7,7 @@
   --font-sans: var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
   /* Intentional alias: swap to a different typeface for headlines without touching components */
   --font-headline: var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
-  --font-header: var(--font-header, "Manrope"), var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
+  --font-header: var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono, "JetBrains Mono"), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* Use CSS variables for colors */

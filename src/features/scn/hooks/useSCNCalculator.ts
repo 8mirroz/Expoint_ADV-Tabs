@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useMemo, useCallback } from 'react';
+import { z } from 'zod';
 import { 
   SCNSectionConfig,
   PricingInput,
   PricingInputSchema,
-  PricingResult,
   OfferPackage
 } from '../model/schemas';
-import { OfferComposer, type OfferPayload } from '../model/pricing/composer';
+import { OfferComposer } from '../model/pricing/composer';
 import { PricingKernel } from '../model/pricing/kernel';
 import { submitSCNLead } from '../api/actions';
 
@@ -24,6 +24,11 @@ export interface SCNFileAttachment {
 export interface UseSCNCalculatorOptions {
   config: SCNSectionConfig;
   defaultValues?: Partial<PricingInput>;
+}
+
+function getUnknownErrorMessage(error: unknown): string {
+  if (error instanceof Error) return error.message;
+  return 'Произошла ошибка при отправке данных лида.';
 }
 
 export function useSCNCalculator({ config, defaultValues }: UseSCNCalculatorOptions) {
@@ -139,12 +144,12 @@ export function useSCNCalculator({ config, defaultValues }: UseSCNCalculatorOpti
         offerPayload,
         validationErrors: null
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       return {
         parsedInput: null,
         pricingResult: null,
         offerPayload: null,
-        validationErrors: error.flatten ? error.flatten().fieldErrors : error.message
+        validationErrors: error instanceof z.ZodError ? error.flatten().fieldErrors : getUnknownErrorMessage(error)
       };
     }
   }, [pricingInput, config.context]);
@@ -215,11 +220,11 @@ export function useSCNCalculator({ config, defaultValues }: UseSCNCalculatorOpti
       } else {
         setSubmissionResult({ success: false, error: result.error });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('[useSCNCalculator] Submission error:', error);
       setSubmissionResult({
         success: false,
-        error: error.message || 'Произошла ошибка при отправке данных лида.'
+        error: getUnknownErrorMessage(error)
       });
     } finally {
       setIsSubmitting(false);

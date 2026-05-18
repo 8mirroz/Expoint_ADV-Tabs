@@ -4,7 +4,7 @@ import React, { useRef, useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
-import { ArrowRight, ChevronRight, Activity, ClipboardList, FileCog, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronRight, Shield, Ruler, Sparkles } from "lucide-react";
 import { useModalStore } from "@/store/useModalStore";
 import { TurnstileWidget } from "@/components/ui/TurnstileWidget";
 import { SegmentData } from "@/data/segments";
@@ -105,103 +105,6 @@ function PreviewCard() {
   const draft = useSalesEngineStore((state) => state.draft);
   const salesEngine = createExpointSalesEngine();
 
-  const computedStage = useMemo<'capture' | 'configured' | 'quoted' | 'carted' | 'submitted'>(() => {
-    if (success) return 'submitted';
-    if (leadData.phone) return 'quoted';
-    if (leadData.name) return 'capture';
-    if (quizEnabled) return 'configured';
-    return 'capture';
-  }, [success, leadData.name, leadData.phone, quizEnabled]);
-
-  const computedCapabilities = useMemo(() => {
-    const caps = [
-      {
-        id: 'lead_scoring' as const,
-        title: 'Анализ лида',
-        status: 'coming-next' as 'coming-next' | 'active' | 'operator-reviewed' | 'queued-manual-assist',
-        description: 'Ожидание ввода данных лида или запуска интерактивного квиза.',
-      },
-      {
-        id: 'pdf_proposal' as const,
-        title: 'PDF-смета',
-        status: 'coming-next' as 'coming-next' | 'active' | 'operator-reviewed' | 'queued-manual-assist',
-        description: 'Смета будет сформирована автоматически после выбора параметров.',
-      },
-      {
-        id: 'ai_visualization' as const,
-        title: 'AI-визуализация',
-        status: 'coming-next' as 'coming-next' | 'active' | 'operator-reviewed' | 'queued-manual-assist',
-        description: 'Бесплатная фотопривязка вывески на фасад или в интерьер.',
-      },
-      {
-        id: 'follow_up' as const,
-        title: 'Сопровождение',
-        status: 'coming-next' as 'coming-next' | 'active' | 'operator-reviewed' | 'queued-manual-assist',
-        description: 'Автоматические уведомления о статусе производства вашей вывески.',
-      },
-    ];
-
-    // 1. Lead scoring (Анализ лида)
-    if (success) {
-      caps[0].status = 'active';
-      caps[0].description = 'Заявка отправлена! Все данные сохранены и переданы менеджеру.';
-    } else if (leadData.phone) {
-      caps[0].status = 'active';
-      caps[0].description = `Запись контакта: ${leadData.name || 'Клиент'} (${leadData.phone}). Проект успешно анализируется.`;
-    } else if (leadData.name) {
-      caps[0].status = 'active';
-      caps[0].description = `Анализируем интент для: ${leadData.name}. Введите номер телефона для фиксации.`;
-    } else if (quizEnabled) {
-      caps[0].status = 'active';
-      caps[0].description = 'Интерактивный квиз активен. Заполните параметры проекта ниже.';
-    }
-
-    // 2. PDF proposal (PDF-смета)
-    if (success) {
-      caps[1].status = 'operator-reviewed';
-      caps[1].description = `Смета готовится для: ${quizEnabled ? quiz.type : 'вывески'}. Проверяется инженером.`;
-    } else if (quizEnabled) {
-      caps[1].status = 'active';
-      caps[1].description = `Выбран тип: "${quiz.type}". Рассчитываем смету по тарифу ${quiz.timeline === 'Critical (7-10 дней)' ? 'Экспресс' : 'Стандарт'}.`;
-    } else if (leadData.name || leadData.phone) {
-      caps[1].status = 'active';
-      caps[1].description = 'Создана базовая спецификация проекта. Ждем дополнительные параметры.';
-    }
-
-    // 3. AI visualization (AI-визуализация)
-    if (success) {
-      if (quizEnabled && quiz.hasFacade === 'Есть макет и фасад') {
-        caps[2].status = 'queued-manual-assist';
-        caps[2].description = 'Фото и макет отправлены в очередь авто-генерации. Ожидайте результат.';
-      } else {
-        caps[2].status = 'active';
-        caps[2].description = 'Дизайнер сделает привязку, как только вы пришлете фото фасада.';
-      }
-    } else if (quizEnabled) {
-      if (quiz.hasFacade === 'Есть макет и фасад') {
-        caps[2].status = 'active';
-        caps[2].description = 'Режим AI-привязки активирован! Наложим вывеску на ваше фото фасада.';
-      } else if (quiz.hasFacade === 'Есть, пришлю в WhatsApp') {
-        caps[2].status = 'active';
-        caps[2].description = 'Свяжемся с вами в WhatsApp, чтобы получить фото фасада для дизайнера.';
-      }
-    }
-
-    // 4. Follow-up (Сопровождение)
-    if (success) {
-      caps[3].status = 'active';
-      caps[3].description = 'Запущено! Менеджер свяжется с вами в течение 15 минут.';
-    }
-
-    return caps;
-  }, [success, leadData.name, leadData.phone, quizEnabled, quiz.type, quiz.timeline, quiz.hasFacade]);
-
-  const capabilityIcons = {
-    lead_scoring: Activity,
-    pdf_proposal: FileCog,
-    ai_visualization: Sparkles,
-    follow_up: ClipboardList,
-  } as const;
 
   const submitLead = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -255,30 +158,16 @@ function PreviewCard() {
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
         <div className="relative overflow-hidden bg-[#090b14] p-5 md:p-6">
-          <div className="mb-4 grid gap-2 sm:grid-cols-3">
-            {[
-              { label: "Срок ответа", value: "до 15 мин" },
-              { label: "Режим сметы", value: "B2B / Москва" },
-              { label: "Статус", value: draft.stage === "submitted" ? "handoff" : "capture" },
-            ].map((signal) => (
-              <div key={signal.label} className="rounded-2xl border border-white/8 bg-white/[0.03] px-3 py-3">
-                <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/35">{signal.label}</p>
-                <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-white/80">{signal.value}</p>
-              </div>
-            ))}
-          </div>
-
           <div className="mb-4 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={() => setQuizEnabled((prev) => !prev)}
-              className={`rounded-full border px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] transition-all ${
-                quizEnabled
+              className={`rounded-full border px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] transition-all ${quizEnabled
                   ? "border-[#00ffa3]/40 bg-[#00ffa3]/12 text-[#00ffa3]"
-                  : "border-white/12 bg-white/5 text-white/65 hover:text-white"
-              }`}
+                  : "border-[#00ffa3]/20 bg-[#00ffa3]/8 text-white/80 hover:border-[#00ffa3]/40 hover:text-[#00ffa3]"
+                }`}
             >
-              {quizEnabled ? "Квиз включен" : "Опциональный квиз"}
+              {quizEnabled ? "Квиз включен" : "Дополнительно"}
             </button>
           </div>
 
@@ -295,14 +184,14 @@ function PreviewCard() {
                   onChange={(e) => setLeadData((prev) => ({ ...prev, name: e.target.value }))}
                   placeholder="Имя"
                   required
-                  className="h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
+                  className="h-12 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
                 />
                 <input
                   value={leadData.phone}
                   onChange={(e) => setLeadData((prev) => ({ ...prev, phone: e.target.value }))}
                   placeholder="+7 (___) ___-__-__"
                   required
-                  className="h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
+                  className="h-12 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
                 />
               </div>
 
@@ -310,7 +199,7 @@ function PreviewCard() {
                 value={leadData.email}
                 onChange={(e) => setLeadData((prev) => ({ ...prev, email: e.target.value }))}
                 placeholder="Email (опционально)"
-                className="h-11 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
+                className="h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
               />
 
               <AnimatePresence initial={false}>
@@ -336,11 +225,10 @@ function PreviewCard() {
                                 key={option}
                                 type="button"
                                 onClick={() => setQuiz((prev) => ({ ...prev, [field.key]: option }))}
-                                className={`rounded-lg border px-2.5 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] transition ${
-                                  active
+                                className={`rounded-lg border px-2.5 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] transition ${active
                                     ? "border-[#00ffa3]/35 bg-[#00ffa3]/12 text-[#00ffa3]"
                                     : "border-white/12 bg-white/5 text-white/60 hover:text-white"
-                                }`}
+                                  }`}
                               >
                                 {option}
                               </button>
@@ -374,7 +262,7 @@ function PreviewCard() {
               <button
                 type="submit"
                 disabled={sending}
-                className="btn-premium-glow group inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl px-5 text-[11px] font-black uppercase tracking-[0.16em] text-black transition-all disabled:opacity-60"
+                className="btn-premium-glow group inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl px-5 text-[11px] font-black uppercase tracking-[0.16em] text-black transition-all disabled:opacity-60"
               >
                 {sending ? "Отправка..." : "Оставить заявку"}
                 <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 text-black" />
@@ -382,81 +270,22 @@ function PreviewCard() {
             </form>
           )}
 
-          <div className="mt-5 rounded-2xl border border-white/8 bg-[#070910] p-4">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#00ffa3]">Конвейер обработки заявки</p>
-                <p className="mt-1 text-xs text-white/45">Реальные статусы обработки и автоматизации вашего проекта в Expoint.</p>
+          <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3">
+            {[
+              { icon: Shield, title: "Гарантия 5 лет", desc: "На все вывески" },
+              { icon: Ruler, title: "Выезд 0 ₽", desc: "Замер и смета" },
+              { icon: Sparkles, title: "3D-дизайн 0 ₽", desc: "Привязка к фасаду" },
+            ].map((feature, i) => (
+              <div key={i} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-[#070910] p-3 transition-colors hover:bg-white/[0.04]">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-[#00ffa3]/20 bg-[#00ffa3]/10 text-[#00ffa3]">
+                  <feature.icon className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="text-[9px] font-bold uppercase tracking-[0.1em] text-white/80">{feature.title}</p>
+                  <p className="text-[10px] text-white/40">{feature.desc}</p>
+                </div>
               </div>
-              <motion.span 
-                key={computedStage}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white/55"
-              >
-                {computedStage === 'configured' && 'Настройка'}
-                {computedStage === 'capture' && 'Сбор данных'}
-                {computedStage === 'quoted' && 'Расчет цены'}
-                {computedStage === 'carted' && 'В корзине'}
-                {computedStage === 'submitted' && 'Заявка отправлена'}
-                {!['configured', 'capture', 'quoted', 'carted', 'submitted'].includes(computedStage) && computedStage}
-              </motion.span>
-            </div>
-
-            <div className="space-y-2">
-              {computedCapabilities.map((capability) => {
-                const Icon = capabilityIcons[capability.id];
-                const tone =
-                  capability.status === "active"
-                    ? "border-[#00ffa3]/25 bg-[#00ffa3]/10 text-[#00ffa3]"
-                    : capability.status === "operator-reviewed"
-                      ? "border-amber-400/20 bg-amber-400/10 text-amber-200"
-                      : capability.status === "queued-manual-assist"
-                        ? "border-cyan-400/20 bg-cyan-400/10 text-cyan-200"
-                        : "border-white/8 bg-white/[0.03] text-white/45";
-
-                return (
-                  <div key={capability.id} className="flex items-start gap-3 rounded-xl border border-white/8 bg-white/[0.02] p-3 transition-all hover:bg-white/[0.04]">
-                    <div className={`mt-0.5 flex h-8 w-8 items-center justify-center rounded-xl border transition-all duration-300 ${tone}`}>
-                      <Icon className="h-4 w-4" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white/78">{capability.title}</p>
-                        <AnimatePresence mode="wait">
-                          <motion.span
-                            key={capability.status}
-                            initial={{ opacity: 0, y: -2 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 2 }}
-                            transition={{ duration: 0.2 }}
-                            className={`rounded-full border px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.16em] ${tone}`}
-                          >
-                            {capability.status === 'active' && 'Активен'}
-                            {capability.status === 'coming-next' && 'В очереди'}
-                            {capability.status === 'operator-reviewed' && 'На проверке'}
-                            {capability.status === 'queued-manual-assist' && 'Очередь AI'}
-                            {!['active', 'coming-next', 'operator-reviewed', 'queued-manual-assist'].includes(capability.status) && capability.status}
-                          </motion.span>
-                        </AnimatePresence>
-                      </div>
-                      <AnimatePresence mode="wait">
-                        <motion.p
-                          key={capability.description}
-                          initial={{ opacity: 0, y: 2 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -2 }}
-                          transition={{ duration: 0.2 }}
-                          className="mt-1 text-[11px] leading-relaxed text-white/48"
-                        >
-                          {capability.description}
-                        </motion.p>
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            ))}
           </div>
         </div>
       </div>

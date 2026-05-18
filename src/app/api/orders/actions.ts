@@ -8,6 +8,28 @@ interface OrderItem {
     metadata?: Record<string, unknown>;
 }
 
+function formatHandoffSummary(metadata?: Record<string, unknown>): string {
+    const handoffStatus = metadata?.handoffStatus;
+    const handoffAssets = Array.isArray(metadata?.handoffAssets)
+        ? metadata.handoffAssets as Array<{ kind?: string; filename?: string }>
+        : [];
+    const handoffRequirements = Array.isArray(metadata?.handoffRequirements)
+        ? metadata.handoffRequirements as Array<{ label?: string; satisfied?: boolean; required?: boolean }>
+        : [];
+
+    if (!handoffStatus && handoffAssets.length === 0 && handoffRequirements.length === 0) {
+        return '';
+    }
+
+    const readyRequirements = handoffRequirements.filter((item) => item.required !== false && item.satisfied).length;
+    const requiredCount = handoffRequirements.filter((item) => item.required !== false).length;
+    const assetSummary = handoffAssets.length > 0
+        ? `; handoff-файлы=${handoffAssets.map((asset) => `${asset.kind || 'other'}:${asset.filename || '-'}`).join(', ')}`
+        : '';
+
+    return `; handoff=${String(handoffStatus || 'missing')}; evidence=${readyRequirements}/${requiredCount}${assetSummary}`;
+}
+
 interface OrderData {
     name: string;
     email: string;
@@ -55,7 +77,7 @@ function formatOrderItem(item: OrderItem): string {
         ? `; snapshot=${priceBreakdown.sourceSnapshot.version} (${priceBreakdown.sourceSnapshot.verifiedAt})`
         : '';
 
-    return `- ${item.name}: ${setup}${packageLine}${snapshotLine}`;
+    return `- ${item.name}: ${setup}${packageLine}${snapshotLine}${formatHandoffSummary(metadata)}`;
 }
 
 export async function submitOrder(orderData: OrderData) {
