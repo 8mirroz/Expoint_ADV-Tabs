@@ -4,10 +4,10 @@ import HeroGeneric from '@/components/sections/HeroGeneric';
 import CTASection from '@/components/sections/CTASection';
 
 export const metadata: Metadata = {
-  title: 'Академия | Expoint ADV',
+  title: 'Академия | БУКВА СВЕТ',
   description: 'Полезные материалы о наружной рекламе: статьи, гайды, чек-листы по материалам, законодательству и технологиям.',
   openGraph: {
-    title: 'Академия | Expoint ADV Engineering',
+    title: 'Академия | БУКВА СВЕТ Инжиниринг',
     description: 'Образовательные материалы по наружной рекламе от экспертов.',
   },
 };
@@ -68,7 +68,7 @@ export default function AcademyPage() {
       <HeroGeneric
         title="Знания для"
         titleAccent="вашего бизнеса"
-        description="Статьи, гайды и чек-листы от инженеров Expoint ADV. Практические знания о наружной рекламе, материалах и законодательстве."
+        description="Статьи, гайды и чек-листы от инженеров БУКВА СВЕТ. Практические знания о наружной рекламе, материалах и законодательстве."
         compact
       />
 

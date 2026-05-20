@@ -6,10 +6,10 @@ import CTASection from '@/components/sections/CTASection';
 import { CASE_STUDIES } from '@/data/cases';
 
 export const metadata: Metadata = {
-  title: 'Кейсы | Expoint ADV',
-  description: 'Реальные кейсы Expoint ADV: задачи, решения, метрики. Ритейл, HoReCa, корпоративный сегмент, клиники, франшизы.',
+  title: 'Кейсы | БУКВА СВЕТ',
+  description: 'Реальные кейсы БУКВА СВЕТ: задачи, решения, метрики. Ритейл, HoReCa, корпоративный сегмент, клиники, франшизы.',
   openGraph: {
-    title: 'Кейсы | Expoint ADV Engineering',
+    title: 'Кейсы | БУКВА СВЕТ Инжиниринг',
     description: 'Портфолио кейсов с метриками: ROI, сроки, бюджеты.',
   },
 };

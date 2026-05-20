@@ -64,7 +64,7 @@ export default function B2BRequisitesSection() {
 <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
 <head>
   <meta charset="utf-8">
-  <title>Реквизиты ООО Экспоинт АДВ</title>
+  <title>Реквизиты ООО БУКВА СВЕТ</title>
   <style>
     body { font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937; padding: 30px; }
     h2 { color: #111827; font-size: 18pt; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; margin-bottom: 20px; font-weight: bold; }
@@ -75,9 +75,9 @@ export default function B2BRequisitesSection() {
   </style>
 </head>
 <body>
-  <h2>Реквизиты компании ООО "Экспоинт АДВ"</h2>
+  <h2>Реквизиты компании ООО "БУКВА СВЕТ"</h2>
   <table>
-    <tr><th>Полное наименование</th><td>Общество с ограниченной ответственностью "Экспоинт АДВ"</td></tr>
+    <tr><th>Полное наименование</th><td>Общество с ограниченной ответственностью "БУКВА СВЕТ"</td></tr>
     <tr><th>ИНН</th><td>${COMPANY_INFO.requisites?.inn || '—'}</td></tr>
     <tr><th>КПП</th><td>${COMPANY_INFO.requisites?.kpp || '—'}</td></tr>
     <tr><th>ОГРН</th><td>${COMPANY_INFO.requisites?.ogrn || '—'}</td></tr>
@@ -87,7 +87,7 @@ export default function B2BRequisitesSection() {
     <tr><th>Корр. счет</th><td>${COMPANY_INFO.requisites?.ks || '—'}</td></tr>
     <tr><th>Юридический адрес</th><td>${COMPANY_INFO.requisites?.legalAddress || '—'}</td></tr>
   </table>
-  <div class="footer" style="font-size: 8pt;">Документ сформирован автоматически на сайте Expoint ADV Engineering</div>
+  <div class="footer" style="font-size: 8pt;">Документ сформирован автоматически на сайте БУКВА СВЕТ Инжиниринг</div>
 </body>
 </html>
     `.trim();
@@ -96,7 +96,7 @@ export default function B2BRequisitesSection() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'requisites_expoint_adv.doc';
+    a.download = 'requisites_bukva_svet.doc';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -116,7 +116,7 @@ export default function B2BRequisitesSection() {
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Реквизиты ООО Экспоинт АДВ</title>
+  <title>Реквизиты ООО БУКВА СВЕТ</title>
   <style>
     body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #1f2937; padding: 40px; }
     .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #00f5a0; padding-bottom: 15px; margin-bottom: 30px; }
@@ -135,11 +135,11 @@ export default function B2BRequisitesSection() {
 </head>
 <body>
   <div class="header">
-    <div class="logo">Expoint<span>ADV</span></div>
+    <div class="logo">Буква<span>Свет</span></div>
     <div class="title">Карточка реквизитов</div>
   </div>
   <table>
-    <tr><th>Полное наименование</th><td>Общество с ограниченной ответственностью "Экспоинт АДВ"</td></tr>
+    <tr><th>Полное наименование</th><td>Общество с ограниченной ответственностью "БУКВА СВЕТ"</td></tr>
     <tr><th>ИНН</th><td>${COMPANY_INFO.requisites?.inn || '—'}</td></tr>
     <tr><th>КПП</th><td>${COMPANY_INFO.requisites?.kpp || '—'}</td></tr>
     <tr><th>ОГРН</th><td>${COMPANY_INFO.requisites?.ogrn || '—'}</td></tr>
@@ -149,7 +149,7 @@ export default function B2BRequisitesSection() {
     <tr><th>Корр. счет</th><td>${COMPANY_INFO.requisites?.ks || '—'}</td></tr>
     <tr><th>Юридический адрес</th><td>${COMPANY_INFO.requisites?.legalAddress || '—'}</td></tr>
   </table>
-  <div class="footer">Документ сформирован автоматически на сайте Expoint ADV Engineering — expoint-adv.ru</div>
+  <div class="footer">Документ сформирован автоматически на сайте БУКВА СВЕТ Инжиниринг — bukva-svet.ru</div>
   <script>
     window.onload = function() {
       window.print();

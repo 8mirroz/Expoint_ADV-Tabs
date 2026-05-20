@@ -18,26 +18,28 @@ const inter = Inter({
 
 export const viewport: Viewport = {
   themeColor: '#ffffff',
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://expoint-adv.ru'),
+  metadataBase: new URL('https://bukva-svet.ru'),
   title: {
-    template: '%s | Expoint ADV Engineering',
-    default: 'Expoint ADV — Премиальное производство наружной рекламы',
+    template: '%s | БУКВА СВЕТ Инжиниринг',
+    default: 'БУКВА СВЕТ — Премиальное производство наружной рекламы',
   },
   description: "B2B производство вывесок, объемных букв и систем навигации. Промышленный подход к дизайну и качеству. Онлайн калькулятор Reklamastroy.",
   openGraph: {
-    title: 'Expoint ADV | Наружная реклама',
+    title: 'БУКВА СВЕТ | Наружная реклама',
     description: 'Производство премиальной наружной рекламы in Москве.',
-    url: 'https://expoint-adv.ru',
-    siteName: 'Expoint ADV',
+    url: 'https://bukva-svet.ru',
+    siteName: 'БУКВА СВЕТ',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Expoint ADV — Наружная реклама',
+        alt: 'БУКВА СВЕТ — Наружная реклама',
       },
     ],
     locale: 'ru_RU',
@@ -56,7 +58,7 @@ export default function RootLayout({
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
   return (
-    <html lang="ru" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="ru" className="scroll-smooth dark" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans bg-background text-on-surface`} suppressHydrationWarning>
         {gaId && (
           <>
@@ -83,8 +85,8 @@ export default function RootLayout({
         )}
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
+          defaultTheme="dark"
+          forcedTheme="dark"
           disableTransitionOnChange
         >
           <LanguageProvider>

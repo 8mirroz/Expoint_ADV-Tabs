@@ -41,7 +41,7 @@ export interface CalculatorState {
 
 const DEFAULT_STATE = {
   productType: 'volumetric-letters' as ProductType,
-  text: 'EXPOINT',
+  text: 'БУКВА',
   heightCm: 30,
   count: 7,
   complexity: 'standard' as const,

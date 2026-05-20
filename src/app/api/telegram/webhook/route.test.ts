@@ -47,7 +47,7 @@ describe('POST /api/telegram/webhook', () => {
     expect(queryKnowledgeBaseRuntime).not.toHaveBeenCalled();
     expect(sendTelegramMessage).toHaveBeenCalledWith(
       12345,
-      expect.stringContaining('Telegram-консультант Expoint ADV'),
+      expect.stringContaining('Telegram-консультант БУКВА СВЕТ'),
     );
   });
 
@@ -87,7 +87,7 @@ describe('POST /api/telegram/webhook', () => {
     });
     expect(sendTelegramMessage).toHaveBeenCalledWith(
       777,
-      expect.stringContaining('Expoint ADV Assistant'),
+      expect.stringContaining('BUKVA SVET Assistant'),
     );
   });
 

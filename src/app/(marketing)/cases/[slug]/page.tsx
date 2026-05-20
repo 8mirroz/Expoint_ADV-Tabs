@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: CasePageProps): Promise<Metad
   if (!caseStudy) return { title: 'Case Not Found' };
 
   return {
-    title: `${caseStudy.title} | Кейсы Expoint ADV`,
+    title: `${caseStudy.title} | Кейсы БУКВА СВЕТ`,
     description: caseStudy.description,
     openGraph: {
       title: `${caseStudy.title} | Инженерный кейс`,

@@ -114,117 +114,46 @@ const PROCESS_STEPS = [
 ];
 
 
-const STEP_THEMES = [
-  {
-    gradient: 'from-[#00FFA3] to-[#00C8FF]',
-    accentBg: 'bg-gradient-to-r from-[#00FFA3] to-[#00C8FF]',
-    numberVariants: {
-      initial: { opacity: 0, y: 0, scale: 1, filter: 'drop-shadow(0 0 0px rgba(0,250,163,0))' },
-      hover: { 
-        opacity: 1, 
-        y: -6, 
-        scale: 1.05, 
-        filter: 'drop-shadow(0 4px 15px rgba(0, 250, 163, 0.5))',
-        transition: { type: 'spring' as const, stiffness: 300, damping: 15 } 
-      }
-    },
-    baseNumberVariants: {
-      initial: { opacity: 0.2, scale: 1 },
-      hover: { 
-        opacity: 0, 
-        scale: 1.05, 
-        transition: { duration: 0.3 } 
-      }
+const STEP_THEME = {
+  gradient: 'from-[#00FFA3] to-[#00C8FF]',
+  accentBg: 'bg-gradient-to-r from-[#00FFA3] to-[#00C8FF]',
+  numberVariants: {
+    initial: { opacity: 0, y: 0, scale: 1, filter: 'drop-shadow(0 0 0px rgba(0,250,163,0))' },
+    hover: { 
+      opacity: 1, 
+      y: -6, 
+      scale: 1.05, 
+      filter: 'drop-shadow(0 4px 15px rgba(0, 250, 163, 0.5))',
+      transition: { type: 'spring' as const, stiffness: 300, damping: 15 } 
     }
   },
-  {
-    gradient: 'from-[#A855F7] to-[#EC4899]',
-    accentBg: 'bg-gradient-to-r from-[#A855F7] to-[#EC4899]',
-    numberVariants: {
-      initial: { opacity: 0, rotate: 0, scale: 1, filter: 'drop-shadow(0 0 0px rgba(168,85,247,0))' },
-      hover: { 
-        opacity: 1, 
-        rotate: -5, 
-        scale: 1.08, 
-        filter: 'drop-shadow(0 4px 18px rgba(168, 85, 247, 0.6))',
-        transition: { type: 'spring' as const, stiffness: 260, damping: 12 } 
-      }
-    },
-    baseNumberVariants: {
-      initial: { opacity: 0.2, scale: 1 },
-      hover: { 
-        opacity: 0, 
-        scale: 1.08, 
-        transition: { duration: 0.3 } 
-      }
-    }
-  },
-  {
-    gradient: 'from-[#3B82F6] to-[#06B6D4]',
-    accentBg: 'bg-gradient-to-r from-[#3B82F6] to-[#06B6D4]',
-    numberVariants: {
-      initial: { opacity: 0, x: 0, scale: 1, filter: 'drop-shadow(0 0 0px rgba(59,130,246,0))' },
-      hover: { 
-        opacity: 1, 
-        x: 8, 
-        scale: 1.04, 
-        filter: 'drop-shadow(0 4px 15px rgba(59, 130, 246, 0.5))',
-        transition: { type: 'spring' as const, stiffness: 280, damping: 14 } 
-      }
-    },
-    baseNumberVariants: {
-      initial: { opacity: 0.2, scale: 1 },
-      hover: { 
-        opacity: 0, 
-        scale: 1.04, 
-        transition: { duration: 0.3 } 
-      }
-    }
-  },
-  {
-    gradient: 'from-[#FF6B00] to-[#FFA800]',
-    accentBg: 'bg-gradient-to-r from-[#FF6B00] to-[#FFA800]',
-    numberVariants: {
-      initial: { opacity: 0, scale: 1, filter: 'drop-shadow(0 0 0px rgba(255,107,0,0))' },
-      hover: { 
-        opacity: 1, 
-        scale: 1.06, 
-        filter: 'drop-shadow(0 4px 16px rgba(255, 107, 0, 0.5))',
-        transition: { type: 'spring' as const, stiffness: 200, damping: 10 } 
-      }
-    },
-    baseNumberVariants: {
-      initial: { opacity: 0.2, scale: 1 },
-      hover: { 
-        opacity: 0, 
-        scale: 1.06, 
-        transition: { duration: 0.3 } 
-      }
-    }
-  },
-  {
-    gradient: 'from-[#10B981] to-[#05FAF2]',
-    accentBg: 'bg-gradient-to-r from-[#10B981] to-[#05FAF2]',
-    numberVariants: {
-      initial: { opacity: 0, y: 0, scale: 1, filter: 'drop-shadow(0 0 0px rgba(16,185,129,0))' },
-      hover: { 
-        opacity: 1, 
-        y: -10, 
-        scale: 1.08, 
-        filter: 'drop-shadow(0 4px 20px rgba(16, 185, 129, 0.6))',
-        transition: { type: 'spring' as const, stiffness: 220, damping: 12 } 
-      }
-    },
-    baseNumberVariants: {
-      initial: { opacity: 0.2, scale: 1 },
-      hover: { 
-        opacity: 0, 
-        scale: 1.08, 
-        transition: { duration: 0.3 } 
-      }
+  baseNumberVariants: {
+    initial: { opacity: 0.2, scale: 1 },
+    hover: { 
+      opacity: 0, 
+      scale: 1.05, 
+      transition: { duration: 0.3 } 
     }
   }
+};
+
+const STEP_THEMES = [
+  STEP_THEME,
+  STEP_THEME,
+  STEP_THEME,
+  STEP_THEME,
+  STEP_THEME
 ];
+
+const getCardVariants = (delay: number) => ({
+  initial: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, delay }
+  },
+  hover: {}
+});
 
 export default function Process() {
   const { locale } = useLanguage();
@@ -304,14 +233,15 @@ export default function Process() {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-8 border-t border-outline/30 pt-16">
           {PROCESS_STEPS.map((step, index) => {
             const theme = STEP_THEMES[index];
+            const cardVariants = getCardVariants(index * 0.1);
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                variants={cardVariants}
+                initial="initial"
+                whileInView="visible"
                 whileHover="hover"
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="flex flex-col gap-6 group cursor-default relative"
               >
                 {/* Animated Top Accent Line */}
@@ -323,7 +253,6 @@ export default function Process() {
                 <div className="relative h-20 md:h-24 select-none mb-2 md:mb-3">
                   <motion.span 
                     variants={theme.baseNumberVariants}
-                    initial="initial"
                     className="absolute left-0 top-0 text-8xl md:text-9xl font-headline font-black tracking-tighter text-on-surface/20 origin-left leading-none pr-6"
                     style={{ fontFamily: "var(--font-header)" }}
                   >
@@ -331,7 +260,6 @@ export default function Process() {
                   </motion.span>
                   <motion.span 
                     variants={theme.numberVariants}
-                    initial="initial"
                     className={`absolute left-0 top-0 text-8xl md:text-9xl font-headline font-black tracking-tighter bg-gradient-to-r ${theme.gradient} bg-clip-text text-transparent origin-left leading-none pr-6`}
                     style={{ fontFamily: "var(--font-header)" }}
                   >

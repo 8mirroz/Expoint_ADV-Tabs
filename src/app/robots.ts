@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/private/'],
     },
-    sitemap: 'https://expoint-adv.ru/sitemap.xml',
+    sitemap: 'https://bukva-svet.ru/sitemap.xml',
   };
 }

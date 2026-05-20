@@ -16,15 +16,15 @@ export interface CompanyStat {
 }
 
 export const COMPANY_INFO = {
-  name: 'Expoint ADV',
+  name: 'БУКВА СВЕТ',
   foundedYear: 2018,
   address: {
     ru: 'Москва, ул. Полимерная, д. 8',
     en: 'Moscow, Polymernaya st., 8',
   } as LocalizedText,
   phone: '+7 (495) 000-00-00',
-  email: 'info@expoint-adv.ru',
-  telegram: '@expoint_adv',
+  email: 'info@bukva-svet.ru',
+  telegram: '@bukva_svet',
   whatsapp: '+74950000000',
   workingHours: {
     ru: 'Пн–Пт: 9:00–19:00, Сб: 10:00–16:00',

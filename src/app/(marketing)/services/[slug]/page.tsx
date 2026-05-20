@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
   if (!service) return { title: 'Service Not Found' };
 
   return {
-    title: `${service.title} | Expoint ADV`,
+    title: `${service.title} | БУКВА СВЕТ`,
     description: service.shortDescription,
     openGraph: {
       title: `${service.title} | Премиальное рекламное производство`,

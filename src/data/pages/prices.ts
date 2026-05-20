@@ -270,7 +270,7 @@ export const PRICES_PAGE: PageBlueprint = {
   slug: '/prices',
   metadata: {
     title:
-      'Цены на вывески и наружную рекламу в Москве — прозрачные сметы | Expoint ADV',
+      'Цены на вывески и наружную рекламу в Москве — прозрачные сметы | БУКВА СВЕТ',
     description:
       'Стоимость объёмных букв, гибкого неона, лайтбоксов и монтажа в Москве. 4 пакета: Start от 40 000 ₽, Business от 90 000 ₽, Premium от 150 000 ₽, Network — индивидуально. Расчёт за 30 минут.',
   },
@@ -377,20 +377,6 @@ export const PRICES_PAGE: PageBlueprint = {
         introText:
           'Ответы на вопросы, которые задают B2B-клиенты перед расчётом.',
         items: pricingFaq,
-      },
-    },
-    {
-      type: 'cta',
-      id: 'cta',
-      props: {
-        title: 'Нужен диапазон бюджета по вашему сценарию?',
-        titleAccent: 'Соберите его в калькуляторе',
-        description:
-          'Выберите тип конструкции, проверьте стартовую единицу расчёта и получите рабочий коридор бюджета. Для сложных фасадов подключим compliance-проверку вторым шагом, а не после производства.',
-        buttonText: 'Открыть калькулятор',
-        buttonHref: '/calculator',
-        secondaryButtonText: 'Написать в WhatsApp',
-        secondaryButtonHref: 'https://wa.me/79001234567',
       },
     },
   ],

@@ -238,7 +238,7 @@ function PreviewCard() {
       initial={false}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="relative mt-20 w-full lg:mt-0"
+      className="relative mt-12 w-full xl:mt-0 max-w-xl mx-auto"
     >
       {/* Premium frame */}
       <div className="relative w-full max-w-full overflow-hidden rounded-[2rem] border border-white/[0.08] shadow-[0_40px_120px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.04)]">
@@ -272,14 +272,14 @@ function PreviewCard() {
                   onChange={(e) => setLeadData((prev) => ({ ...prev, name: e.target.value }))}
                   placeholder="Имя"
                   required
-                  className="h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
+                  className="h-11 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
                 />
                 <input
                   value={leadData.phone}
                   onChange={(e) => setLeadData((prev) => ({ ...prev, phone: e.target.value }))}
                   placeholder="+7 (___) ___-__-__"
                   required
-                  className="h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
+                  className="h-11 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
                 />
               </div>
 
@@ -434,7 +434,7 @@ const HeroSection = ({ segment }: HeroProps) => {
       ref={heroRef}
       id="hero"
       className="relative min-h-screen overflow-hidden bg-[#050508]"
-      aria-label="Главный экран Expoint ADV"
+      aria-label="Главный экран БУКВА СВЕТ"
     >
       {/* ── Background layer ───────────────────────────────────────────── */}
       <AmbientOrbs />
@@ -459,19 +459,19 @@ const HeroSection = ({ segment }: HeroProps) => {
 
       {/* ── Content ────────────────────────────────────────────────────── */}
       <div
-        className="relative z-10 mx-auto max-w-[1440px] px-4 pb-12 pt-[calc(var(--header-height,5.5rem)+4rem)] sm:px-6 lg:px-8 lg:pt-[calc(var(--header-height,5.5rem)+5rem)]"
+        className="relative z-10 mx-auto max-w-[1440px] px-4 pb-12 pt-[calc(var(--header-height,5.5rem)+1rem)] sm:px-6 lg:px-8 lg:pt-[calc(var(--header-height,5.5rem)+1.25rem)]"
       >
-        <div className="grid gap-16 lg:grid-cols-[1fr_1fr] lg:items-center xl:grid-cols-[1.1fr_0.9fr]">
+        <div className="grid gap-12 lg:gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-start xl:gap-20">
 
           {/* ── Left column: text ───────────────────────────────────────── */}
-          <div className="flex flex-col">
+          <div className="flex flex-col min-w-0 max-w-[680px]">
 
             {/* Eyebrow badge */}
             <motion.div
               initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-8 inline-flex w-fit items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 backdrop-blur-md"
+              className="mb-4 inline-flex w-fit items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 backdrop-blur-md"
             >
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#00ffa3]" />
               <span
@@ -487,7 +487,7 @@ const HeroSection = ({ segment }: HeroProps) => {
               initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(2.2rem,4.5vw+1rem,4.2rem)] font-black leading-[1.05] tracking-[-0.04em] text-white"
+              className="text-[clamp(2.4rem,4.5vw+1rem,4.2rem)] font-black leading-[1.05] tracking-[-0.04em] text-white"
               style={{ fontFamily: "var(--font-header)" }}
             >
               {segment ? (
@@ -521,7 +521,7 @@ const HeroSection = ({ segment }: HeroProps) => {
                   </span>
                   <br />
                   работают{" "}
-                  <span className="text-white/25">на вас</span>
+                  <span className="text-white/60">на вас</span>
                 </>
               )}
             </motion.h1>
@@ -531,7 +531,7 @@ const HeroSection = ({ segment }: HeroProps) => {
               initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-7 max-w-xl text-[1.05rem] leading-[1.75] text-white/55"
+              className="mt-3 max-w-xl text-[1.05rem] leading-[1.75] text-white/55"
             >
               {segment ? t(locale, segment.description) : "Проектируем и производим объёмные буквы, световые короба, неон и крышные конструкции. Под ключ — от согласования до монтажа."}
             </motion.p>
@@ -541,7 +541,7 @@ const HeroSection = ({ segment }: HeroProps) => {
               initial={false}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.35 }}
-              className="mt-7 flex flex-wrap gap-2"
+              className="mt-3.5 flex flex-wrap gap-2"
             >
               {(segment ? segment.features : tags).map((tag) => {
                 const styles = getTagStyles(tag);
@@ -569,7 +569,7 @@ const HeroSection = ({ segment }: HeroProps) => {
               initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+              className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
               {/* Primary CTA */}
               <Link
@@ -578,7 +578,7 @@ const HeroSection = ({ segment }: HeroProps) => {
                 className="group relative flex h-14 items-center justify-center gap-2.5 overflow-hidden rounded-full bg-[#00ffa3] px-8 text-[13px] font-black uppercase tracking-[0.12em] text-black shadow-[0_0_30px_rgba(0,255,163,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#00ffa3]/90 hover:shadow-[0_0_50px_rgba(0,255,163,0.5)] active:scale-[0.97] sm:min-w-[200px]"
               >
                 <span className="relative z-10">Услуги и цены</span>
-                <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 text-black" />
               </Link>
 
               {/* Secondary CTA */}
@@ -597,7 +597,7 @@ const HeroSection = ({ segment }: HeroProps) => {
               initial={false}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="mt-12 flex items-center gap-px"
+              className="mt-6 flex items-center gap-px"
             >
               {stats.map((stat, i) => (
                 <React.Fragment key={stat.label}>
@@ -621,13 +621,9 @@ const HeroSection = ({ segment }: HeroProps) => {
           </div>
 
           {/* ── Right column: preview card ──────────────────────────────── */}
-          <motion.div
-            initial={false}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          >
+          <div className="w-full min-w-0 max-w-[500px] lg:max-w-none justify-self-center lg:justify-self-end mt-12 lg:mt-0 lg:pt-3">
             <PreviewCard />
-          </motion.div>
+          </div>
         </div>
       </div>
 

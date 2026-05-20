@@ -1,39 +1,37 @@
 import { NextResponse } from 'next/server';
 import { leadSchema } from '@/lib/validators/lead';
-import { notifyAll } from '@/lib/services/notifications/orchestrator';
-import { sendConfirmationToLead } from '@/lib/services/notifications/email';
-import { db } from '@/db';
-import { leads } from '@/db/schema';
+import { saveAndNotifyLead } from '@/lib/services/leadService';
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY;
-    
-    // 1. Validate payload
+
+    // 1. Валидация полей через Zod
     const validatedData = leadSchema.safeParse(body);
 
     if (!validatedData.success) {
       return NextResponse.json(
-        { 
-          message: 'Ошибка валидации', 
-          errors: validatedData.error.flatten().fieldErrors 
+        {
+          message: 'Ошибка валидации',
+          errors: validatedData.error.flatten().fieldErrors,
         },
         { status: 400 }
       );
     }
 
-    const { name, phone, email, source, context, turnstileToken } = validatedData.data;
+    const { name, phone, email, source, context, turnstileToken } =
+      validatedData.data;
 
-    // 2. Verify Turnstile Token
+    // 2. Проверка Turnstile (публичный шлюз — обязательна)
     if (!TURNSTILE_SECRET_KEY) {
-      console.error('[API/Lead] TURNSTILE_SECRET_KEY is missing');
+      console.error('[API/Lead] TURNSTILE_SECRET_KEY не задан');
     } else {
       const verifyResponse = await fetch(
-        "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
         {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: `secret=${encodeURIComponent(TURNSTILE_SECRET_KEY)}&response=${encodeURIComponent(turnstileToken)}`,
         }
       );
@@ -48,55 +46,28 @@ export async function POST(req: Request) {
       }
     }
 
-    // 3. 152-FZ Compliance Logging
-    console.log(`[ASH] Lead received. 152-FZ Consent Logged: ${name} (${phone})`);
+    // 3. 152-ФЗ Логирование
+    console.log(
+      `[LeadService] Лид принят. 152-ФЗ согласие зафиксировано: ${name} (${phone})`
+    );
 
-    // 3.5 Save to Database
-    if (process.env.POSTGRES_URL) {
-      try {
-        const finalContext = [
-          email ? `Email: ${email}` : null,
-          context
-        ].filter(Boolean).join('\n\n');
-
-        await db.insert(leads).values({
-          name,
-          phone,
-          source: source || 'Website',
-          context: finalContext || null,
-          segment: validatedData.data.segment || null,
-        });
-      } catch (dbError) {
-        console.error('[API/Lead] Failed to save to database:', dbError);
-      }
-    }
-
-    // 4. Call orchestrator to fan out notifications
-    await notifyAll({
+    // 4. Сохранение в БД + рассылка уведомлений через единый сервис
+    await saveAndNotifyLead({
       name,
       phone,
       email,
       source: source || 'Website',
-      type: 'consultation',
       message: context,
+      segment: validatedData.data.segment,
+      type: 'consultation',
     });
 
-    // 5. Send direct confirmation email to the lead
-    if (email) {
-      sendConfirmationToLead(email, name).catch(err => {
-        console.error('[API/Lead] Failed to send direct confirmation email to lead:', err);
-      });
-    }
-
     return NextResponse.json(
-      { 
-        success: true, 
-        message: 'Заявка успешно отправлена' 
-      },
+      { success: true, message: 'Заявка успешно отправлена' },
       { status: 200 }
     );
   } catch (error) {
-    console.error('[API/Lead] Failed to process lead:', error);
+    console.error('[API/Lead] Ошибка обработки лида:', error);
     return NextResponse.json(
       { message: 'Внутренняя ошибка сервера', success: false },
       { status: 500 }

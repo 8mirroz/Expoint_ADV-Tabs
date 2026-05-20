@@ -28,7 +28,7 @@ function isAuthorized(req: Request): boolean {
 function buildWelcomeMessage(firstName?: string): string {
   const namePrefix = firstName ? `${firstName}, ` : '';
   return [
-    `Здравствуйте, ${namePrefix}это Telegram-консультант Expoint ADV.`,
+    `Здравствуйте, ${namePrefix}это Telegram-консультант БУКВА СВЕТ.`,
     'Отправьте текстовый вопрос о стоимости, материалах, сроках, 902-ПП или типе вывески, и я отвечу на основе текущей базы знаний.',
   ].join('\n\n');
 }

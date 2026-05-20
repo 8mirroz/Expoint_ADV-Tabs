@@ -7,11 +7,11 @@ import MapSection from '@/components/sections/MapSection';
 import { COMPANY_INFO } from '@/data/company';
 
 export const metadata: Metadata = {
-  title: 'Контакты | Expoint ADV',
-  description: 'Свяжитесь с Expoint ADV: адрес производства, телефон, email, Telegram. Москва, ул. Полимерная, д. 8.',
+  title: 'Контакты | БУКВА СВЕТ',
+  description: 'Свяжитесь с БУКВА СВЕТ: адрес производства, телефон, email, Telegram. Москва, ул. Полимерная, д. 8.',
   openGraph: {
-    title: 'Контакты | Expoint ADV Engineering',
-    description: 'Адрес, телефон, email и карта проезда к производству Expoint ADV.',
+    title: 'Контакты | БУКВА СВЕТ Инжиниринг',
+    description: 'Адрес, телефон, email и карта проезда к производству БУКВА СВЕТ.',
   },
 };
 
@@ -47,10 +47,10 @@ export default function ContactsPage() {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'LocalBusiness',
-            name: 'Expoint ADV',
-            url: 'https://expoint-adv.ru/contacts',
+            name: 'БУКВА СВЕТ',
+            url: 'https://bukva-svet.ru/contacts',
             telephone: '+7-495-000-00-00',
-            email: 'info@expoint-adv.ru',
+            email: 'info@bukva-svet.ru',
             address: {
               '@type': 'PostalAddress',
               addressLocality: 'Москва',

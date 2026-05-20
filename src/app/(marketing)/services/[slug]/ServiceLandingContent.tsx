@@ -119,8 +119,8 @@ export function ServiceLandingContent({ service }: ServiceLandingContentProps) {
           </div>
           <p className="text-on-surface-variant max-w-md leading-relaxed font-light text-lg border-l border-accent/20 pl-8">
             {locale === 'ru' 
-              ? 'Визуальное сравнение стандартных решений и премиального стандарта Expoint. Прозрачность качества на каждом этапе.' 
-              : 'Visual comparison of standard solutions and the premium Expoint standard. Quality transparency at every stage.'}
+              ? 'Визуальное сравнение стандартных решений и премиального стандарта Буква Свет. Прозрачность качества на каждом этапе.' 
+              : 'Visual comparison of standard solutions and the premium BUKVA SVET standard. Quality transparency at every stage.'}
           </p>
         </div>
         <div className="p-1 bg-outline rounded-[2px]">

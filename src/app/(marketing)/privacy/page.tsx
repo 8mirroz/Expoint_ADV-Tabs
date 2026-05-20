@@ -46,8 +46,8 @@ export default function PrivacyPage() {
                 <h2 className="geist-display-sm text-on-surface">3. Права субъекта данных</h2>
                 <p>
                   Вы можете запросить уточнение, ограничение обработки или удаление персональных данных через email{" "}
-                  <a href="mailto:hello@expoint.pro" className="text-primary hover:text-primary/80 hover:underline transition-colors">
-                    hello@expoint.pro
+                  <a href="mailto:hello@bukva-svet.ru" className="text-primary hover:text-primary/80 hover:underline transition-colors">
+                    hello@bukva-svet.ru
                   </a>
                   .
                 </p>

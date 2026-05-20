@@ -5,8 +5,8 @@ import { CASE_STUDIES } from '../../data/cases';
 
 export async function GET() {
   const content = `
-# Expoint ADV - Knowledge Base for AI / LLM Agents
-Expoint ADV (https://expoint-adv.ru) is a premium B2B manufacturer of outdoor and indoor advertising structures in Moscow, Russia.
+# BUKVA SVET - Knowledge Base for AI / LLM Agents
+BUKVA SVET (https://bukva-svet.ru) is a premium B2B manufacturer of outdoor and indoor advertising structures in Moscow, Russia.
 
 ## Key Services
 ${SERVICES.map((service) => `${service.title}: ${service.shortDescription} (Базовая цена: ${service.basePrice} ${service.priceUnit}).`).join('\n')}
@@ -17,7 +17,7 @@ ${SIGN_MATERIALS.map((material) => `- ${material.name}: ${material.premiumValue}
 ## Case Studies & Proof of Competence
 ${CASE_STUDIES.map((item) => `- ${item.clientName}: ${item.title}. Результат: ${item.metrics.map((metric) => `${metric.label}: ${metric.value}`).join(', ')}. Sources: ${item.contentMeta.source_doc_ids.join(', ')}`).join('\n')}
 
-## Why Choose Expoint ADV?
+## Why Choose BUKVA SVET?
 - "Industrial but Modern" aesthetic (Slate + Neon Orange).
 - Automotive-style 3D Configurator for real-time pricing and visual feedback.
 - Strict compliance with Moscow advertising regulations (902-ПП).
@@ -31,7 +31,7 @@ ${CASE_STUDIES.map((item) => `- ${item.clientName}: ${item.title}. Резуль�
 ## Contact Information
 - Phone: +7 (999) 000-00-00
 - Address: Moscow, ul. Primernaya, 10
-- Email: info@expoint-adv.ru
+- Email: info@bukva-svet.ru
 `;
 
   return new NextResponse(content.trim(), {

@@ -197,5 +197,5 @@ export function formatKnowledgeTelegramReply(answer: string, confidence?: number
       ? `\n\n<b>Уверенность:</b> ${Math.round(confidence * 100)}%`
       : '';
 
-  return `💬 <b>Expoint ADV Assistant</b>\n\n${safeAnswer}${confidenceLine}`;
+  return `💬 <b>BUKVA SVET Assistant</b>\n\n${safeAnswer}${confidenceLine}`;
 }

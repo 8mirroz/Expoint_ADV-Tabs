@@ -74,7 +74,7 @@ export const sendToEmail = async (lead: LeadPayload): Promise<boolean> => {
   });
 
   const htmlContent = `
-    <h2>Новая заявка Expoint ADV</h2>
+    <h2>Новая заявка БУКВА СВЕТ</h2>
     <p><strong>Имя:</strong> ${lead.name}</p>
     <p><strong>Телефон:</strong> ${lead.phone}</p>
     <p><strong>Email:</strong> ${lead.email || 'Не указан'}</p>
@@ -123,7 +123,7 @@ export const sendToEmail = async (lead: LeadPayload): Promise<boolean> => {
 
   try {
     await transporter.sendMail({
-      from: `"Expoint ADV Robot" <${SMTP_USER}>`,
+      from: `"БУКВА СВЕТ Robot" <${SMTP_USER}>`,
       to: NOTIFICATION_EMAIL,
       subject: `Новый лид с сайта: ${lead.name}`,
       html: htmlContent,
@@ -160,7 +160,7 @@ export const sendConfirmationToLead = async (email: string, name: string): Promi
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #e5e7eb; border-radius: 12px; background-color: #ffffff; color: #1f2937;">
       <div style="text-align: center; margin-bottom: 24px; border-bottom: 2px solid #f3f4f6; padding-bottom: 20px;">
         <h2 style="color: #0d0d0d; font-family: monospace; font-size: 24px; font-weight: bold; margin: 0; letter-spacing: 0.1em; text-transform: uppercase;">
-          EXPOINT <span style="color: #00f5a0;">ADV</span>
+          БУКВА <span style="color: #00f5a0;">СВЕТ</span>
         </h2>
         <p style="font-size: 14px; color: #6b7280; margin: 8px 0 0 0;">Инженерные рекламные конструкции</p>
       </div>
@@ -186,7 +186,7 @@ export const sendConfirmationToLead = async (email: string, name: string): Promi
       </p>
 
       <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 12px; color: #9ca3af; text-align: center; line-height: 1.5;">
-        <p style="margin: 0 0 4px 0;">Производственная компания полного цикла Expoint ADV</p>
+        <p style="margin: 0 0 4px 0;">Производственная компания полного цикла БУКВА СВЕТ</p>
         <p style="margin: 0 0 12px 0;">г. Москва, ул. Производственная, д. 15, стр. 2</p>
         <p style="margin: 0;">
           <a href="mailto:hello@deushare.ru" style="color: #00f5a0; text-decoration: none;">hello@deushare.ru</a> | 
@@ -198,9 +198,9 @@ export const sendConfirmationToLead = async (email: string, name: string): Promi
 
   try {
     await transporter.sendMail({
-      from: `"Expoint ADV" <${SMTP_USER}>`,
+      from: `"БУКВА СВЕТ" <${SMTP_USER}>`,
       to: email,
-      subject: `Ваша заявка принята в работу — Expoint ADV`,
+      subject: `Ваша заявка принята в работу — БУКВА СВЕТ`,
       html: htmlContent,
     });
     return true;

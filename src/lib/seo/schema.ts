@@ -3,10 +3,10 @@ import { LocalBusiness, FAQPage, BreadcrumbList, WithContext } from 'schema-dts'
 export const generateLocalBusinessSchema = (): WithContext<LocalBusiness> => ({
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  name: "Expoint ADV",
-  image: "https://expoint-adv.ru/og-image.jpg",
-  "@id": "https://expoint-adv.ru",
-  url: "https://expoint-adv.ru",
+  name: "БУКВА СВЕТ",
+  image: "https://bukva-svet.ru/og-image.jpg",
+  "@id": "https://bukva-svet.ru",
+  url: "https://bukva-svet.ru",
   telephone: "+7 (495) 000-00-00",
   address: {
     "@type": "PostalAddress",

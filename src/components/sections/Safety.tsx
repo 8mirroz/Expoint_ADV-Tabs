@@ -49,7 +49,7 @@ export default function Safety() {
     <section id="audit" className="relative scroll-mt-28 section-padding overflow-hidden">
       <div className="section-container">
         {/* Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end mb-16 px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end mb-16 sm:px-6">
           <div className="lg:col-span-7">
             <div className="flex items-center gap-4 mb-6">
               <div className="h-8 w-8 rounded-xl bg-accent/10 flex items-center justify-center">
@@ -72,7 +72,7 @@ export default function Safety() {
           </div>
         </div>
 
-        <div className="px-6">
+        <div className="sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
             {benefits.map((benefit, idx) => {
               const Icon = benefit.icon;
@@ -131,9 +131,7 @@ export default function Safety() {
               );
             })}
             
-            <div className="flex">
-              <SafetyRiskQuiz />
-            </div>
+            <SafetyRiskQuiz />
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ import { useModalStore } from '@/store/useModalStore';
 export function NeonCalculatorV10() {
   const openModal = useModalStore((state) => state.openModal);
   const [inputs, setInputs] = useState<NeonInputs>({
-    text: 'EXPOINT',
+    text: 'БУКВА',
     size: 'M',
     fontType: 'Print',
     isRGB: false,

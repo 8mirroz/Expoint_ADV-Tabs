@@ -13,7 +13,7 @@ interface BreadcrumbsBarProps {
 const contactActions = [
   {
     id: 'telegram',
-    href: 'https://t.me/expoint_adv',
+    href: 'https://t.me/bukva_svet',
     label: 'Telegram',
     icon: Send,
     brandColor: '#229ED9',
@@ -29,7 +29,7 @@ const contactActions = [
   },
   {
     id: 'email',
-    href: 'mailto:info@expoint-adv.ru',
+    href: 'mailto:info@bukva-svet.ru',
     label: 'Email',
     icon: AtSign,
     brandColor: '#00ffa3',
@@ -101,13 +101,13 @@ export function BreadcrumbsBar({ items }: BreadcrumbsBarProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'Главная',
-        item: 'https://expoint-adv.ru',
+        item: 'https://bukva-svet.ru',
       },
       ...items.map((item, index) => ({
         '@type': 'ListItem',
         position: index + 2,
         name: item.label,
-        item: `https://expoint-adv.ru${item.href}`,
+        item: `https://bukva-svet.ru${item.href}`,
       })),
     ],
   };
@@ -121,7 +121,7 @@ export function BreadcrumbsBar({ items }: BreadcrumbsBarProps) {
       />
       
       <div 
-        className={`w-full sticky z-40 transition-all duration-500 border-b border-white/[0.06] ${
+        className={`w-full fixed left-0 right-0 z-40 transition-all duration-500 border-b border-white/[0.06] ${
           isScrolled 
             ? 'top-[4.5rem] bg-[#0A0A0A]/80 backdrop-blur-xl shadow-md' 
             : 'top-[5.5rem] bg-[#0A0A0A]'
@@ -260,6 +260,19 @@ export function BreadcrumbsBar({ items }: BreadcrumbsBarProps) {
               })}
             </div>
           </div>
+        </nav>
+      </div>
+
+      {/* Invisible placeholder to preserve space in document flow and prevent content overlap */}
+      <div 
+        className={`w-full opacity-0 pointer-events-none transition-all duration-500 ${
+          isScrolled ? 'py-3' : 'py-4'
+        }`}
+      >
+        <nav className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-4">
+          <ol className="flex items-center flex-wrap gap-1.5 text-[12px] uppercase">
+            <li><span>Главная</span></li>
+          </ol>
         </nav>
       </div>
     </>

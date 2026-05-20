@@ -1,4 +1,3 @@
-import { submitOrder } from '@/app/api/orders/actions';
 import { useSalesEngineStore, defaultSalesEngineAdapters, type SalesLeadInput, type SalesSubmitInput, type SalesEngineAdapters, type SalesEngineDraft } from '@/store/useSalesEngineStore';
 import type { CalculatorConfig, QuotePackageId } from '@/lib/pricingEngine';
 import { useCartStore } from '@/store/useCartStore';
@@ -78,7 +77,22 @@ async function generateProposalAPI(draft: SalesEngineDraft, items: Array<{ id: s
 
 export function createExpointSalesEngine(adapters: SalesEngineAdapters = {
   ...defaultSalesEngineAdapters,
-  submitOrder,
+  submitOrder: async (input) => {
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(input),
+      });
+      const payload = await response.json().catch(() => ({}));
+      return {
+        success: response.ok && payload.success !== false,
+        message: payload.message || (response.ok ? 'Заказ успешно отправлен' : 'Ошибка при отправке заказа'),
+      };
+    } catch {
+      return { success: false, message: 'Ошибка при отправке заказа' };
+    }
+  },
 }): ExpointSalesEngine {
   return {
     start: (input) => useSalesEngineStore.getState().start(input, adapters),

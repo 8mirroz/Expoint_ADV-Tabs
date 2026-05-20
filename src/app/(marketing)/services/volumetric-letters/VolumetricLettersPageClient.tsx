@@ -1,13 +1,13 @@
 'use client';
 
 import React, { Suspense } from 'react';
-import RichServicePageClient from '@/components/service-pages/RichServicePageClient';
+import PremiumServicePageClient from '@/components/service-pages/premium/PremiumServicePageClient';
 import { CalculatorContainer } from '@/components/calculator/CalculatorContainer';
 import { volumetricLettersData } from '@/data/service-pages/volumetric-letters';
 
 export default function VolumetricLettersPageClient() {
   return (
-    <RichServicePageClient
+    <PremiumServicePageClient
       data={volumetricLettersData}
       breadcrumbLabel="Объемные буквы"
       calculatorTitle="Ориентир по смете"

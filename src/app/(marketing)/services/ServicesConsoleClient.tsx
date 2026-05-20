@@ -166,7 +166,7 @@ export default function ServicesConsoleClient({ services }: ServicesConsoleClien
               <div className="flex justify-between items-end relative z-10">
                 <div className="space-y-1">
                   <span className="text-[9px] font-mono uppercase tracking-widest text-accent font-bold">
-                    EXPOINT INDUSTRIAL DESIGN
+                    БУКВА СВЕТ DESIGN
                   </span>
                   <h3 className="text-3xl font-black uppercase text-white tracking-tight">
                     {activeService.title}

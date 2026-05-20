@@ -29,7 +29,8 @@ export default function LeadForm() {
       phone: formData.get('phone') as string,
       consent: formData.get('consent') === 'on',
       turnstileToken: turnstileToken,
-      source: 'Lead Form'
+      source: 'Lead Form',
+      context: formData.get('description') as string || undefined,
     };
 
     try {

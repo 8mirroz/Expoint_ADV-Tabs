@@ -72,7 +72,7 @@ export default function MapSection() {
     const placemark = new window.ymaps.Placemark(
       [COMPANY_INFO.mapCoordinates.lat, COMPANY_INFO.mapCoordinates.lng],
       {
-        balloonContentHeader: "Expoint ADV",
+        balloonContentHeader: "БУКВА СВЕТ",
         balloonContentBody: COMPANY_INFO.requisites.legalAddress,
       },
       { preset: 'islands#blueIndustrialIcon' }
@@ -180,7 +180,7 @@ export default function MapSection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute top-10 md:top-16 left-6 md:left-12 max-w-sm bg-black/85 backdrop-blur-xl border border-white/10 p-8 rounded-[var(--radius-12)] shadow-2xl pointer-events-auto"
+          className="absolute bottom-6 md:bottom-auto md:top-16 left-4 right-4 md:left-12 md:right-auto md:max-w-sm bg-black/85 backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-[var(--radius-12)] shadow-2xl pointer-events-auto"
         >
           <div className="flex flex-col gap-5">
             <div>

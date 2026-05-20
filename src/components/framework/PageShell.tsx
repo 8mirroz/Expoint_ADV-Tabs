@@ -23,9 +23,12 @@ export default function PageShell({
   showAssistant = false,
   withMesh = false,
 }: PageShellProps) {
+  // If breadcrumbs are provided, force 'default' header variant to avoid overlap bugs
+  const resolvedHeaderVariant = (breadcrumbs && breadcrumbs.length > 0) ? 'default' : headerVariant;
+
   return (
     <div className="relative min-h-screen flex flex-col">
-      <Header variant={headerVariant} />
+      <Header variant={resolvedHeaderVariant} />
       {withMesh && <MeshBackground className="fixed inset-0" opacity={0.3} />}
       
       <div className="flex-grow flex flex-col relative z-10">

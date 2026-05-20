@@ -51,7 +51,7 @@ Expoint_ADV Tabs/
 
 - **Arch Overview**: `genesis/v8/02_ARCHITECTURE_OVERVIEW.md`
 - **ADR**: See `genesis/v8/03_ADR/`
-- **Detailed Design**: Update after `/design-system` (Populates `genesis/v8/04_SYSTEM_DESIGN/`)
+- **Detailed Design**: Design System is located at `docs/design-system/DESIGN_SYSTEM.md` (Source of truth for UI/UX)
 - **Task List**: Update after `/blueprint` (Generates `genesis/v8/05_TASKS.md`)
 
 ### System Map

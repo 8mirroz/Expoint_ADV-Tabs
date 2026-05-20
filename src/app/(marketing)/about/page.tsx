@@ -13,10 +13,10 @@ import { TEAM_MEMBERS } from '@/data/team';
 import { TESTIMONIALS } from '@/data/testimonials';
 
 export const metadata: Metadata = {
-  title: 'О компании | Expoint ADV',
-  description: 'Expoint ADV — московская инженерная студия наружной рекламы. Собственное производство 2500 м², 850+ проектов, гарантия качества.',
+  title: 'О компании | БУКВА СВЕТ',
+  description: 'БУКВА СВЕТ — московская инженерная студия наружной рекламы. Собственное производство 2500 м², 850+ проектов, гарантия качества.',
   openGraph: {
-    title: 'О компании | Expoint ADV Engineering',
+    title: 'О компании | БУКВА СВЕТ Инжиниринг',
     description: 'Производство наружной рекламы как инженерный продукт. История, команда, производство.',
   },
 };
@@ -86,8 +86,8 @@ export default function AboutPage() {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Organization',
-            name: 'Expoint ADV',
-            url: 'https://expoint-adv.ru',
+            name: 'БУКВА СВЕТ',
+            url: 'https://bukva-svet.ru',
             description: 'Московская инженерная студия наружной рекламы',
             foundingDate: '2018',
             address: {
@@ -96,7 +96,7 @@ export default function AboutPage() {
               streetAddress: 'ул. Полимерная, д. 8',
             },
             telephone: '+7-495-000-00-00',
-            email: 'info@expoint-adv.ru',
+            email: 'info@bukva-svet.ru',
           }),
         }}
       />

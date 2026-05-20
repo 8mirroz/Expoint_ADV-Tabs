@@ -8,8 +8,8 @@ export function generateServiceSchema(data: ServicePageData) {
     description: data.hero.subtitle,
     provider: {
       '@type': 'Organization',
-      name: 'Expoint ADV',
-      url: 'https://expoint-adv.ru',
+      name: 'БУКВА СВЕТ',
+      url: 'https://bukva-svet.ru',
     },
     areaServed: 'RU',
     hasOfferCatalog: {

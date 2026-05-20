@@ -377,7 +377,7 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
           <div>
             <p className="verge-mono-label text-accent">Live industrial preview</p>
             <h3 className="mt-2 text-3xl font-black tracking-[-0.04em] text-white md:text-5xl">
-              {estimate.config.text || 'EXPOINT'}
+              {estimate.config.text || 'БУКВА'}
             </h3>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-right font-mono text-xs text-white/60">
@@ -584,7 +584,7 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
       data-step={currentStep}
     >
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.025)_1px,transparent_1px)] bg-[size:28px_28px] opacity-70" />
-      <div className={`relative grid grid-cols-1 ${isCompact ? 'xl:grid-cols-[1fr_320px]' : 'xl:grid-cols-[1fr_360px]'}`}>
+      <div className={`relative grid grid-cols-1 ${isCompact ? 'xl:grid-cols-[minmax(0,1fr)_320px]' : 'xl:grid-cols-[minmax(0,1fr)_400px]'}`}>
         <section className={`${isCompact ? 'p-5 md:p-6' : 'p-6 md:p-8'} space-y-6`}>
           {resumeStatus === 'stale' && (
             <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4" data-testid="stale-recovery-banner">
@@ -689,7 +689,7 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
             <div>
               <p className="verge-mono-label text-accent">Предварительная смета</p>
               <div
-                className="mt-2 text-4xl font-black tracking-[-0.05em] text-on-surface"
+                className="mt-2 text-[clamp(2.6rem,3.6vw,3.75rem)] font-black leading-none tracking-[-0.06em] text-on-surface whitespace-nowrap tabular-nums"
                 data-testid="calculator-total"
               >
                 {formatRub(selectedPackage.price)}

@@ -355,7 +355,7 @@ export default function CartDrawer() {
                 <div className="flex items-center justify-center gap-4 text-[10px] text-neutral-500 font-sans pt-1">
                   <div className="flex items-center gap-1">
                     <ShieldCheck className="w-3.5 h-3.5 text-[#00ffa3]" />
-                    <span>Премиум Expoint</span>
+                    <span>Премиум БУКВА СВЕТ</span>
                   </div>
                   <span className="h-1 w-1 rounded-full bg-neutral-700" />
                   <div className="flex items-center gap-1">

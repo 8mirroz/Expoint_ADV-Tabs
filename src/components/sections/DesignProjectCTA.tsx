@@ -5,15 +5,12 @@ import Image from 'next/image';
 import { motion } from 'motion/react';
 import {
   ArrowRight,
-  Check,
-  Clock3,
-  DraftingCompass,
-  Factory,
-  FileCheck2,
-  Layers3,
-  Ruler,
   ShieldCheck,
-  Sparkles,
+  Cuboid,
+  Layers3,
+  PenTool,
+  Ruler,
+  Check,
 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
@@ -30,21 +27,19 @@ const copy = {
   ctaPrimary: { ru: 'Получить 3 сценария', en: 'Get 3 scenarios' },
   ctaSecondary: { ru: 'Проверить фасад', en: 'Check facade' },
   note: { ru: 'первый разбор за 24 часа', en: 'first review within 24 hours' },
-  badge: { ru: 'Конструкторский дизайн-пакет', en: 'Engineering design pack' },
-  outTitle: { ru: 'На выходе', en: 'Deliverables' },
 } as const;
 
-const bullets = [
-  { ru: '3D-визуализация на фасаде (день/ночь)', en: 'Facade 3D visualization (day/night)' },
-  { ru: 'Фотопривязка и проверка по 902-ПП', en: 'Photo fit and 902-PP review' },
-  { ru: 'КМ/КМД, спецификация, файлы для ЧПУ', en: 'Engineering drawings, spec, CNC-ready files' },
+const featureCards = [
+  { icon: Cuboid, title: { ru: 'Ai/3D визуализация', en: 'Ai/3D Visualization' } },
+  { icon: Layers3, title: { ru: '3 варианта на выбор', en: '3 options to choose' } },
+  { icon: PenTool, title: { ru: 'Дизайн и иллюстрация', en: 'Design and Illustration' } },
+  { icon: Ruler, title: { ru: 'CAD чертежи', en: 'CAD drawings' } },
 ] as const;
 
-const chips = [
-  { icon: Sparkles, value: '3', label: { ru: 'сценария', en: 'scenarios' } },
-  { icon: Clock3, value: '24ч', label: { ru: 'старт', en: 'start' } },
-  { icon: ShieldCheck, value: '902-ПП', label: { ru: 'комплаенс', en: 'compliance' } },
-  { icon: Layers3, value: 'CAD+3D', label: { ru: 'формат', en: 'format' } },
+const featureLines = [
+  { ru: 'Лазерные обмеры и фотопривязка', en: 'Laser measurements and photo placement', be: 'Лазерныя абмеры і фотапрывязка', kk: 'Лазерлік өлшеу және фотоорналастыру', zh: '激光测量与精准贴图', ce: 'Лазерни замерш а, фотопривязка а', tt: 'Лазер үлчәү һәм фотобәйләү' },
+  { ru: 'Инженерный пакет КМ/КМД', en: 'Engineering package for fabrication', be: 'Інжынерны пакет КМ/КМД', kk: 'КМ/КМД инженерлік пакеті', zh: '生产用工程图纸包', ce: 'Инженерни пакет КМ/КМД', tt: 'Инженер пакеты КМ/КМД' },
+  { ru: 'Свет и посадка под фасад', en: 'Light and fit tuned to the facade', be: 'Святло і пасадка пад фасад', kk: 'Жарық және қасбетке бейімдеу', zh: '针对具体门面的灯光与落位', ce: 'Свет а, фасаданна посадка а', tt: 'Яктылык һәм фасад өчен урнашу' },
 ] as const;
 
 export default function DesignProjectCTA({ className = '' }: { className?: string }) {
@@ -61,59 +56,38 @@ export default function DesignProjectCTA({ className = '' }: { className?: strin
     });
 
     tl.from('.dp-copy', { opacity: 0, y: 18, duration: 0.45 })
-      .from('.dp-chip', { opacity: 0, y: 12, stagger: 0.04, duration: 0.25 }, '-=0.2')
-      .from('.dp-panel', { opacity: 0, x: 16, duration: 0.45 }, '-=0.15');
+      .from('.dp-card', { opacity: 0, y: 16, stagger: 0.08, duration: 0.4 }, '-=0.2');
   }, { scope: sectionRef });
 
   return (
     <section
       ref={sectionRef}
       data-section="design-project-cta"
-      className={`relative overflow-hidden border-y border-white/[0.08] bg-[#070807] py-10 sm:py-12 lg:py-14 ${className}`}
+      className={`relative overflow-hidden border-y border-white/[0.08] bg-[#070807] py-14 sm:py-16 lg:py-20 ${className}`}
     >
       <div className="absolute inset-0">
-        <Image src="/img/backgrounds/design-project-bg.png" alt="" fill sizes="100vw" className="object-cover opacity-[0.18]" />
+        <Image src="/img/backgrounds/design-project-bg.png" alt="" fill sizes="100vw" className="object-cover opacity-[0.15]" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,8,7,0.98),rgba(7,8,7,0.9)_52%,rgba(7,8,7,0.72))]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,245,160,0.028)_1px,transparent_1px),linear-gradient(90deg,rgba(0,245,160,0.028)_1px,transparent_1px)] bg-[size:18px_18px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,245,160,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,245,160,0.02)_1px,transparent_1px)] bg-[size:24px_24px]" />
       </div>
 
       <div className="section-container relative z-10 mx-auto max-w-[1440px] px-6 lg:px-12 xl:px-16">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch lg:gap-8">
-          <div className="dp-copy lg:col-span-7">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+          
+          {/* Left Text Content */}
+          <div className="dp-copy max-w-xl">
             <p className="verge-mono-label text-[10px] uppercase tracking-[0.22em] text-accent">
               {t(locale, copy.eyebrow)}
             </p>
 
-            <h2 className="mt-5 font-headline text-[2.1rem] font-black leading-[1] text-white sm:text-[2.6rem] lg:text-[3.1rem]">
+            <h2 className="mt-5 font-headline text-[2.2rem] font-black leading-[1.05] text-white sm:text-[2.8rem] lg:text-[3.2rem]">
               {t(locale, copy.title)}
             </h2>
-            <p className="mt-3 max-w-[54ch] text-[14px] leading-[1.7] text-neutral-300/82 sm:text-[15px]">
+            <p className="mt-4 text-[15px] leading-[1.7] text-neutral-300/80 sm:text-[16px]">
               {t(locale, copy.desc)}
             </p>
 
-            <div className="mt-5 flex gap-2 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {chips.map((chip) => {
-                const Icon = chip.icon;
-                return (
-                  <div
-                    key={chip.value}
-                    className="dp-chip shrink-0 rounded-full border border-white/10 bg-black/38 px-3 py-2 backdrop-blur-md"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-accent/22 bg-accent/10 text-accent">
-                        <Icon className="h-4 w-4" />
-                      </span>
-                      <span className="text-sm font-black text-white">{chip.value}</span>
-                      <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-white/40">
-                        {t(locale, chip.label)}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <motion.button
                 onClick={() => openModal({ context: 'Дизайн-проект вывески', source: 'design_project_cta' })}
                 whileHover={{ scale: 1.01, y: -1 }}
@@ -134,73 +108,116 @@ export default function DesignProjectCTA({ className = '' }: { className?: strin
                 {t(locale, copy.ctaSecondary)}
               </motion.button>
 
-              <div className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-black/28 px-4 py-2 text-xs font-medium text-white/62 sm:justify-start">
+              <div className="mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-black/28 px-4 py-2 text-xs font-medium text-white/60 sm:mt-0 sm:justify-start">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_rgba(0,245,160,0.7)]" />
                 {t(locale, copy.note)}
               </div>
             </div>
           </div>
 
-          <motion.aside
-            initial={{ opacity: 0, x: 16 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.12, duration: 0.45 }}
-            className="dp-panel relative overflow-hidden rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(8,10,9,0.9),rgba(3,4,4,0.96))] p-5 shadow-[0_24px_64px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] lg:col-span-5"
-          >
-            <div className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(0,245,160,0.65),transparent)]" />
-
-            <div className="relative z-10">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-accent/25 bg-accent/10 text-accent">
-                    <DraftingCompass className="h-5 w-5" />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-white/34">PACK</p>
-                    <p className="truncate text-sm font-semibold text-white">{t(locale, copy.badge)}</p>
-                  </div>
-                </div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[9px] font-mono uppercase tracking-[0.18em] text-white/55">
-                  <Ruler className="h-3.5 w-3.5 text-accent/80" />
-                  Laser-fit
-                </div>
-              </div>
-
-              <p className="mt-5 text-[10px] font-mono uppercase tracking-[0.18em] text-white/34">
-                {t(locale, copy.outTitle)}
-              </p>
-              <div className="mt-3 space-y-3">
-                {bullets.map((item) => (
-                  <div key={item.ru} className="flex items-start gap-3 rounded-lg border border-white/8 bg-black/28 px-3 py-3">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-accent/30 bg-accent/10 text-accent">
-                      <Check className="h-3.5 w-3.5" />
-                    </span>
-                    <span className="text-[13px] leading-[1.55] text-neutral-200/84">{t(locale, item)}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-5 grid grid-cols-2 gap-2">
-                {[
-                  { icon: Factory, value: '2500 м²', label: { ru: 'цеха', en: 'workshop' } },
-                  { icon: FileCheck2, value: '5 лет', label: { ru: 'гарантия', en: 'warranty' } },
-                ].map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div key={item.value} className="rounded-lg border border-white/8 bg-white/[0.025] p-3">
-                      <Icon className="h-4 w-4 text-accent" />
-                      <p className="mt-3 text-[1.05rem] font-black leading-none text-white">{item.value}</p>
-                      <p className="mt-2 text-[9px] font-mono uppercase tracking-[0.16em] text-accent/82">
-                        {t(locale, item.label)}
-                      </p>
+          {/* Right Cards Grid */}
+          <div className="w-full max-w-[500px] lg:shrink-0">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              {featureCards.map((card, i) => {
+                const Icon = card.icon;
+                return (
+                  <div
+                    key={i}
+                    className="dp-card group relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] p-5 sm:p-6 backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-white/[0.04] hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+                  >
+                    {/* Subtle Top Gradient Line */}
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/0 to-transparent transition-all duration-500 group-hover:via-accent/40" />
+                    
+                    {/* Icon Container */}
+                    <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/5 bg-black/40 text-neutral-400 transition-colors duration-300 group-hover:border-accent/20 group-hover:bg-accent/10 group-hover:text-accent">
+                      <Icon className="h-5 w-5" />
                     </div>
-                  );
-                })}
+                    
+                    {/* Text */}
+                    <h3 className="text-[13px] font-semibold leading-[1.3] text-white/90 sm:text-[15px]">
+                      {t(locale, card.title)}
+                    </h3>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom: Design Pack & Pricing */}
+        <div className="dp-card mt-12 lg:mt-16 rounded-[24px] border border-white/[0.06] bg-gradient-to-b from-white/[0.02] to-transparent p-6 md:p-8 flex flex-col lg:flex-row gap-8 lg:gap-16">
+          
+          {/* Left side of bottom panel */}
+          <div className="flex-1 space-y-6">
+            <div className="space-y-2">
+              <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">Premium Workflow</p>
+              <h4 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                Конструкторский дизайн-пакет
+              </h4>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {featureLines.map((item) => (
+                <div key={item.ru} className="flex items-start gap-3">
+                  <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-accent/10 border border-accent/20">
+                    <Check className="h-2.5 w-2.5 text-accent" />
+                  </div>
+                  <span className="text-xs text-white/70 leading-snug">
+                    {t(locale, item)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right side: Pricing Matrix */}
+          <div className="flex-[1.2] lg:border-l lg:border-white/10 lg:pl-10 flex flex-col justify-center">
+            <div className="space-y-4 font-mono">
+              {/* Option 1 */}
+              <div className="group/row">
+                <div className="flex items-end justify-between text-xs font-semibold mb-1">
+                  <span className="text-white/80 transition-colors group-hover/row:text-white">
+                    {t(locale, { ru: '1. Проект + Производство', en: '1. Project + Fabrication' })}
+                  </span>
+                  <span className="flex-grow border-b border-dotted border-white/15 mx-3 relative -top-1 transition-colors group-hover/row:border-white/30" />
+                  <span className="text-accent font-bold">0 ₽</span>
+                </div>
+                <p className="text-[10px] text-white/40 leading-snug">
+                  {t(locale, { ru: 'Компенсация стоимости проектирования при заказе вывески', en: 'Design cost is 100% refunded when you order signage' })}
+                </p>
+              </div>
+
+              {/* Option 2 */}
+              <div className="group/row">
+                <div className="flex items-end justify-between text-xs font-semibold mb-1">
+                  <span className="text-white/80 transition-colors group-hover/row:text-white">
+                    {t(locale, { ru: '2. Чертежи КМ/КМД', en: '2. Engineering DWG bundle' })}
+                  </span>
+                  <span className="flex-grow border-b border-dotted border-white/15 mx-3 relative -top-1 transition-colors group-hover/row:border-white/30" />
+                  <span className="text-white font-bold">9 900 ₽</span>
+                </div>
+                <p className="text-[10px] text-white/40 leading-snug">
+                  {t(locale, { ru: 'Ветровые нагрузки, крепления и файлы для ЧПУ', en: 'CNC cutting paths, structural stress analysis' })}
+                </p>
+              </div>
+
+              {/* Option 3 */}
+              <div className="group/row">
+                <div className="flex items-end justify-between text-xs font-semibold mb-1">
+                  <span className="text-white/80 transition-colors group-hover/row:text-white">
+                    {t(locale, { ru: '3. Согласование 902-ПП', en: '3. 902-PP Permit Approval' })}
+                  </span>
+                  <span className="flex-grow border-b border-dotted border-white/15 mx-3 relative -top-1 transition-colors group-hover/row:border-white/30" />
+                  <span className="text-white font-bold">{t(locale, { ru: 'от 15 000 ₽', en: 'from 15 000 ₽' })}</span>
+                </div>
+                <p className="text-[10px] text-white/40 leading-snug">
+                  {t(locale, { ru: 'Официальное оформление под ключ', en: 'Full state paperwork preparation & filing' })}
+                </p>
               </div>
             </div>
-          </motion.aside>
+          </div>
+
         </div>
+
       </div>
     </section>
   );

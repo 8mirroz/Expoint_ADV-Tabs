@@ -32,7 +32,7 @@ export default function Clients() {
       </div>
       
       <div className="relative flex flex-col items-center justify-center overflow-hidden">
-        <Marquee className="[--duration:60s] [--gap:10rem]">
+        <Marquee className="[--duration:60s] [--gap:3rem] md:[--gap:10rem]">
           {clients.map((client) => (
             <div 
               key={client.name} 

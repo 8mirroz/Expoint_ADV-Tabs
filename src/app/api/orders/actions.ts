@@ -1,4 +1,4 @@
-import { submitLead } from '@/app/api/lead/actions';
+import { saveAndNotifyLead } from '@/lib/services/leadService';
 
 interface OrderItem {
     id: string;
@@ -86,14 +86,14 @@ export async function submitOrder(orderData: OrderData) {
             ? `\nДата готовности: ${orderData.readinessDate.toLocaleDateString('ru-RU')}\nДата доставки: ${orderData.deliveryDate.toLocaleDateString('ru-RU')}`
             : '';
 
-        // Создаем заявку в CRM
-        const result = await submitLead({
+        // Сохранение заказа в CRM + уведомления (без Turnstile — доверенный серверный контекст)
+        const result = await saveAndNotifyLead({
             name: orderData.name,
             phone: orderData.phone,
-            service: 'Заказ через корзину',
-            consent: true,
-            turnstileToken: 'none',
             email: orderData.email,
+            source: 'Заказ через корзину',
+            segment: 'cart_order',
+            type: 'quote',
             message: `Предварительная quote-cart смета на сумму ${orderData.total} ₽\nФинальная стоимость подтверждается после инженерной проверки, фото/замера и проверки монтажного доступа.\nАдрес: ${orderData.address}${dateInfo}\n\nПозиции заказа:\n${orderData.items.map(formatOrderItem).join('\n')}`,
         });
 

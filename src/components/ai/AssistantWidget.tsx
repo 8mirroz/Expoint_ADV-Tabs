@@ -37,8 +37,8 @@ export default function AssistantWidget() {
   const initialMessage = useMemo(
     () =>
       locale === 'ru'
-        ? 'Здравствуйте. Я цифровой консультант Expoint ADV. Помогу по материалам, 902-ПП, срокам, стоимости и подготовке заявки для инженера.'
-        : 'Hello. I am the Expoint ADV digital consultant. I can help with materials, compliance, lead times, pricing, and preparing a request for an engineer.',
+        ? 'Здравствуйте. Я цифровой консультант БУКВА СВЕТ. Помогу по материалам, 902-ПП, срокам, стоимости и подготовке заявки для инженера.'
+        : 'Hello. I am the BUKVA SVET digital consultant. I can help with materials, compliance, lead times, pricing, and preparing a request for an engineer.',
     [locale]
   );
 
@@ -68,8 +68,8 @@ export default function AssistantWidget() {
   );
 
   useEffect(() => {
-    const teaserKey = 'expoint-assistant-teaser-shown';
-    const proactiveKey = 'expoint-assistant-proactive-opened';
+    const teaserKey = 'bukva-svet-assistant-teaser-shown';
+    const proactiveKey = 'bukva-svet-assistant-proactive-opened';
 
     if (typeof window === 'undefined') {
       return;
@@ -409,7 +409,7 @@ export default function AssistantWidget() {
                   Оператор
                 </button>
                 <a
-                  href="https://t.me/expoint_adv"
+                  href="https://t.me/bukva_svet"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-[color:rgba(38,165,228,0.18)] bg-[rgba(38,165,228,0.07)] px-3.5 py-2 text-sm text-[var(--brand-telegram)]"

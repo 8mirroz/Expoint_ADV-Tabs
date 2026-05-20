@@ -1,8 +1,8 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'motion/react';
 import Link from 'next/link';
+import { motion, useInView } from 'motion/react';
 import { ArrowRight, Building2, Landmark, Lightbulb, PanelsTopLeft, ShieldCheck, Sparkles, Gauge, Timer, Target } from 'lucide-react';
 
 import { SERVICES } from '@/data/services';
@@ -250,8 +250,12 @@ export default function ServiceRates({ compact = false }: ServiceRatesProps) {
       },
     });
 
-    tl.from('.service-rates-headline', { opacity: 0, y: 26, duration: 0.65 })
-      .from('.service-rate-card', { opacity: 0, y: 34, stagger: 0.08, duration: 0.52 }, '-=0.35');
+    if (document.querySelector('.service-rates-headline')) {
+      tl.from('.service-rates-headline', { opacity: 0, y: 26, duration: 0.65 })
+        .from('.service-rate-card', { opacity: 0, y: 34, stagger: 0.08, duration: 0.52 }, '-=0.35');
+    } else {
+      tl.from('.service-rate-card', { opacity: 0, y: 34, stagger: 0.08, duration: 0.52 });
+    }
 
     gsap.to('.service-rates-ambient', {
       xPercent: 4,
@@ -270,7 +274,7 @@ export default function ServiceRates({ compact = false }: ServiceRatesProps) {
     >
       <div className="service-rates-ambient pointer-events-none absolute inset-0 opacity-75 bg-[radial-gradient(circle_at_20%_18%,rgba(0,245,160,0.14),transparent_42%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(0,245,160,0.028)_1px,transparent_1px),linear-gradient(90deg,rgba(0,245,160,0.028)_1px,transparent_1px)] bg-[size:20px_20px]" />
-      <div className="section-container space-y-14 px-6">
+      <div className="section-container space-y-14">
         {!compact && (
           <motion.div
             initial={false}

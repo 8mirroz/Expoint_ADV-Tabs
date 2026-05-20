@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, useInView } from 'motion/react';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -267,12 +267,9 @@ const getBudget = (pkg: ScenarioPackage, mode: PricingMode) => {
   };
 };
 
-/**
- * Pricing — premium scenario cards with clearer hierarchy, more contrast,
- * and GSAP-driven reveal/ambient motion.
- */
 export default function Pricing({ packages }: PricingProps) {
   const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
   const [pricingMode, setPricingMode] = useState<PricingMode>('all-inclusive');
 
   const items = (packages ?? defaultPackages).map((pkg) => ({
@@ -283,19 +280,6 @@ export default function Pricing({ packages }: PricingProps) {
   useGSAP(
     () => {
       if (!sectionRef.current) return;
-
-      const tl = gsap.timeline({
-        defaults: { ease: 'power3.out' },
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 76%',
-          once: true,
-        },
-      });
-
-      tl.from('.pricing-headline', { opacity: 0, y: 28, duration: 0.65 })
-        .from('.pricing-toggle-wrap', { opacity: 0, y: 18, duration: 0.35 }, '-=0.25')
-        .from('.pricing-premium-card', { opacity: 0, y: 38, scale: 0.98, stagger: 0.09, duration: 0.55 }, '-=0.08');
 
       gsap.to('.pricing-ambient', {
         xPercent: 3,
@@ -313,7 +297,7 @@ export default function Pricing({ packages }: PricingProps) {
         ease: 'none',
       });
     },
-    { scope: sectionRef }
+    { dependencies: [], scope: sectionRef }
   );
 
   return (
@@ -326,7 +310,12 @@ export default function Pricing({ packages }: PricingProps) {
       <div className="absolute inset-x-0 top-0 z-0 h-px bg-gradient-to-r from-transparent via-[#00ffa3]/30 to-transparent" />
 
       <div className="section-container relative z-10 space-y-12">
-        <div className="pricing-headline grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-end">
+        <motion.div
+          initial={false}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+          transition={{ duration: 0.65 }}
+          className="pricing-headline grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-end"
+        >
           <div className="space-y-5">
             <p className="verge-mono-label text-primary tracking-[0.22em]">Пакеты под задачу</p>
             <h2 className="geist-display-lg max-w-[15ch] text-balance text-white">
@@ -354,9 +343,14 @@ export default function Pricing({ packages }: PricingProps) {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="pricing-toggle-wrap flex items-center justify-center">
+        <motion.div
+          initial={false}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+          transition={{ duration: 0.35, delay: 0.2 }}
+          className="pricing-toggle-wrap flex items-center justify-center"
+        >
           <div className="inline-flex items-center gap-1 rounded-full border border-white/[0.08] bg-zinc-950/85 p-1 shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-md">
             {(['all-inclusive', 'production-only'] as PricingMode[]).map((mode) => {
               const active = pricingMode === mode;
@@ -382,24 +376,33 @@ export default function Pricing({ packages }: PricingProps) {
               );
             })}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="flex justify-center">
+        <motion.div
+          initial={false}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+          transition={{ duration: 0.35, delay: 0.25 }}
+          className="flex justify-center"
+        >
           <p className="max-w-3xl text-center text-sm leading-6 text-neutral-400">
             {packageModeCopy[pricingMode].description}
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
-          {items.map((pkg) => {
+          {items.map((pkg, index) => {
             const Icon = packageIcons[pkg.id] ?? Rocket;
             const theme = packageThemes[pkg.id] ?? packageThemes.start;
             const isIndividual = pkg.budget.toLowerCase().includes('индивидуал');
 
             return (
-              <article
+              <motion.article
                 key={pkg.id}
-                className={`pricing-premium-card group relative flex h-full flex-col overflow-hidden rounded-[30px] border ${theme.border} bg-[linear-gradient(180deg,rgba(16,16,18,0.98),rgba(7,7,9,0.96))] p-6 transition-all duration-500 hover:-translate-y-1.5 ${theme.ring}`}
+                initial={false}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 38, scale: 0.98 }}
+                whileHover={{ y: -6, transition: { duration: 0.3 } }}
+                transition={{ duration: 0.55, delay: 0.09 * (index + 1) }}
+                className={`pricing-premium-card group relative flex h-full flex-col overflow-hidden rounded-[30px] border ${theme.border} bg-[linear-gradient(180deg,rgba(16,16,18,0.98),rgba(7,7,9,0.96))] p-6 ${theme.ring}`}
               >
                 <div
                   className={`absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_0%,rgba(0,255,163,0.14),transparent_48%)]`}
@@ -422,9 +425,9 @@ export default function Pricing({ packages }: PricingProps) {
                       <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/60 text-white transition-all duration-300 group-hover:text-[#00ffa3] group-hover:border-[#00ffa3]/30 group-hover:shadow-[0_0_24px_rgba(0,255,163,0.12)]`}>
                         <Icon className="h-5 w-5" />
                       </div>
-                      <div className="min-w-0">
-                        <p className="text-[10px] font-mono tracking-[0.2em] text-[#00ffa3] uppercase">{pkg.label} PACKAGE</p>
-                        <p className="mt-0.5 text-[11px] uppercase tracking-[0.16em] text-neutral-500">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[10px] font-mono tracking-[0.2em] text-[#00ffa3] uppercase truncate">{pkg.label} PACKAGE</p>
+                        <p className="mt-0.5 text-[10px] uppercase tracking-[0.12em] text-neutral-500 leading-tight">
                           {pkg.isPopular ? 'Самый частый выбор' : 'Доступный сценарий'}
                         </p>
                       </div>
@@ -437,26 +440,27 @@ export default function Pricing({ packages }: PricingProps) {
                     </span>
                   </div>
 
-                  <div className="mt-7 space-y-4 border-b border-white/[0.08] pb-5">
-                    <div className="flex items-center justify-between gap-4">
-                    <div className="space-y-1">
-                      <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Сценарий</p>
-                        <h3 className={`text-2xl font-black tracking-[-0.03em] text-white transition-colors duration-300 ${theme.titleHover}`}>
+                  <div className="mt-7 flex flex-col min-h-[140px] gap-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="space-y-1 min-w-0 flex-1">
+                        <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase truncate">Сценарий</p>
+                        <h3 className={`text-lg font-bold tracking-tight text-white transition-colors duration-300 ${theme.titleHover} leading-tight`}>
                           {pkg.title}
                         </h3>
                       </div>
                       <span
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${theme.accentSoft}`}
+                        className={`mt-1 shrink-0 inline-flex items-center gap-1 rounded-full border px-2 py-1 text-[9px] font-bold uppercase tracking-[0.14em] ${theme.accentSoft}`}
                       >
-                        <BadgeCheck className="h-3.5 w-3.5" />
-                        {pkg.id === 'network' ? 'SLA / сеть' : 'B2B-ready'}
+                        <BadgeCheck className="h-3 w-3" />
+                        <span className="hidden sm:inline">{pkg.id === 'network' ? 'SLA / сеть' : 'B2B-ready'}</span>
+                        <span className="sm:hidden">{pkg.id === 'network' ? 'SLA' : 'B2B'}</span>
                       </span>
                     </div>
 
                     <p className="text-sm leading-6 text-neutral-300">{pkg.audience}</p>
                   </div>
 
-                  <div className="mt-5 rounded-[22px] border border-white/[0.06] bg-black/55 p-4">
+                  <div className="mt-2 rounded-[22px] border border-white/[0.06] bg-black/55 p-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="min-w-0">
                         <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Бюджет</p>
@@ -470,9 +474,9 @@ export default function Pricing({ packages }: PricingProps) {
                             className="mt-1 flex items-baseline gap-2"
                           >
                             <span
-                              className={`text-[2.15rem] font-black tracking-[-0.04em] leading-none tabular-nums ${
-                                isIndividual ? 'text-white' : 'text-[#00ffa3]'
-                              }`}
+                              className={`font-black tracking-[-0.03em] leading-none tabular-nums whitespace-nowrap ${
+                                pkg.budget.length > 10 ? 'text-xl xl:text-2xl' : 'text-2xl xl:text-[1.75rem]'
+                              } ${isIndividual ? 'text-white' : 'text-[#00ffa3]'}`}
                             >
                               {pkg.budget}
                             </span>
@@ -485,9 +489,9 @@ export default function Pricing({ packages }: PricingProps) {
                         )}
                       </div>
 
-                      <div className="text-right">
+                      <div className="text-right shrink-0">
                         <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Режим</p>
-                        <span className="mt-1 inline-flex rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
+                        <span className="mt-1 inline-flex rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-white">
                           {packageModeCopy[pricingMode].label}
                         </span>
                         {pricingMode === 'production-only' && pkg.id !== 'network' && (
@@ -539,7 +543,7 @@ export default function Pricing({ packages }: PricingProps) {
                     </div>
                   </div>
 
-                  <div className="mt-4 space-y-3 border-t border-white/[0.08] pt-4">
+                  <div className="mt-6 space-y-3">
                     <div className="flex items-center justify-between">
                       <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Что входит в пакет</p>
                       <span className="text-[10px] uppercase tracking-[0.14em] text-neutral-500">{pkg.includes.length} пунктов</span>
@@ -568,7 +572,7 @@ export default function Pricing({ packages }: PricingProps) {
                   <div className="mt-auto pt-5">
                     <Link
                       href="/calculator"
-                      className={`group flex h-[52px] w-full items-center justify-center gap-2 rounded-2xl border text-sm font-semibold transition-all duration-300 active:scale-[0.98] ${
+                      className={`group flex h-[52px] w-full items-center justify-center gap-2 rounded-full border text-sm font-semibold transition-all duration-300 active:scale-[0.98] ${
                         pkg.isPopular
                           ? 'border-[#00ffa3]/35 bg-[#00ffa3] text-black shadow-[0_0_24px_rgba(0,255,163,0.24)] hover:bg-[#00ffa3]/92'
                           : 'border-white/[0.1] bg-white/[0.02] text-white hover:border-[#00ffa3]/35 hover:bg-white/[0.04]'
@@ -579,7 +583,7 @@ export default function Pricing({ packages }: PricingProps) {
                     </Link>
                   </div>
                 </div>
-              </article>
+              </motion.article>
             );
           })}
         </div>

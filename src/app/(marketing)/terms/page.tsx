@@ -50,8 +50,8 @@ export default function TermsPage() {
                     +7 (495) 000-00-00
                   </a>{" "}
                   или email{" "}
-                  <a href="mailto:hello@expoint.pro" className="text-primary hover:text-primary/80 hover:underline transition-colors font-medium">
-                    hello@expoint.pro
+                  <a href="mailto:hello@bukva-svet.ru" className="text-primary hover:text-primary/80 hover:underline transition-colors font-medium">
+                    hello@bukva-svet.ru
                   </a>
                   .
                 </p>

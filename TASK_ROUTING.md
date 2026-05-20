@@ -1,4 +1,4 @@
-# TASK_ROUTING.md (Agent OS v3.1) — Expoint ADV Governance
+# TASK_ROUTING.md (Agent OS v3.1) — BUKVA SVET Governance
 
 ## 1. Model Inventory & Roles
 

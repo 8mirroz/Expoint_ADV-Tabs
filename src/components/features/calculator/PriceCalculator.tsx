@@ -49,7 +49,7 @@ export function PriceCalculator() {
                 <Input 
                   value={text} 
                   onChange={(e) => setText(e.target.value)}
-                  placeholder="Например: EXPOINT"
+                  placeholder="Например: БУКВА"
                   className="text-xl font-black py-8 px-6 bg-surface border-outline focus:border-accent group-hover:border-accent/40 rounded-none transition-all shadow-sm"
                 />
                 <div className="absolute right-6 top-1/2 -translate-y-1/2 text-xs font-mono text-accent bg-accent/5 border border-accent/20 px-3 py-1.5 rounded-none font-black">

@@ -1,4 +1,4 @@
-# Expoint Brand Spec
+# BUKVA SVET Brand Spec
 
 ## Colors (OKLch)
 Derived from `src/styles/tokens.css` (Vercel Light Theme / Stark Engineering).

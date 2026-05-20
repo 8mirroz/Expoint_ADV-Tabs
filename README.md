@@ -2,7 +2,7 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# БУКВА СВЕТ — Run and deploy your AI Studio app
 
 ## Knowledge Base (NotebookLM)
 
@@ -49,41 +49,41 @@ Quick live check after deploy:
 2. Send a plain text question like `Сколько стоит акриловая вывеска?`
 3. Verify the bot responds with a knowledge-based answer.
 
-## Docker: Optional Local / Staging (without TLS)
+## Docker
 
-Docker is not part of the default day-to-day workflow for this project.
-Use it only when you explicitly need a containerized run or deploy-like environment.
+Docker is supported for both local runs and VPS deploys, but the commands are intentionally different.
 
-`docker-compose.override.yml` enables direct app access on `http://localhost:3005` and hides `proxy` unless `prod` profile is enabled.
+### Local run
 
-1. Build and run local shape:
+`docker-compose.override.yml` is local-only. It publishes the app on `http://localhost:3005` and should not be used for VPS deploys.
+
+1. Build and run the local stack:
    `docker compose up -d --build`
-
-If `3005` is busy, run with custom host port:
-`APP_PORT=3010 docker compose up -d --build`
-2. Health check:
+2. If `3005` is busy, use a custom host port:
+   `APP_PORT=3010 docker compose up -d --build`
+3. Check the local health endpoint:
    `curl -fsS http://localhost:3005/api/health`
 
-## Docker Deploy (VPS, with TLS)
+### Production deploy
 
 **Prerequisites:** Docker Engine + Docker Compose plugin
 
-1. Fill `.env.production`:
-   - `DOMAIN` (your real domain)
-   - `ACME_EMAIL` (email for TLS cert registration)
-   - app integration envs (`TELEGRAM_*`, `SMTP_*`, `CRM_WEBHOOK_URL`, `GEMINI_API_KEY`)
-2. Start with prod profile (enables Caddy proxy):
-   `docker compose --profile prod up -d --build`
-3. Check service health:
-   `docker compose ps`
-4. Check app health endpoint:
+1. Fill `.env.production` before the first deploy:
+   - `DOMAIN`
+   - `ACME_EMAIL`
+   - app runtime secrets and integrations: `TELEGRAM_*`, `SMTP_*`, `CRM_WEBHOOK_URL`, `GEMINI_API_KEY`, `NEXT_PUBLIC_GA_ID`, `ADMIN_API_KEY`, `LOG_INGRESS_SECRET`, `TURNSTILE_*`, `ENABLE_STRICT_HTTPS`, `ENABLE_HSTS`, `NBLLM_RUNTIME_DISABLED`
+2. Start the production stack without the local override file:
+   `docker compose -f docker-compose.yml --profile prod up -d --build`
+3. Check service status:
+   `docker compose -f docker-compose.yml --profile prod ps`
+4. Check the public app health endpoint:
    `curl -fsS https://$DOMAIN/api/health`
 5. Tail logs:
-   `docker compose logs -f web proxy`
+   `docker compose -f docker-compose.yml --profile prod logs -f web proxy`
 
 ### Update / Redeploy
 
 - Rebuild and restart:
-  `docker compose --profile prod up -d --build`
+  `docker compose -f docker-compose.yml --profile prod up -d --build`
 - Clean old unused images:
   `docker image prune -f`

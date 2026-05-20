@@ -7,17 +7,17 @@ import { Factory, ShieldCheck, FileCheck2, Wrench } from 'lucide-react';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Услуги и цены | Производство вывесок и объемных букв под ключ Expoint ADV',
+  title: 'Услуги и цены | Производство вывесок и объемных букв под ключ БУКВА СВЕТ',
   description:
     'Полный спектр услуг по изготовлению наружной и интерьерной световой рекламы в Москве. Световые буквы, лайтбоксы, гибкий неон, навигационные стелы. Собственное производство, соответствие 902-ПП, гарантия до 5 лет.',
   alternates: {
-    canonical: 'https://expoint.ru/services',
+    canonical: 'https://bukva-svet.ru/services',
   },
   openGraph: {
-    title: 'Услуги и цены | Собственное производство вывесок Expoint ADV',
+    title: 'Услуги и цены | Собственное производство вывесок БУКВА СВЕТ',
     description: 'Проектируем, производим и монтируем наружную и интерьерную рекламу для бизнеса в Москве. Расчет стоимости, собственное производство, монтаж и гарантия.',
     type: 'website',
-    url: 'https://expoint.ru/services',
+    url: 'https://bukva-svet.ru/services',
   }
 };
 
@@ -26,7 +26,7 @@ export default function ServicesPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    'name': 'Услуги и цены производства вывесок Expoint ADV',
+    'name': 'Услуги и цены производства вывесок БУКВА СВЕТ',
     'description': 'Каталог производственных направлений наружной и интерьерной рекламы, цены, материалы и сроки изготовления в Москве.',
     'numberOfItems': SERVICES.length,
     'itemListElement': SERVICES.map((service, index) => {
@@ -45,8 +45,8 @@ export default function ServicesPage() {
           'description': service.fullDescription,
           'provider': {
             '@type': 'LocalBusiness',
-            'name': 'Expoint ADV',
-            'image': 'https://expoint.ru/img/logo.png',
+            'name': 'БУКВА СВЕТ',
+            'image': 'https://bukva-svet.ru/img/logo.png',
             'priceRange': '$$',
             'address': {
               '@type': 'PostalAddress',

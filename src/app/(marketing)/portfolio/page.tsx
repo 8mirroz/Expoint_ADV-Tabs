@@ -7,10 +7,10 @@ import { CASE_STUDIES } from '@/data/cases';
 import { PRODUCT_PACKS } from '@/data/services';
 
 export const metadata: Metadata = {
-  title: 'Портфолио | Expoint ADV',
-  description: 'Портфолио реализованных проектов Expoint ADV: вывески, объемные буквы, световые короба, неоновые конструкции.',
+  title: 'Портфолио | БУКВА СВЕТ',
+  description: 'Портфолио реализованных проектов БУКВА СВЕТ: вывески, объемные буквы, световые короба, неоновые конструкции.',
   openGraph: {
-    title: 'Портфолио | Expoint ADV Engineering',
+    title: 'Портфолио | БУКВА СВЕТ Инжиниринг',
     description: 'Галерея работ: от малого бизнеса до корпоративных проектов.',
   },
 };

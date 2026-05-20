@@ -15,12 +15,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   
   if (!article) {
     return {
-      title: 'Not Found | Expoint ADV',
+      title: 'Not Found | БУКВА СВЕТ',
     };
   }
 
   return {
-    title: `${article.title} | Expoint Academy`,
+    title: `${article.title} | Академия Буква Свет`,
     description: article.description,
   };
 }

@@ -28,7 +28,7 @@ export const generateServiceSchema = (service: ServiceSchemaInput) => {
     description: service.fullDescription,
     provider: {
       '@type': 'LocalBusiness',
-      name: 'Expoint ADV',
+      name: 'БУКВА СВЕТ',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Москва',

@@ -1,0 +1,205 @@
+/**
+ * Design System Tokens — БУКВА СВЕТ
+ * ═══════════════════════════════════════════════════════
+ * Source of Truth: docs/design-system/DESIGN_SYSTEM.md
+ * Philosophy: Dark Engineering Premium
+ * Version: 1.1 (2026-05-20)
+ *
+ * USAGE: @import "./design-system.css" in tokens.css or globals.css
+ * These tokens provide a semantic layer on top of the base Geist palette.
+ * All new components should use --ds-* tokens exclusively.
+ * ═══════════════════════════════════════════════════════
+ */
+
+:root {
+
+  /* ═══════════════════════════════════════════════════════
+   * 1. SURFACE SYSTEM (Backgrounds)
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-bg-page:          #050508;
+  --ds-bg-section:       #090909;
+  --ds-bg-section-alt:   #070807;
+  --ds-bg-card-solid:    #0c0c0e;
+  --ds-bg-card-inner:    #090b14;
+  --ds-bg-faq:           #000000;
+  --ds-bg-elevated:      rgba(255, 255, 255, 0.04);
+  --ds-bg-elevated-hover: rgba(255, 255, 255, 0.08);
+  --ds-bg-input:         rgba(255, 255, 255, 0.05);
+
+  /* Card gradient — use as `background` value */
+  --ds-bg-card: linear-gradient(180deg, rgba(12, 12, 14, 0.94), rgba(8, 8, 10, 0.9));
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 2. TEXT SYSTEM
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-text-primary:     #ffffff;
+  --ds-text-secondary:   rgba(255, 255, 255, 0.80);
+  --ds-text-body:        rgba(255, 255, 255, 0.55);
+  --ds-text-muted:       rgba(255, 255, 255, 0.40);
+  --ds-text-ghost:       rgba(255, 255, 255, 0.34);
+  --ds-text-disabled:    rgba(255, 255, 255, 0.20);
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 3. ACCENT: NEON GREEN
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-accent:           #00ffa3;
+  --ds-accent-rgb:       0, 255, 163;
+  --ds-accent-soft:      rgba(0, 255, 163, 0.10);
+  --ds-accent-softer:    rgba(0, 255, 163, 0.05);
+  --ds-accent-border:    rgba(0, 255, 163, 0.20);
+  --ds-accent-border-hover: rgba(0, 255, 163, 0.40);
+
+  /* Accent gradient (for hero headline highlights) */
+  --ds-gradient-accent:  linear-gradient(135deg, #00ffa3 0%, #00c8ff 100%);
+
+  /* Secondary glow color */
+  --ds-purple:           #7928ca;
+  --ds-purple-soft:      rgba(121, 40, 202, 0.15);
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 4. SEMANTIC / STATUS COLORS
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-success:          #10b981;
+  --ds-success-soft:     rgba(16, 185, 129, 0.10);
+  --ds-success-border:   rgba(16, 185, 129, 0.20);
+
+  --ds-error:            #ee0000;
+  --ds-error-soft:       rgba(238, 0, 0, 0.15);
+  --ds-error-border:     rgba(238, 0, 0, 0.40);
+
+  --ds-warning:          #f5a623;
+  --ds-warning-soft:     rgba(245, 166, 35, 0.05);
+  --ds-warning-border:   rgba(245, 166, 35, 0.40);
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 5. CATEGORY COLORS (Service Directions)
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-cat-volumetric:   #ff4f73;    /* Объёмные буквы */
+  --ds-cat-lightbox:     #3395ff;    /* Световые короба */
+  --ds-cat-neon:         #ffb033;    /* Гибкий неон */
+  --ds-cat-roof:         #8c8be6;    /* Крышные установки */
+  --ds-cat-metal:        #34d399;    /* Монтаж / Металл */
+  --ds-cat-pylon:        #e879f9;    /* Панель-кронштейны */
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 6. BORDER SYSTEM
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-border-subtle:    rgba(255, 255, 255, 0.05);
+  --ds-border-default:   rgba(255, 255, 255, 0.08);
+  --ds-border-card:      rgba(255, 255, 255, 0.10);
+  --ds-border-input:     rgba(255, 255, 255, 0.10);
+  --ds-border-input-focus: rgba(0, 255, 163, 0.40);
+  --ds-border-divider:   rgba(255, 255, 255, 0.06);
+  --ds-border-hover:     rgba(0, 255, 163, 0.35);
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 7. SPACING SCALE (4px base)
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-space-1:    4px;
+  --ds-space-2:    8px;
+  --ds-space-3:    12px;
+  --ds-space-4:    16px;
+  --ds-space-5:    20px;
+  --ds-space-6:    24px;
+  --ds-space-8:    32px;
+  --ds-space-10:   40px;
+  --ds-space-12:   48px;
+  --ds-space-16:   64px;
+  --ds-space-20:   80px;
+  --ds-space-24:   96px;
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 8. BORDER RADIUS
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-radius-xs:    4px;
+  --ds-radius-sm:    8px;
+  --ds-radius-md:    12px;
+  --ds-radius-lg:    16px;
+  --ds-radius-xl:    20px;
+  --ds-radius-2xl:   24px;
+  --ds-radius-3xl:   32px;
+  --ds-radius-pill:  100px;
+  --ds-radius-full:  9999px;
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 9. SHADOWS (Dark Mode Optimized)
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-shadow-card:
+    0 18px 46px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  --ds-shadow-card-hover:
+    0 24px 54px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(0, 255, 163, 0.2);
+
+  --ds-shadow-panel:
+    0 24px 64px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  --ds-shadow-frame:
+    0 40px 120px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 10. GLOW EFFECTS
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-glow-accent:      0 0 30px rgba(0, 255, 163, 0.35);
+  --ds-glow-accent-lg:   0 0 50px rgba(0, 255, 163, 0.50);
+  --ds-glow-icon:        0 0 15px rgba(0, 255, 163, 0.05);
+  --ds-glow-icon-hover:  0 0 20px rgba(0, 255, 163, 0.15);
+  --ds-glow-dot:         0 0 8px rgba(0, 245, 160, 0.7);
+  --ds-glow-category:    0 8px 20px rgba(0, 0, 0, 0.5);
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 11. MOTION / EASING
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-ease-standard:    cubic-bezier(0.4, 0, 0.2, 1);
+  --ds-ease-spring:      cubic-bezier(0.22, 1, 0.36, 1);
+  --ds-ease-premium:     cubic-bezier(0.16, 1, 0.3, 1);
+
+  --ds-duration-fast:    150ms;
+  --ds-duration-base:    200ms;
+  --ds-duration-medium:  300ms;
+  --ds-duration-slow:    500ms;
+  --ds-duration-reveal:  600ms;
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 12. TYPOGRAPHY
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-font-sans:      "Inter", ui-sans-serif, system-ui, sans-serif;
+  --ds-font-headline:  "Inter", ui-sans-serif, system-ui, sans-serif;
+  --ds-font-mono:      "Inter", ui-sans-serif, system-ui, sans-serif;
+
+
+  /* ═══════════════════════════════════════════════════════
+   * 13. CONTAINER / LAYOUT
+   * ═══════════════════════════════════════════════════════ */
+
+  --ds-container-max:    1440px;
+  --ds-container-px:     24px;
+  --ds-container-px-lg:  48px;
+  --ds-container-px-xl:  64px;
+}

@@ -1,5 +1,5 @@
 // Presentation Framework Core — Type Definitions
-// Genesis v8: Expoint ADV
+// Genesis v8: БУКВА СВЕТ
 
 import type { ReactNode } from 'react';
 

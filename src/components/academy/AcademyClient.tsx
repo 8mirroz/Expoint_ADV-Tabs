@@ -61,7 +61,7 @@ export const AcademyClient: React.FC<AcademyClientProps> = ({ articles }) => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-neutral-400 text-sm font-medium mb-8"
           >
             <Sparkles size={14} className="text-amber-500" />
-            <span className="uppercase tracking-[0.2em]">Expoint Academy v3</span>
+            <span className="uppercase tracking-[0.2em]">Буква Свет Академия</span>
           </motion.div>
           
           <h1 className="text-6xl md:text-8xl font-bold text-white tracking-tighter mb-8 leading-none">

@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { notifyAll } from "@/lib/services/notifications/orchestrator";
+import { saveAndNotifyLead } from "@/lib/services/leadService";
 
 const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY;
 
@@ -11,7 +11,9 @@ const LeadSchema = z.object({
   email: z.string().email("Некорректный email").optional().or(z.literal("")),
   service: z.string().min(1, "Услуга не выбрана"),
   message: z.string().optional(),
-  consent: z.boolean().refine((val) => val === true, "Необходимо согласие на обработку данных"),
+  consent: z
+    .boolean()
+    .refine((val) => val === true, "Необходимо согласие на обработку данных"),
   turnstileToken: z.string().min(1, "Ошибка проверки безопасности"),
 });
 
@@ -19,12 +21,12 @@ export type LeadFormData = z.infer<typeof LeadSchema>;
 
 export async function submitLead(formData: LeadFormData) {
   try {
-    // 1. Validate Input
+    // 1. Валидация входных данных
     const validatedData = LeadSchema.parse(formData);
 
-    // 2. Verify Turnstile Token
+    // 2. Проверка Turnstile (публичное действие — обязательна)
     if (!TURNSTILE_SECRET_KEY) {
-      throw new Error("TURNSTILE_SECRET_KEY is not defined");
+      throw new Error("TURNSTILE_SECRET_KEY не задан");
     }
 
     const verifyResponse = await fetch(
@@ -45,20 +47,23 @@ export async function submitLead(formData: LeadFormData) {
     if (!verifyData.success) {
       return {
         success: false,
-        error: "Ошибка безопасности (Turnstile). Пожалуйста, попробуйте еще раз.",
+        error: "Ошибка безопасности (Turnstile). Пожалуйста, попробуйте ещё раз.",
       };
     }
 
-    // 3. Log 152-FZ Compliance
-    console.log(`[ASH] Lead received. 152-FZ Consent Logged: ${validatedData.name} (${validatedData.phone})`);
+    // 3. 152-ФЗ Логирование
+    console.log(
+      `[submitLead] Лид принят. 152-ФЗ: ${validatedData.name} (${validatedData.phone})`
+    );
 
-    // 4. Dispatch to all notification channels (Telegram, Email, CRM)
-    await notifyAll({
+    // 4. Сохранение в БД + веерная рассылка уведомлений
+    await saveAndNotifyLead({
       name: validatedData.name,
       phone: validatedData.phone,
+      email: validatedData.email || undefined,
       source: validatedData.service,
-      type: 'consultation',
       message: validatedData.message,
+      type: "consultation",
     });
 
     return {
@@ -73,7 +78,7 @@ export async function submitLead(formData: LeadFormData) {
       };
     }
 
-    console.error("[ASH] Submission Error:", error);
+    console.error("[submitLead] Ошибка:", error);
     return {
       success: false,
       error: "Произошла системная ошибка. Пожалуйста, свяжитесь с нами по телефону.",

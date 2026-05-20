@@ -9,6 +9,7 @@ import { useLanguage } from '@/components/i18n/LanguageProvider';
 import Link from 'next/link';
 import { CartIndicator } from '@/components/sections/CartIndicator';
 import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
+import { useModalStore } from '@/store/useModalStore';
 
 const navItems = [
   { id: 'services', href: '/services', label: { ru: 'Услуги', be: 'Паслугі', kk: 'Қызметтер', en: 'Services', zh: '服务', ce: 'ГIуллакхаш', tt: 'Хезмәтләр' } },
@@ -36,7 +37,7 @@ const PHONE_HREF = 'tel:+74950000000';
 const contactActions = [
   {
     id: 'telegram',
-    href: 'https://t.me/expoint_adv',
+    href: 'https://t.me/bukva_svet',
     labelKey: 'telegram',
     icon: Send,
     brandColor: 'var(--brand-telegram)',
@@ -52,7 +53,7 @@ const contactActions = [
   },
   {
     id: 'email',
-    href: 'mailto:info@expoint-adv.ru',
+    href: 'mailto:info@bukva-svet.ru',
     labelKey: 'email',
     icon: AtSign,
     brandColor: '#00ffa3',
@@ -95,12 +96,12 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
 
   const handleEmailClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigator.clipboard.writeText('info@expoint-adv.ru').then(() => {
+    navigator.clipboard.writeText('info@bukva-svet.ru').then(() => {
       setShowToast(true);
     });
 
     setTimeout(() => {
-      window.location.href = 'mailto:info@expoint-adv.ru';
+      window.location.href = 'mailto:info@bukva-svet.ru';
     }, 120);
   };
 
@@ -140,7 +141,13 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
   return (
     <header
       data-variant={variant}
-      className={`sticky top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${desktopHeaderShell}`}
+      className={`${
+        isScrolled
+          ? 'fixed'
+          : variant === 'immersive'
+            ? 'absolute'
+            : 'sticky'
+      } top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${desktopHeaderShell}`}
     >
       <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
         
@@ -152,20 +159,20 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                 className="text-[1.22rem] font-semibold leading-none tracking-[-0.045em] text-white transition-colors duration-300 group-hover:text-primary sm:text-[1.4rem]"
                 style={{ fontFamily: 'var(--font-header)' }}
               >
-                Expoint <span className="font-medium text-white/70">Adv</span>
+                Буква <span className="font-medium text-white/70">Свет</span>
               </span>
               <span
-                className="hidden sm:block text-[10px] font-medium uppercase leading-none tracking-[0.22em] text-white/55 transition-colors duration-300 group-hover:text-white/75"
+                className="hidden xl:block text-[10px] font-medium uppercase leading-none tracking-[0.22em] text-white/55 transition-colors duration-300 group-hover:text-white/75"
                 style={{ fontFamily: 'var(--font-mono)' }}
               >
-                Engineering
+                Инжиниринг
               </span>
             </div>
           </Link>
         </div>
 
         {/* Center: Premium Desktop Pill Navigation (Unified Transparent) */}
-        <div className="relative z-10 hidden xl:flex shrink-0 items-center justify-center">
+        <div className="relative z-10 hidden lg:flex shrink-0 items-center justify-center">
           <nav className={`flex items-center rounded-full border p-1.5 transition-all duration-500 ${desktopNavShell}`}>
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
@@ -173,7 +180,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                 <Link
                   key={item.id}
                   href={item.href}
-                  className="group relative rounded-full px-5 py-2.5 text-[15px] font-semibold tracking-[-0.01em] outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary"
+                  className="group relative rounded-full px-3.5 py-2 text-[13.5px] xl:px-5 xl:py-2.5 xl:text-[15px] font-semibold tracking-[-0.01em] outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary"
                   style={{ fontFamily: 'var(--font-header)' }}
                 >
                   {isActive && (
@@ -199,7 +206,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
         {/* Right: Actions Section (flex-1 for perfect centering) */}
         <div className="relative z-10 hidden flex-col items-end lg:flex flex-1">
           {/* Top Row: Language, Cart, Login, CTA */}
-          <div className="flex items-center gap-2.5 xl:gap-3 animate-fade-in">
+          <div className="flex items-center gap-1.5 xl:gap-3 animate-fade-in">
             {/* Language Switcher — minimal pill style */}
             <LanguageSwitcher />
 
@@ -218,9 +225,9 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
             {/* CTA Button — с премиальной анимацией вращающегося градиента контура */}
             <HoverBorderGradient
               type="button"
-              onClick={() => document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => useModalStore.getState().openModal({ context: 'Заявка с шапки', source: 'header_cta' })}
               containerClassName="h-[34px] bg-transparent backdrop-blur-none p-[1.5px] hover:-translate-y-px shadow-[0_0_18px_rgba(0,255,163,0.22),inset_0_1px_0_rgba(255,255,255,0.08)] hover:shadow-[0_0_25px_rgba(0,255,163,0.5),_0_0_45px_rgba(121,40,202,0.35),_inset_0_1px_0_rgba(255,255,255,0.15)] transition-all duration-300"
-              className="h-full px-5 py-0 bg-[linear-gradient(180deg,rgba(32,32,35,0.96),rgba(20,20,22,0.92))] hover:bg-[linear-gradient(180deg,rgba(44,44,48,0.98),rgba(28,28,30,0.95))] flex items-center justify-center gap-2 text-[13px] font-semibold tracking-[-0.01em] text-white hover:text-white transition-all duration-300"
+              className="h-full px-3.5 py-0 xl:px-5 bg-[linear-gradient(180deg,rgba(32,32,35,0.96),rgba(20,20,22,0.92))] hover:bg-[linear-gradient(180deg,rgba(44,44,48,0.98),rgba(28,28,30,0.95))] flex items-center justify-center gap-1.5 xl:gap-2 text-[12px] xl:text-[13px] font-semibold tracking-[-0.01em] text-white hover:text-white transition-all duration-300"
               style={{ fontFamily: 'var(--font-header)' }}
             >
               <span className="relative z-10">{copy.requestAudit[locale]}</span>
@@ -237,8 +244,8 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
           <button
             className={`rounded-2xl border p-2.5 transition-all active:scale-[0.92] ${
               isMobileMenuOpen || isScrolled
-                ? 'border-[color:rgba(128,128,128,0.22)] bg-[rgba(255,255,255,0.84)] text-on-surface shadow-[0_10px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl'
-                : 'border-[color:rgba(128,128,128,0.16)] bg-[rgba(255,255,255,0.58)] text-on-surface backdrop-blur-sm'
+                ? 'border-white/[0.14] bg-white/[0.08] text-white shadow-[0_10px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl'
+                : 'border-white/[0.08] bg-white/[0.04] text-white backdrop-blur-sm'
             }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? copy.closeMenu[locale] : copy.openMenu[locale]}
@@ -267,7 +274,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
               initial="hidden"
               animate="visible"
               exit="hidden"
-              className="fixed inset-x-0 top-0 z-40 flex h-[85vh] flex-col rounded-b-[2.5rem] border-b border-[color:rgba(120,120,120,0.18)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(247,247,244,0.94))] px-6 pb-8 pt-24 shadow-[0_24px_80px_rgba(15,23,42,0.18)] backdrop-blur-3xl lg:hidden sm:px-8"
+              className="fixed inset-x-0 top-0 z-40 flex h-[85vh] flex-col rounded-b-[2.5rem] border-b border-white/[0.08] bg-[linear-gradient(180deg,#0a0a0c,#121215)] px-6 pb-8 pt-24 shadow-[0_24px_80px_rgba(0,0,0,0.6)] backdrop-blur-3xl lg:hidden sm:px-8"
             >
               <div className="flex flex-col gap-6 mb-auto overflow-y-auto pb-8 scrollbar-hide">
                 {navItems.map((item) => {
@@ -277,8 +284,8 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                       <Link
                         href={item.href}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className={`group flex items-center justify-between border-b border-[color:rgba(120,120,120,0.08)] pb-4 text-[2rem] font-semibold tracking-[-0.04em] transition-all sm:text-[2.3rem] ${
-                          isActive ? 'text-primary' : 'text-on-surface hover:text-primary'
+                        className={`group flex items-center justify-between border-b border-white/[0.04] pb-4 text-[2rem] font-semibold tracking-[-0.04em] transition-all sm:text-[2.3rem] ${
+                          isActive ? 'text-primary' : 'text-white/80 hover:text-white'
                         }`}
                         style={{ fontFamily: 'var(--font-header)' }}
                       >
@@ -289,7 +296,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                           whileInView={{ x: 0, opacity: 1 }}
                           transition={{ delay: 0.2 }}
                         >
-                          <ArrowRight className={`w-6 h-6 transition-transform duration-300 group-hover:translate-x-2 ${isActive ? 'text-primary' : 'text-on-surface-variant'}`} />
+                          <ArrowRight className={`w-6 h-6 transition-transform duration-300 group-hover:translate-x-2 ${isActive ? 'text-primary' : 'text-white/40'}`} />
                         </motion.div>
                       </Link>
                     </motion.div>
@@ -297,20 +304,20 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                 })}
               </div>
 
-              <motion.div variants={itemVariants} className="space-y-5 border-t border-[color:rgba(120,120,120,0.12)] pt-8">
+              <motion.div variants={itemVariants} className="space-y-5 border-t border-white/[0.06] pt-8">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1.35fr_0.9fr]">
-                  <div className="rounded-[24px] border border-[color:rgba(120,120,120,0.16)] bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(245,245,241,0.84))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_14px_28px_rgba(15,23,42,0.07)]">
-                    <span className="mb-3 block text-[10px] uppercase tracking-[0.22em] text-[color:rgba(67,67,67,0.54)]" style={{ fontFamily: 'var(--font-mono)' }}>
+                  <div className="rounded-[24px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(20,20,24,0.9),rgba(12,12,14,0.84))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_14px_28px_rgba(0,0,0,0.4)]">
+                    <span className="mb-3 block text-[10px] uppercase tracking-[0.22em] text-white/40" style={{ fontFamily: 'var(--font-mono)' }}>
                       {copy.callUs[locale]}
                     </span>
                     <a
                       href={PHONE_HREF}
-                      className="mb-4 block text-[1.35rem] font-semibold leading-tight tracking-[-0.04em] text-on-surface"
+                      className="mb-4 block text-[1.35rem] font-semibold leading-tight tracking-[-0.04em] text-white hover:text-accent transition-colors"
                       style={{ fontFamily: 'var(--font-header)' }}
                     >
                       {PHONE_LABEL}
                     </a>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       {contactActions.map((action) => (
                         <ProximityContactIcon
                           key={action.id}
@@ -323,8 +330,8 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                     </div>
                   </div>
 
-                  <div className="flex flex-col justify-center rounded-[24px] border border-[color:rgba(120,120,120,0.12)] bg-[rgba(255,255,255,0.74)] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.88)]">
-                    <span className="mb-3 block text-[10px] uppercase tracking-[0.22em] text-[color:rgba(67,67,67,0.54)]" style={{ fontFamily: 'var(--font-mono)' }}>
+                  <div className="flex flex-col justify-center rounded-[24px] border border-white/[0.08] bg-white/[0.02] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+                    <span className="mb-3 block text-[10px] uppercase tracking-[0.22em] text-white/40" style={{ fontFamily: 'var(--font-mono)' }}>
                       {copy.language[locale]}
                     </span>
                     <LanguageSwitcher />
@@ -334,9 +341,9 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                 <button
                   onClick={() => {
                     setIsMobileMenuOpen(false);
-                    document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' });
+                    useModalStore.getState().openModal({ context: 'Заявка с шапки', source: 'header_cta' });
                   }}
-                  className="flex w-full items-center justify-center gap-3 rounded-[20px] bg-primary px-8 py-5 text-[13px] font-semibold uppercase tracking-[0.14em] text-on-primary shadow-[0_18px_30px_rgba(23,23,23,0.18)] transition-all hover:bg-primary/90 active:scale-[0.98]"
+                  className="flex w-full items-center justify-center gap-3 rounded-[20px] bg-primary px-8 py-5 text-[13px] font-semibold uppercase tracking-[0.14em] text-on-primary shadow-[0_18px_30px_rgba(0,0,0,0.3)] transition-all hover:bg-primary/90 active:scale-[0.98]"
                   style={{ fontFamily: 'var(--font-header)' }}
                 >
                   {copy.requestAudit[locale]}
@@ -366,7 +373,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
                 {locale === 'ru' ? 'Адрес скопирован!' : 'Email Copied!'}
               </span>
               <span className="text-[11px] text-white/50 font-mono">
-                info@expoint-adv.ru
+                info@bukva-svet.ru
               </span>
             </div>
             <button
@@ -456,18 +463,9 @@ function ProximityContactIcon({
         target={isEmail ? undefined : "_blank"}
         rel={isEmail ? undefined : "noopener noreferrer"}
         aria-label={copy[action.labelKey as keyof typeof copy][locale as 'ru']}
-        className="relative flex h-12 w-12 items-center justify-center rounded-full border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer active:scale-[0.94] transition-all duration-300"
-        style={{
-          background: `radial-gradient(circle at 50% 38%, color-mix(in srgb, ${action.brandColor} 28%, white), color-mix(in srgb, ${action.brandColor} 12%, transparent))`,
-          borderColor: `color-mix(in srgb, ${action.brandColor} 34%, rgba(255,255,255,0.94))`,
-          boxShadow: `0 0 18px ${action.softGlow}, inset 0 1px 0 rgba(255,255,255,0.92)`,
-        }}
+        className="flex h-8 w-8 items-center justify-center rounded-full transition-transform active:scale-[0.92] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       >
-        <span
-          className="absolute h-3 w-3 rounded-full"
-          style={{ backgroundColor: action.brandColor }}
-        />
-        <Icon className="relative z-10 h-5 w-5" style={{ color: action.brandColor }} />
+        <Icon className="h-[21px] w-[21px]" style={{ color: action.brandColor }} />
       </a>
     );
   }

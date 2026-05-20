@@ -1,6 +1,6 @@
 "use client";
 import type { SVGProps } from 'react';
-import { MapPin, ArrowUpRight, Send, Mail } from 'lucide-react';
+import { MapPin, Send, Mail } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
 import Link from 'next/link';
@@ -41,8 +41,8 @@ const systemItems = [
 ] as const;
 
 const socialLinks = [
-  { name: 'Mail', href: 'mailto:hello@expoint.pro', icon: Mail },
-  { name: 'Telegram', href: 'https://t.me/expoint_adv', icon: Send },
+  { name: 'Mail', href: 'mailto:hello@bukva-svet.ru', icon: Mail },
+  { name: 'Telegram', href: 'https://t.me/bukva_svet', icon: Send },
   { name: 'VK', href: 'https://vk.com/', icon: VkIcon },
   { name: 'Zen', href: 'https://dzen.ru/', icon: ZenIcon },
 ];
@@ -51,22 +51,24 @@ export default function Footer() {
   const { locale } = useLanguage();
 
   return (
-    <footer id="footer" className="bg-surface text-on-surface-variant section-padding border-t border-outline/20">
+    <footer id="footer" className="bg-surface text-on-surface-variant section-padding border-t border-outline/10">
       <div className="section-container">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-0 border-x border-b border-outline/10">
+        
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 pb-16">
           
           {/* Logo & Description */}
-          <div className="md:col-span-4 p-8 lg:p-12 border-b md:border-b-0 md:border-r border-outline/10 flex flex-col gap-10">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-on-surface flex items-center justify-center rounded-none font-black text-surface text-sm tracking-tighter">EX</div>
-              <div className="font-headline text-lg font-black uppercase tracking-widest text-on-surface">
-                Expoint <span className="text-accent">ADV</span>
+          <div className="md:col-span-4 flex flex-col gap-8 lg:pr-12">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 bg-on-surface flex items-center justify-center rounded-sm font-black text-surface text-base tracking-tighter">БС</div>
+              <div className="font-headline text-xl font-black uppercase tracking-widest text-on-surface">
+                Буква <span className="text-accent">Свет</span>
               </div>
             </div>
-            <p className="text-xs font-normal leading-relaxed max-w-xs text-on-surface-variant/70 uppercase tracking-wider">
+            <p className="text-sm font-normal leading-relaxed text-on-surface-variant/80 max-w-sm">
               {t(locale, copy.description)}
             </p>
-            <div className="flex gap-4 mt-auto pt-8">
+            <div className="flex gap-3 mt-4">
               {socialLinks.map(({ name, href, icon: Icon }) => (
                 <a 
                   key={name} 
@@ -74,37 +76,36 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={name}
-                  className="text-on-surface-variant hover:text-accent transition-colors group"
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-on-surface/5 text-on-surface-variant hover:bg-accent hover:text-on-accent hover:scale-105 transition-all duration-300"
                 >
-                  <Icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <Icon className="w-5 h-5" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Navigation Links */}
-          <div className="md:col-span-2 p-8 lg:p-12 border-b md:border-b-0 md:border-r border-outline/10">
-            <h4 className="verge-mono-label mb-8 text-xs opacity-40 uppercase tracking-[0.3em]">{t(locale, copy.hardware)}</h4>
-            <ul className="space-y-4">
+          {/* Navigation Links - Hardware */}
+          <div className="md:col-span-2 flex flex-col gap-6 lg:pl-8">
+            <h4 className="font-mono text-xs font-bold text-on-surface/50 uppercase tracking-[0.2em]">{t(locale, copy.hardware)}</h4>
+            <ul className="flex flex-col gap-4">
               {hardwareItems.map((item) => (
                 <li key={item.label}>
-                  <Link href={item.href} className="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors flex items-center group">
+                  <Link href={item.href} className="text-sm font-semibold uppercase tracking-wider text-on-surface-variant hover:text-accent transition-colors flex items-center w-fit">
                     {item.label}
-                    <ArrowUpRight className="w-3 h-3 ml-2 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all" />
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="md:col-span-2 p-8 lg:p-12 border-b md:border-b-0 md:border-r border-outline/10">
-            <h4 className="verge-mono-label mb-8 text-xs opacity-40 uppercase tracking-[0.3em]">{t(locale, copy.system)}</h4>
-            <ul className="space-y-4">
+          {/* Navigation Links - System */}
+          <div className="md:col-span-2 flex flex-col gap-6 lg:pl-4">
+            <h4 className="font-mono text-xs font-bold text-on-surface/50 uppercase tracking-[0.2em]">{t(locale, copy.system)}</h4>
+            <ul className="flex flex-col gap-4">
               {systemItems.map((item) => (
                 <li key={item.label}>
-                  <Link href={item.href} className="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors flex items-center group">
+                  <Link href={item.href} className="text-sm font-semibold uppercase tracking-wider text-on-surface-variant hover:text-accent transition-colors flex items-center w-fit">
                     {item.label}
-                    <ArrowUpRight className="w-3 h-3 ml-2 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all" />
                   </Link>
                 </li>
               ))}
@@ -112,42 +113,51 @@ export default function Footer() {
           </div>
 
           {/* Contacts & Address */}
-          <div className="md:col-span-4 p-8 lg:p-12 flex flex-col gap-8">
-            <h4 className="verge-mono-label mb-2 text-xs opacity-40 uppercase tracking-[0.3em]">
-              {t(locale, copy.headquarters)} • Производство
+          <div className="md:col-span-4 flex flex-col gap-6 lg:pl-12">
+            <h4 className="font-mono text-xs font-bold text-on-surface/50 uppercase tracking-[0.2em]">
+              {t(locale, copy.headquarters)}
             </h4>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-5">
               <div className="flex items-start gap-4">
-                <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
+                <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="text-md md:text-lg font-sans font-black uppercase leading-[1.1] text-on-surface tracking-tight">
+                  <h3 className="text-lg md:text-xl font-headline font-black uppercase leading-tight text-on-surface tracking-tight">
                     Москва,<br/>
                     Полимерная 8
                   </h3>
+                  <p className="text-sm text-on-surface-variant/70 mt-2">Производственный комплекс</p>
                 </div>
               </div>
-              <div className="flex flex-col gap-4 pt-6 border-t border-outline/10">
-                <a href="tel:+74950000000" className="text-lg md:text-xl font-headline text-on-surface hover:text-primary transition-colors tracking-tight whitespace-nowrap">+7 (495) 000-00-00</a>
-                <a href="mailto:hello@expoint.pro" className="text-[10px] font-mono text-primary hover:text-on-surface transition-colors tracking-[0.2em] uppercase">hello@expoint.pro</a>
+              <div className="flex flex-col gap-2 mt-4">
+                <a href="tel:+74950000000" className="text-2xl font-headline font-bold text-on-surface hover:text-accent transition-colors tracking-tight w-fit">
+                  +7 (495) 000-00-00
+                </a>
+                <a href="mailto:hello@bukva-svet.ru" className="text-sm font-mono text-on-surface-variant/70 hover:text-accent transition-colors tracking-wider w-fit">
+                  hello@bukva-svet.ru
+                </a>
               </div>
             </div>
           </div>
-
-
         </div>
         
         {/* Bottom Bar */}
-        <div className="mt-12 flex flex-col md:flex-row justify-between items-center gap-10">
-          <div className="flex gap-12 items-center">
-            <p className="text-[9px] font-mono text-on-surface-variant/50 uppercase tracking-[0.3em]">© 2026 EXPOINT ADV LABS — ALL RIGHTS RESERVED</p>
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-outline/10">
+          <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-8 items-center">
+            <p className="text-[10px] sm:text-xs font-mono text-on-surface-variant/50 uppercase tracking-[0.1em] md:tracking-[0.2em]">
+              © {new Date().getFullYear()} БУКВА СВЕТ — ALL RIGHTS RESERVED
+            </p>
             <div className="hidden md:flex gap-6 items-center">
-              <div className="h-px w-8 bg-outline/20" />
-              <span className="text-[8px] font-mono text-on-surface-variant/30 uppercase tracking-[0.4em]">v.2.4.0_CORP_STRICT</span>
+              <div className="h-px w-6 bg-outline/20" />
+              <span className="text-[10px] font-mono font-bold text-on-surface-variant/30 uppercase tracking-[0.2em]">v.2.4.0_CORP_STRICT</span>
             </div>
           </div>
-          <div className="flex gap-8 text-[9px] font-bold uppercase tracking-[0.2em]">
-            <Link href="/privacy" className="text-on-surface-variant/60 hover:text-on-surface transition-colors">{t(locale, copy.privacy)}</Link>
-            <Link href="/terms" className="text-on-surface-variant/60 hover:text-on-surface transition-colors">{t(locale, copy.terms)}</Link>
+          <div className="flex flex-wrap justify-center gap-6 text-[10px] sm:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.2em]">
+            <Link href="/privacy" className="text-on-surface-variant/60 hover:text-on-surface transition-colors">
+              {t(locale, copy.privacy)}
+            </Link>
+            <Link href="/terms" className="text-on-surface-variant/60 hover:text-on-surface transition-colors">
+              {t(locale, copy.terms)}
+            </Link>
           </div>
         </div>
       </div>

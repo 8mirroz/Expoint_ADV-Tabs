@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 @import "../styles/tokens.css";
+@import "../styles/design-system.css";
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
@@ -104,6 +105,12 @@
 @layer base {
   * {
     border-color: var(--outline);
+  }
+  html,
+  body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    position: relative;
   }
   body {
     @apply font-sans antialiased text-on-surface bg-background selection:bg-primary/20 selection:text-primary transition-colors duration-[200ms];

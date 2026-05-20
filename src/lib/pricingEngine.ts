@@ -71,7 +71,7 @@ export interface ConfiguratorEstimate {
 export const DEFAULT_CALCULATOR_CONFIG: CalculatorConfig = {
   productType: 'volumetric-letters',
   businessSegment: 'retail',
-  text: 'EXPOINT',
+  text: 'БУКВА',
   widthMm: 1800,
   heightMm: 420,
   depthMm: 80,
