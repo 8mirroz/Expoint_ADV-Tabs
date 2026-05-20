@@ -13,7 +13,6 @@ describe('PRICES_PAGE blueprint', () => {
       'pricing-compliance',
       'stats',
       'faq',
-      'cta',
     ]);
   });
 

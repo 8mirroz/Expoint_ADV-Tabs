@@ -6,8 +6,6 @@ import { t } from '@/i18n/site';
 import { SERVICES } from '@/data/services';
 import { CatalogProductCard } from '@/components/ui/CatalogProductCard';
 import { getServiceHref } from '@/lib/utils';
-import PersonalOrderCTA from '@/components/sections/PersonalOrderCTA';
-
 
 const SERVICE_IMAGES: Record<string, string> = {
   'volumetric-letters': '/img/adv/volumetric-letters.png',
@@ -104,9 +102,6 @@ export default function Services() {
             );
           })}
         </div>
-
-        {/* CTA Card — Premium Industrial Design */}
-        <PersonalOrderCTA className="mt-20" />
       </div>
     </section>
   );

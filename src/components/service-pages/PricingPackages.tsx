@@ -71,7 +71,7 @@ export default function PricingPackages({
 
               <div className="flex-grow space-y-4 mb-10">
                 {pkg.includes.map((item, i) => (
-                  <div key={i} className="flex gap-3 text-sm text-on-surface-variant">
+                  <div key={i} className="flex gap-3 text-sm text-on-surface/90">
                     <Check className="w-5 h-5 text-primary/70 shrink-0" />
                     <span>{item}</span>
                   </div>

@@ -238,7 +238,7 @@ export default function PremiumPricingCards({
                   </div>
                   <div className="mt-5 pt-5 border-t border-white/5 space-y-3 px-4">
                     {pkg.includes.map((item, i) => (
-                      <div key={i} className="flex gap-3 text-[13px] text-[var(--ds-text-body)]/90 items-start">
+                      <div key={i} className="flex gap-3 text-[13px] text-white/90 items-start">
                         <Check className="w-4 h-4 text-[var(--ds-accent)] shrink-0 mt-0.5" />
                         <span className="leading-snug">{item}</span>
                       </div>
