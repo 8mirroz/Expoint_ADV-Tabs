@@ -30,6 +30,94 @@ const tags = [
   "Монтаж",
 ];
 
+// ─── Tag color mapper ─────────────────────────────────────────────────────
+const getTagStyles = (tag: string) => {
+  const normalized = tag.toLowerCase().replace(/ё/g, "е").trim();
+  switch (normalized) {
+    case "объемные буквы":
+      return {
+        borderColor: "rgba(255, 45, 85, 0.25)",
+        bgColor: "rgba(255, 45, 85, 0.06)",
+        textColor: "#ff4f73",
+        glowColor: "rgba(255, 45, 85, 0.2)"
+      };
+    case "световые короба":
+    case "лайтбоксы":
+      return {
+        borderColor: "rgba(0, 122, 255, 0.25)",
+        bgColor: "rgba(0, 122, 255, 0.06)",
+        textColor: "#3395ff",
+        glowColor: "rgba(0, 122, 255, 0.2)"
+      };
+    case "гибкий неон":
+    case "неоновые вывески":
+      return {
+        borderColor: "rgba(255, 149, 0, 0.25)",
+        bgColor: "rgba(255, 149, 0, 0.06)",
+        textColor: "#ffb033",
+        glowColor: "rgba(255, 149, 0, 0.2)"
+      };
+    case "крышные установки":
+      return {
+        borderColor: "rgba(88, 86, 214, 0.25)",
+        bgColor: "rgba(88, 86, 214, 0.06)",
+        textColor: "#8c8be6",
+        glowColor: "rgba(88, 86, 214, 0.2)"
+      };
+    case "монтаж":
+      return {
+        borderColor: "rgba(16, 185, 129, 0.25)",
+        bgColor: "rgba(16, 185, 129, 0.06)",
+        textColor: "#34d399",
+        glowColor: "rgba(16, 185, 129, 0.2)"
+      };
+    case "панель-кронштейны":
+      return {
+        borderColor: "rgba(217, 70, 239, 0.25)",
+        bgColor: "rgba(217, 70, 239, 0.06)",
+        textColor: "#e879f9",
+        glowColor: "rgba(217, 70, 239, 0.2)"
+      };
+    case "ретро-буквы":
+      return {
+        borderColor: "rgba(245, 158, 11, 0.25)",
+        bgColor: "rgba(245, 158, 11, 0.06)",
+        textColor: "#fbbf24",
+        glowColor: "rgba(245, 158, 11, 0.2)"
+      };
+    case "интерьерные логотипы":
+      return {
+        borderColor: "rgba(16, 185, 129, 0.25)",
+        bgColor: "rgba(16, 185, 129, 0.06)",
+        textColor: "#34d399",
+        glowColor: "rgba(16, 185, 129, 0.2)"
+      };
+    case "навигационные стелы":
+    case "стелы":
+      return {
+        borderColor: "rgba(6, 182, 212, 0.25)",
+        bgColor: "rgba(6, 182, 212, 0.06)",
+        textColor: "#22d3ee",
+        glowColor: "rgba(6, 182, 212, 0.2)"
+      };
+    case "зонирование":
+      return {
+        borderColor: "rgba(139, 92, 246, 0.25)",
+        bgColor: "rgba(139, 92, 246, 0.06)",
+        textColor: "#a78bfa",
+        glowColor: "rgba(139, 92, 246, 0.2)"
+      };
+    default:
+      return {
+        borderColor: "rgba(255, 255, 255, 0.15)",
+        bgColor: "rgba(255, 255, 255, 0.06)",
+        textColor: "rgba(255, 255, 255, 0.8)",
+        glowColor: "rgba(255, 255, 255, 0.1)"
+      };
+  }
+};
+
+
 // ─── Animated particle dot ───────────────────────────────────────────────
 function Dot({
   style,
@@ -147,13 +235,13 @@ function PreviewCard() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.98, y: 15 }}
+      initial={false}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="relative mt-20 lg:mt-0"
+      className="relative mt-20 w-full lg:mt-0"
     >
       {/* Premium frame */}
-      <div className="relative overflow-hidden rounded-[2rem] border border-white/[0.08] shadow-[0_40px_120px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.04)]">
+      <div className="relative w-full max-w-full overflow-hidden rounded-[2rem] border border-white/[0.08] shadow-[0_40px_120px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.04)]">
         {/* Inner glow top accent */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
@@ -163,8 +251,8 @@ function PreviewCard() {
               type="button"
               onClick={() => setQuizEnabled((prev) => !prev)}
               className={`rounded-full border px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] transition-all ${quizEnabled
-                  ? "border-[#00ffa3]/40 bg-[#00ffa3]/12 text-[#00ffa3]"
-                  : "border-[#00ffa3]/20 bg-[#00ffa3]/8 text-white/80 hover:border-[#00ffa3]/40 hover:text-[#00ffa3]"
+                ? "border-[#00ffa3]/40 bg-[#00ffa3]/12 text-[#00ffa3]"
+                : "border-[#00ffa3]/20 bg-[#00ffa3]/8 text-white/80 hover:border-[#00ffa3]/40 hover:text-[#00ffa3]"
                 }`}
             >
               {quizEnabled ? "Квиз включен" : "Дополнительно"}
@@ -184,14 +272,14 @@ function PreviewCard() {
                   onChange={(e) => setLeadData((prev) => ({ ...prev, name: e.target.value }))}
                   placeholder="Имя"
                   required
-                  className="h-12 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
+                  className="h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
                 />
                 <input
                   value={leadData.phone}
                   onChange={(e) => setLeadData((prev) => ({ ...prev, phone: e.target.value }))}
                   placeholder="+7 (___) ___-__-__"
                   required
-                  className="h-12 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
+                  className="h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
                 />
               </div>
 
@@ -199,7 +287,7 @@ function PreviewCard() {
                 value={leadData.email}
                 onChange={(e) => setLeadData((prev) => ({ ...prev, email: e.target.value }))}
                 placeholder="Email (опционально)"
-                className="h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
+                className="h-11 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-[#00ffa3]/40"
               />
 
               <AnimatePresence initial={false}>
@@ -226,8 +314,8 @@ function PreviewCard() {
                                 type="button"
                                 onClick={() => setQuiz((prev) => ({ ...prev, [field.key]: option }))}
                                 className={`rounded-lg border px-2.5 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] transition ${active
-                                    ? "border-[#00ffa3]/35 bg-[#00ffa3]/12 text-[#00ffa3]"
-                                    : "border-white/12 bg-white/5 text-white/60 hover:text-white"
+                                  ? "border-[#00ffa3]/35 bg-[#00ffa3]/12 text-[#00ffa3]"
+                                  : "border-white/12 bg-white/5 text-white/60 hover:text-white"
                                   }`}
                               >
                                 {option}
@@ -241,14 +329,16 @@ function PreviewCard() {
                 )}
               </AnimatePresence>
 
-              <label className="flex items-start gap-2.5 text-[11px] text-white/55">
+              <label className="flex items-start gap-3 text-xs md:text-sm text-white/70 hover:text-white cursor-pointer transition-colors select-none">
                 <input
                   type="checkbox"
                   checked={leadData.consent}
                   onChange={(e) => setLeadData((prev) => ({ ...prev, consent: e.target.checked }))}
-                  className="mt-0.5 h-4 w-4 rounded border-white/20 bg-transparent"
+                  className="mt-0.5 h-4.5 w-4.5 cursor-pointer rounded border-white/20 bg-white/5 text-[#00ffa3] focus:ring-1 focus:ring-[#00ffa3] focus:ring-offset-0 transition"
                 />
-                Согласие на обработку персональных данных и связь по проекту.
+                <span className="leading-tight">
+                  Согласие на обработку персональных данных и связь по проекту.
+                </span>
               </label>
 
               <div className="min-h-[65px]">
@@ -262,7 +352,7 @@ function PreviewCard() {
               <button
                 type="submit"
                 disabled={sending}
-                className="btn-premium-glow group inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl px-5 text-[11px] font-black uppercase tracking-[0.16em] text-black transition-all disabled:opacity-60"
+                className="btn-premium-glow group inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl px-5 text-[11px] font-black uppercase tracking-[0.16em] text-black transition-all disabled:opacity-60"
               >
                 {sending ? "Отправка..." : "Оставить заявку"}
                 <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 text-black" />
@@ -270,19 +360,42 @@ function PreviewCard() {
             </form>
           )}
 
-          <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3">
+          <div className="mt-6 flex flex-col gap-3">
             {[
-              { icon: Shield, title: "Гарантия 5 лет", desc: "На все вывески" },
-              { icon: Ruler, title: "Выезд 0 ₽", desc: "Замер и смета" },
-              { icon: Sparkles, title: "3D-дизайн 0 ₽", desc: "Привязка к фасаду" },
+              { 
+                icon: Shield, 
+                title: "Гарантия 5 лет", 
+                desc: "Полная гарантия на конструкцию и светодиоды",
+                badge: "Надежно"
+              },
+              { 
+                icon: Sparkles, 
+                title: "AI предпросмотр", 
+                desc: "Фотопривязка вывески на вашем фасаде бесплатно",
+                badge: "Включено" 
+              },
             ].map((feature, i) => (
-              <div key={i} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-[#070910] p-3 transition-colors hover:bg-white/[0.04]">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-[#00ffa3]/20 bg-[#00ffa3]/10 text-[#00ffa3]">
-                  <feature.icon className="h-4 w-4" />
+              <div 
+                key={i} 
+                className="group flex items-center justify-between gap-4 rounded-2xl border border-white/[0.06] bg-[#090b14]/40 p-4 backdrop-blur-md transition-all duration-300 hover:border-white/15 hover:bg-white/[0.02] hover:-translate-y-0.5 shadow-lg animate-fade-in"
+              >
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#00ffa3]/20 bg-[#00ffa3]/5 text-[#00ffa3] shadow-[0_0_15px_rgba(0,255,163,0.05)] transition-all duration-300 group-hover:border-[#00ffa3]/40 group-hover:bg-[#00ffa3]/10 group-hover:shadow-[0_0_20px_rgba(0,255,163,0.15)]">
+                    <feature.icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm font-black uppercase tracking-wider text-white leading-tight transition-colors group-hover:text-[#00ffa3]">
+                      {feature.title}
+                    </p>
+                    <p className="text-[11px] sm:text-xs text-white/50 mt-1 leading-normal">
+                      {feature.desc}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[9px] font-bold uppercase tracking-[0.1em] text-white/80">{feature.title}</p>
-                  <p className="text-[10px] text-white/40">{feature.desc}</p>
+                <div className="shrink-0">
+                  <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-white/70 transition-colors group-hover:border-[#00ffa3]/30 group-hover:bg-[#00ffa3]/10 group-hover:text-[#00ffa3]">
+                    {feature.badge}
+                  </span>
                 </div>
               </div>
             ))}
@@ -355,7 +468,7 @@ const HeroSection = ({ segment }: HeroProps) => {
 
             {/* Eyebrow badge */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="mb-8 inline-flex w-fit items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 backdrop-blur-md"
@@ -371,17 +484,17 @@ const HeroSection = ({ segment }: HeroProps) => {
 
             {/* Main headline */}
             <motion.h1
-              initial={{ opacity: 0, y: 32 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(2.6rem,5vw+1rem,5rem)] font-black leading-[1.0] tracking-[-0.04em] text-white"
+              className="text-[clamp(2.2rem,4.5vw+1rem,4.2rem)] font-black leading-[1.05] tracking-[-0.04em] text-white"
               style={{ fontFamily: "var(--font-header)" }}
             >
               {segment ? (
                 <>
                   {segmentTitle.split(" ")[0]}{" "}
                   <span
-                    className="relative inline-block"
+                    className="relative inline pr-1"
                     style={{
                       background: "linear-gradient(135deg, #00ffa3 0%, #00c8ff 100%)",
                       WebkitBackgroundClip: "text",
@@ -396,7 +509,7 @@ const HeroSection = ({ segment }: HeroProps) => {
                 <>
                   Вывески,{" "}
                   <span
-                    className="relative inline-block"
+                    className="relative inline pr-1"
                     style={{
                       background: "linear-gradient(135deg, #00ffa3 0%, #00c8ff 100%)",
                       WebkitBackgroundClip: "text",
@@ -415,7 +528,7 @@ const HeroSection = ({ segment }: HeroProps) => {
 
             {/* Subheadline */}
             <motion.p
-              initial={{ opacity: 0, y: 24 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
               className="mt-7 max-w-xl text-[1.05rem] leading-[1.75] text-white/55"
@@ -425,25 +538,35 @@ const HeroSection = ({ segment }: HeroProps) => {
 
             {/* Tags strip */}
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={false}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.35 }}
               className="mt-7 flex flex-wrap gap-2"
             >
-              {(segment ? segment.features : tags).map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-white/[0.08] bg-white/[0.04] px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/50"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  {tag}
-                </span>
-              ))}
+              {(segment ? segment.features : tags).map((tag) => {
+                const styles = getTagStyles(tag);
+                return (
+                  <span
+                    key={tag}
+                    className="premium-category-tag rounded-full border px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] cursor-default select-none"
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      "--tag-border": styles.borderColor,
+                      "--tag-bg": styles.bgColor,
+                      "--tag-bg-hover": styles.bgColor.replace("0.06", "0.15"),
+                      "--tag-text": styles.textColor,
+                      "--tag-glow": styles.glowColor,
+                    } as React.CSSProperties}
+                  >
+                    {tag}
+                  </span>
+                );
+              })}
             </motion.div>
 
             {/* CTA row */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
               className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
@@ -471,7 +594,7 @@ const HeroSection = ({ segment }: HeroProps) => {
 
             {/* Stat chips */}
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={false}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
               className="mt-12 flex items-center gap-px"
@@ -499,7 +622,7 @@ const HeroSection = ({ segment }: HeroProps) => {
 
           {/* ── Right column: preview card ──────────────────────────────── */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={false}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
@@ -534,6 +657,20 @@ const HeroSection = ({ segment }: HeroProps) => {
         }
         .btn-premium-glow:active {
           transform: translateY(0) scale(0.98);
+        }
+        .premium-category-tag {
+          border-color: var(--tag-border);
+          background-color: var(--tag-bg);
+          color: var(--tag-text);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+          transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .premium-category-tag:hover {
+          border-color: var(--tag-text) !important;
+          background-color: var(--tag-bg-hover) !important;
+          color: var(--tag-text) !important;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 14px var(--tag-glow) !important;
+          transform: translateY(-2px);
         }
       `}</style>
     </section>

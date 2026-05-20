@@ -8,7 +8,7 @@ export const volumetricLettersData: ServicePageData = {
     title: 'Объемные буквы для фасадов, витрин и премиальных брендов',
     subtitle: 'Проектируем, производим и монтируем буквы как инженерный продукт: размер, тип подсветки, материал борта, крепление, электрика и 902-ПП считаем отдельно и прозрачно.',
     videoSrc: '/videos/signage/3d-letters-premium.mp4',
-    trustLine: ['от 85 ₽/см', '3D-макет за 24 часа', 'монтаж под ключ', 'проверка по 902-ПП'],
+    trustLine: ['от 85 ₽/см', 'AI-предпросмотр за 24 часа', 'монтаж под ключ', 'проверка по 902-ПП'],
     primaryCTA: {
       label: 'Получить расчет',
       href: '#calculator',
@@ -26,7 +26,7 @@ export const volumetricLettersData: ServicePageData = {
     },
     {
       value: '24 ч',
-      label: '3D-макет',
+      label: 'AI-предпросмотр',
       description: 'Покажем, как буквы сядут на фасад и где начинаются монтажные ограничения.',
     },
     {
@@ -83,7 +83,7 @@ export const volumetricLettersData: ServicePageData = {
       role: 'recommended',
       priceLabel: 'от 90 000 ₽',
       includes: [
-        'LED Samsung, фотопривязка и 3D-макет',
+        'LED Samsung, фотопривязка и AI-предпросмотр',
         'Проверка по 902-ПП',
         'Усиленный монтажный контур',
         'Рабочий B2B формат для стрит-ритейла',

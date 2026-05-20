@@ -80,7 +80,7 @@ export default function Quiz() {
     finalData: { ru: 'Финальные данные', be: 'Фінальныя дадзеныя', kk: 'Қорытынды деректер', en: 'Final Data Acquisition', zh: '最终数据', ce: 'Чаккхен дата', tt: 'Йомгак мәгълүматлары' },
     nameLabel: { ru: 'Имя контактного лица', be: 'Імя кантактнай асобы', kk: 'Байланыс тұлғасының аты', en: 'Authorized Personnel Name', zh: '联系人姓名', ce: 'Контактан цIе', tt: 'Контакт кешесе исеме' },
     phoneLabel: { ru: 'Телефон для связи', be: 'Тэлефон для сувязі', kk: 'Байланыс телефоны', en: 'Communication Terminal (Phone)', zh: '联系电话', ce: 'Телефон', tt: 'Элемтә телефоны' },
-    submit: { ru: 'Получить расчет и 3D-визуализацию', be: 'Атрымаць разлік і 3D-візуалізацыю', kk: 'Есеп пен 3D-визуалды алу', en: 'Generate Quote & 3D Visualization', zh: '生成报价与 3D 预览', ce: 'Расчет а 3D-визуализаци а йала', tt: 'Хисап һәм 3D-визуализация алу' },
+    submit: { ru: 'Получить расчет и AI-предпросмотр', be: 'Атрымаць разлік і AI-прадвыгляд', kk: 'Есеп пен AI алдын ала қарауды алу', en: 'Generate Quote & AI Preview', zh: '生成报价与 AI 预览', ce: 'Расчет а AI-предпросмотр а йала', tt: 'Хисап һәм AI алдын ала карау алу' },
     back: { ru: 'Предыдущий этап', be: 'Папярэдні этап', kk: 'Алдыңғы кезең', en: 'Previous Phase', zh: '上一步', ce: 'Хьалхара этап', tt: 'Алдагы этап' },
     success: { ru: 'Инициализация завершена', be: 'Ініцыялізацыя завершана', kk: 'Инициализация аяқталды', en: 'Initialization Complete', zh: '初始化完成', ce: 'Инициализаци чекхъяьлла', tt: 'Инициализация тәмамланды' },
     bonus: { ru: 'Бонус разблокирован:', be: 'Бонус адкрыты:', kk: 'Бонус ашылды:', en: 'Bonus Asset Unlocked:', zh: '奖励已解锁：', ce: 'Бонус дIакхоьллина:', tt: 'Бонус ачылды:' },
@@ -170,7 +170,7 @@ export default function Quiz() {
           <h2 className="geist-display-lg text-on-surface mb-6">
             {t(locale, copy.title)}<span className="text-[#00aa6c]">.</span>
           </h2>
-          <p className="text-on-surface-variant text-lg leading-[28px] max-w-2xl mx-auto font-light">Параметрический расчет стоимости и 3D-моделирование объекта.</p>
+          <p className="text-on-surface-variant text-lg leading-[28px] max-w-2xl mx-auto font-light">Параметрический расчет стоимости и AI-предпросмотр объекта.</p>
         </div>
 
         <div className="bg-surface border border-outline/85 relative overflow-hidden rounded-2xl shadow-premium transition-all duration-500">
@@ -247,7 +247,7 @@ export default function Quiz() {
                     transition={{ duration: 0.4 }}
                   >
                     <h3 className="geist-display-sm text-on-surface mb-4 tracking-tight font-medium">{t(locale, copy.finalData)}</h3>
-                    <p className="text-on-surface-variant text-base font-light mb-10">Введите данные для формирования технического задания и 3D-макета.</p>
+                    <p className="text-on-surface-variant text-base font-light mb-10">Введите данные для формирования технического задания и AI-предпросмотра.</p>
                     
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="md:col-span-2">
@@ -356,7 +356,7 @@ export default function Quiz() {
           totalAmount="Бесплатный расчет"
           onGoToAccount={() => window.open("https://wa.me/74950000000", "_blank")}
           title="Расчет успешно запущен"
-          buttonText="Активировать 3D-макет в WhatsApp"
+          buttonText="Активировать AI-предпросмотр в WhatsApp"
           details={[
           { label: "Номер заявки", value: generatedOrderId },
           { label: "Тип конструкции", value: answers[0] || "Комплексное решение" },

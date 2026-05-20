@@ -67,7 +67,7 @@ export function ServiceHero({ service, previewVideo, openModal }: ServiceHeroPro
             ))}
           </h1>
           
-          <p className="hero-desc text-lg md:text-xl text-on-surface-variant max-w-2xl leading-[1.6] font-light border-l border-primary/30 pl-8">
+          <p className="hero-desc text-lg md:text-xl text-on-surface-variant max-w-2xl leading-[1.6] font-light border-l-2 border-[#00ffa3] pl-8">
             {service.fullDescription}
           </p>
 

@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'motion/react';
 import { ArrowRight, BadgeRussianRuble, Clock3, HardHat, ShieldCheck, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
@@ -82,12 +81,7 @@ export default function HeroGeneric({
       <div className="section-container relative z-10">
         <div className={`${hasPricingPanel ? 'grid gap-12 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-stretch' : ''}`}>
           {/* Main Content Column */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-            className={`max-w-4xl ${hasPricingPanel ? 'flex flex-col justify-between h-full' : ''}`}
-          >
+          <div className={`max-w-4xl ${hasPricingPanel ? 'flex flex-col justify-between h-full' : ''}`}>
             <div>
               {subtitle && (
                 <p className="verge-mono-label text-primary mb-8">{subtitle}</p>
@@ -131,16 +125,11 @@ export default function HeroGeneric({
                 ))}
               </div>
             )}
-          </motion.div>
+          </div>
 
           {/* Pricing Preview Panel (optional, v10) */}
           {hasPricingPanel && (
-            <motion.aside
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="hidden lg:flex flex-col justify-between h-full mt-4"
-            >
+            <aside className="hidden lg:flex flex-col justify-between h-full mt-4">
               <div className="flex flex-col gap-0">
                 {/* Price Cards */}
                 <div className="rounded-t-[var(--radius-20)] border border-white/[0.08] bg-zinc-950/80 p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-xl">
@@ -224,7 +213,7 @@ export default function HeroGeneric({
                   })}
                 </div>
               )}
-            </motion.aside>
+            </aside>
           )}
         </div>
 

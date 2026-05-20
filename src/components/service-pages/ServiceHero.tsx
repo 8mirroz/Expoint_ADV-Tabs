@@ -58,7 +58,7 @@ export default function ServiceHero({ data }: ServiceHeroProps) {
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         >
@@ -73,7 +73,7 @@ export default function ServiceHero({ data }: ServiceHeroProps) {
         </motion.div>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
           className="text-lg md:text-2xl font-medium text-on-surface-variant max-w-4xl mx-auto mb-10"
@@ -83,7 +83,7 @@ export default function ServiceHero({ data }: ServiceHeroProps) {
 
         {data.trustLine && (
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.25, delay: 0.14 }}
             className="mx-auto mb-12 flex max-w-4xl flex-wrap justify-center gap-3"
@@ -97,7 +97,7 @@ export default function ServiceHero({ data }: ServiceHeroProps) {
         )}
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-wrap justify-center gap-6"

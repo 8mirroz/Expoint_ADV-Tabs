@@ -36,13 +36,13 @@ export default function Cases() {
                 {t(locale, copy.eyebrow)}
               </span>
             </div>
-            <h2 className="geist-display-2xl uppercase">
-              {t(locale, copy.titleTop)} <br /> 
-              <span className="text-on-surface-variant/40">{t(locale, copy.titleBottom)}</span>
+            <h2 className="geist-display-2xl uppercase title-hover-group">
+              <span className="title-hover-gradient">{t(locale, copy.titleTop)}</span> <br /> 
+              <span className="title-hover-gradient text-on-surface-variant/40">{t(locale, copy.titleBottom)}</span>
             </h2>
           </div>
           <div className="lg:col-span-4 flex flex-col items-start lg:items-end gap-8">
-             <p className="text-on-surface-variant font-light leading-relaxed border-l border-accent/20 pl-6 py-2 text-left">
+             <p className="text-on-surface-variant font-light leading-relaxed border-l-2 border-[#00ffa3] pl-6 py-2 text-left">
                {t(locale, copy.intro)}
              </p>
              <button className="group flex items-center gap-4 text-xs font-black uppercase tracking-[0.3em] text-on-surface border border-outline px-10 py-5 bg-surface/50 backdrop-blur-md hover:bg-accent hover:text-white hover:border-accent transition-all duration-500">

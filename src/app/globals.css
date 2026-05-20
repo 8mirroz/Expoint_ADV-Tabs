@@ -3,12 +3,16 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+:root {
+  --font-mono: var(--font-sans) !important;
+}
+
 @theme {
   --font-sans: var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
   /* Intentional alias: swap to a different typeface for headlines without touching components */
   --font-headline: var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
   --font-header: var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-mono, "JetBrains Mono"), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-mono: var(--font-sans, "Inter"), ui-sans-serif, system-ui, sans-serif;
 
   /* Use CSS variables for colors */
   --color-background: var(--background);
@@ -554,4 +558,21 @@
   transform: translateY(0.5px) scale(0.96);
   box-shadow: 0 0 8px rgba(0, 223, 216, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
+
+/* Premium sliding title text gradient on hover */
+.title-hover-gradient {
+  background-image: linear-gradient(90deg, currentColor 0%, currentColor 50%, #00ffa3 75%, #00c8ff 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.title-hover-group:hover .title-hover-gradient,
+.title-hover-gradient:hover {
+  background-position: 100% 0%;
+}
+
 

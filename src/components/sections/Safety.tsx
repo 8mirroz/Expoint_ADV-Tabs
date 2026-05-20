@@ -60,13 +60,13 @@ export default function Safety() {
               </span>
               <div className="h-px flex-1 bg-outline" />
             </div>
-            <h2 className="geist-display-lg lg:text-[56px] text-on-surface">
-              {t(locale, copy.titleTop)}{' '}
-              <span className="text-on-surface-variant/40">{t(locale, copy.titleBottom)}</span>
+            <h2 className="geist-display-lg lg:text-[56px] text-on-surface title-hover-group">
+              <span className="title-hover-gradient">{t(locale, copy.titleTop)}</span>{' '}
+              <span className="title-hover-gradient text-on-surface-variant/40">{t(locale, copy.titleBottom)}</span>
             </h2>
           </div>
           <div className="lg:col-span-5">
-            <p className="text-on-surface-variant text-base leading-relaxed border-l-2 border-accent/20 pl-8 py-2">
+            <p className="text-on-surface-variant text-base leading-relaxed border-l-2 border-[#00ffa3] pl-8 py-2">
               {t(locale, copy.body)}
             </p>
           </div>
@@ -84,7 +84,7 @@ export default function Safety() {
                   viewport={{ once: true, margin: '-80px' }}
                   transition={{ duration: 0.45, delay: idx * 0.1 }}
                   className={cn(
-                    "relative rounded-3xl border p-8 overflow-hidden flex flex-col h-full transition-all duration-500",
+                    "group relative rounded-3xl border p-8 overflow-hidden flex flex-col h-full transition-all duration-500",
                     benefit.highContrast 
                       ? "bg-surface-variant/40 border-error/30 shadow-[0_0_40px_rgba(238,0,0,0.05)]" 
                       : "bg-surface-variant/20 border-outline/60"

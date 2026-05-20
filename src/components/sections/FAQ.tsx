@@ -65,8 +65,8 @@ export default function FAQ({ items = FAQS, titleText, introText }: FAQProps) {
           
           <div className="text-center space-y-4">
             <span className="verge-kicker text-accent">FAQS & COMPLIANCE</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl text-white font-black uppercase tracking-tight text-balance leading-tight">
-              {titleText ?? t(locale, title)}
+            <h2 className="text-3xl md:text-5xl lg:text-6xl text-white font-black uppercase tracking-tight text-balance leading-tight title-hover-group">
+              <span className="title-hover-gradient">{titleText ?? t(locale, title)}</span>
             </h2>
             <p className="text-sm md:text-base text-neutral-500 max-w-2xl mx-auto leading-relaxed">
               {introText ?? t(locale, intro)}

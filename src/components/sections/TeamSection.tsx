@@ -45,42 +45,42 @@ export default function TeamSection({ title, subtitle, members }: TeamSectionPro
           {members.map((member, index) => (
             <motion.div
               key={member.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="relative bg-background border border-outline/50 overflow-hidden group hover:shadow-xl transition-all duration-500 rounded-sm"
+              transition={{ delay: index * 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="relative bg-background border border-white/[0.04] hover:border-accent/30 overflow-hidden group hover:shadow-[0_20px_50px_rgba(0,255,163,0.08)] hover:-translate-y-1 transition-all duration-500 rounded-2xl"
             >
               {/* HUD Accents */}
-              <div className="absolute top-0 right-0 w-6 h-6 border-r border-t border-primary/0 group-hover:border-primary/40 transition-all duration-500 z-20" />
-              <div className="absolute bottom-0 left-0 w-6 h-6 border-l border-b border-primary/0 group-hover:border-primary/40 transition-all duration-500 z-20" />
+              <div className="absolute top-3 right-3 w-6 h-6 border-r border-t border-accent/0 group-hover:border-accent/40 transition-all duration-500 z-20 rounded-tr" />
+              <div className="absolute bottom-3 left-3 w-6 h-6 border-l border-b border-accent/0 group-hover:border-accent/40 transition-all duration-500 z-20 rounded-bl" />
 
               {/* Photo / Placeholder */}
-              <div className="relative aspect-[4/5] bg-surface-variant flex items-center justify-center overflow-hidden">
+              <div className="relative aspect-[4/5] bg-surface flex items-center justify-center overflow-hidden">
                 {member.imageUrl ? (
                   <Image
                     src={member.imageUrl}
                     alt={typeof member.name === 'string' ? member.name : ''}
                     fill
-                    className="object-cover group-hover:scale-105 transition-all duration-700"
+                    className="object-cover opacity-60 group-hover:opacity-100 grayscale group-hover:grayscale-0 group-hover:scale-[1.04] transition-all duration-700 ease-out"
                     sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                   />
                 ) : (
                   <User className="w-16 h-16 text-on-surface-variant/30" />
                 )}
-                <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-500 z-10" />
               </div>
 
               {/* Info */}
-              <div className="p-8 relative z-10">
-                <h3 className="font-sans font-bold text-lg text-on-surface tracking-tight">
+              <div className="p-8 relative z-10 bg-background/50 backdrop-blur-xs">
+                <h3 className="font-sans font-bold text-lg text-on-surface tracking-tight group-hover:text-accent transition-colors duration-300">
                   {member.name}
                 </h3>
-                <p className="verge-mono-label text-primary mt-2 text-xs uppercase tracking-widest">
+                <p className="verge-mono-label text-accent mt-2 text-xs uppercase tracking-widest">
                   {member.role}
                 </p>
-                <div className="h-px w-0 group-hover:w-full bg-primary/20 transition-all duration-700 my-4" />
-                <p className="text-sm leading-[1.6] text-on-surface-variant font-light line-clamp-3">
+                <div className="h-px w-0 group-hover:w-full bg-accent/20 transition-all duration-700 my-4" />
+                <p className="text-sm leading-[1.6] text-on-surface-variant/80 font-light line-clamp-3">
                   {member.description}
                 </p>
               </div>

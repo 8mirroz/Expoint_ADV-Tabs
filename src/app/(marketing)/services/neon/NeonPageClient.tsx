@@ -58,6 +58,7 @@ export default function NeonPageClient() {
         ctaHref={neonData.hero.primaryCTA.href}
         secondaryCtaText={neonData.hero.secondaryCTA?.label}
         secondaryCtaHref={neonData.hero.secondaryCTA?.href}
+        bgImage="/img/neon/flexible-neon-showcase.png"
       />
       <ProofStats />
       <B2BSegmentTabs segments={neonData.segments} />
@@ -542,23 +543,22 @@ function SkuShowcase() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(255,0,127,0.1),transparent_60%)] pointer-events-none" />
             <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-primary/10 blur-3xl opacity-40 group-hover:opacity-60 transition-opacity" />
 
-            {/* Glowing neon script simulation */}
-            <div className="relative z-10 flex flex-col items-center justify-center py-8 rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md mb-8 h-48 overflow-hidden shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
-              {/* Dynamic light emission */}
-              <div className="absolute inset-0 blur-3xl bg-primary/10 opacity-30 group-hover:scale-125 transition-transform duration-500" />
-              
-              <span 
-                className="relative z-10 text-white font-serif italic text-3xl font-semibold select-none leading-none block"
-                style={{
-                  textShadow: '0 0 6px #FFF, 0 0 12px #00F5A0, 0 0 24px #00F5A0, 0 0 40px rgba(0,245,160,0.5)',
-                  WebkitTextStroke: '2px rgba(255,255,255,0.95)'
-                }}
-              >
-                Dream Big
-              </span>
-              <span className="block text-[8px] font-mono tracking-[0.25em] text-primary mt-4 font-bold uppercase">
-                Custom neon sign
-              </span>
+            {/* Real premium custom neon work showcase */}
+            <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-slate-950 mb-8 h-48 overflow-hidden shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
+              <img
+                src="/img/neon/flexible-neon-showcase.png"
+                alt="Кастомный гибкий неон Expoint ADV"
+                className="w-full h-full object-cover opacity-85 transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent" />
+              <div className="absolute bottom-4 left-4 z-10 text-left">
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-primary mb-1">
+                  Наше производство
+                </span>
+                <span className="block text-[11px] text-white font-bold leading-tight">
+                  Премиальный силикон 12V на прозрачном акриле
+                </span>
+              </div>
             </div>
 
             {/* Card Content & details */}

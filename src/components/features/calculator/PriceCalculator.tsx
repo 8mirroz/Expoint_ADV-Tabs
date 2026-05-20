@@ -35,7 +35,7 @@ export function PriceCalculator() {
             <h3 className="text-4xl font-black flex items-center gap-4 tracking-tighter uppercase leading-none">
               {charCount > 0 ? 'Параметры_01' : 'Параметры проекта'}
             </h3>
-            <p className="text-on-surface-variant text-base font-light leading-relaxed max-w-md border-l border-outline pl-6">
+            <p className="text-on-surface-variant text-base font-light leading-relaxed max-w-md border-l-2 border-[#00ffa3] pl-6">
               Сконфигурируйте технические характеристики для получения мгновенной промышленной оценки стоимости.
             </p>
           </div>

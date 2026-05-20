@@ -35,7 +35,7 @@ export function ServiceFeatures({ service, previewVideo }: ServiceFeaturesProps)
             <span className="text-on-surface-variant/40">{locale === 'ru' ? 'Решения' : 'Solutions'}</span>
           </h2>
         </div>
-        <div className="flex items-center gap-6 verge-mono-label text-on-surface-variant/40 border-l border-outline pl-8">
+        <div className="flex items-center gap-6 verge-mono-label text-on-surface-variant/40 border-l-2 border-[#00ffa3] pl-8">
           <div className="space-y-1">
             <div className="text-on-surface font-semibold">ISO-9001:2015</div>
             <div>CERTIFIED_WORKFLOW</div>

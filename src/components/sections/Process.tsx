@@ -30,22 +30,22 @@ const PROCESS_STEPS = [
   {
     id: '02',
     title: {
-      ru: '3D-Рендеринг',
-      en: '3D Rendering',
-      be: '3D-Рэндэрынг',
-      kk: '3D-Рендеринг',
-      zh: '3D渲染',
-      ce: '3D-рендеринг',
-      tt: '3D-рендеринг',
+      ru: 'AI предпросмотр',
+      en: 'AI Preview',
+      be: 'AI прадвыгляд',
+      kk: 'AI алдын ала қарау',
+      zh: 'AI 预览',
+      ce: 'AI предпросмотр',
+      tt: 'AI алдын ала карау',
     },
     description: {
-      ru: 'Визуализация конструкций на объекте по нормам 902-ПП.',
-      en: 'Visualization of structures at the site according to 902-PP standards.',
-      be: 'Візуалізацыя канструкцый на аб\'екце по нормам 902-ПП.',
-      kk: '902-ПП нормаларына сәйкес нысандағы құрылымдарды визуализациялау.',
-      zh: '根据902-PP标准在现场进行结构可视化。',
-      ce: '902-ПП нормашца объектехь конструкцийн визуализаци.',
-      tt: '902-ПП нормалары буенча объектта конструкцияләрне визуализацияләү.',
+      ru: 'Фотопривязка вывески на вашем объекте по нормам 902-ПП. Входит в стоимость.',
+      en: 'Photo alignment of the sign on your facade according to 902-PP. Included in cost.',
+      be: 'Фотапрывязка шыльды на вашым аб\'екце па нормах 902-ПП. Уваходзіць у кошт.',
+      kk: '902-ПП нормалары бойынша сіздің нысандағы маңдайшаны фотобайланыстыру. Құнына кіреді.',
+      zh: '根据902-PP标准在您的现场进行招牌照片绑定。包含在费用中。',
+      ce: '902-ПП нормашца объектехь вывескан фотопривязка. Махна юкъа йоьду.',
+      tt: '902-ПП нормалары буенча сезнең объектта маңгайлыкны фотобәйләү. Бәягә керә.',
     }
   },
   {
@@ -113,6 +113,119 @@ const PROCESS_STEPS = [
   }
 ];
 
+
+const STEP_THEMES = [
+  {
+    gradient: 'from-[#00FFA3] to-[#00C8FF]',
+    accentBg: 'bg-gradient-to-r from-[#00FFA3] to-[#00C8FF]',
+    numberVariants: {
+      initial: { opacity: 0, y: 0, scale: 1, filter: 'drop-shadow(0 0 0px rgba(0,250,163,0))' },
+      hover: { 
+        opacity: 1, 
+        y: -6, 
+        scale: 1.05, 
+        filter: 'drop-shadow(0 4px 15px rgba(0, 250, 163, 0.5))',
+        transition: { type: 'spring' as const, stiffness: 300, damping: 15 } 
+      }
+    },
+    baseNumberVariants: {
+      initial: { opacity: 0.2, scale: 1 },
+      hover: { 
+        opacity: 0, 
+        scale: 1.05, 
+        transition: { duration: 0.3 } 
+      }
+    }
+  },
+  {
+    gradient: 'from-[#A855F7] to-[#EC4899]',
+    accentBg: 'bg-gradient-to-r from-[#A855F7] to-[#EC4899]',
+    numberVariants: {
+      initial: { opacity: 0, rotate: 0, scale: 1, filter: 'drop-shadow(0 0 0px rgba(168,85,247,0))' },
+      hover: { 
+        opacity: 1, 
+        rotate: -5, 
+        scale: 1.08, 
+        filter: 'drop-shadow(0 4px 18px rgba(168, 85, 247, 0.6))',
+        transition: { type: 'spring' as const, stiffness: 260, damping: 12 } 
+      }
+    },
+    baseNumberVariants: {
+      initial: { opacity: 0.2, scale: 1 },
+      hover: { 
+        opacity: 0, 
+        scale: 1.08, 
+        transition: { duration: 0.3 } 
+      }
+    }
+  },
+  {
+    gradient: 'from-[#3B82F6] to-[#06B6D4]',
+    accentBg: 'bg-gradient-to-r from-[#3B82F6] to-[#06B6D4]',
+    numberVariants: {
+      initial: { opacity: 0, x: 0, scale: 1, filter: 'drop-shadow(0 0 0px rgba(59,130,246,0))' },
+      hover: { 
+        opacity: 1, 
+        x: 8, 
+        scale: 1.04, 
+        filter: 'drop-shadow(0 4px 15px rgba(59, 130, 246, 0.5))',
+        transition: { type: 'spring' as const, stiffness: 280, damping: 14 } 
+      }
+    },
+    baseNumberVariants: {
+      initial: { opacity: 0.2, scale: 1 },
+      hover: { 
+        opacity: 0, 
+        scale: 1.04, 
+        transition: { duration: 0.3 } 
+      }
+    }
+  },
+  {
+    gradient: 'from-[#FF6B00] to-[#FFA800]',
+    accentBg: 'bg-gradient-to-r from-[#FF6B00] to-[#FFA800]',
+    numberVariants: {
+      initial: { opacity: 0, scale: 1, filter: 'drop-shadow(0 0 0px rgba(255,107,0,0))' },
+      hover: { 
+        opacity: 1, 
+        scale: 1.06, 
+        filter: 'drop-shadow(0 4px 16px rgba(255, 107, 0, 0.5))',
+        transition: { type: 'spring' as const, stiffness: 200, damping: 10 } 
+      }
+    },
+    baseNumberVariants: {
+      initial: { opacity: 0.2, scale: 1 },
+      hover: { 
+        opacity: 0, 
+        scale: 1.06, 
+        transition: { duration: 0.3 } 
+      }
+    }
+  },
+  {
+    gradient: 'from-[#10B981] to-[#05FAF2]',
+    accentBg: 'bg-gradient-to-r from-[#10B981] to-[#05FAF2]',
+    numberVariants: {
+      initial: { opacity: 0, y: 0, scale: 1, filter: 'drop-shadow(0 0 0px rgba(16,185,129,0))' },
+      hover: { 
+        opacity: 1, 
+        y: -10, 
+        scale: 1.08, 
+        filter: 'drop-shadow(0 4px 20px rgba(16, 185, 129, 0.6))',
+        transition: { type: 'spring' as const, stiffness: 220, damping: 12 } 
+      }
+    },
+    baseNumberVariants: {
+      initial: { opacity: 0.2, scale: 1 },
+      hover: { 
+        opacity: 0, 
+        scale: 1.08, 
+        transition: { duration: 0.3 } 
+      }
+    }
+  }
+];
+
 export default function Process() {
   const { locale } = useLanguage();
   const openModal = useModalStore((state) => state.openModal);
@@ -168,7 +281,7 @@ export default function Process() {
             viewport={{ once: true }}
             className="geist-display-xl text-on-surface"
           >
-            {t(locale, mainHeading)}
+            <span>{t(locale, mainHeading)}</span>
           </motion.h2>
           <motion.div 
             initial={{ opacity: 0, scaleX: 0 }}
@@ -188,49 +301,62 @@ export default function Process() {
           </motion.p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-6 border-t border-outline/30 pt-12">
-          {PROCESS_STEPS.map((step, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="flex flex-col gap-6 group cursor-default relative"
-            >
-              {/* Animated Top Accent Line */}
-              <div className="absolute -top-12 left-0 w-full h-[1px]">
-                <div className="h-[2px] w-0 bg-primary group-hover:w-full transition-all duration-700 ease-out" />
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-8 border-t border-outline/30 pt-16">
+          {PROCESS_STEPS.map((step, index) => {
+            const theme = STEP_THEMES[index];
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover="hover"
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="flex flex-col gap-6 group cursor-default relative"
+              >
+                {/* Animated Top Accent Line */}
+                <div className="absolute -top-16 left-0 w-full h-[1px]">
+                  <div className={`h-[2px] w-0 ${theme.accentBg} group-hover:w-full transition-all duration-700 ease-out`} />
+                </div>
 
-              {/* Number */}
-              <div>
-                <motion.span 
-                  whileHover={{ 
-                    opacity: 0.4, 
-                    scale: 1.05,
-                    color: 'var(--primary)',
-                    transition: { duration: 0.4, ease: "easeOut" }
-                  }}
-                  className="text-6xl font-bold tracking-tighter text-on-surface/30 group-hover:text-primary transition-colors duration-500 inline-block"
-                >
-                  {step.id}
-                </motion.span>
-              </div>
+                {/* Number */}
+                <div className="relative h-20 md:h-24 select-none mb-2 md:mb-3">
+                  <motion.span 
+                    variants={theme.baseNumberVariants}
+                    initial="initial"
+                    className="absolute left-0 top-0 text-8xl md:text-9xl font-headline font-black tracking-tighter text-on-surface/20 origin-left leading-none pr-6"
+                    style={{ fontFamily: "var(--font-header)" }}
+                  >
+                    {step.id}
+                  </motion.span>
+                  <motion.span 
+                    variants={theme.numberVariants}
+                    initial="initial"
+                    className={`absolute left-0 top-0 text-8xl md:text-9xl font-headline font-black tracking-tighter bg-gradient-to-r ${theme.gradient} bg-clip-text text-transparent origin-left leading-none pr-6`}
+                    style={{ fontFamily: "var(--font-header)" }}
+                  >
+                    {step.id}
+                  </motion.span>
+                </div>
 
-              <div className="space-y-4">
-                <h3 className="geist-display-sm !text-lg text-on-surface group-hover:text-primary transition-colors duration-500">
-                  {t(locale, step.title)}
-                </h3>
+                <div className="space-y-4">
+                  <h3 
+                    className="geist-display-sm !text-lg md:!text-[1.25rem] font-headline font-black tracking-[-0.03em] text-on-surface transition-colors duration-500"
+                    style={{ fontFamily: "var(--font-header)" }}
+                  >
+                    {t(locale, step.title)}
+                  </h3>
 
-                <p className="text-on-surface-variant text-sm leading-relaxed">
-                  {t(locale, step.description)}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+                  <p className="text-on-surface-variant/82 text-[13.5px] leading-[1.6]">
+                    {t(locale, step.description)}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
+

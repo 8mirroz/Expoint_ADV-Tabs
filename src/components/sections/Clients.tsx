@@ -26,7 +26,7 @@ export default function Clients() {
         <p className="text-xs uppercase tracking-[0.4em] text-white/50 font-bold mb-4 opacity-50">
           Наши партнеры
         </p>
-        <h2 className="text-2xl md:text-3xl font-headline font-bold text-white/90 tracking-tight">
+        <h2 className="text-xl md:text-2xl font-headline font-bold text-white/90 tracking-tight">
           Нам доверяют лидеры рынка
         </h2>
       </div>
@@ -38,14 +38,14 @@ export default function Clients() {
               key={client.name} 
               className="flex items-center justify-center px-8 transition-opacity duration-500"
             >
-              <div className="relative h-12 md:h-14 w-auto">
+              <div className="relative h-16 md:h-20 w-auto">
                 <Image
                   src={client.logo} 
                   alt={client.name} 
-                  width={200}
-                  height={60}
+                  width={240}
+                  height={80}
                   unoptimized
-                  className="h-full w-auto object-contain opacity-50 hover:opacity-100 transition-opacity duration-500 brightness-0 invert"
+                  className="h-full w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-500 brightness-0 invert"
                 />
               </div>
             </div>

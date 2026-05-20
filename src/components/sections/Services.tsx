@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useLanguage } from '@/components/i18n/LanguageProvider';
 import { t } from '@/i18n/site';
@@ -47,14 +46,10 @@ const copy = {
 export default function Services() {
   const { locale } = useLanguage();
 
-  const featuredService = SERVICES.find(s => s.id === 'volumetric-letters');
-  const neonService = SERVICES.find(s => s.id === 'flex-neon');
-  const lightboxService = SERVICES.find(s => s.id === 'lightbox');
-
   return (
     <section id="services" className="scroll-mt-28 section-padding overflow-hidden bg-canvas-soft">
       <div className="section-container">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end mb-24 px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end mb-24">
           <div className="lg:col-span-7">
             <div className="flex items-center gap-4 mb-6">
               <span className="verge-mono-label text-primary tracking-[0.2em]">
@@ -62,49 +57,52 @@ export default function Services() {
               </span>
               <div className="h-px flex-1 bg-outline" />
             </div>
-            <h2 className="geist-display-lg md:text-[56px] lg:text-[72px] text-on-surface">
-              {t(locale, copy.titleTop)}
+            <h2 className="geist-display-lg md:text-[56px] lg:text-[72px] text-on-surface title-hover-group">
+              <span className="title-hover-gradient">{t(locale, copy.titleTop)}</span>
               {t(locale, copy.titleBottom) && (
                 <>
                   <br />
-                  <span className="text-on-surface-variant/40">{t(locale, copy.titleBottom)}</span>
+                  <span className="title-hover-gradient text-on-surface-variant/40">{t(locale, copy.titleBottom)}</span>
                 </>
               )}
             </h2>
           </div>
           <div className="lg:col-span-5">
-             <p className="text-white/90 text-xl leading-relaxed border-l-2 border-[var(--accent-color)] pl-8 py-2">
+             <p className="text-white/90 text-xl leading-relaxed border-l-2 border-[#00ffa3] pl-8 py-2">
                {t(locale, copy.intro)}
              </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-6">
-          {SERVICES.map((service, idx) => (
-            <motion.div 
-              key={service.id}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ 
-                duration: 0.8, 
-                delay: idx * 0.1,
-                ease: [0.16, 1, 0.3, 1]
-              }}
-            >
-              <CatalogProductCard 
-                title={SERVICE_TITLES[service.id] || service.title}
-                price={service.basePrice}
-                priceUnit={service.priceUnit}
-                image={SERVICE_IMAGES[service.id] || 'https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2070&auto=format&fit=crop'}
-                previewVideo={service.previewVideo}
-                specs={service.technicalSpecs || []}
-                href={getServiceHref(service.id)}
-                accentColor={SERVICE_ACCENTS[service.id]}
-                index={idx}
-              />
-            </motion.div>
-          ))}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 xl:gap-8 items-stretch">
+          {SERVICES.map((service, idx) => {
+            return (
+              <motion.div 
+                key={service.id}
+                className="h-full"
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: idx * 0.1,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+              >
+                <CatalogProductCard 
+                  title={SERVICE_TITLES[service.id] || service.title}
+                  price={service.basePrice}
+                  priceUnit={service.priceUnit}
+                  image={SERVICE_IMAGES[service.id] || 'https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2070&auto=format&fit=crop'}
+                  previewVideo={service.previewVideo}
+                  specs={service.technicalSpecs || []}
+                  href={getServiceHref(service.id)}
+                  accentColor={SERVICE_ACCENTS[service.id]}
+                  index={idx}
+                />
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* CTA Card — Premium Industrial Design */}

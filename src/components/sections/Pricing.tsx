@@ -1,11 +1,23 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { motion, useInView } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import Link from 'next/link';
-import { ArrowRight, BriefcaseBusiness, Check, Gem, Network, Rocket, Star } from 'lucide-react';
+import {
+  ArrowRight,
+  BadgeCheck,
+  BriefcaseBusiness,
+  Check,
+  Clock3,
+  Gem,
+  Network,
+  Rocket,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react';
 
 import { SERVICES } from '@/data/services';
+import gsap, { useGSAP } from '@/lib/gsap';
 
 interface ScenarioPackage {
   id: string;
@@ -26,6 +38,72 @@ interface PricingProps {
   packages?: ScenarioPackage[];
 }
 
+type PricingMode = 'all-inclusive' | 'production-only';
+
+const serviceTitleMap = new Map(SERVICES.map((service) => [service.id, service.title]));
+
+const riskLabels: Record<ScenarioPackage['riskLevel'], string> = {
+  low: 'Минимальный',
+  medium: 'Средний',
+  high: 'Высокий',
+};
+
+const packageIcons: Record<string, typeof Rocket> = {
+  start: Rocket,
+  business: BriefcaseBusiness,
+  premium: Gem,
+  network: Network,
+};
+
+const packageThemes: Record<
+  string,
+  { accent: string; accentSoft: string; border: string; surface: string; ring: string; titleHover: string }
+> = {
+  start: {
+    accent: 'text-sky-200',
+    accentSoft: 'bg-sky-400/10 text-sky-100 border-sky-300/20',
+    border: 'border-sky-400/20',
+    surface: 'from-sky-500/15 via-cyan-400/8 to-emerald-400/12',
+    ring: 'shadow-[0_0_0_1px_rgba(56,189,248,0.14),0_18px_40px_rgba(0,0,0,0.34)]',
+    titleHover: 'group-hover:text-sky-200',
+  },
+  business: {
+    accent: 'text-[#00ffa3]',
+    accentSoft: 'bg-[#00ffa3]/10 text-[#00ffa3] border-[#00ffa3]/20',
+    border: 'border-[#00ffa3]/22',
+    surface: 'from-[#00ffa3]/16 via-emerald-400/10 to-cyan-400/14',
+    ring: 'shadow-[0_0_0_1px_rgba(0,255,163,0.16),0_18px_44px_rgba(0,0,0,0.34)]',
+    titleHover: 'group-hover:text-[#00ffa3]',
+  },
+  premium: {
+    accent: 'text-amber-100',
+    accentSoft: 'bg-amber-400/10 text-amber-100 border-amber-300/20',
+    border: 'border-amber-400/22',
+    surface: 'from-amber-400/16 via-orange-300/10 to-rose-400/12',
+    ring: 'shadow-[0_0_0_1px_rgba(251,191,36,0.14),0_18px_44px_rgba(0,0,0,0.34)]',
+    titleHover: 'group-hover:text-amber-100',
+  },
+  network: {
+    accent: 'text-violet-100',
+    accentSoft: 'bg-violet-400/10 text-violet-100 border-violet-300/20',
+    border: 'border-violet-400/22',
+    surface: 'from-violet-400/16 via-cyan-400/10 to-[#00ffa3]/10',
+    ring: 'shadow-[0_0_0_1px_rgba(167,139,250,0.14),0_18px_44px_rgba(0,0,0,0.34)]',
+    titleHover: 'group-hover:text-violet-100',
+  },
+};
+
+const packageModeCopy: Record<PricingMode, { label: string; description: string }> = {
+  'all-inclusive': {
+    label: 'Под ключ',
+    description: 'Монтаж, согласование и проверка включены в рабочий сценарий.',
+  },
+  'production-only': {
+    label: 'Только производство',
+    description: 'Снимаем монтаж из сметы и показываем чистую производственную часть.',
+  },
+};
+
 /** Default packages (v10) if not provided via props */
 const defaultPackages: ScenarioPackage[] = [
   {
@@ -38,6 +116,7 @@ const defaultPackages: ScenarioPackage[] = [
     includes: [
       'Базовая вывеска из ПВХ или легкий световой короб',
       'Энергоэффективная лицевая LED-подсветка',
+      'AI-предпросмотр фасада (входит в стоимость)',
       'Монтаж на высоте до 3 метров в подарок',
       'Гарантия 1–3 года и паспорт изделия',
     ],
@@ -55,8 +134,8 @@ const defaultPackages: ScenarioPackage[] = [
     audience: 'Полноформатные кафе, рестораны, салоны красоты, клиники и стрит-ритейл.',
     includes: [
       'Объёмные световые буквы с премиум LED Samsung',
-      'Индивидуальный 3D-дизайн и фотопривязка',
-      'Бесплатный выезд инженера-замерщика по МКАД',
+      'AI-предпросмотр фасада (входит в стоимость)',
+      'Выезд инженера-замерщика по МКАД',
       '100% аудит соответствия Постановлению 902-ПП',
       'Расширенная B2B-гарантия до 5 лет',
     ],
@@ -75,7 +154,7 @@ const defaultPackages: ScenarioPackage[] = [
     audience: 'Флагманские бутики, рестораны высокой кухни, отели, премиальные офисы.',
     includes: [
       'Конструкции из нержавеющей стали, латуни и композита',
-      'Художественный дизайн-проект под фасад здания',
+      'AI-предпросмотр фасада (входит в стоимость)',
       'Сложный монтаж спецтехникой в ночное время',
       'Регулярное профилактическое обслуживание',
       'Гарантия 5 лет + VIP-сервис 24/7',
@@ -106,320 +185,401 @@ const defaultPackages: ScenarioPackage[] = [
   },
 ];
 
-const serviceTitleMap = new Map(SERVICES.map((service) => [service.id, service.title]));
-
-const riskColors: Record<string, string> = {
-  low: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-  medium: 'bg-emerald-400/10 text-emerald-300 border-emerald-400/20',
-  high: 'bg-[#00ffa3]/10 text-[#00ffa3] border-[#00ffa3]/20',
+const getWarranty = (id: string, mode: PricingMode) => {
+  if (id === 'start') return mode === 'all-inclusive' ? '1–3 года' : '1 год';
+  if (id === 'business') return 'до 5 лет';
+  if (id === 'premium') return mode === 'all-inclusive' ? '5 лет + VIP' : '5 лет';
+  return 'по SLA';
 };
 
-const riskLabels: Record<string, string> = {
-  low: 'Минимальный',
-  medium: 'Средний',
-  high: 'Высокий',
+const getCompliance = (id: string) => {
+  if (id === 'start') return 'Базовый аудит';
+  if (id === 'business') return '100% аудит (902-ПП)';
+  if (id === 'premium') return 'VIP-экспертиза';
+  return 'Полный комплаенс';
 };
 
-const packageIcons: Record<string, typeof Rocket> = {
-  start: Rocket,
-  business: BriefcaseBusiness,
-  premium: Gem,
-  network: Network,
+const getBudget = (pkg: ScenarioPackage, mode: PricingMode) => {
+  if (mode === 'all-inclusive') {
+    return {
+      budget: pkg.budget,
+      budgetNote: pkg.budgetNote,
+      previousBudget: null as string | null,
+      timeline: pkg.timeline,
+      includes: pkg.includes,
+    };
+  }
+
+  if (pkg.id === 'start') {
+    return {
+      budget: 'от 34 000 ₽',
+      budgetNote: 'чистое производство без монтажа',
+      previousBudget: pkg.budget,
+      timeline: '4–5 рабочих дней',
+      includes: [
+        'Базовая вывеска из ПВХ или легкий световой короб',
+        'Энергоэффективная лицевая LED-подсветка',
+        'AI-предпросмотр фасада (входит в стоимость)',
+        'Шеф-монтаж и видеоинструкция по установке',
+        'Гарантия 1 год и паспорт изделия',
+      ],
+    };
+  }
+
+  if (pkg.id === 'business') {
+    return {
+      budget: 'от 76 500 ₽',
+      budgetNote: 'оптимум для дилеров и самостоятельных',
+      previousBudget: pkg.budget,
+      timeline: '6–8 рабочих дней',
+      includes: [
+        'Объёмные световые буквы с премиум LED Samsung',
+        'AI-предпросмотр фасада (входит в стоимость)',
+        'Бесплатный технический аудит ваших замеров',
+        '100% аудит соответствия Постановлению 902-ПП',
+        'B2B-гарантия на компоненты до 5 лет',
+      ],
+    };
+  }
+
+  if (pkg.id === 'premium') {
+    return {
+      budget: 'от 127 500 ₽',
+      budgetNote: 'элитные материалы с отправкой по РФ',
+      previousBudget: pkg.budget,
+      timeline: '8–12 рабочих дней',
+      includes: [
+        'Конструкции из нержавеющей стали, латуни и композита',
+        'AI-предпросмотр фасада (входит в стоимость)',
+        'Шеф-монтаж (удаленный или выездной надзор)',
+        'Профессиональная упаковка и бережная доставка',
+        'Гарантия 5 лет + VIP-поддержка',
+      ],
+    };
+  }
+
+  return {
+    budget: pkg.budget,
+    budgetNote: pkg.budgetNote,
+    previousBudget: null as string | null,
+    timeline: pkg.timeline,
+    includes: pkg.includes,
+  };
 };
 
 /**
- * Pricing — v10: Scenario-based B2B packages with timeline rail,
- * budget anchors, glassmorphism cards, and motion reveals.
+ * Pricing — premium scenario cards with clearer hierarchy, more contrast,
+ * and GSAP-driven reveal/ambient motion.
  */
 export default function Pricing({ packages }: PricingProps) {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
-  const [pricingMode, setPricingMode] = useState<'all-inclusive' | 'production-only'>('all-inclusive');
+  const [pricingMode, setPricingMode] = useState<PricingMode>('all-inclusive');
 
-  const items = (packages ?? defaultPackages).map((pkg) => {
-    if (pricingMode === 'production-only') {
-      let budget = pkg.budget;
-      let timeline = pkg.timeline;
-      let includes = [...pkg.includes];
-      let budgetNote = pkg.budgetNote;
+  const items = (packages ?? defaultPackages).map((pkg) => ({
+    ...pkg,
+    ...getBudget(pkg, pricingMode),
+  }));
 
-      if (pkg.id === 'start') {
-        budget = 'от 34 000 ₽';
-        timeline = '4–5 рабочих дней';
-        budgetNote = 'чистое производство без монтажа';
-        includes = [
-          'Базовая вывеска из ПВХ или легкий световой короб',
-          'Энергоэффективная лицевая LED-подсветка',
-          'Шеф-монтаж и видеоинструкция по установке',
-          'Гарантия 1 год и паспорт изделия',
-        ];
-      } else if (pkg.id === 'business') {
-        budget = 'от 76 500 ₽';
-        timeline = '6–8 рабочих дней';
-        budgetNote = 'оптимум для дилеров и самостоятельных';
-        includes = [
-          'Объёмные световые буквы с премиум LED Samsung',
-          'Индивидуальный 3D-дизайн и чертежи для монтажа',
-          'Бесплатный технический аудит ваших замеров',
-          '100% аудит соответствия Постановлению 902-ПП',
-          'B2B-гарантия на компоненты до 5 лет',
-        ];
-      } else if (pkg.id === 'premium') {
-        budget = 'от 127 500 ₽';
-        timeline = '8–12 рабочих дней';
-        budgetNote = 'элитные материалы с отправкой по РФ';
-        includes = [
-          'Конструкции из нержавеющей стали, латуни и композита',
-          'Художественный дизайн-проект и монтажные шаблоны',
-          'Шеф-монтаж (удаленный или выездной надзор)',
-          'Профессиональная упаковка и бережная доставка',
-          'Гарантия 5 лет + VIP-поддержка',
-        ];
-      }
+  useGSAP(
+    () => {
+      if (!sectionRef.current) return;
 
-      return {
-        ...pkg,
-        budget,
-        timeline,
-        includes,
-        budgetNote,
-      };
-    }
-    return pkg;
-  });
+      const tl = gsap.timeline({
+        defaults: { ease: 'power3.out' },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 76%',
+          once: true,
+        },
+      });
+
+      tl.from('.pricing-headline', { opacity: 0, y: 28, duration: 0.65 })
+        .from('.pricing-toggle-wrap', { opacity: 0, y: 18, duration: 0.35 }, '-=0.25')
+        .from('.pricing-premium-card', { opacity: 0, y: 38, scale: 0.98, stagger: 0.09, duration: 0.55 }, '-=0.08');
+
+      gsap.to('.pricing-ambient', {
+        xPercent: 3,
+        yPercent: -2,
+        duration: 6,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+
+      gsap.to('.pricing-grid-line', {
+        backgroundPositionX: '42px',
+        duration: 20,
+        repeat: -1,
+        ease: 'none',
+      });
+    },
+    { scope: sectionRef }
+  );
 
   return (
     <section
       ref={sectionRef}
-      className="section-padding border-t border-white/[0.08] bg-zinc-950 relative overflow-hidden"
+      className="section-padding border-t border-white/[0.08] bg-[radial-gradient(120%_100%_at_50%_0%,rgba(0,255,163,0.08),rgba(0,0,0,0)_48%),#070707] relative overflow-hidden"
     >
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 z-0 opacity-[0.015] bg-[url('/img/patterns/grid.svg')] bg-[length:40px_40px] pointer-events-none" />
+      <div className="pricing-ambient pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_12%_18%,rgba(0,255,163,0.16),transparent_28%),radial-gradient(circle_at_86%_14%,rgba(168,85,247,0.12),transparent_24%),radial-gradient(circle_at_50%_78%,rgba(14,165,233,0.08),transparent_28%)] opacity-80" />
+      <div className="pricing-grid-line pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(rgba(0,255,163,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,163,0.03)_1px,transparent_1px)] bg-[size:22px_22px]" />
+      <div className="absolute inset-x-0 top-0 z-0 h-px bg-gradient-to-r from-transparent via-[#00ffa3]/30 to-transparent" />
 
-      <div className="section-container relative z-10 space-y-14">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end"
-        >
+      <div className="section-container relative z-10 space-y-12">
+        <div className="pricing-headline grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-end">
           <div className="space-y-5">
-            <p className="verge-mono-label text-primary">Пакеты под задачу</p>
-            <h2 className="geist-display-lg max-w-[16ch] text-balance text-white">
-              Не хотите разбираться в сантиметрах? Выберите готовый пакет.
+            <p className="verge-mono-label text-primary tracking-[0.22em]">Пакеты под задачу</p>
+            <h2 className="geist-display-lg max-w-[15ch] text-balance text-white">
+              Пакет выбирается по сценарию, а не по красивой цифре.
             </h2>
           </div>
-          <p className="max-w-3xl text-lg leading-[1.7] text-neutral-400">
-            Четыре сценария для разных задач бизнеса — от быстрого запуска одной точки до масштабирования сети. Каждый пакет включает производство, монтаж и проверку.
-          </p>
-        </motion.div>
 
-        {/* Interactive Pricing Mode Switcher */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center pt-2 pb-4"
-        >
-          <div className="inline-flex rounded-full bg-zinc-900/90 p-1 border border-white/[0.08] backdrop-blur-md relative shadow-inner select-none">
-            <button
-              onClick={() => setPricingMode('all-inclusive')}
-              className={`relative rounded-full px-5 py-2.5 text-xs font-bold font-mono tracking-wider transition-all duration-300 ${
-                pricingMode === 'all-inclusive'
-                  ? 'text-black z-10 font-black'
-                  : 'text-neutral-400 hover:text-white z-10'
-              }`}
-            >
-              {pricingMode === 'all-inclusive' && (
-                <motion.div
-                  layoutId="active-pricing-bg"
-                  className="absolute inset-0 bg-[#00ffa3] rounded-full shadow-[0_0_15px_rgba(0,255,163,0.3)] z-[-1]"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                />
-              )}
-              ПОД КЛЮЧ
-            </button>
-            <button
-              onClick={() => setPricingMode('production-only')}
-              className={`relative rounded-full px-5 py-2.5 text-xs font-bold font-mono tracking-wider transition-all duration-300 ${
-                pricingMode === 'production-only'
-                  ? 'text-black z-10 font-black'
-                  : 'text-neutral-400 hover:text-white z-10'
-              }`}
-            >
-              {pricingMode === 'production-only' && (
-                <motion.div
-                  layoutId="active-pricing-bg"
-                  className="absolute inset-0 bg-[#00ffa3] rounded-full shadow-[0_0_15px_rgba(0,255,163,0.3)] z-[-1]"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                />
-              )}
-              ТОЛЬКО ПРОИЗВОДСТВО (-15%)
-            </button>
+          <div className="space-y-5">
+            <p className="max-w-3xl text-lg leading-[1.7] text-neutral-300/90">
+              Мы собрали четыре сценария с прозрачной логикой бюджета, сроков, гарантии и комплаенса. Информация плотная, но без визуального шума: ключевые значения всегда на первом плане.
+            </p>
+
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] px-4 py-3">
+                <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Сценариев</p>
+                <p className="mt-1 text-lg font-semibold text-white">4 рабочих пакета</p>
+              </div>
+              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] px-4 py-3">
+                <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Монтаж</p>
+                <p className="mt-1 text-lg font-semibold text-white">от 4 000 ₽</p>
+              </div>
+              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] px-4 py-3">
+                <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Проверка</p>
+                <p className="mt-1 text-lg font-semibold text-[#00ffa3]">902-ПП до запуска</p>
+              </div>
+            </div>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Package Cards */}
+        <div className="pricing-toggle-wrap flex items-center justify-center">
+          <div className="inline-flex items-center gap-1 rounded-full border border-white/[0.08] bg-zinc-950/85 p-1 shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-md">
+            {(['all-inclusive', 'production-only'] as PricingMode[]).map((mode) => {
+              const active = pricingMode === mode;
+              return (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => setPricingMode(mode)}
+                  aria-pressed={active}
+                  className={`relative rounded-full px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300 ${
+                    active ? 'text-black' : 'text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  {active && (
+                    <motion.div
+                      layoutId="pricing-toggle-bg"
+                      className="absolute inset-0 rounded-full bg-[#00ffa3] shadow-[0_0_18px_rgba(0,255,163,0.28)]"
+                      transition={{ type: 'spring', stiffness: 360, damping: 28 }}
+                    />
+                  )}
+                  <span className="relative z-10">{packageModeCopy[mode].label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <p className="max-w-3xl text-center text-sm leading-6 text-neutral-400">
+            {packageModeCopy[pricingMode].description}
+          </p>
+        </div>
+
         <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
-          {items.map((pkg, index) => {
+          {items.map((pkg) => {
             const Icon = packageIcons[pkg.id] ?? Rocket;
+            const theme = packageThemes[pkg.id] ?? packageThemes.start;
             const isIndividual = pkg.budget.toLowerCase().includes('индивидуал');
 
             return (
-              <motion.article
+              <article
                 key={pkg.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.08 * (index + 1), ease: [0.16, 1, 0.3, 1] }}
-                className={`group relative flex h-full flex-col rounded-[24px] p-6 transition-all duration-500 overflow-hidden ${
-                  pkg.isPopular
-                    ? 'shadow-[0_0_35px_rgba(0,255,163,0.04)] hover:shadow-[0_0_55px_rgba(0,255,163,0.08)]'
-                    : 'hover:shadow-[0_20px_40px_rgba(0,255,163,0.04)]'
-                } hover:-translate-y-2`}
+                className={`pricing-premium-card group relative flex h-full flex-col overflow-hidden rounded-[30px] border ${theme.border} bg-[linear-gradient(180deg,rgba(16,16,18,0.98),rgba(7,7,9,0.96))] p-6 transition-all duration-500 hover:-translate-y-1.5 ${theme.ring}`}
               >
-                {/* Dynamic linear sweep border glow on hover */}
-                <div className="absolute inset-0 p-[1.2px] rounded-[24px] bg-gradient-to-br from-white/10 via-white/5 to-transparent group-hover:from-[#00ffa3]/40 group-hover:via-[#00ffa3]/10 group-hover:to-purple-500/20 transition-all duration-700 ease-out z-0 pointer-events-none" />
-                <div className={`absolute inset-[1.2px] rounded-[22.8px] z-0 pointer-events-none transition-colors duration-500 ${
-                  pkg.isPopular ? 'bg-zinc-950/98' : 'bg-zinc-900/98'
-                }`} />
+                <div
+                  className={`absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_0%,rgba(0,255,163,0.14),transparent_48%)]`}
+                />
+                <div
+                  className={`absolute inset-x-0 top-0 h-28 bg-gradient-to-br ${theme.surface} opacity-70`}
+                />
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:18px_18px] opacity-[0.16]" />
 
-                {/* Popular Choice Floating Badge */}
                 {pkg.isPopular && (
-                  <div className="absolute -top-3 left-6 flex items-center gap-1.5 rounded-full bg-[#00ffa3] px-3.5 py-1 shadow-[0_0_20px_rgba(0,255,163,0.4)] select-none z-20 transition-transform duration-500 group-hover:scale-105">
-                    <Star className="h-3 w-3 text-black fill-black animate-pulse" />
-                    <span className="text-[9px] font-mono font-bold text-black uppercase tracking-wider">Выбор большинства</span>
+                  <div className="absolute -top-3 left-6 z-20 inline-flex items-center gap-1.5 rounded-full bg-[#00ffa3] px-3.5 py-1 shadow-[0_0_22px_rgba(0,255,163,0.34)]">
+                    <Sparkles className="h-3.5 w-3.5 fill-black text-black" />
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-black">Выбор большинства</span>
                   </div>
                 )}
 
-                {/* Card Cover Image */}
-                <div className="relative mb-5 overflow-hidden rounded-xl border border-white/[0.06] bg-zinc-950 aspect-[16/9] z-10 select-none">
-                  <img
-                    src={`/img/packages/${pkg.id}.png`}
-                    alt={pkg.title}
-                    className="h-full w-full object-cover opacity-75 transition-transform duration-700 ease-out group-hover:scale-105 group-hover:opacity-100"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-zinc-950/20 to-transparent pointer-events-none" />
-                  {/* Floating category icon */}
-                  <div className="absolute bottom-3 left-3 flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-black/60 backdrop-blur-md text-white transition-all duration-500 group-hover:border-[#00ffa3]/30 group-hover:text-[#00ffa3]">
-                    <Icon className="h-4 w-4" />
-                  </div>
-                </div>
+                <div className="relative z-10 flex h-full flex-col">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/60 text-white transition-all duration-300 group-hover:text-[#00ffa3] group-hover:border-[#00ffa3]/30 group-hover:shadow-[0_0_24px_rgba(0,255,163,0.12)]`}>
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-mono tracking-[0.2em] text-[#00ffa3] uppercase">{pkg.label} PACKAGE</p>
+                        <p className="mt-0.5 text-[11px] uppercase tracking-[0.16em] text-neutral-500">
+                          {pkg.isPopular ? 'Самый частый выбор' : 'Доступный сценарий'}
+                        </p>
+                      </div>
+                    </div>
 
-                {/* Header Info */}
-                <div className="relative z-10 space-y-4">
-                  {/* Tag & SLA Risk */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono tracking-widest text-[#00ffa3] uppercase select-none">{pkg.label} PACKAGE</span>
-                    <span className={`rounded-full px-2.5 py-0.5 text-[9px] font-mono uppercase tracking-wider border select-none transition-colors duration-500 ${
-                      pkg.riskLevel === 'low'
-                        ? 'border-emerald-500/20 bg-emerald-500/5 text-emerald-400 group-hover:border-emerald-500/30'
-                        : pkg.riskLevel === 'medium'
-                        ? 'border-emerald-400/20 bg-emerald-400/5 text-emerald-300 group-hover:border-emerald-400/30'
-                        : 'border-[#00ffa3]/20 bg-[#00ffa3]/5 text-[#00ffa3] group-hover:border-[#00ffa3]/30'
-                    }`}>
+                    <span
+                      className={`shrink-0 rounded-full border px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.18em] ${theme.accentSoft}`}
+                    >
                       SLA: {riskLabels[pkg.riskLevel]}
                     </span>
                   </div>
 
-                  {/* Title */}
-                  <div className="h-[56px] min-h-[56px] flex flex-col justify-center">
-                    <h3 className="text-xl font-bold tracking-tight text-white leading-tight transition-colors duration-300 group-hover:text-[#00ffa3] line-clamp-2">
-                      {pkg.title}
-                    </h3>
-                  </div>
-
-                  {/* Budget Presentation */}
-                  <div className="flex flex-col justify-end h-[64px] min-h-[64px] border-b border-white/[0.04] pb-4">
-                    {pricingMode === 'production-only' && !isIndividual && (
-                      <span className="text-xs line-through text-neutral-500 font-mono mb-1">
-                        {pkg.id === 'start' && 'от 40 000 ₽'}
-                        {pkg.id === 'business' && 'от 90 000 ₽'}
-                        {pkg.id === 'premium' && 'от 150 000 ₽'}
+                  <div className="mt-7 space-y-4 border-b border-white/[0.08] pb-5">
+                    <div className="flex items-center justify-between gap-4">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Сценарий</p>
+                        <h3 className={`text-2xl font-black tracking-[-0.03em] text-white transition-colors duration-300 ${theme.titleHover}`}>
+                          {pkg.title}
+                        </h3>
+                      </div>
+                      <span
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${theme.accentSoft}`}
+                      >
+                        <BadgeCheck className="h-3.5 w-3.5" />
+                        {pkg.id === 'network' ? 'SLA / сеть' : 'B2B-ready'}
                       </span>
-                    )}
-                    <span className={`tracking-tight text-white leading-none ${
-                      isIndividual
-                        ? 'text-[20px] xs:text-xl lg:text-[22px] font-bold text-white/95'
-                        : 'text-3xl font-black text-[#00ffa3]'
-                    }`}>
-                      {isIndividual ? 'Индивидуально' : pkg.budget}
-                    </span>
-                    {pkg.budgetNote && (
-                      <p className="mt-1.5 text-[9px] font-mono tracking-widest text-neutral-400 uppercase">{pkg.budgetNote}</p>
-                    )}
+                    </div>
+
+                    <p className="text-sm leading-6 text-neutral-300">{pkg.audience}</p>
                   </div>
 
-                  {/* Audience Info */}
-                  <p className="text-xs leading-relaxed text-neutral-400 h-[48px] min-h-[48px] overflow-hidden line-clamp-2">
-                    {pkg.audience}
-                  </p>
-                </div>
+                  <div className="mt-5 rounded-[22px] border border-white/[0.06] bg-black/55 p-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Бюджет</p>
+                        <AnimatePresence mode="wait" initial={false}>
+                          <motion.div
+                            key={`${pkg.id}-${pricingMode}-${pkg.budget}`}
+                            initial={{ opacity: 0, y: 14 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -12 }}
+                            transition={{ duration: 0.22 }}
+                            className="mt-1 flex items-baseline gap-2"
+                          >
+                            <span
+                              className={`text-[2.15rem] font-black tracking-[-0.04em] leading-none tabular-nums ${
+                                isIndividual ? 'text-white' : 'text-[#00ffa3]'
+                              }`}
+                            >
+                              {pkg.budget}
+                            </span>
+                          </motion.div>
+                        </AnimatePresence>
+                        {pkg.budgetNote && (
+                          <p className="mt-1 text-[10px] font-mono tracking-[0.14em] text-neutral-500 uppercase">
+                            {pkg.budgetNote}
+                          </p>
+                        )}
+                      </div>
 
-                {/* Specifications B2B Widget */}
-                <div className="relative z-10 mt-5 h-[156px] min-h-[156px] bg-zinc-950/60 border border-white/[0.04] rounded-2xl p-4 space-y-3.5 group-hover:border-[#00ffa3]/10 transition-all duration-500 overflow-hidden flex flex-col justify-between">
-                  {/* Timeline row */}
-                  <div className="flex items-center justify-between text-xs h-[20px] min-h-[20px]">
-                    <span className="text-[9px] font-mono tracking-widest text-neutral-500 uppercase">Срок производства</span>
-                    <span className="font-semibold text-white/90 font-mono whitespace-nowrap">{pkg.timeline}</span>
+                      <div className="text-right">
+                        <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Режим</p>
+                        <span className="mt-1 inline-flex rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
+                          {packageModeCopy[pricingMode].label}
+                        </span>
+                        {pricingMode === 'production-only' && pkg.id !== 'network' && (
+                          <p className="mt-2 text-[10px] font-mono tracking-[0.14em] text-neutral-500 uppercase line-through">
+                            {pkg.id === 'start' && 'от 40 000 ₽'}
+                            {pkg.id === 'business' && 'от 90 000 ₽'}
+                            {pkg.id === 'premium' && 'от 150 000 ₽'}
+                          </p>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Structures row */}
-                  <div className="border-t border-white/[0.04] pt-3 flex flex-col gap-1.5 flex-1 justify-start">
-                    <span className="text-[9px] font-mono tracking-widest text-neutral-500 uppercase">Рекомендуемые конструкции</span>
-                    <div className="flex flex-wrap gap-1 overflow-hidden">
+                  <div className="mt-4 grid grid-cols-3 gap-3">
+                    <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] px-3 py-3">
+                      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.16em] text-neutral-500">
+                        <Clock3 className="h-3.5 w-3.5 text-[#00ffa3]/85" />
+                        Срок
+                      </div>
+                      <p className="mt-1 text-sm font-semibold text-white">{pkg.timeline}</p>
+                    </div>
+                    <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] px-3 py-3">
+                      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.16em] text-neutral-500">
+                        <ShieldCheck className="h-3.5 w-3.5 text-[#00ffa3]/85" />
+                        Гарантия
+                      </div>
+                      <p className="mt-1 text-sm font-semibold text-white">{getWarranty(pkg.id, pricingMode)}</p>
+                    </div>
+                    <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] px-3 py-3">
+                      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.16em] text-neutral-500">
+                        <BadgeCheck className="h-3.5 w-3.5 text-[#00ffa3]/85" />
+                        Аудит
+                      </div>
+                      <p className="mt-1 text-sm font-semibold text-[#00ffa3]">{getCompliance(pkg.id)}</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 rounded-[22px] border border-white/[0.06] bg-white/[0.015] p-4">
+                    <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Рекомендованные конструкции</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
                       {pkg.recommendation.map((serviceId) => (
                         <span
                           key={serviceId}
-                          className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-2 py-0.5 text-[9px] text-neutral-400 hover:border-[#00ffa3]/25 hover:text-white transition-colors duration-300 font-mono"
+                          className="rounded-full border border-white/[0.08] bg-black/40 px-2.5 py-1 text-[10px] text-neutral-300 transition-colors duration-300 hover:border-[#00ffa3]/30 hover:text-white"
                         >
                           {serviceTitleMap.get(serviceId) ?? serviceId}
                         </span>
                       ))}
                     </div>
                   </div>
-                </div>
 
-                {/* Includes / Features */}
-                <div className="relative z-10 mt-5 h-[190px] min-h-[190px] space-y-2.5 flex flex-col justify-start overflow-hidden border-t border-white/[0.04] pt-4">
-                  <span className="text-[9px] font-mono tracking-widest text-neutral-500 uppercase mb-1">Что входит в пакет</span>
-                  {pkg.includes.map((item) => (
-                    <div key={item} className="flex gap-2.5 text-xs leading-relaxed text-neutral-400 hover:text-neutral-200 transition-colors duration-300">
-                      <Check className="h-3.5 w-3.5 shrink-0 mt-0.5 text-[#00ffa3] shadow-[0_0_6px_rgba(0,255,163,0.3)]" />
-                      <span className="line-clamp-2">{item}</span>
+                  <div className="mt-4 space-y-3 border-t border-white/[0.08] pt-4">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[10px] font-mono tracking-[0.18em] text-neutral-500 uppercase">Что входит в пакет</p>
+                      <span className="text-[10px] uppercase tracking-[0.14em] text-neutral-500">{pkg.includes.length} пунктов</span>
                     </div>
-                  ))}
-                </div>
 
-                {/* Decision Advice Banner */}
-                <div className="relative z-10 mt-5 h-[84px] min-h-[84px] rounded-xl border border-[#00ffa3]/10 bg-[#00ffa3]/[0.02] px-4 py-2.5 flex flex-col justify-center overflow-hidden group-hover:bg-[#00ffa3]/[0.04] transition-all duration-500">
-                  <p className="text-[9px] font-mono tracking-widest text-[#00ffa3] uppercase font-bold">B2B сценарий</p>
-                  <p className="mt-0.5 text-xs leading-normal text-neutral-300 font-medium line-clamp-2">
-                    {pkg.decisionNote ?? 'Оптимальное решение для ваших задач'}
-                  </p>
-                </div>
+                    <div className="grid gap-2">
+                      {pkg.includes.map((item) => (
+                        <div
+                          key={item}
+                          className="flex gap-2.5 rounded-2xl border border-white/[0.04] bg-black/35 px-3 py-2.5 text-sm leading-6 text-neutral-300 transition-colors duration-300 hover:border-white/[0.08] hover:text-white"
+                        >
+                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#00ffa3] shadow-[0_0_8px_rgba(0,255,163,0.22)]" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-                {/* CTA Button */}
-                <div className="relative z-10 mt-auto pt-5">
-                  {pkg.isPopular ? (
+                  <div className="mt-4 rounded-[22px] border border-white/[0.06] bg-[linear-gradient(135deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01))] px-4 py-3">
+                    <p className="text-[10px] font-mono tracking-[0.18em] text-[#00ffa3] uppercase">Бизнес-сценарий</p>
+                    <p className="mt-1 text-sm leading-6 text-white/88">
+                      {pkg.decisionNote ?? 'Оптимальное решение для ваших задач'}
+                    </p>
+                  </div>
+
+                  <div className="mt-auto pt-5">
                     <Link
                       href="/calculator"
-                      className="relative flex h-[48px] w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-[#00ffa3] text-black font-bold text-xs transition-all duration-300 hover:bg-[#00ffa3]/90 hover:shadow-[0_0_25px_rgba(0,255,163,0.35)] active:scale-[0.98] group"
+                      className={`group flex h-[52px] w-full items-center justify-center gap-2 rounded-2xl border text-sm font-semibold transition-all duration-300 active:scale-[0.98] ${
+                        pkg.isPopular
+                          ? 'border-[#00ffa3]/35 bg-[#00ffa3] text-black shadow-[0_0_24px_rgba(0,255,163,0.24)] hover:bg-[#00ffa3]/92'
+                          : 'border-white/[0.1] bg-white/[0.02] text-white hover:border-[#00ffa3]/35 hover:bg-white/[0.04]'
+                      }`}
                     >
                       <span>Быстрый расчет {pkg.label}</span>
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className={`h-4 w-4 transition-transform group-hover:translate-x-1 ${pkg.isPopular ? 'text-black' : 'text-[#00ffa3]'}`} />
                     </Link>
-                  ) : (
-                    <Link
-                      href="/calculator"
-                      className="relative flex h-[48px] w-full items-center justify-center gap-2 overflow-hidden rounded-xl border border-white/[0.1] bg-white/[0.02] backdrop-blur-sm text-white font-semibold text-xs transition-all duration-300 hover:bg-white/[0.04] hover:border-[#00ffa3]/40 hover:shadow-[0_0_20px_rgba(0,255,163,0.05)] active:scale-[0.98] group"
-                    >
-                      <span>Быстрый расчет {pkg.label}</span>
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform text-[#00ffa3] group-hover:translate-x-1" />
-                    </Link>
-                  )}
+                  </div>
                 </div>
-              </motion.article>
+              </article>
             );
           })}
         </div>

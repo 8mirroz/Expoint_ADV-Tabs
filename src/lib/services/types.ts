@@ -57,6 +57,8 @@ export interface TechnologyComparisonItem {
 export interface FAQItem {
   question: string;
   answer: string;
+  serviceTitle?: string;
+  category?: 'technical' | 'compliance' | 'pricing' | 'delivery';
 }
 
 export interface MaterialOption {

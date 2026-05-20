@@ -63,7 +63,7 @@ export default function PricingCompliance({
       <div className="section-container relative z-10 space-y-14">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end"
@@ -85,7 +85,7 @@ export default function PricingCompliance({
             return (
               <motion.article
                 key={item.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={false}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
                 className="group rounded-[var(--radius-12)] border border-outline bg-surface p-7 shadow-sm hover:shadow-md transition-all duration-300"
@@ -157,7 +157,7 @@ export default function PricingCompliance({
                 )}
 
                 {/* Evidence */}
-                <blockquote className="mt-5 border-l-2 border-outline pl-4 text-sm italic leading-6 text-on-surface-variant/70">
+                <blockquote className="mt-5 border-l-2 border-[#00ffa3] pl-4 text-sm italic leading-6 text-on-surface-variant/70">
                   {item.evidenceSnippet}
                 </blockquote>
               </motion.article>
@@ -167,7 +167,7 @@ export default function PricingCompliance({
 
         {/* Bottom CTA Panel */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
           className="flex flex-col gap-4 rounded-[var(--radius-12)] border border-outline bg-surface p-8 md:flex-row md:items-center md:justify-between"

@@ -12,191 +12,97 @@
 # Error details
 
 ```
-Error: Channel closed
+Test timeout of 120000ms exceeded.
 ```
 
 ```
-Error: locator.click: Test ended.
+Error: locator.click: Test timeout of 120000ms exceeded.
 Call log:
-  - waiting for getByRole('button', { name: /Монтаж и согласование/i })
+  - waiting for getByRole('button', { name: 'Шаг 03: Монтаж и согласование' })
 
 ```
 
 # Page snapshot
 
 ```yaml
-- generic [ref=e2]:
-  - banner [ref=e3]:
-    - generic [ref=e4]:
-      - link "Expoint AdvEngineering" [ref=e6] [cursor=pointer]:
-        - /url: /
-        - generic [ref=e7]:
-          - generic [ref=e8]: Expoint Adv
-          - text: Engineering
-      - navigation [ref=e10]:
-        - link "Услуги" [ref=e11] [cursor=pointer]:
-          - /url: /services
-        - link "Цены" [ref=e12] [cursor=pointer]:
-          - /url: /prices
-        - link "Кейсы" [ref=e13] [cursor=pointer]:
-          - /url: /cases
-        - link "О нас" [ref=e14] [cursor=pointer]:
-          - /url: /about
-        - link "Контакты" [ref=e15] [cursor=pointer]:
-          - /url: /contacts
-      - generic [ref=e17]:
-        - button "Язык" [ref=e19]:
-          - generic [ref=e20]:
-            - img [ref=e21]
-            - text: RU
-          - img [ref=e24]
-        - button "Корзина" [ref=e26]:
-          - img [ref=e27]
-          - text: "0"
-        - button "Вход" [ref=e31]
-        - button "Заказать" [ref=e32]:
-          - generic [ref=e33]:
-            - text: Заказать
-            - img [ref=e34]
-      - generic [ref=e36]:
-        - button "Корзина" [ref=e37]:
-          - img [ref=e38]
-          - text: "0"
-        - button "Открыть меню" [ref=e42]:
-          - img [ref=e44]
-  - generic [ref=e46]:
-    - navigation "Breadcrumb" [ref=e48]:
-      - list [ref=e49]:
-        - listitem [ref=e50]:
-          - link "Главная" [ref=e51] [cursor=pointer]:
-            - /url: /
-            - img [ref=e52]
-            - text: Главная
-        - listitem [ref=e55]:
-          - text: /
-          - link "Главная" [ref=e56] [cursor=pointer]:
-            - /url: /
-        - listitem [ref=e57]: /Калькулятор
-      - generic [ref=e58]:
-        - link "+7 (495) 000-00-00" [ref=e59] [cursor=pointer]:
-          - /url: tel:+74950000000
-        - generic [ref=e60]:
-          - link "Telegram" [ref=e61] [cursor=pointer]:
-            - /url: https://t.me/expoint_adv
-            - img [ref=e62]
-          - link "WhatsApp" [ref=e65] [cursor=pointer]:
-            - /url: https://wa.me/74950000000
-            - img [ref=e66]
-          - link "Email" [ref=e68] [cursor=pointer]:
-            - /url: mailto:info@expoint-adv.ru
-            - img [ref=e69]
-    - main [ref=e72]:
-      - generic [ref=e75]:
-        - generic [ref=e76]:
-          - generic [ref=e77]:
-            - paragraph [ref=e79]: B2B quote configurator / snapshot 2026-05-18
-            - heading "Соберите вывеску как инженерный setup" [level=1] [ref=e80]
-            - paragraph [ref=e81]: Конфигуратор считает предварительную смету по типу конструкции, материалам, подсветке, монтажному доступу и проверке по 902-ПП. Результат можно сохранить в quote cart и вернуться к редактированию setup.
-          - generic [ref=e82]:
-            - paragraph [ref=e83]: Что получит клиент
-            - generic [ref=e84]:
-              - generic [ref=e85]: "3 варианта сметы: Start / Business / Premium."
-              - generic [ref=e86]: "Прозрачный breakdown: производство, монтаж, срочность, 902-ПП."
-              - generic [ref=e87]: Возможность изменить setup из корзины перед заявкой.
-        - generic [ref=e88]: Загрузка конфигуратора...
-  - contentinfo [ref=e89]:
-    - generic [ref=e90]:
-      - generic [ref=e91]:
-        - generic [ref=e92]:
-          - generic [ref=e93]:
-            - generic [ref=e94]: EX
-            - generic [ref=e95]: Expoint ADV
-          - paragraph [ref=e96]: Промышленное производство визуальных коммуникаций. Проектируем будущее вашего бренда в городском ландшафте.
-          - generic [ref=e97]:
-            - link "Mail" [ref=e98] [cursor=pointer]:
-              - /url: mailto:hello@expoint.pro
-              - img [ref=e99]
-            - link "Telegram" [ref=e102] [cursor=pointer]:
-              - /url: https://t.me/expoint_adv
-              - img [ref=e103]
-            - link "VK" [ref=e106] [cursor=pointer]:
-              - /url: https://vk.com/
-              - img [ref=e107]
-            - link "Zen" [ref=e109] [cursor=pointer]:
-              - /url: https://dzen.ru/
-              - img [ref=e110]
-        - generic [ref=e112]:
-          - heading "Изделия" [level=4] [ref=e113]
-          - list [ref=e114]:
-            - listitem [ref=e115]:
-              - link "Объемные буквы" [ref=e116] [cursor=pointer]:
-                - /url: /services/volumetric-letters
-                - text: Объемные буквы
-                - img [ref=e117]
-            - listitem [ref=e120]:
-              - link "Неон" [ref=e121] [cursor=pointer]:
-                - /url: /services/neon
-                - text: Неон
-                - img [ref=e122]
-            - listitem [ref=e125]:
-              - link "Лайтбоксы" [ref=e126] [cursor=pointer]:
-                - /url: /services/lightboxes
-                - text: Лайтбоксы
-                - img [ref=e127]
-            - listitem [ref=e130]:
-              - link "Индивидуальные решения" [ref=e131] [cursor=pointer]:
-                - /url: /services
-                - text: Индивидуальные решения
-                - img [ref=e132]
-        - generic [ref=e135]:
-          - heading "Система" [level=4] [ref=e136]
-          - list [ref=e137]:
-            - listitem [ref=e138]:
-              - link "Портфолио" [ref=e139] [cursor=pointer]:
-                - /url: /#cases
-                - text: Портфолио
-                - img [ref=e140]
-            - listitem [ref=e143]:
-              - link "Процесс" [ref=e144] [cursor=pointer]:
-                - /url: /#process
-                - text: Процесс
-                - img [ref=e145]
-            - listitem [ref=e148]:
-              - link "902-ПП" [ref=e149] [cursor=pointer]:
-                - /url: /compliance
-                - text: 902-ПП
-                - img [ref=e150]
-            - listitem [ref=e153]:
-              - link "Конфигуратор" [ref=e154] [cursor=pointer]:
-                - /url: /calculator
-                - text: Конфигуратор
-                - img [ref=e155]
-        - generic [ref=e158]:
-          - heading "Штаб-квартира • Производство" [level=4] [ref=e159]
-          - generic [ref=e160]:
-            - generic [ref=e161]:
-              - img [ref=e162]
-              - heading "Москва, Полимерная 8" [level=3] [ref=e166]:
-                - text: Москва,
-                - text: Полимерная 8
-            - generic [ref=e167]:
-              - link "+7 (495) 000-00-00" [ref=e168] [cursor=pointer]:
-                - /url: tel:+74950000000
-              - link "hello@expoint.pro" [ref=e169] [cursor=pointer]:
-                - /url: mailto:hello@expoint.pro
-      - generic [ref=e170]:
-        - generic [ref=e171]:
-          - paragraph [ref=e172]: © 2026 EXPOINT ADV LABS — ALL RIGHTS RESERVED
-          - generic [ref=e173]: v.2.4.0_CORP_STRICT
-        - generic [ref=e174]:
-          - link "Политика конфиденциальности" [ref=e175] [cursor=pointer]:
-            - /url: /privacy
-          - link "Условия сервиса" [ref=e176] [cursor=pointer]:
-            - /url: /terms
-  - button [ref=e178]:
-    - generic [ref=e179]:
-      - img [ref=e181]
-      - img [ref=e183]
+- generic:
+  - generic [active]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - navigation [ref=e6]:
+            - button "previous" [disabled] [ref=e7]:
+              - img "previous" [ref=e8]
+            - generic [ref=e10]:
+              - generic [ref=e11]: 1/
+              - text: "1"
+            - button "next" [disabled] [ref=e12]:
+              - img "next" [ref=e13]
+          - img
+        - generic [ref=e15]:
+          - generic [ref=e16]:
+            - img [ref=e17]
+            - generic "Latest available version is detected (16.2.6)." [ref=e19]: Next.js 16.2.6
+            - generic [ref=e20]: Turbopack
+          - img
+      - dialog "Build Error" [ref=e22]:
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - generic [ref=e27]:
+              - generic [ref=e29]: Build Error
+              - generic [ref=e30]:
+                - button "Copy Error Info" [ref=e31] [cursor=pointer]:
+                  - img [ref=e32]
+                - link "Go to related documentation" [ref=e34] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/messages/module-not-found
+                  - img [ref=e35]
+                - button "Attach Node.js inspector" [ref=e37] [cursor=pointer]:
+                  - img [ref=e38]
+            - generic [ref=e47]: "Module not found: Can't resolve '&#x27;/img/patterns/grid.svg&'"
+          - generic [ref=e49]:
+            - generic [ref=e51]:
+              - img [ref=e53]
+              - generic [ref=e55]: ./src/app/globals.css (4963:23)
+              - button "Open in editor" [ref=e56] [cursor=pointer]:
+                - img [ref=e58]
+            - generic [ref=e61]:
+              - generic [ref=e62]: Module not found
+              - generic [ref=e63]: ": Can't resolve"
+              - text: "'&#x27;/img/patterns/grid.svg&'"
+              - generic [ref=e64]: 4961 |
+              - generic [ref=e65]: "}"
+              - generic [ref=e66]: 4962 |
+              - generic [ref=e67]: ".bg-\\[url\\(\\&\\#x27\\;\\/img\\/patterns\\/grid\\.svg\\&\\#x27\\;\\)\\] {"
+              - text: ">"
+              - generic [ref=e68]: 4963 |
+              - generic [ref=e69]: "background-image: url(&#x27;"
+              - text: /img/patterns
+              - generic [ref=e70]: /grid.svg&#x27;);
+              - generic [ref=e71]: "|"
+              - text: ^
+              - generic [ref=e72]: 4964 |
+              - generic [ref=e73]: "}"
+              - generic [ref=e74]: 4965 |
+              - generic [ref=e75]: .bg-\[url\(\
+              - generic [ref=e76]: "'\\/img\\/patterns\\/grid\\.svg\\'\\)\\] {"
+              - generic [ref=e77]: 4966 |
+              - generic [ref=e78]: "background-image: url('"
+              - text: /img/patterns/grid.svg');
+              - generic [ref=e79]:
+                - text: "Import trace: Client Component Browser: ./src/app/globals.css [Client Component Browser] ./src/app/layout.tsx [Server Component]"
+                - link "https://nextjs.org/docs/messages/module-not-found" [ref=e80] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/messages/module-not-found
+        - generic [ref=e81]: "1"
+        - generic [ref=e82]: "2"
+    - generic [ref=e87] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e88]:
+        - img [ref=e89]
+      - button "Open issues overlay" [ref=e93]:
+        - generic [ref=e94]:
+          - generic [ref=e95]: "0"
+          - generic [ref=e96]: "1"
+        - generic [ref=e97]: Issue
+  - alert [ref=e98]
 ```
 
 # Test source
@@ -216,7 +122,7 @@ Call log:
   12 |     await page.getByLabel('Высота, мм').fill('900');
   13 |     await expect(total).not.toHaveText(totalBefore ?? '');
   14 | 
-  15 |     await page.getByRole('button', { name: /Монтаж и согласование/i }).click();
+  15 |     await page.getByRole('button', { name: 'Шаг 03: Монтаж и согласование' }).click();
   16 |     const uploadInput = page.locator('input[aria-label="Добавить файлы для handoff"]');
   17 |     await uploadInput.setInputFiles({
   18 |       name: 'facade.png',
@@ -225,8 +131,8 @@ Call log:
   21 |     });
   22 | 
   23 |     const handoffPanel = page.getByTestId('handoff-panel');
-  24 |     await expect(handoffPanel.getByText('facade.png')).toBeVisible();
-  25 |     await expect(handoffPanel.getByText('Загружено')).toBeVisible();
+  24 |     await expect(handoffPanel.getByText(/^facade\.png$/)).toBeVisible();
+  25 |     await expect(handoffPanel.getByText(/загружено/i)).toBeVisible();
   26 | 
   27 |     await page.getByRole('button', { name: 'Далее' }).click();
   28 |     await expect(page.getByRole('button', { name: /Business/i })).toBeVisible();
@@ -246,9 +152,9 @@ Call log:
   42 | 
   43 |     await page.goto(`/calculator?cartItem=${cartItemId}`);
   44 |     await expect(page.getByRole('button', { name: /Коммерческая смета/i })).toHaveAttribute('aria-current', 'step');
-  45 |     await page.getByRole('button', { name: /Монтаж и согласование/i }).click();
-  46 |     await expect(page.getByTestId('handoff-panel').getByText('facade.png')).toBeVisible();
-  47 |     await expect(page.getByTestId('handoff-panel').getByText('Загружено')).toBeVisible();
+  45 |     await page.getByRole('button', { name: 'Шаг 03: Монтаж и согласование' }).click();
+  46 |     await expect(page.getByTestId('handoff-panel').getByText(/^facade\.png$/)).toBeVisible();
+  47 |     await expect(page.getByTestId('handoff-panel').getByText(/загружено/i)).toBeVisible();
   48 |   });
   49 | 
   50 |   test('calculator page handles query type and stale cart', async ({ page }) => {
@@ -267,14 +173,14 @@ Call log:
   63 | 
   64 |     const embedded = page.locator('[data-surface="section"]').first();
   65 |     await expect(embedded).toBeVisible();
-  66 |     await embedded.getByRole('button', { name: /Монтаж и согласование/i }).click();
+  66 |     await embedded.getByRole('button', { name: 'Шаг 03: Монтаж и согласование' }).click();
   67 |     await expect(embedded.getByTestId('handoff-panel')).toBeVisible();
   68 |   });
   69 | 
   70 |   test('handoff panel rejects invalid files', async ({ page }) => {
   71 |     await page.goto('/calculator');
-> 72 |     await page.getByRole('button', { name: /Монтаж и согласование/i }).click();
-     |                                                                        ^ Error: locator.click: Test ended.
+> 72 |     await page.getByRole('button', { name: 'Шаг 03: Монтаж и согласование' }).click();
+     |                                                                               ^ Error: locator.click: Test timeout of 120000ms exceeded.
   73 | 
   74 |     const uploadInput = page.locator('input[aria-label="Добавить файлы для handoff"]');
   75 |     await uploadInput.setInputFiles({

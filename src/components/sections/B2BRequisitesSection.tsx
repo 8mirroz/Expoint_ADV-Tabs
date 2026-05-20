@@ -169,41 +169,41 @@ export default function B2BRequisitesSection() {
   };
 
   const fields = [
-    { label: 'ИНН', value: COMPANY_INFO.requisites?.inn, colSpan: 'col-span-2 md:col-span-1' },
-    { label: 'КПП', value: COMPANY_INFO.requisites?.kpp, colSpan: 'col-span-2 md:col-span-1' },
-    { label: 'ОГРН', value: COMPANY_INFO.requisites?.ogrn, colSpan: 'col-span-2 md:col-span-1' },
-    { label: 'Банк', value: COMPANY_INFO.requisites?.bank, colSpan: 'col-span-2 md:col-span-2' },
-    { label: 'БИК', value: COMPANY_INFO.requisites?.bik, colSpan: 'col-span-2 md:col-span-1' },
-    { label: 'Расчетный счет', value: COMPANY_INFO.requisites?.rs, colSpan: 'col-span-2 md:col-span-1' },
-    { label: 'Корр. счет', value: COMPANY_INFO.requisites?.ks, colSpan: 'col-span-2 md:col-span-1' },
-    { label: 'Юридический адрес', value: COMPANY_INFO.requisites?.legalAddress, colSpan: 'col-span-2', isWide: true },
+    { label: 'ИНН', value: COMPANY_INFO.requisites?.inn, colSpan: 'col-span-1' },
+    { label: 'КПП', value: COMPANY_INFO.requisites?.kpp, colSpan: 'col-span-1' },
+    { label: 'ОГРН', value: COMPANY_INFO.requisites?.ogrn, colSpan: 'col-span-1' },
+    { label: 'Банк', value: COMPANY_INFO.requisites?.bank, colSpan: 'col-span-1' },
+    { label: 'БИК', value: COMPANY_INFO.requisites?.bik, colSpan: 'col-span-1' },
+    { label: 'Расчетный счет', value: COMPANY_INFO.requisites?.rs, colSpan: 'col-span-1' },
+    { label: 'Корр. счет', value: COMPANY_INFO.requisites?.ks, colSpan: 'col-span-1' },
+    { label: 'Юридический адрес', value: COMPANY_INFO.requisites?.legalAddress, colSpan: 'col-span-1', isWide: true },
   ];
 
   return (
-    <section className="py-12 border-y border-outline/60 bg-background/50 relative overflow-hidden">
+    <section className="py-8 md:py-10 border-y border-outline/60 bg-background/50 relative overflow-hidden">
       <div className="section-container relative z-10">
         
         {/* Header with copy-all action */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4 mb-5 md:mb-6">
           <div>
             <h2 className="geist-display-sm uppercase text-on-surface tracking-tight">
               Реквизиты компании
             </h2>
-            <p className="text-on-surface-variant text-sm mt-1">
+            <p className="text-on-surface-variant text-xs sm:text-sm mt-0.5">
               Нажмите на любую карточку для быстрого копирования значения
             </p>
           </div>
           
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2">
              {/* Download in DOC */}
              <button
                onClick={downloadDocRequisites}
-               className="group flex items-center justify-center gap-2.5 h-10 px-5 bg-surface/50 border border-blue-500/40 hover:border-blue-500/80 hover:shadow-[0_0_20px_rgba(59,130,246,0.25)] rounded-full text-xs font-semibold uppercase tracking-[1.5px] font-mono text-on-surface hover:text-blue-400 transition-all duration-300 active:scale-[0.98]"
+               className="group flex items-center justify-center gap-2 h-9 px-4 bg-surface/50 border border-blue-500/40 hover:border-blue-500/80 hover:shadow-[0_0_16px_rgba(59,130,246,0.2)] rounded-full text-[11px] font-semibold uppercase tracking-[1px] font-mono text-on-surface hover:text-blue-400 transition-all duration-300 active:scale-[0.98]"
              >
                {copiedField === 'doc' ? (
-                 <Check className="w-3.5 h-3.5 text-blue-400 animate-scale" />
+                 <Check className="w-3 h-3 text-blue-400 animate-scale" />
                ) : (
-                 <WordIcon className="w-3.5 h-3.5 text-neutral-400 group-hover:scale-110 transition-all duration-300" />
+                 <WordIcon className="w-3 h-3 text-neutral-400 group-hover:scale-110 transition-all duration-300" />
                )}
                <span>Скачать в DOC</span>
              </button>
@@ -211,12 +211,12 @@ export default function B2BRequisitesSection() {
              {/* Download in PDF */}
              <button
                onClick={downloadPdfRequisites}
-               className="group flex items-center justify-center gap-2.5 h-10 px-5 bg-surface/50 border border-red-500/40 hover:border-red-500/80 hover:shadow-[0_0_20px_rgba(239,68,68,0.25)] rounded-full text-xs font-semibold uppercase tracking-[1.5px] font-mono text-on-surface hover:text-red-400 transition-all duration-300 active:scale-[0.98]"
+               className="group flex items-center justify-center gap-2 h-9 px-4 bg-surface/50 border border-red-500/40 hover:border-red-500/80 hover:shadow-[0_0_16px_rgba(239,68,68,0.2)] rounded-full text-[11px] font-semibold uppercase tracking-[1px] font-mono text-on-surface hover:text-red-400 transition-all duration-300 active:scale-[0.98]"
              >
                {copiedField === 'pdf' ? (
-                 <Check className="w-3.5 h-3.5 text-red-400 animate-scale" />
+                 <Check className="w-3 h-3 text-red-400 animate-scale" />
                ) : (
-                 <PdfIcon className="w-3.5 h-3.5 text-neutral-400 group-hover:scale-110 transition-all duration-300" />
+                 <PdfIcon className="w-3 h-3 text-neutral-400 group-hover:scale-110 transition-all duration-300" />
                )}
                <span>Скачать в PDF</span>
              </button>
@@ -224,7 +224,7 @@ export default function B2BRequisitesSection() {
         </div>
 
         {/* Bento Grid layout */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-3">
           {fields.map((field, idx) => (
             <motion.div
               key={field.label}
@@ -234,27 +234,27 @@ export default function B2BRequisitesSection() {
               transition={{ delay: idx * 0.03, duration: 0.4 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleCopy(field.value || '', field.label)}
-              className={`${field.colSpan} group relative flex flex-col justify-between p-5 bg-surface/40 hover:bg-surface border border-outline-strong/20 hover:border-[var(--accent)]/40 rounded-[var(--radius-12)] shadow-sm hover:shadow-md cursor-pointer transition-all duration-300 min-h-[100px] overflow-hidden`}
+              className={`${field.colSpan} group relative flex flex-col justify-between p-3.5 md:p-4 bg-surface/40 hover:bg-surface border border-outline-strong/20 hover:border-[var(--accent)]/40 rounded-[var(--radius-12)] shadow-sm hover:shadow-md cursor-pointer transition-all duration-300 min-h-[82px] md:min-h-[88px] overflow-hidden`}
             >
               {/* Soft mint ambient glow on card hover */}
               <div className="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/0 to-[var(--accent)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-              <div className="flex items-center justify-between mb-2">
-                <span className="verge-mono-label text-on-surface-variant/60 font-semibold uppercase tracking-[0.06em] text-[10px]">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="verge-mono-label text-on-surface-variant/60 font-semibold uppercase tracking-[0.05em] text-[9px] md:text-[10px]">
                   {field.label}
                 </span>
                 
                 {/* Micro Copy Indicator */}
-                <div className="text-on-surface-variant/40 group-hover:text-[var(--accent)] transition-colors duration-300">
+                <div className="text-on-surface-variant/70 group-hover:text-[var(--accent)] transition-colors duration-300">
                   {copiedField === field.label ? (
-                    <Check className="w-3.5 h-3.5 text-[var(--accent)]" />
+                    <Check className="w-3 h-3 text-[var(--accent)]" />
                   ) : (
-                    <Copy className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0" />
+                    <Copy className="w-3 h-3 opacity-90 group-hover:opacity-100 transition-all duration-300" />
                   )}
                 </div>
               </div>
 
-              <p className={`font-mono text-sm font-semibold tracking-tight text-on-surface break-all md:break-normal ${field.isWide ? 'break-words' : ''}`}>
+              <p className={`font-mono text-[13px] md:text-sm font-semibold tracking-tight leading-snug text-on-surface break-all md:break-normal ${field.isWide ? 'break-words' : ''}`}>
                 {field.value ?? '—'}
               </p>
             </motion.div>

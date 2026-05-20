@@ -96,7 +96,7 @@ export default function StatsSection({
             return (
             <motion.div
               key={item.label}
-              initial={animateOnView ? { opacity: 0, y: 20 } : false}
+              initial={false}
               whileInView={animateOnView ? { opacity: 1, y: 0 } : undefined}
               viewport={animateOnView ? { once: true, margin: '-50px' } : undefined}
               transition={animateOnView ? { delay: index * 0.1, duration: 0.8 } : undefined}

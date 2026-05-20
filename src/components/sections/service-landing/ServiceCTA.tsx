@@ -40,7 +40,7 @@ export function ServiceCTA({ service, sessionKey, openModal }: ServiceCTAProps) 
                 <span className="text-primary">{locale === 'ru' ? 'Проект' : 'Project'}</span>
               </h2>
               <div className="relative inline-block mt-8">
-                <p className="text-on-surface-variant text-xl md:text-3xl font-light max-w-2xl mx-auto border-l-2 border-primary pl-8 text-left italic leading-tight">
+                <p className="text-on-surface-variant text-xl md:text-3xl font-light max-w-2xl mx-auto border-l-2 border-[#00ffa3] pl-8 text-left italic leading-tight">
                   {locale === 'ru' 
                     ? `Превратите вашу идею в осязаемый актив. Детальный инженерный расчет ${service.title} в течение 2 часов.`
                     : `Transform your idea into a tangible asset. Detailed engineering estimate for ${service.title} within 2 hours.`}

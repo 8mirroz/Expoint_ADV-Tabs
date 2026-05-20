@@ -24,6 +24,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getServiceHref } from '@/lib/utils';
 import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
+import { FAQAccordion } from '@/components/ui/FAQAccordion';
+
 
 interface ServicesConsoleClientProps {
   services: Service[];
@@ -533,49 +535,7 @@ export default function ServicesConsoleClient({ services }: ServicesConsoleClien
               </p>
             </div>
 
-            <div className="space-y-4">
-              {allFaqs.map((faq, index) => {
-                const isExpanded = faqExpandedIdx === index;
-                return (
-                  <div 
-                    key={index}
-                    className="group/faq border border-white/5 bg-white/[0.01] rounded-2xl overflow-hidden transition-all duration-300 hover:border-accent/20"
-                  >
-                    <button
-                      onClick={() => setFaqExpandedIdx(isExpanded ? null : index)}
-                      className="w-full text-left p-6 flex justify-between items-center gap-4 cursor-pointer"
-                    >
-                      <div className="space-y-1">
-                        <span className="text-[9px] font-mono uppercase tracking-widest text-accent font-bold">
-                          {faq.serviceTitle}
-                        </span>
-                        <h3 className="text-base md:text-lg font-bold text-white leading-snug group-hover/faq:text-accent transition-colors">
-                          {faq.question}
-                        </h3>
-                      </div>
-                      <div className="shrink-0 w-8 h-8 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white transition-all duration-300">
-                        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? 'rotate-180 text-accent' : ''}`} />
-                      </div>
-                    </button>
-
-                    <AnimatePresence initial={false}>
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ height: 0 }}
-                          animate={{ height: "auto" }}
-                          exit={{ height: 0 }}
-                          transition={{ duration: 0.25, ease: "easeInOut" }}
-                        >
-                          <div className="px-6 pb-6 pt-2 border-t border-white/5 text-sm md:text-base text-neutral-400 leading-relaxed font-light">
-                            {faq.answer}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
+            <FAQAccordion items={allFaqs} variant="console" />
           </div>
         </section>
       )}

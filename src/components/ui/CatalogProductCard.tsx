@@ -100,10 +100,9 @@ export function CatalogProductCard({
         <div className="min-h-[140px]">
           <div className="flex gap-4">
             <div 
-              className="w-1.5 rounded-full shrink-0 transition-all duration-500" 
-              style={{ backgroundColor: activeAccent }}
+              className="w-1.5 rounded-full shrink-0 transition-all duration-500 bg-[#00ffa3] shadow-[0_0_8px_rgba(0,255,163,0.3)] group-hover:shadow-[0_0_16px_#00ffa3] group-hover:scale-y-[1.05]" 
             />
-            <h3 className="text-white text-[34px] md:text-[42px] font-black uppercase tracking-tight leading-[0.95] group-hover:text-[var(--accent-color)] transition-colors duration-500 whitespace-pre-line">
+            <h3 className="text-white text-[34px] md:text-[42px] font-black uppercase tracking-tight leading-[0.95] group-hover:bg-gradient-to-r group-hover:from-[#00ffa3] group-hover:to-[#00c8ff] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-500 whitespace-pre-line pb-1 pr-2">
               {title}
             </h3>
           </div>

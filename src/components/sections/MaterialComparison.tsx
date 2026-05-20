@@ -133,7 +133,7 @@ export function MaterialComparison() {
                   </div>
                 </div>
                 
-                <p className="text-on-surface-variant leading-[28px] text-lg font-sans border-l border-outline pl-10 max-w-xl">
+                <p className="text-on-surface-variant leading-[28px] text-lg font-sans border-l-2 border-[#00ffa3] pl-10 max-w-xl">
                   {activeTierData.description}
                 </p>
 

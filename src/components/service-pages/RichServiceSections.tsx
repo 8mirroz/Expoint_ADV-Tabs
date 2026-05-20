@@ -18,7 +18,7 @@ export function ServiceProofStats({ data }: ServiceDataProps) {
         {data.proofStats.map((stat, index) => (
           <motion.div
             key={stat.label}
-            initial={{ opacity: 0, y: 18 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.25, delay: index * 0.04 }}
@@ -51,7 +51,7 @@ export function ServiceCaseCards({ data }: ServiceDataProps) {
           {data.caseCards.map((item, index) => (
             <motion.article
               key={item.id}
-              initial={{ opacity: 0, y: 24 }}
+              initial={false}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.25, delay: index * 0.05 }}
@@ -103,7 +103,7 @@ export function ServiceProcessTimeline({ data }: ServiceDataProps) {
           {data.process.map((step, index) => (
             <motion.div
               key={step.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.25, delay: index * 0.04 }}

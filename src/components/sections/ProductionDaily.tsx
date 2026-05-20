@@ -41,12 +41,12 @@ export default function ProductionDaily() {
               </span>
             </div>
             
-            <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-8">
-              {t(locale, copy.titleTop)} <br/>
-              <span className="text-on-surface-variant/30">{t(locale, copy.titleBottom)}</span>
+            <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-8 title-hover-group">
+              <span className="title-hover-gradient">{t(locale, copy.titleTop)}</span> <br/>
+              <span className="title-hover-gradient text-on-surface-variant/30">{t(locale, copy.titleBottom)}</span>
             </h2>
             
-            <div className="flex items-center gap-6 border-l-2 border-primary/20 pl-8">
+            <div className="flex items-center gap-6 border-l-2 border-[#00ffa3] pl-8">
               <div className="flex flex-col">
                 <span className="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-1">{t(locale, copy.implemented)}</span>
                 <span className="text-3xl font-headline text-on-surface">540+</span>
@@ -58,15 +58,15 @@ export default function ProductionDaily() {
         </div>
 
         {/* Live Archive Gallery Grid */}
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6">
           {dailyImages.map((img, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "50px" }}
-              transition={{ delay: (idx % 4) * 0.1, duration: 0.6 }}
-              className="relative w-full break-inside-avoid bg-surface group overflow-hidden border border-outline/10 hover:border-primary/30 transition-all duration-500 rounded-sm"
+              transition={{ delay: (idx % 4) * 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full break-inside-avoid bg-surface group overflow-hidden border border-white/[0.04] hover:border-accent/30 transition-all duration-500 rounded-2xl hover:shadow-[0_20px_50px_rgba(0,255,163,0.08)] hover:-translate-y-1"
             >
                {/* Background Media */}
                <div className="relative w-full overflow-hidden" style={{ minHeight: '200px' }}>
@@ -75,23 +75,15 @@ export default function ProductionDaily() {
                    alt={`Production log ${idx}`}
                    width={600}
                    height={800}
-                   className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
+                   className="w-full h-auto object-cover opacity-60 group-hover:opacity-100 grayscale group-hover:grayscale-0 transition-all duration-700 ease-out group-hover:scale-[1.04]"
                  />
-                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60" />
-               </div>
-
-               {/* Meta Tag */}
-               <div className="absolute top-4 left-4 z-20 flex flex-col gap-1">
-                 <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2 py-1 rounded-sm border border-white/5">
-                   <Clock className="w-3 h-3 text-primary" />
-                   <span className="text-[8px] font-mono font-bold text-white uppercase tracking-tighter">Log_{idx + 22}</span>
-                 </div>
+                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-40" />
                </div>
 
                {/* Blueprint HUD Overlay (On Hover) */}
-               <div className="absolute inset-0 z-15 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                  <div className="absolute top-0 right-0 w-16 h-16 border-r-2 border-t-2 border-primary/40" />
-                  <div className="absolute bottom-0 left-0 w-16 h-16 border-l-2 border-b-2 border-primary/40" />
+               <div className="absolute inset-0 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute top-3 right-3 w-10 h-10 border-r border-t border-accent/40 rounded-tr-lg" />
+                  <div className="absolute bottom-3 left-3 w-10 h-10 border-l border-b border-accent/40 rounded-bl-lg" />
                </div>
             </motion.div>
           ))}

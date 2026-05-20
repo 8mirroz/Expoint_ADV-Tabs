@@ -273,7 +273,7 @@ export default function ServiceRates({ compact = false }: ServiceRatesProps) {
       <div className="section-container space-y-14 px-6">
         {!compact && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
             className="service-rates-headline relative z-10 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end"
@@ -302,7 +302,7 @@ export default function ServiceRates({ compact = false }: ServiceRatesProps) {
             return (
               <motion.article
                 key={service.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={false}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.08 * (index + 1) }}
                 className="service-rate-card group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-20)] border border-white/[0.1] bg-[linear-gradient(180deg,rgba(12,12,14,0.94),rgba(8,8,10,0.9))] p-6 shadow-[0_18px_46px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md transition-all duration-500 hover:-translate-y-0.5 hover:border-[#00ffa3]/35 hover:shadow-[0_24px_54px_rgba(0,0,0,0.45),0_0_0_1px_rgba(0,255,163,0.2)]"

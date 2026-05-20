@@ -4,7 +4,7 @@ import SmoothScroll from "@/components/motion/SmoothScroll";
 import { LanguageProvider } from "@/components/i18n/LanguageProvider";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import GSAPProvider from "@/components/motion/GSAPProvider";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import ConsultationModal from "@/components/ui/ConsultationModal";
 import { CookieBanner } from "@/components/compliance/CookieBanner";
 import { PostHogProvider } from "@/components/analytics/PostHogProvider";
@@ -13,12 +13,6 @@ import "./globals.css";
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-mono",
   display: "swap",
 });
 
@@ -63,7 +57,7 @@ export default function RootLayout({
 
   return (
     <html lang="ru" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans bg-background text-on-surface`} suppressHydrationWarning>
+      <body className={`${inter.variable} font-sans bg-background text-on-surface`} suppressHydrationWarning>
         {gaId && (
           <>
             <Script

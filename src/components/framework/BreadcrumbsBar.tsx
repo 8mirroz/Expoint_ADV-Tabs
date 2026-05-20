@@ -120,11 +120,8 @@ export function BreadcrumbsBar({ items }: BreadcrumbsBarProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       
-      {/* Fake spacer to maintain document flow since the bar is fixed */}
-      <div className="w-full h-[136px]" aria-hidden="true" />
-
       <div 
-        className={`w-full fixed left-0 right-0 z-40 transition-all duration-500 border-b border-white/[0.06] ${
+        className={`w-full sticky z-40 transition-all duration-500 border-b border-white/[0.06] ${
           isScrolled 
             ? 'top-[4.5rem] bg-[#0A0A0A]/80 backdrop-blur-xl shadow-md' 
             : 'top-[5.5rem] bg-[#0A0A0A]'

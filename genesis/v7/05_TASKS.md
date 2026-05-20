@@ -51,7 +51,7 @@ graph TD
 - [x] [UI-07] Header & Navigation
 - [x] [UI-08] Hero Section Refactor
 - [x] [UI-09] Feeds to StoryStream Timeline
-- [ ] **[UI-10] Responsive Tuning & Hover Audits**
+- [x] **[UI-10] Responsive Tuning & Hover Audits**
   - **Goal**: Finalize mobile responsiveness, hover states, and **Refactor global layout (Map & Footer)**.
   - **Input**: `theme-styling-system.md`
   - **Output**: `src/components/sections/Footer.tsx`, `src/components/sections/MapSection.tsx`, `src/app/(marketing)/page.tsx`

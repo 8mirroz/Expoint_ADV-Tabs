@@ -87,7 +87,7 @@ export default function ServicesPage() {
 
       <main className="flex-1 bg-surface pb-24">
         {/* Services Hero - Black background with premium generated architectural background */}
-        <section className="relative bg-black pt-36 pb-20 px-6 lg:px-20 overflow-hidden">
+        <section className="relative bg-black pt-20 pb-20 px-6 lg:px-20 overflow-hidden">
           {/* Generated Premium Architectural Background */}
           <div className="absolute inset-0 z-0">
             <Image
