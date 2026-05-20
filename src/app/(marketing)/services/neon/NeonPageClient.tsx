@@ -58,7 +58,7 @@ export default function NeonPageClient() {
         ctaHref={neonData.hero.primaryCTA.href}
         secondaryCtaText={neonData.hero.secondaryCTA?.label}
         secondaryCtaHref={neonData.hero.secondaryCTA?.href}
-        bgImage="/img/neon/flexible-neon-showcase.png"
+        bgImage="/img/neon/neon-hero-premium-01.png"
       />
       <ProofStats />
       <B2BSegmentTabs segments={neonData.segments} />
@@ -146,7 +146,7 @@ function EngineeringShowcase() {
   ] as const;
 
   const fontStyles = [
-    { id: 'glow', title: 'Simple / Glow', label: 'Прямые рубленые линии', sample: 'Expoint', fontClass: 'font-sans font-black tracking-wider uppercase', discount: 'Базовый тариф' },
+    { id: 'glow', title: 'Simple / Glow', label: 'Прямые рубленые линии', sample: 'Буква Свет', fontClass: 'font-sans font-black tracking-wider uppercase', discount: 'Базовый тариф' },
     { id: 'cursive', title: 'Script / Cursive', label: 'Плавный рукописный шрифт', sample: 'Beautiful', fontClass: 'font-serif italic font-medium', discount: '+25% к базе' },
     { id: 'limitless', title: 'Calligraphy / Limitless', label: 'Сложные перекрытия', sample: 'Limitless', fontClass: 'font-sans font-light tracking-[-0.05em] uppercase', discount: '+45% к базе' },
   ] as const;
@@ -180,7 +180,7 @@ function EngineeringShowcase() {
           </div>
           <h2 className="geist-display-lg text-on-surface mb-4">Анатомия кастомной вывески.</h2>
           <p className="text-lg text-on-surface-variant max-w-2xl font-light">
-            Каждая неоновая вывеска Expoint ADV проектируется как законченное инженерное изделие. Изменяйте параметры ниже, чтобы увидеть, как они влияют на визуальный объем и свечение.
+            Каждая неоновая вывеска Буква Свет проектируется как законченное инженерное изделие. Изменяйте параметры ниже, чтобы увидеть, как они влияют на визуальный объем и свечение.
           </p>
         </div>
 
@@ -546,8 +546,8 @@ function SkuShowcase() {
             {/* Real premium custom neon work showcase */}
             <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-slate-950 mb-8 h-48 overflow-hidden shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
               <img
-                src="/img/neon/flexible-neon-showcase.png"
-                alt="Кастомный гибкий неон Expoint ADV"
+                src="/img/neon/neon-hero-premium-01.png"
+                alt="Кастомный гибкий неон БУКВА СВЕТ"
                 className="w-full h-full object-cover opacity-85 transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent" />

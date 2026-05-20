@@ -49,6 +49,16 @@ export default function B2BSegmentTabs({
         </div>
 
         <div className="bg-surface border border-outline rounded-[var(--radius-16)] p-8 md:p-12 min-h-[260px] flex items-center relative overflow-hidden shadow-sm">
+          <img
+            src="/img/tabs/tabs-b2b-surface-01.png"
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-[0.12] md:opacity-[0.16]"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.72)_45%,rgba(255,255,255,0.86)_100%)]"
+          />
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -56,7 +66,7 @@ export default function B2BSegmentTabs({
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-4xl"
+              className="relative z-10 max-w-4xl"
             >
               <h3 className="geist-display-md mb-6 text-primary">
                 {segments.find(s => s.id === activeTab)?.title}
