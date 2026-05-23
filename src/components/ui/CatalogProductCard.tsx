@@ -15,6 +15,8 @@ interface CatalogProductCardProps {
   title: string;
   price: number;
   priceUnit?: string;
+  priceLabel?: string;
+  fromLabel?: string;
   image: string;
   previewVideo?: string;
   specs: ProductSpec[];
@@ -31,6 +33,8 @@ export function CatalogProductCard({
   title,
   price,
   priceUnit = '₽',
+  priceLabel = 'Тариф производства',
+  fromLabel = 'от',
   image,
   previewVideo,
   specs,
@@ -127,10 +131,10 @@ export function CatalogProductCard({
           {/* Price details in premium accent color */}
           <div className="flex flex-col min-w-0">
             <span className="text-[10px] font-mono text-white/40 uppercase tracking-[0.2em] mb-1 font-bold">
-              Тариф производства
+              {priceLabel}
             </span>
             <div className="flex items-baseline gap-1.5 whitespace-nowrap">
-              <span className="text-[12px] font-mono text-white/60 uppercase tracking-[0.1em]">от</span>
+              <span className="text-[12px] font-mono text-white/60 uppercase tracking-[0.1em]">{fromLabel}</span>
               <span className="text-[32px] font-black text-white tracking-tight leading-none tabular-nums font-sans">
                 {price.toLocaleString('ru-RU')}
               </span>

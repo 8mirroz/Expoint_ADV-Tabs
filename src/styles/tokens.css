@@ -81,14 +81,14 @@
   --accent-rgb: 0, 245, 160;
   --on-accent: #000000;
 
-  /* Accent Warm (de-facto orange used across CTA/hero) */
-  --accent-warm: #FF4D00;
-  --accent-warm-rgb: 255, 77, 0;
+  /* Accent Warm (mapped to brand neon accent) */
+  --accent-warm: var(--accent);
+  --accent-warm-rgb: var(--accent-rgb);
 
   /* Neon Specific Tokens */
   --neon-warm: var(--accent-warm);
   --neon-warm-rgb: var(--accent-warm-rgb);
-  --neon-rgb-primary: #FF4D00;
+  --neon-rgb-primary: var(--accent);
   --neon-rgb-secondary: #0070F3;
 
   /* ===========================================
@@ -96,7 +96,7 @@
    * =========================================== */
   --category-volumetric: #FF2D55;
   --category-lightbox: #007AFF;
-  --category-neon: #FF9500;
+  --category-neon: var(--accent);
   --category-metal: #10B981;
   --category-pylon: #FFCC00;
   --category-roof: #5856D6;

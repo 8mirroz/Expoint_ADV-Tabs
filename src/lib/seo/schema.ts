@@ -1,4 +1,4 @@
-import { LocalBusiness, FAQPage, BreadcrumbList, WithContext } from 'schema-dts';
+import { LocalBusiness, FAQPage, BreadcrumbList, Organization, WebSite, WithContext } from 'schema-dts';
 
 export const generateLocalBusinessSchema = (): WithContext<LocalBusiness> => ({
   "@context": "https://schema.org",
@@ -12,7 +12,7 @@ export const generateLocalBusinessSchema = (): WithContext<LocalBusiness> => ({
     "@type": "PostalAddress",
     streetAddress: "ул. Полимерная, 8",
     addressLocality: "Москва",
-    postalCode: "111394", // arbitrary realistic postal code or just keep 101000
+    postalCode: "111394",
     addressCountry: "RU"
   },
   geo: {
@@ -26,6 +26,42 @@ export const generateLocalBusinessSchema = (): WithContext<LocalBusiness> => ({
     ratingValue: 4.9,
     reviewCount: 124
   }
+});
+
+export const generateOrganizationSchema = (): WithContext<Organization> => ({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "БУКВА СВЕТ",
+  url: "https://bukva-svet.ru",
+  logo: "https://bukva-svet.ru/og-image.jpg",
+  sameAs: [
+    "https://t.me/bukva_svet",
+    "https://vk.com/",
+    "https://dzen.ru/"
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+7 (495) 000-00-00",
+    contactType: "customer service",
+    email: "hello@bukva-svet.ru",
+    areaServed: "RU"
+  }
+});
+
+export const generateWebSiteSchema = (): WithContext<WebSite> => ({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "БУКВА СВЕТ",
+  url: "https://bukva-svet.ru",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://bukva-svet.ru/search?q={search_term_string}"
+    },
+    // query-input is valid Schema.org but not typed in schema-dts
+    ...({ "query-input": "required name=search_term_string" } as Record<string, unknown>)
+  } as WithContext<WebSite>["potentialAction"]
 });
 
 export const generateFAQSchema = (): WithContext<FAQPage> => ({

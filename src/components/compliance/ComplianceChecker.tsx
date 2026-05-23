@@ -62,8 +62,8 @@ const RESULT_COPY = {
   medium: {
     title: 'Сложности с согласованием',
     body: 'Размещение возможно, но сопряжено с рисками. Отсутствие архитектурно-художественной концепции (АХК) улицы/здания означает, что вывеску, вероятно, придется устанавливать строго по дизайн-проекту (п. 18-20 902-ПП).',
-    tone: 'border-amber-500/40 text-amber-100 bg-amber-500/5',
-    accent: 'bg-amber-500',
+    tone: 'border-emerald-400/40 text-emerald-100 bg-emerald-400/5',
+    accent: 'bg-emerald-400',
   },
   low: {
     title: 'Скорее всего - согласуют',
@@ -153,7 +153,7 @@ export const ComplianceChecker = () => {
                     key={index}
                     className={cn(
                       'h-1 w-8 rounded-full transition-colors duration-500',
-                      index <= currentStep ? 'bg-amber-500' : 'bg-neutral-800'
+                      index <= currentStep ? 'bg-emerald-400' : 'bg-neutral-800'
                     )}
                   />
                 ))}
@@ -172,7 +172,7 @@ export const ComplianceChecker = () => {
                   <span className="text-base md:text-lg font-medium text-neutral-200 group-hover:text-white transition-colors">
                     {option.label}
                   </span>
-                  <ArrowRight className="w-4 h-4 text-neutral-600 group-hover:text-amber-500 group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="w-4 h-4 text-neutral-600 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all" />
                 </button>
               ))}
             </div>
@@ -200,7 +200,7 @@ export const ComplianceChecker = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
               <button
                 onClick={scrollToAudit}
-                className="flex items-center justify-center gap-2 px-8 py-3 rounded-xl bg-amber-500 text-black font-bold hover:bg-amber-400 transition-all"
+                className="flex items-center justify-center gap-2 px-8 py-3 rounded-xl bg-emerald-400 text-black font-bold hover:bg-emerald-300 transition-all"
               >
                 Заказать точный аудит фасада
               </button>

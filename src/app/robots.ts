@@ -5,7 +5,13 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/private/'],
+      disallow: [
+        '/api/',
+        '/admin/',
+        '/private/',
+        '/demo',
+        '/demo-confirmation',
+      ],
     },
     sitemap: 'https://bukva-svet.ru/sitemap.xml',
   };

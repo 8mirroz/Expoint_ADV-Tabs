@@ -137,8 +137,8 @@ export default function CompliancePage() {
 
 function RegulationCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
-    <div className="regulation-card p-8 rounded-3xl bg-neutral-900/40 border border-white/5 hover:border-amber-500/30 transition-all group">
-      <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 mb-6 group-hover:scale-110 transition-transform">
+    <div className="regulation-card p-8 rounded-3xl bg-neutral-900/40 border border-white/5 hover:border-emerald-400/30 transition-all group">
+      <div className="w-12 h-12 rounded-2xl bg-emerald-400/10 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
         {icon}
       </div>
       <h3 className="text-xl font-bold text-white mb-4">{title}</h3>

@@ -330,7 +330,7 @@ export default function AssistantWidget() {
                     )}
 
                     {msg.role === 'assistant' && msg.fallbackReason && msg.fallbackReason !== 'none' && (
-                      <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-amber-50 px-2.5 py-1 text-[11px] uppercase tracking-[0.16em] text-amber-700" style={{ fontFamily: 'var(--font-mono)' }}>
+                      <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] uppercase tracking-[0.16em] text-emerald-700" style={{ fontFamily: 'var(--font-mono)' }}>
                         <AlertTriangle className="h-3 w-3" />
                         Fallback: {msg.fallbackReason}
                       </div>

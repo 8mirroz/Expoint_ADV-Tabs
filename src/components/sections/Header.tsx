@@ -12,23 +12,26 @@ import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
 import { useModalStore } from '@/store/useModalStore';
 
 const navItems = [
-  { id: 'services', href: '/services', label: { ru: 'Услуги', be: 'Паслугі', kk: 'Қызметтер', en: 'Services', zh: '服务', ce: 'ГIуллакхаш', tt: 'Хезмәтләр' } },
-  { id: 'prices', href: '/prices', label: { ru: 'Цены', be: 'Цэны', kk: 'Бағалар', en: 'Prices', zh: '价格', ce: 'Баьхнаш', tt: 'Бәяләр' } },
-  { id: 'cases', href: '/cases', label: { ru: 'Кейсы', be: 'Кейсы', kk: 'Кейстер', en: 'Cases', zh: '案例', ce: 'Кхинсаш', tt: 'Кейслар' } },
-  { id: 'about', href: '/about', label: { ru: 'О нас', be: 'Пра нас', kk: 'Біз туралы', en: 'About', zh: '关于', ce: 'Тхуьга дуьйцу', tt: 'Без турында' } },
-  { id: 'contacts', href: '/contacts', label: { ru: 'Контакты', be: 'Кантакты', kk: 'Байланыс', en: 'Contact', zh: '联系', ce: 'Байланыш', tt: 'Контактлар' } },
+  { id: 'services', href: '/services', label: { ru: 'Услуги', be: 'Паслугі', kk: 'Қызметтер', en: 'Services', ko: '서비스', zh: '服务', hi: 'सेवाएं', ce: 'ГIуллакхаш', tt: 'Хезмәтләр' } },
+  { id: 'prices', href: '/prices', label: { ru: 'Цены', be: 'Цэны', kk: 'Бағалар', en: 'Prices', ko: '가격', zh: '价格', hi: 'कीमतें', ce: 'Баьхнаш', tt: 'Бәяләр' } },
+  { id: 'cases', href: '/cases', label: { ru: 'Кейсы', be: 'Кейсы', kk: 'Кейстер', en: 'Cases', ko: '사례', zh: '案例', hi: 'кейсы', ce: 'Кхинсаш', tt: 'Кейслар' } },
+  { id: 'about', href: '/about', label: { ru: 'О нас', be: 'Пра нас', kk: 'Біз туралы', en: 'About', ko: '회사 소개', zh: '关于我们', hi: 'हमारे बारे में', ce: 'Тхуьга дуьйцу', tt: 'Без турында' } },
+  { id: 'contacts', href: '/contacts', label: { ru: 'Контакты', be: 'Кантакты', kk: 'Байланыс', en: 'Contact', ko: '연락처', zh: '联系', hi: 'संपर्क', ce: 'Байланыш', tt: 'Контактлар' } },
 ] as const;
 
 const copy = {
-  requestAudit: { ru: 'Заказать', be: 'Заказаць', kk: 'Тапсырыс беру', en: 'Order', zh: '订购', ce: 'Деха', tt: 'Заказ итү' },
-  openMenu: { ru: 'Открыть меню', be: 'Адкрыць меню', kk: 'Мәзірді ашу', en: 'Open menu', zh: '打开菜单', ce: 'Меню дIайаккха', tt: 'Менюны ачу' },
-  closeMenu: { ru: 'Закрыть меню', be: 'Закрыць меню', kk: 'Мәзірді жабу', en: 'Close menu', zh: '关闭菜单', ce: 'Меню дIаяккха', tt: 'Менюны ябу' },
-  callUs: { ru: 'Связаться с нами', be: 'Звязацца з намі', kk: 'Бізбен байланысыңыз', en: 'Contact us', zh: '联系我们', ce: 'Тхуна деза', tt: 'Безнең белән элемтәгә керегез' },
-  directLine: { ru: 'Прямая линия', be: 'Прамая лінія', kk: 'Тікелей желі', en: 'Direct line', zh: '直连线路', ce: 'Нийсса лини', tt: 'Туры линия' },
-  language: { ru: 'Язык', be: 'Мова', kk: 'Тіл', en: 'Language', zh: '语言', ce: 'Мотт', tt: 'Тел' },
-  telegram: { ru: 'Telegram', be: 'Telegram', kk: 'Telegram', en: 'Telegram', zh: 'Telegram', ce: 'Telegram', tt: 'Telegram' },
-  whatsapp: { ru: 'WhatsApp', be: 'WhatsApp', kk: 'WhatsApp', en: 'WhatsApp', zh: 'WhatsApp', ce: 'WhatsApp', tt: 'WhatsApp' },
-  email: { ru: 'Email', be: 'Email', kk: 'Email', en: 'Email', zh: 'Email', ce: 'Email', tt: 'Email' },
+  requestAudit: { ru: 'Заказать', be: 'Заказаць', kk: 'Тапсырыс беру', en: 'Order', ko: '주문하기', zh: '订购', hi: 'ऑर्डर करें', ce: 'Деха', tt: 'Заказ итү' },
+  openMenu: { ru: 'Открыть меню', be: 'Адкрыць меню', kk: 'Мәзірді ашу', en: 'Open menu', ko: '메뉴 열기', zh: '打开菜单', hi: 'मेनू खोलें', ce: 'Меню дIайаккха', tt: 'Менюны ачу' },
+  closeMenu: { ru: 'Закрыть меню', be: 'Закрыць меню', kk: 'Мәзірді жабу', en: 'Close menu', ko: '메뉴 닫기', zh: '关闭菜单', hi: 'मेनू बंद करें', ce: 'Меню дIаяккха', tt: 'Менюны ябу' },
+  callUs: { ru: 'Связаться с нами', be: 'Звязацца з намі', kk: 'Бізбен байланысыңыз', en: 'Contact us', ko: '문의하기', zh: '联系我们', hi: 'हमसे संपर्क करें', ce: 'Тхуна деза', tt: 'Безнең белән элемтәгә керегез' },
+  directLine: { ru: 'Прямая линия', be: 'Прамая лінія', kk: 'Тікелей желі', en: 'Direct line', ko: '직통 라인', zh: '直连线路', hi: 'सीधी लाइन', ce: 'Нийсса лини', tt: 'Туры линия' },
+  language: { ru: 'Язык', be: 'Мова', kk: 'Тіл', en: 'Language', ko: '언어', zh: '语言', hi: 'भाषा', ce: 'Мотт', tt: 'Тел' },
+  telegram: { ru: 'Telegram', be: 'Telegram', kk: 'Telegram', en: 'Telegram', ko: 'Telegram', zh: 'Telegram', hi: 'Telegram', ce: 'Telegram', tt: 'Telegram' },
+  whatsapp: { ru: 'WhatsApp', be: 'WhatsApp', kk: 'WhatsApp', en: 'WhatsApp', ko: 'WhatsApp', zh: 'WhatsApp', hi: 'WhatsApp', ce: 'WhatsApp', tt: 'WhatsApp' },
+  email: { ru: 'Email', be: 'Email', kk: 'Email', en: 'Email', ko: 'Email', zh: 'Email', hi: 'Email', ce: 'Email', tt: 'Email' },
+  signIn: { ru: 'Вход', be: 'Уваход', kk: 'Кіру', en: 'Sign In', ko: '로그인', zh: '登录', hi: 'लॉगिन', ce: 'Чувалар', tt: 'Керү' },
+  engineering: { ru: 'Инжиниринг', be: 'Інжынірынг', kk: 'Инжиниринг', en: 'Engineering', ko: '엔지니어링', zh: '工程', hi: 'इंजीनियरिंग', ce: 'Инженеринг', tt: 'Инжиниринг' },
+  emailCopied: { ru: 'Адрес скопирован!', be: 'Адрас скапіяваны!', kk: 'Мекенжай көшірілді!', en: 'Email Copied!', ko: '이메일이 복사되었습니다!', zh: '邮箱已复制！', hi: 'ईमेल कॉपी हो गया!', ce: 'Адрес копи йина!', tt: 'Email күчерелде!' },
 };
 
 const PHONE_LABEL = '+7 (495) 000-00-00';
@@ -139,6 +142,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
     : 'border-white/[0.12] bg-white/[0.04] backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]';
 
   return (
+    <>
     <header
       data-variant={variant}
       className={`${
@@ -154,19 +158,25 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
         {/* Left: Logo (flex-1 for perfect centering of nav) */}
         <div className="relative z-10 flex flex-1 items-center justify-start">
           <Link href="/" className="group rounded-md outline-none focus-visible:ring-2 focus-visible:ring-primary animate-fade-in">
-            <div className="flex flex-col items-start gap-1">
-              <span
-                className="text-[1.22rem] font-semibold leading-none tracking-[-0.045em] text-white transition-colors duration-300 group-hover:text-primary sm:text-[1.4rem]"
-                style={{ fontFamily: 'var(--font-header)' }}
-              >
-                Буква <span className="font-medium text-white/70">Свет</span>
-              </span>
-              <span
-                className="hidden xl:block text-[10px] font-medium uppercase leading-none tracking-[0.22em] text-white/55 transition-colors duration-300 group-hover:text-white/75"
-                style={{ fontFamily: 'var(--font-mono)' }}
-              >
-                Инжиниринг
-              </span>
+            <div className="flex items-center gap-3">
+              {/* БС icon — matches footer style */}
+              <div className="w-9 h-9 bg-white flex items-center justify-center rounded-sm font-black text-black text-sm tracking-tighter shrink-0 transition-opacity duration-300 group-hover:opacity-80">
+                БС
+              </div>
+              <div className="flex flex-col items-start gap-0.5">
+                <span
+                  className="text-[1.05rem] font-black uppercase leading-none tracking-widest text-white transition-colors duration-300 group-hover:text-white/90 sm:text-[1.15rem]"
+                  style={{ fontFamily: 'var(--font-header)' }}
+                >
+                  Буква <span className="text-accent">Свет</span>
+                </span>
+                <span
+                  className="hidden xl:block text-[9px] font-medium uppercase leading-none tracking-[0.22em] text-white/45 transition-colors duration-300 group-hover:text-white/65"
+                  style={{ fontFamily: 'var(--font-mono)' }}
+                >
+                  {copy.engineering[locale]}
+                </span>
+              </div>
             </div>
           </Link>
         </div>
@@ -206,7 +216,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
         {/* Right: Actions Section (flex-1 for perfect centering) */}
         <div className="relative z-10 hidden flex-col items-end lg:flex flex-1">
           {/* Top Row: Language, Cart, Login, CTA */}
-          <div className="flex items-center gap-1.5 xl:gap-3 animate-fade-in">
+          <div className="flex items-center gap-2 xl:gap-3 animate-fade-in">
             {/* Language Switcher — minimal pill style */}
             <LanguageSwitcher />
 
@@ -219,7 +229,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
               className="hidden xl:inline-flex h-[34px] items-center rounded-full border border-white/[0.14] bg-[linear-gradient(180deg,rgba(10,10,10,0.84),rgba(16,16,16,0.78))] px-5 text-[13px] font-semibold tracking-[-0.01em] text-white/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-all duration-300 hover:-translate-y-px hover:border-accent/70 hover:bg-[linear-gradient(180deg,rgba(12,12,12,0.94),rgba(20,20,20,0.88))] hover:text-white hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_18px_rgba(0,245,160,0.14)] active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
               style={{ fontFamily: 'var(--font-header)' }}
             >
-              {locale === 'ru' ? 'Вход' : 'Sign In'}
+              {copy.signIn[locale]}
             </button>
 
             {/* CTA Button — с премиальной анимацией вращающегося градиента контура */}
@@ -257,6 +267,8 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
         </div>
       </div>
 
+    </header>
+
       {/* Luxury Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -265,7 +277,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, transition: { delay: 0.3 } }}
-              className="fixed inset-0 bg-background/60 backdrop-blur-2xl z-40 lg:hidden"
+              className="fixed inset-0 bg-background/60 backdrop-blur-2xl z-[100] lg:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             
@@ -274,7 +286,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
               initial="hidden"
               animate="visible"
               exit="hidden"
-              className="fixed inset-x-0 top-0 z-40 flex h-[85vh] flex-col rounded-b-[2.5rem] border-b border-white/[0.08] bg-[linear-gradient(180deg,#0a0a0c,#121215)] px-6 pb-8 pt-24 shadow-[0_24px_80px_rgba(0,0,0,0.6)] backdrop-blur-3xl lg:hidden sm:px-8"
+              className="fixed inset-x-0 top-0 z-[100] flex h-[100dvh] pb-[env(safe-area-inset-bottom)] flex-col border-b border-white/[0.08] bg-[linear-gradient(180deg,#0a0a0c,#121215)] px-6 pb-8 pt-24 shadow-[0_24px_80px_rgba(0,0,0,0.6)] backdrop-blur-3xl lg:hidden sm:px-8"
             >
               <div className="flex flex-col gap-6 mb-auto overflow-y-auto pb-8 scrollbar-hide">
                 {navItems.map((item) => {
@@ -370,7 +382,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
             </div>
             <div className="flex flex-col">
               <span className="text-[13px] font-bold text-white tracking-[-0.01em]">
-                {locale === 'ru' ? 'Адрес скопирован!' : 'Email Copied!'}
+                {copy.emailCopied[locale]}
               </span>
               <span className="text-[11px] text-white/50 font-mono">
                 info@bukva-svet.ru
@@ -385,7 +397,7 @@ export default function Header({ variant = 'default' }: { variant?: 'default' | 
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
 

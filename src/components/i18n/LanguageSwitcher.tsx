@@ -28,11 +28,11 @@ export function LanguageSwitcher() {
   }, []);
 
   return (
-    <div className="relative" ref={containerRef}>
+    <div className="relative shrink-0" ref={containerRef}>
       <button
         type="button"
         onClick={() => setIsOpen((value) => !value)}
-        className={`relative h-9 flex items-center justify-between gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-3 text-white/90 transition-all duration-300 hover:bg-white/[0.1] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:scale-95 group ${
+        className={`relative h-9 min-w-[68px] shrink-0 flex items-center justify-between gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-3 text-white/90 transition-all duration-300 hover:bg-white/[0.1] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:scale-95 group ${
           isOpen ? 'bg-white/[0.1] ring-2 ring-accent/20' : ''
         }`}
         aria-expanded={isOpen}

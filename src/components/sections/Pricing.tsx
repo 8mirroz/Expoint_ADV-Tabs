@@ -76,12 +76,12 @@ const packageThemes: Record<
     titleHover: 'group-hover:text-[#00ffa3]',
   },
   premium: {
-    accent: 'text-amber-100',
-    accentSoft: 'bg-amber-400/10 text-amber-100 border-amber-300/20',
-    border: 'border-amber-400/22',
-    surface: 'from-amber-400/16 via-orange-300/10 to-rose-400/12',
+    accent: 'text-emerald-100',
+    accentSoft: 'bg-emerald-300/10 text-emerald-100 border-emerald-300/20',
+    border: 'border-emerald-300/22',
+    surface: 'from-emerald-300/16 via-emerald-300/10 to-rose-400/12',
     ring: 'shadow-[0_0_0_1px_rgba(251,191,36,0.14),0_18px_44px_rgba(0,0,0,0.34)]',
-    titleHover: 'group-hover:text-amber-100',
+    titleHover: 'group-hover:text-emerald-100',
   },
   network: {
     accent: 'text-violet-100',

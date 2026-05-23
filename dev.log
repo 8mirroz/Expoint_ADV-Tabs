@@ -1,0 +1,7 @@
+
+> bukva-svet-tabs@0.0.0 dev
+> bash ./scripts/dev-local.sh
+
+[dev-local] Port 3000 is busy. Stop the current process and retry.
+COMMAND   PID USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    32679 user   17u  IPv6 0xf31b10dd81865e71      0t0  TCP *:3000 (LISTEN)

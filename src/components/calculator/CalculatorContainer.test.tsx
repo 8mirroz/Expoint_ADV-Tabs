@@ -35,17 +35,17 @@ describe('CalculatorContainer', () => {
     const { rerender } = render(<CalculatorContainer surface="page" />);
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Тип и сегмент' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Тип' })).toBeInTheDocument();
     });
     expect(screen.getByTestId('calculator-total')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Тип и сегмент/i })).toHaveAttribute('aria-current', 'step');
+    expect(screen.getByRole('button', { name: /Шаг 01: Тип/i })).toHaveAttribute('aria-current', 'step');
 
     rerender(<CalculatorContainer surface="section" />);
 
     await waitFor(() => {
       expect(screen.getByText('Embedded configurator')).toBeInTheDocument();
     });
-    expect(screen.getByRole('button', { name: /Тип и сегмент/i })).toHaveAttribute('aria-current', 'step');
+    expect(screen.getByRole('button', { name: /Шаг 01: Тип/i })).toHaveAttribute('aria-current', 'step');
   });
 
   it('preserves entered state while moving between steps', async () => {
@@ -60,6 +60,18 @@ describe('CalculatorContainer', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Назад' }));
 
     expect(screen.getByLabelText('Текст / бренд')).toHaveValue('AURORA');
+  });
+
+  it('renders non-volumetric product cards as disabled with unavailable badge', async () => {
+    render(<CalculatorContainer surface="page" />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /Объемные световые буквы/i })).not.toHaveAttribute('aria-disabled', 'true');
+    });
+
+    const disabledCard = screen.getByRole('button', { name: /Световой короб/i });
+    expect(disabledCard).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getAllByText('Недоступно').length).toBeGreaterThan(0);
   });
 
   it('updates the live estimate and package totals when geometry changes', async () => {
@@ -88,7 +100,7 @@ describe('CalculatorContainer', () => {
     const { unmount } = render(<CalculatorContainer surface="page" />);
 
     await screen.findByTestId('calculator-total');
-    fireEvent.click(screen.getByRole('button', { name: /Коммерческая смета/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Шаг 04: Смета/i }));
     fireEvent.click(screen.getByRole('button', { name: 'Добавить setup в корзину' }));
 
     await waitFor(() => {
@@ -105,20 +117,20 @@ describe('CalculatorContainer', () => {
     render(<CalculatorContainer surface="page" />);
 
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /Коммерческая смета/i })).toHaveAttribute('aria-current', 'step');
+      expect(screen.getByRole('button', { name: /Шаг 04: Смета/i })).toHaveAttribute('aria-current', 'step');
     });
     expect(screen.getByRole('button', { name: 'Сохранить setup' })).toBeInTheDocument();
     expect(useSalesEngineStore.getState().draft.cartItemId).toBe(savedId);
   });
 
-  it('applies product type from query param and serviceId defaults', async () => {
+  it('forces volumetric letters despite query param and serviceId', async () => {
     setSearch('type=flex-neon');
     const { unmount } = render(<CalculatorContainer surface="page" />);
 
     await waitFor(() => {
-      expect(useSalesEngineStore.getState().draft.config.productType).toBe('flex-neon');
+      expect(useSalesEngineStore.getState().draft.config.productType).toBe('volumetric-letters');
     });
-    expect(screen.getByRole('button', { name: /Тип и сегмент/i })).toHaveAttribute('aria-current', 'step');
+    expect(screen.getByRole('button', { name: /Шаг 01: Тип/i })).toHaveAttribute('aria-current', 'step');
 
     unmount();
     useSalesEngineStore.setState({ draft: initialSalesDraft });
@@ -126,7 +138,7 @@ describe('CalculatorContainer', () => {
 
     render(<CalculatorContainer surface="page" serviceId="lightbox" />);
     await waitFor(() => {
-      expect(useSalesEngineStore.getState().draft.config.productType).toBe('lightbox');
+      expect(useSalesEngineStore.getState().draft.config.productType).toBe('volumetric-letters');
     });
   });
 
@@ -137,13 +149,13 @@ describe('CalculatorContainer', () => {
     await waitFor(() => {
       expect(screen.getByTestId('stale-recovery-banner')).toBeInTheDocument();
     });
-    expect(screen.getByRole('button', { name: /Коммерческая смета/i })).toHaveAttribute('aria-current', 'step');
-    expect(useSalesEngineStore.getState().draft.config.productType).toBe('flex-neon');
+    expect(screen.getByRole('button', { name: /Шаг 04: Смета/i })).toHaveAttribute('aria-current', 'step');
+    expect(useSalesEngineStore.getState().draft.config.productType).toBe('volumetric-letters');
 
     fireEvent.click(screen.getByRole('button', { name: 'Проверить параметры' }));
 
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /Тип и сегмент/i })).toHaveAttribute('aria-current', 'step');
+      expect(screen.getByRole('button', { name: /Шаг 01: Тип/i })).toHaveAttribute('aria-current', 'step');
     });
     expect(screen.queryByTestId('stale-recovery-banner')).not.toBeInTheDocument();
   });
@@ -174,7 +186,7 @@ describe('CalculatorContainer', () => {
 
     render(<CalculatorContainer surface="page" />);
 
-    fireEvent.click(await screen.findByRole('button', { name: /Монтаж и согласование/i }));
+    fireEvent.click(await screen.findByRole('button', { name: /Шаг 03: Монтаж/i }));
     await waitFor(() => {
       expect(screen.getByTestId('handoff-panel')).toBeInTheDocument();
     });
@@ -231,7 +243,7 @@ describe('CalculatorContainer', () => {
     });
 
     render(<CalculatorContainer surface="page" />);
-    fireEvent.click(await screen.findByRole('button', { name: /Монтаж и согласование/i }));
+    fireEvent.click(await screen.findByRole('button', { name: /Шаг 03: Монтаж/i }));
 
     const fileInput = await screen.findByLabelText('Добавить файлы для handoff');
     const file = new File(['pdf'], 'logo.pdf', { type: 'application/pdf' });

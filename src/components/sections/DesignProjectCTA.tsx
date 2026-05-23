@@ -1,62 +1,64 @@
 "use client";
 
-import { useRef } from 'react';
-import Image from 'next/image';
-import { motion } from 'motion/react';
+import { useRef } from "react";
+import Image from "next/image";
+import { motion } from "motion/react";
 import {
   ArrowRight,
-  ShieldCheck,
-  Cuboid,
-  Layers3,
-  PenTool,
-  Ruler,
+  Send,
   Check,
-} from 'lucide-react';
-import { useLanguage } from '@/components/i18n/LanguageProvider';
-import { t } from '@/i18n/site';
-import { useModalStore } from '@/store/useModalStore';
-import gsap, { useGSAP } from '@/lib/gsap';
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+import { t } from "@/i18n/site";
+import { useCartStore } from "@/store/useCartStore";
+import gsap, { useGSAP } from "@/lib/gsap";
 
 const copy = {
-  eyebrow: { ru: '// DESIGN PROJECT', en: '// DESIGN PROJECT' },
-  title: { ru: 'Закажите дизайн-проект вывески.', en: 'Order a sign design project.' },
+  eyebrow: { ru: "// DESIGN PROJECT", be: "// DESIGN PROJECT", kk: "// DESIGN PROJECT", en: "// DESIGN PROJECT", ko: "// DESIGN PROJECT", zh: "// DESIGN PROJECT", hi: "// DESIGN PROJECT", ce: "// DESIGN PROJECT", tt: "// DESIGN PROJECT" },
+  title: { ru: "Закажите дизайн-проект вывески.", be: "Замоўце дызайн-праект шыльды.", kk: "Маңдайшаға арналған дизайн-жобаны тапсырыңыз.", en: "Order a sign design project.", ko: "사인 디자인 프로젝트를 주문하세요.", zh: "订购招牌设计方案。", hi: "साइन डिज़ाइन प्रोजेक्ट ऑर्डर करें।", ce: "ТIаьххьара дизайн-проект дехка.", tt: "Ишегегез өчен дизайн-проектка заказ бирегез." },
   desc: {
-    ru: 'Соберем несколько рабочих сценариев, проверим фасад и 902-ПП, подготовим конструкторские файлы для производства.',
-    en: 'We provide several workable scenarios, validate facade and 902-PP, and prepare engineering files for production.',
+    ru: "Соберем несколько рабочих сценариев, проверим фасад и 902-ПП, подготовим конструкторские файлы для производства.",
+    be: "Збяром некалькі працоўных сцэнарыяў, праверым фасад і 902-ПП, падрыхтуем канструктарскія файлы для вытворчасці.",
+    kk: "Бірнеше жұмыс сценарийін жинаймыз, қасбет пен 902-ПП-ны тексереміз, өндіріс үшін конструкторлық файлдарды дайындаймыз.",
+    en: "We provide several workable scenarios, validate facade and 902-PP, and prepare engineering files for production.",
+    ko: "실행 가능한 여러 시나리오를 제안하고, 파사드와 902-PP를 검토한 뒤 제작용 엔지니어링 파일을 준비합니다.",
+    zh: "我们会整理多个可行方案，审核门头和902-ПП，并准备生产用工程文件。",
+    hi: "हम कई व्यावहारिक विकल्प तैयार करते हैं, फैसाड और 902-ПП की जाँच करते हैं, और उत्पादन के लिए इंजीनियरिंग फ़ाइलें तैयार करते हैं।",
+    ce: "Тхуна цхьацца болх сцена бан, фасад а 902-ПП а тешна, кхолламехь инженерни файлш хьая.",
+    tt: "Берничә эш сценарие җыябыз, фасадны һәм 902-ППны тикшерәбез, җитештерү өчен инженер файлларын әзерлибез.",
   },
-  ctaPrimary: { ru: 'Получить 3 сценария', en: 'Get 3 scenarios' },
-  ctaSecondary: { ru: 'Проверить фасад', en: 'Check facade' },
-  note: { ru: 'первый разбор за 24 часа', en: 'first review within 24 hours' },
+  ctaPrimary: { ru: "Добавить в заказ", be: "Дадаць у заказ", kk: "Тапсырысқа қосу", en: "Add to order", ko: "주문에 추가", zh: "加入订单", hi: "ऑर्डर में जोड़ें", ce: "Заказе юкъада", tt: "Заказга өстәү" },
+  ctaSecondary: { ru: "Обсудить с дизайнером", be: "Абмеркаваць з дызайнерам", kk: "Дизайнермен талқылау", en: "Discuss with designer", ko: "디자이너와 상의", zh: "与设计师沟通", hi: "डिज़ाइनर से चर्चा करें", ce: "Дизайнерца хьоьцухь", tt: "Дизайнер белән сөйләшү" },
+  note: { ru: "первый разбор за 24 часа", be: "першы разбор за 24 гадзіны", kk: "алғашқы талдау 24 сағатта", en: "first review within 24 hours", ko: "24시간 내 1차 검토", zh: "24小时内首次审核", hi: "24 घंटे में पहला रिव्यू", ce: "перви разбор 24 сахьтан юкъара", tt: "24 сәгать эчендә беренче карау" },
+  packName: { ru: "Дизайн проект", be: "Дызайн-праект", kk: "Дизайн жоба", en: "Design project", ko: "디자인 프로젝트", zh: "设计方案", hi: "डिज़ाइन प्रोजेक्ट", ce: "Дизайн-проект", tt: "Дизайн проекты" },
+  packDescription: { ru: "Полный проект вывески под ключ", be: "Поўны праект шыльды пад ключ", kk: "Маңдайшаның толық дайын жобасы", en: "Full sign project", ko: "간판 전체 프로젝트", zh: "完整招牌项目", hi: "पूर्ण साइन प्रोजेक्ट", ce: "Шуьйд цхьа проект, кхача кхачалц", tt: "Тулы вывеска проекты" },
+  workflowTitle: { ru: "Конструкторский дизайн-пакет", be: "Канструктарскі дызайн-пакет", kk: "Конструкторлық дизайн-пакет", en: "Engineering design package", ko: "엔지니어링 디자인 패키지", zh: "工程设计包", hi: "इंजीनियरिंग डिज़ाइन पैकेज", ce: "Конструкторски дизайн-пакет", tt: "Конструкторлык дизайн-пакет" },
+  workflowBadge: { ru: "Премиум-процесс", be: "Прэміум-працэс", kk: "Премиум үдеріс", en: "Premium workflow", ko: "프리미엄 워크플로", zh: "高级工作流", hi: "प्रीमियम वर्कफ़्लो", ce: "Премиум процесс", tt: "Премиум эш барышы" },
 } as const;
 
-const featureCards = [
-  { icon: Cuboid, title: { ru: 'Ai/3D визуализация', en: 'Ai/3D Visualization' } },
-  { icon: Layers3, title: { ru: '3 варианта на выбор', en: '3 options to choose' } },
-  { icon: PenTool, title: { ru: 'Дизайн и иллюстрация', en: 'Design and Illustration' } },
-  { icon: Ruler, title: { ru: 'CAD чертежи', en: 'CAD drawings' } },
-] as const;
-
 const featureLines = [
-  { ru: 'Лазерные обмеры и фотопривязка', en: 'Laser measurements and photo placement', be: 'Лазерныя абмеры і фотапрывязка', kk: 'Лазерлік өлшеу және фотоорналастыру', zh: '激光测量与精准贴图', ce: 'Лазерни замерш а, фотопривязка а', tt: 'Лазер үлчәү һәм фотобәйләү' },
-  { ru: 'Инженерный пакет КМ/КМД', en: 'Engineering package for fabrication', be: 'Інжынерны пакет КМ/КМД', kk: 'КМ/КМД инженерлік пакеті', zh: '生产用工程图纸包', ce: 'Инженерни пакет КМ/КМД', tt: 'Инженер пакеты КМ/КМД' },
-  { ru: 'Свет и посадка под фасад', en: 'Light and fit tuned to the facade', be: 'Святло і пасадка пад фасад', kk: 'Жарық және қасбетке бейімдеу', zh: '针对具体门面的灯光与落位', ce: 'Свет а, фасаданна посадка а', tt: 'Яктылык һәм фасад өчен урнашу' },
+  { ru: "Лазерные обмеры и фотопривязка", be: "Лазерныя замеры і фотапрывязка", kk: "Лазерлік өлшеу және фотобайланыстыру", en: "Laser measurements and photo placement", ko: "레이저 실측과 포토 매핑", zh: "激光测量和照片绑定", hi: "लेज़र माप और फोटो प्लेसमेंट", ce: "Лазерни замерш а фотопривязка", tt: "Лазер үлчәүләр һәм фотобәйләү" },
+  { ru: "Инженерный пакет КМ/КМД", be: "Інжынерны пакет КМ/КМД", kk: "КМ/КМД инженерлік пакеті", en: "Engineering package for fabrication", ko: "제작용 엔지니어링 패키지", zh: "工程图包（KM/KMD）", hi: "KM/KMD इंजीनियरिंग पैकेज", ce: "КМ/КМД инженерни пакет", tt: "КМ/КМД инженерлык пакеты" },
+  { ru: "Свет и посадка под фасад", be: "Святло і пасадка пад фасад", kk: "Жарық пен фасадқа бейімдеу", en: "Light and fit tuned to the facade", ko: "파사드에 맞춘 조명과 배치", zh: "针对门头优化灯光和贴合度", hi: "फैसाड के अनुरूप लाइट और फिट", ce: "Сий а фасадан юкъе посадка", tt: "Яктылык һәм фасадка туры китерү" },
 ] as const;
 
-export default function DesignProjectCTA({ className = '' }: { className?: string }) {
+export default function DesignProjectCTA({ className = "" }: { className?: string }) {
   const { locale } = useLanguage();
-  const openModal = useModalStore((state) => state.openModal);
+  const addItem = useCartStore((state) => state.addItem);
+  const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
     if (!sectionRef.current) return;
 
     const tl = gsap.timeline({
-      defaults: { ease: 'power3.out' },
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 82%', once: true },
+      defaults: { ease: "power3.out" },
+      scrollTrigger: { trigger: sectionRef.current, start: "top 82%", once: true },
     });
 
-    tl.from('.dp-copy', { opacity: 0, y: 18, duration: 0.45 })
-      .from('.dp-card', { opacity: 0, y: 16, stagger: 0.08, duration: 0.4 }, '-=0.2');
+    tl.from(".dp-copy", { opacity: 0, y: 18, duration: 0.45 })
+      .from(".dp-card", { opacity: 0, y: 16, stagger: 0.08, duration: 0.4 }, "-=0.2");
   }, { scope: sectionRef });
 
   return (
@@ -72,10 +74,19 @@ export default function DesignProjectCTA({ className = '' }: { className?: strin
       </div>
 
       <div className="section-container relative z-10 mx-auto max-w-[1440px] px-6 lg:px-12 xl:px-16">
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
-          
+        <div className="relative flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+          <div className="pointer-events-none absolute inset-y-[-34px] -right-[8%] hidden w-[74%] overflow-hidden lg:block">
+            <Image
+              src="/img/adv/design-project-right-bg.png"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 74vw, 0vw"
+              className="object-cover object-[72%_center] opacity-95"
+            />
+          </div>
+
           {/* Left Text Content */}
-          <div className="dp-copy max-w-xl">
+          <div className="dp-copy relative z-10 max-w-xl">
             <p className="verge-mono-label text-[10px] uppercase tracking-[0.22em] text-accent">
               {t(locale, copy.eyebrow)}
             </p>
@@ -89,70 +100,58 @@ export default function DesignProjectCTA({ className = '' }: { className?: strin
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <motion.button
-                onClick={() => openModal({ context: 'Дизайн-проект вывески', source: 'design_project_cta' })}
-                whileHover={{ scale: 1.01, y: -1 }}
+                onClick={() => {
+                addItem({
+                  id: "design-project",
+                  type: "pack",
+                    name: t(locale, copy.packName),
+                    price: 0,
+                    description: t(locale, copy.packDescription),
+                  });
+                  router.push("/calculator?cartItem=design-project");
+                }}
+                whileHover={{ scale: 1.015, y: -1 }}
                 whileTap={{ scale: 0.98 }}
-                className="geist-button-primary group h-[52px] w-full gap-3 px-7 text-sm sm:w-auto"
+                transition={{ type: "spring", stiffness: 420, damping: 20 }}
+                className="group relative inline-flex h-[54px] w-full items-center justify-center gap-2.5 overflow-hidden rounded-full bg-[#00f5a0] px-7 text-[13px] font-black uppercase tracking-[0.08em] text-black shadow-[0_10px_28px_rgba(0,245,160,0.28)] transition-all duration-300 hover:shadow-[0_14px_36px_rgba(0,245,160,0.4)] sm:w-auto"
               >
+                <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[linear-gradient(120deg,rgba(255,255,255,0.22),rgba(255,255,255,0.02)_42%)]" />
                 {t(locale, copy.ctaPrimary)}
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </motion.button>
 
               <motion.button
-                onClick={() => openModal({ context: 'Проверка фасада по 902-ПП', source: 'design_project_cta_facade' })}
-                whileHover={{ scale: 1.01, y: -1 }}
+                onClick={() => {
+                  window.open("https://t.me/adv_tabs", "_blank");
+                }}
+                whileHover={{ scale: 1.015, y: -1 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex h-[52px] w-full items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.035] px-6 text-sm font-semibold text-white transition-colors duration-300 hover:border-accent/35 hover:bg-accent/8 sm:w-auto"
+                transition={{ type: "spring", stiffness: 420, damping: 20 }}
+                className="group inline-flex h-[54px] w-full items-center justify-center gap-2 rounded-full border border-[#0088CC]/35 bg-[#0088CC]/14 px-6 text-[13px] font-semibold text-[#cfeeff] shadow-[0_0_0_1px_rgba(0,136,204,0.1)_inset] transition-all duration-300 hover:border-[#00a2ff]/65 hover:bg-[#0088CC]/24 hover:text-white hover:shadow-[0_10px_30px_rgba(0,136,204,0.28)] sm:w-auto"
               >
-                <ShieldCheck className="h-4 w-4 text-accent" />
+                <Send className="h-4 w-4 text-[#5ec5ff] transition-colors duration-300 group-hover:text-[#9fe0ff]" />
                 {t(locale, copy.ctaSecondary)}
               </motion.button>
+            </div>
 
-              <div className="mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-black/28 px-4 py-2 text-xs font-medium text-white/60 sm:mt-0 sm:justify-start">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_rgba(0,245,160,0.7)]" />
-                {t(locale, copy.note)}
-              </div>
+            <div className="mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-black/28 px-4 py-2 text-xs font-medium text-white/60 sm:mt-0 sm:justify-start">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_rgba(0,245,160,0.7)]" />
+              {t(locale, copy.note)}
             </div>
           </div>
 
-          {/* Right Cards Grid */}
-          <div className="w-full max-w-[500px] lg:shrink-0">
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              {featureCards.map((card, i) => {
-                const Icon = card.icon;
-                return (
-                  <div
-                    key={i}
-                    className="dp-card group relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] p-5 sm:p-6 backdrop-blur-md transition-all duration-300 hover:border-accent/30 hover:bg-white/[0.04] hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
-                  >
-                    {/* Subtle Top Gradient Line */}
-                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/0 to-transparent transition-all duration-500 group-hover:via-accent/40" />
-                    
-                    {/* Icon Container */}
-                    <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/5 bg-black/40 text-neutral-400 transition-colors duration-300 group-hover:border-accent/20 group-hover:bg-accent/10 group-hover:text-accent">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    
-                    {/* Text */}
-                    <h3 className="text-[13px] font-semibold leading-[1.3] text-white/90 sm:text-[15px]">
-                      {t(locale, card.title)}
-                    </h3>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <div className="hidden lg:block lg:w-[58%]" />
         </div>
 
         {/* Bottom: Design Pack & Pricing */}
         <div className="dp-card mt-12 lg:mt-16 rounded-[24px] border border-white/[0.06] bg-gradient-to-b from-white/[0.02] to-transparent p-6 md:p-8 flex flex-col lg:flex-row gap-8 lg:gap-16">
-          
+
           {/* Left side of bottom panel */}
           <div className="flex-1 space-y-6">
             <div className="space-y-2">
-              <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">Premium Workflow</p>
+              <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">{t(locale, copy.workflowBadge)}</p>
               <h4 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                Конструкторский дизайн-пакет
+                {t(locale, copy.workflowTitle)}
               </h4>
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -172,52 +171,47 @@ export default function DesignProjectCTA({ className = '' }: { className?: strin
           {/* Right side: Pricing Matrix */}
           <div className="flex-[1.2] lg:border-l lg:border-white/10 lg:pl-10 flex flex-col justify-center">
             <div className="space-y-4 font-mono">
-              {/* Option 1 */}
               <div className="group/row">
                 <div className="flex items-end justify-between text-xs font-semibold mb-1">
                   <span className="text-white/80 transition-colors group-hover/row:text-white">
-                    {t(locale, { ru: '1. Проект + Производство', en: '1. Project + Fabrication' })}
+                    {t(locale, { ru: "1. Проект + Производство", be: "1. Праект + вытворчасць", kk: "1. Жоба + өндіріс", en: "1. Project + Fabrication", ko: "1. 프로젝트 + 제작", zh: "1. 方案 + 制作", hi: "1. प्रोजेक्ट + निर्माण", ce: "1. Проект + кхоллам", tt: "1. Проект + җитештерү" })}
                   </span>
                   <span className="flex-grow border-b border-dotted border-white/15 mx-3 relative -top-1 transition-colors group-hover/row:border-white/30" />
                   <span className="text-accent font-bold">0 ₽</span>
                 </div>
                 <p className="text-[10px] text-white/40 leading-snug">
-                  {t(locale, { ru: 'Компенсация стоимости проектирования при заказе вывески', en: 'Design cost is 100% refunded when you order signage' })}
+                  {t(locale, { ru: "Компенсация стоимости проектирования при заказе вывески", be: "Кошт праектавання кампенсуецца пры замове шыльды", kk: "Маңдайшаға тапсырыс бергенде жобалау құны қайтарылады", en: "Design cost is 100% refunded when you order signage", ko: "사인을 주문하면 설계 비용을 100% 환급합니다", zh: "订购招牌时可返还设计费用", hi: "साइन ऑर्डर करने पर डिज़ाइन लागत 100% वापस की जाती है", ce: "Шуьйдан заказ дехь проектан хьажар хьалгIат", tt: "Вывеска заказ иткәндә проект бәясе кире кайтарыла" })}
                 </p>
               </div>
 
-              {/* Option 2 */}
               <div className="group/row">
                 <div className="flex items-end justify-between text-xs font-semibold mb-1">
                   <span className="text-white/80 transition-colors group-hover/row:text-white">
-                    {t(locale, { ru: '2. Чертежи КМ/КМД', en: '2. Engineering DWG bundle' })}
+                    {t(locale, { ru: "2. Чертежи КМ/КМД", be: "2. Чарцяжы КМ/КМД", kk: "2. КМ/КМД сызбалары", en: "2. Engineering DWG bundle", ko: "2. KM/KMD 도면 세트", zh: "2. KM/KMD 工程图集", hi: "2. KM/KMD ड्रॉइंग्स", ce: "2. КМ/КМД чертежаш", tt: "2. КМ/КМД сызмалары" })}
                   </span>
                   <span className="flex-grow border-b border-dotted border-white/15 mx-3 relative -top-1 transition-colors group-hover/row:border-white/30" />
                   <span className="text-white font-bold">9 900 ₽</span>
                 </div>
                 <p className="text-[10px] text-white/40 leading-snug">
-                  {t(locale, { ru: 'Ветровые нагрузки, крепления и файлы для ЧПУ', en: 'CNC cutting paths, structural stress analysis' })}
+                  {t(locale, { ru: "Ветровые нагрузки, крепления и файлы для ЧПУ", be: "Ветравая нагрузка, мацаванні і файлы для ЧПУ", kk: "Жел жүктемесі, бекітулер және ЧПУ файлдары", en: "CNC cutting paths, structural stress analysis", ko: "풍하중, 고정 방식, CNC 파일", zh: "风载荷、固定件和CNC文件", hi: "विंड लोड, फिक्सिंग और CNC फ़ाइलें", ce: "ХIоршан нагрузкаш, креплени а ЧПУ файлш", tt: "Җил йөкләнеше, беркетмәләр һәм CNC файллары" })}
                 </p>
               </div>
 
-              {/* Option 3 */}
               <div className="group/row">
                 <div className="flex items-end justify-between text-xs font-semibold mb-1">
                   <span className="text-white/80 transition-colors group-hover/row:text-white">
-                    {t(locale, { ru: '3. Согласование 902-ПП', en: '3. 902-PP Permit Approval' })}
+                    {t(locale, { ru: "3. Согласование 902-ПП", be: "3. Узгадненне 902-ПП", kk: "3. 902-ПП келісімі", en: "3. 902-PP Permit Approval", ko: "3. 902-PP 승인", zh: "3. 902-ПП 审批", hi: "3. 902-PP स्वीकृति", ce: "3. 902-ПП узгадар", tt: "3. 902-ПП килештерү" })}
                   </span>
                   <span className="flex-grow border-b border-dotted border-white/15 mx-3 relative -top-1 transition-colors group-hover/row:border-white/30" />
-                  <span className="text-white font-bold">{t(locale, { ru: 'от 15 000 ₽', en: 'from 15 000 ₽' })}</span>
+                  <span className="text-white font-bold">{t(locale, { ru: "от 15 000 ₽", be: "ад 15 000 ₽", kk: "15 000 ₽-ден бастап", en: "from 15 000 ₽", ko: "15,000 ₽부터", zh: "15,000 ₽ 起", hi: "15,000 ₽ से", ce: "15 000 ₽ хьалха", tt: "15 000 ₽ дән башлап" })}</span>
                 </div>
                 <p className="text-[10px] text-white/40 leading-snug">
-                  {t(locale, { ru: 'Официальное оформление под ключ', en: 'Full state paperwork preparation & filing' })}
+                  {t(locale, { ru: "Официальное оформление под ключ", be: "Афіцыйнае афармленне пад ключ", kk: "Ресми рәсімдеу толықтай", en: "Full state paperwork preparation & filing", ko: "공식 서류 처리 일괄 지원", zh: "官方手续一站式办理", hi: "आधिकारिक दस्तावेज़ीकरण की पूरी तैयारी", ce: "Къизгалхош а, кхаччалца оформление", tt: "Рәсми рәсмиләштерү тулысынча" })}
                 </p>
               </div>
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
   );

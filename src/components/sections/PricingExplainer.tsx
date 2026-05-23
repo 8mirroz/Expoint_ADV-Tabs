@@ -66,7 +66,7 @@ export default function PricingExplainer({
         </motion.div>
 
         {/* Driver Cards */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {drivers.map((driver, index) => {
             const Icon = driverIcons[index] ?? Ruler;
             return (
@@ -92,7 +92,7 @@ export default function PricingExplainer({
                     <Icon className="h-5.5 w-5.5" />
                   </div>
                   {driver.impactValue && (
-                    <span className="font-mono text-[11px] font-semibold text-accent border border-accent/20 rounded-full px-2.5 py-0.5 bg-accent/5">
+                    <span className="font-mono text-xs font-semibold text-accent border border-accent/20 rounded-full px-2.5 py-0.5 bg-accent/5">
                       {driver.impactValue}
                     </span>
                   )}
@@ -102,7 +102,7 @@ export default function PricingExplainer({
                 <h3 className="text-lg font-semibold tracking-tight text-white/95 group-hover:text-accent transition-colors duration-300 leading-snug">
                   {driver.title}
                 </h3>
-                <p className="mt-3 text-[13.5px] leading-relaxed text-neutral-300/80 group-hover:text-neutral-200/90 transition-colors duration-300 flex-1 font-light">
+                <p className="mt-3 text-[15px] leading-7 text-neutral-300/90 group-hover:text-neutral-200 transition-colors duration-300 flex-1 font-normal">
                   {driver.description}
                 </p>
               </motion.article>

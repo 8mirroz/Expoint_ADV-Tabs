@@ -35,12 +35,12 @@ export function FAQAccordion({ items, variant = 'console', className }: FAQAccor
 
         if (variant === 'landing') {
           return (
-            <div key={idx} className="group overflow-hidden">
+            <div key={idx} className="overflow-hidden">
               <button
                 onClick={() => handleToggle(idx)}
                 className={cn(
-                  "w-full text-left p-8 bg-surface border transition-all duration-500 relative overflow-hidden rounded-2xl shadow-sm cursor-pointer",
-                  isExpanded ? "border-primary/40 shadow-elevation-1" : "border-outline hover:border-primary/20"
+                  "w-full text-left p-8 bg-surface border transition-all duration-300 relative overflow-hidden rounded-2xl shadow-sm cursor-pointer",
+                  isExpanded ? "border-primary/40 shadow-elevation-1" : "border-outline"
                 )}
               >
                 <div
@@ -118,7 +118,7 @@ export function FAQAccordion({ items, variant = 'console', className }: FAQAccor
                     {item.serviceTitle}
                   </span>
                 )}
-                <h3 className="text-base md:text-lg font-bold text-white leading-snug group-hover/faq:text-accent transition-colors">
+                <h3 className="text-base md:text-lg font-bold text-white leading-snug">
                   {item.question}
                 </h3>
               </div>

@@ -13,7 +13,7 @@ interface CapabilityCardProps {
 const statusTones: Record<CapabilityState['status'], { border: string; bg: string; text: string }> = {
   'coming-next': { border: 'border-white/8', bg: 'bg-white/[0.03]', text: 'text-white/45' },
   'active': { border: 'border-[#00ffa3]/25', bg: 'bg-[#00ffa3]/10', text: 'text-[#00ffa3]' },
-  'operator-reviewed': { border: 'border-amber-400/20', bg: 'bg-amber-400/10', text: 'text-amber-200' },
+  'operator-reviewed': { border: 'border-emerald-300/20', bg: 'bg-emerald-300/10', text: 'text-emerald-200' },
   'queued-manual-assist': { border: 'border-cyan-400/20', bg: 'bg-cyan-400/10', text: 'text-cyan-200' },
 };
 

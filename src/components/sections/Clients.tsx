@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import { useLanguage } from '@/components/i18n/LanguageProvider';
+import { t } from '@/i18n/site';
 import { Marquee } from '../ui/marquee';
 
 const clients = [
@@ -20,14 +22,41 @@ const clients = [
 ];
 
 export default function Clients() {
+  const { locale } = useLanguage();
+
+  const copy = {
+    eyebrow: {
+      ru: 'Наши партнеры',
+      be: 'Нашы партнёры',
+      kk: 'Біздің серіктестер',
+      en: 'Our partners',
+      ko: '파트너사',
+      zh: '合作伙伴',
+      hi: 'हमारे साझेदार',
+      ce: 'Тхунаш партнёрш',
+      tt: 'Безнең партнерлар',
+    },
+    title: {
+      ru: 'Нам доверяют лидеры рынка',
+      be: 'Нам давяраюць лідары рынку',
+      kk: 'Нарық көшбасшылары бізге сенеді',
+      en: 'Trusted by market leaders',
+      ko: '시장 리더들이 신뢰합니다',
+      zh: '市场领先品牌的共同选择',
+      hi: 'बाज़ार के अग्रणी हम पर भरोसा करते हैं',
+      ce: 'Хьоьгга цхьа лидерш тхуна аьттош ю',
+      tt: 'Базар лидерлары безгә ышана',
+    },
+  } as const;
+
   return (
     <section className="py-24 bg-black border-y border-white/5 overflow-hidden">
       <div className="container mx-auto px-4 mb-20 text-center">
         <p className="text-xs uppercase tracking-[0.4em] text-white/50 font-bold mb-4 opacity-50">
-          Наши партнеры
+          {t(locale, copy.eyebrow)}
         </p>
         <h2 className="text-xl md:text-2xl font-headline font-bold text-white/90 tracking-tight">
-          Нам доверяют лидеры рынка
+          {t(locale, copy.title)}
         </h2>
       </div>
       

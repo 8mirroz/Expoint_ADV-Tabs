@@ -181,13 +181,13 @@ export default function PricingCompliance({
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row shrink-0">
-            <Link href={primaryCtaHref} className="geist-button-primary h-[52px] group">
-              <span>{primaryCtaLabel}</span>
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <Link href={primaryCtaHref} className="geist-button-primary min-h-[52px] h-auto px-5 py-2.5 group">
+              <span className="text-center break-words leading-tight">{primaryCtaLabel}</span>
+              <ArrowRight className="ml-2 h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" />
             </Link>
-            <Link href={secondaryCtaHref} className="geist-button-secondary h-[52px] group">
-              <span>{secondaryCtaLabel}</span>
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <Link href={secondaryCtaHref} className="geist-button-secondary min-h-[52px] h-auto px-5 py-2.5 group">
+              <span className="text-center break-words leading-tight">{secondaryCtaLabel}</span>
+              <ArrowRight className="ml-2 h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </motion.div>

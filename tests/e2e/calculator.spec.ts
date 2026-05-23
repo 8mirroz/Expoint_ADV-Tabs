@@ -3,16 +3,15 @@ import { expect, test } from '@playwright/test';
 test.describe('Calculator full readiness', () => {
   test('calculator page supports geometry changes, upload, save, and resume', async ({ page }) => {
     await page.goto('/calculator');
-
-    await expect(page.locator('[data-surface="page"]')).toBeVisible();
     const total = page.getByTestId('calculator-total');
+    await expect(total).toBeVisible();
     const totalBefore = await total.textContent();
 
-    await page.getByRole('button', { name: /Габариты и визуал/i }).click();
+    await page.getByRole('button', { name: 'Далее' }).click();
     await page.getByLabel('Высота, мм').fill('900');
     await expect(total).not.toHaveText(totalBefore ?? '');
 
-    await page.getByRole('button', { name: 'Шаг 03: Монтаж и согласование' }).click();
+    await page.getByRole('button', { name: 'Далее' }).click();
     const uploadInput = page.locator('input[aria-label="Добавить файлы для handoff"]');
     await uploadInput.setInputFiles({
       name: 'facade.png',
@@ -41,8 +40,8 @@ test.describe('Calculator full readiness', () => {
     expect(cartItemId).toBeTruthy();
 
     await page.goto(`/calculator?cartItem=${cartItemId}`);
-    await expect(page.getByRole('button', { name: /Коммерческая смета/i })).toHaveAttribute('aria-current', 'step');
-    await page.getByRole('button', { name: 'Шаг 03: Монтаж и согласование' }).click();
+    await expect(page.getByRole('button', { name: /Шаг 04: Смета/i })).toHaveAttribute('aria-current', 'step');
+    await page.getByRole('button', { name: 'Назад' }).click();
     await expect(page.getByTestId('handoff-panel').getByText(/^facade\.png$/)).toBeVisible();
     await expect(page.getByTestId('handoff-panel').getByText(/загружено/i)).toBeVisible();
   });
@@ -50,7 +49,8 @@ test.describe('Calculator full readiness', () => {
   test('calculator page handles query type and stale cart', async ({ page }) => {
     await page.goto('/calculator?type=flex-neon');
     await expect(page.locator('[data-step="product"]')).toBeVisible();
-    await expect(page.getByRole('button', { name: /Гибкий неон/i }).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /Гибкий неон/i }).first()).toHaveAttribute('aria-disabled', 'true');
+    await expect(page.getByRole('button', { name: /Объемные световые буквы/i })).toBeVisible();
 
     await page.goto('/calculator?cartItem=stale-case&type=flex-neon');
     await expect(page.getByTestId('stale-recovery-banner')).toBeVisible();
@@ -58,18 +58,18 @@ test.describe('Calculator full readiness', () => {
     await expect(page.locator('[data-step="product"]')).toBeVisible();
   });
 
-  test('embedded calculator remains interactive on homepage', async ({ page }) => {
-    await page.goto('/');
-
-    const embedded = page.locator('[data-surface="section"]').first();
-    await expect(embedded).toBeVisible();
-    await embedded.getByRole('button', { name: 'Шаг 03: Монтаж и согласование' }).click();
-    await expect(embedded.getByTestId('handoff-panel')).toBeVisible();
+  test('calculator page navigation remains interactive', async ({ page }) => {
+    await page.goto('/calculator');
+    await expect(page.locator('[data-surface="page"]')).toBeVisible();
+    await page.getByRole('button', { name: 'Далее' }).click();
+    await page.getByRole('button', { name: 'Далее' }).click();
+    await expect(page.getByTestId('handoff-panel')).toBeVisible();
   });
 
   test('handoff panel rejects invalid files', async ({ page }) => {
     await page.goto('/calculator');
-    await page.getByRole('button', { name: 'Шаг 03: Монтаж и согласование' }).click();
+    await page.getByRole('button', { name: 'Далее' }).click();
+    await page.getByRole('button', { name: 'Далее' }).click();
 
     const uploadInput = page.locator('input[aria-label="Добавить файлы для handoff"]');
     await uploadInput.setInputFiles({

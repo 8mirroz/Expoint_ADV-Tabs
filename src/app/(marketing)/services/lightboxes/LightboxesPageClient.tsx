@@ -12,7 +12,7 @@ import PageShell from '@/components/framework/PageShell';
 import HeroGeneric from '@/components/sections/HeroGeneric';
 import B2BSegmentTabs from '@/components/service-pages/B2BSegmentTabs';
 import ServiceCalculatorShell from '@/components/service-pages/ServiceCalculatorShell';
-import { LightboxCalculator } from '@/components/calculator/LightboxCalculator';
+import { CalculatorContainer } from '@/components/calculator/CalculatorContainer';
 import PricingPackages from '@/components/service-pages/PricingPackages';
 import TechnologyComparison from '@/components/service-pages/TechnologyComparison';
 import LegalTrustBlock from '@/components/service-pages/LegalTrustBlock';
@@ -67,7 +67,7 @@ export default function LightboxesPageClient() {
         title="Конструктор стоимости" 
         description="Введите размеры светового короба и выберите сценарий исполнения. Калькулятор мгновенно рассчитает площади и покажет диапазон цен."
       >
-        <LightboxCalculator />
+        <CalculatorContainer serviceId="lightbox" />
       </ServiceCalculatorShell>
       <EngineeringShowcase />
       <PricingPackages packages={lightboxesData.packages} />

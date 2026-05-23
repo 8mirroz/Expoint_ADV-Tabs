@@ -18,7 +18,7 @@ ${SIGN_MATERIALS.map((material) => `- ${material.name}: ${material.premiumValue}
 ${CASE_STUDIES.map((item) => `- ${item.clientName}: ${item.title}. Результат: ${item.metrics.map((metric) => `${metric.label}: ${metric.value}`).join(', ')}. Sources: ${item.contentMeta.source_doc_ids.join(', ')}`).join('\n')}
 
 ## Why Choose BUKVA SVET?
-- "Industrial but Modern" aesthetic (Slate + Neon Orange).
+- "Industrial but Modern" aesthetic (Slate + Neon Green).
 - Automotive-style 3D Configurator for real-time pricing and visual feedback.
 - Strict compliance with Moscow advertising regulations (902-ПП).
 - Own manufacturing facility in Moscow.

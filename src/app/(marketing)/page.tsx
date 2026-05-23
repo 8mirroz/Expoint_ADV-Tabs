@@ -8,10 +8,15 @@ import Clients from '../../components/sections/Clients';
 import MapSection from '../../components/sections/MapSection';
 import Script from 'next/script';
 
-import { generateLocalBusinessSchema, generateFAQSchema } from '../../lib/seo/schema';
+import { generateLocalBusinessSchema, generateFAQSchema, generateOrganizationSchema, generateWebSiteSchema } from '../../lib/seo/schema';
 
 export default function MarketingPage() {
-  const schemas = [generateLocalBusinessSchema(), generateFAQSchema()];
+  const schemas = [
+    generateLocalBusinessSchema(),
+    generateFAQSchema(),
+    generateOrganizationSchema(),
+    generateWebSiteSchema(),
+  ];
 
   return (
     <PageShell headerVariant="immersive">

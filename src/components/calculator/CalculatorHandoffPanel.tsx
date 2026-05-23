@@ -106,7 +106,7 @@ export function CalculatorHandoffPanel({
           {requirements.map((item) => (
             <div key={item.id} className="flex items-center justify-between rounded-xl border border-outline bg-background px-3 py-2">
               <p className="text-sm text-on-surface">{item.label}</p>
-              <span className={`text-[10px] font-bold uppercase tracking-widest ${item.satisfied ? 'text-emerald-600' : 'text-amber-600'}`}>
+              <span className={`text-[10px] font-bold uppercase tracking-widest ${item.satisfied ? 'text-emerald-600' : 'text-emerald-600'}`}>
                 {item.satisfied ? 'OK' : item.required ? 'Нужно' : 'Опционально'}
               </span>
             </div>

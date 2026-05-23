@@ -212,7 +212,7 @@ export default function CartDrawer() {
                                  const tone = cap.status === 'active'
                                    ? 'border-[#00ffa3]/20 bg-[#00ffa3]/5'
                                    : cap.status === 'operator-reviewed'
-                                     ? 'border-amber-400/20 bg-amber-400/5'
+                                     ? 'border-emerald-300/20 bg-emerald-300/5'
                                      : cap.status === 'queued-manual-assist'
                                        ? 'border-cyan-400/20 bg-cyan-400/5'
                                        : 'border-white/8 bg-white/2';

@@ -426,10 +426,10 @@ export default function ServiceRates({ compact = false }: ServiceRatesProps) {
                   <Link
                     href={`/calculator?type=${service.id}`}
                     data-testid={`service-rate-link-${service.id}`}
-                    className="relative flex h-[50px] w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-[#00ffa3] text-black font-semibold text-sm tracking-[-0.01em] transition-all duration-300 hover:bg-[#00ffa3]/90 hover:shadow-[0_0_20px_rgba(0,255,163,0.4)] group"
+                    className="relative flex min-h-[50px] w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-[#00ffa3] px-5 py-2.5 text-black font-semibold text-sm leading-tight tracking-[-0.01em] transition-all duration-300 hover:bg-[#00ffa3]/90 hover:shadow-[0_0_20px_rgba(0,255,163,0.4)] group"
                   >
-                    <span>Считать {service.title}</span>
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <span className="text-center break-words">Считать {service.title}</span>
+                    <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </div>
               </motion.article>

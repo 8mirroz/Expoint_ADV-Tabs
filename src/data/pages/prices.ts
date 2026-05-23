@@ -4,7 +4,7 @@ import { SERVICES } from '@/data/services';
 import { rules902PP } from '@/data/rules_902pp';
 
 /* ================================================================
- * PRICING DRIVERS — 5 core factors explaining price formation
+ * PRICING DRIVERS — 6 core factors explaining price formation
  * Source: t1 (blocks 5,7,8), t2 (section 3), t5 (pricing arch)
  * ================================================================ */
 const pricingDrivers = [
@@ -57,6 +57,16 @@ const pricingDrivers = [
     sourceDocId: 'NB-006',
     evidenceSnippet:
       'Signage length must be within 70% facade width with 15m absolute cap.',
+  },
+  {
+    title: 'Сроки и срочность производства',
+    description:
+      'Ускоренный цикл с ночными сменами, приоритетом в производстве и сжатым монтажным окном повышает стоимость: срочные проекты требуют отдельного ресурсного резерва команды.',
+    impactLabel: 'Срочная наценка',
+    impactValue: '+20–35%',
+    sourceDocId: 'NB-017',
+    evidenceSnippet:
+      'Compressed execution windows and priority scheduling increase delivery cost.',
   },
 ];
 

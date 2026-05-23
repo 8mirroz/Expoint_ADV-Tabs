@@ -11,7 +11,7 @@ import PageShell from '@/components/framework/PageShell';
 import HeroGeneric from '@/components/sections/HeroGeneric';
 import B2BSegmentTabs from '@/components/service-pages/B2BSegmentTabs';
 import ServiceCalculatorShell from '@/components/service-pages/ServiceCalculatorShell';
-import { NeonCalculatorV10 } from '@/components/calculator/NeonCalculatorV10';
+import { CalculatorContainer } from '@/components/calculator/CalculatorContainer';
 import PricingPackages from '@/components/service-pages/PricingPackages';
 import TechnologyComparison from '@/components/service-pages/TechnologyComparison';
 import LegalTrustBlock from '@/components/service-pages/LegalTrustBlock';
@@ -66,7 +66,7 @@ export default function NeonPageClient() {
         title="Конструктор стоимости" 
         description="Введите текст, выберите размер и сценарий свечения. Покажем честный ориентир без цены ниже минимального кастомного чека."
       >
-        <NeonCalculatorV10 />
+        <CalculatorContainer serviceId="neon" />
       </ServiceCalculatorShell>
       <EngineeringShowcase />
       <SkuShowcase />
@@ -155,7 +155,7 @@ function EngineeringShowcase() {
     { name: 'Teal', code: '#00F5A0', glow: 'rgba(0, 245, 160, 0.4)' },
     { name: 'Hot Pink', code: '#FF007F', glow: 'rgba(255, 0, 127, 0.4)' },
     { name: 'Neon Blue', code: '#00DFFF', glow: 'rgba(0, 223, 255, 0.4)' },
-    { name: 'Amber Yellow', code: '#FFB800', glow: 'rgba(255, 184, 0, 0.4)' },
+    { name: 'Electric Green', code: '#00F5A0', glow: 'rgba(0, 245, 160, 0.4)' },
     { name: 'Pure White', code: '#FFFFFF', glow: 'rgba(255, 255, 255, 0.3)' },
   ];
 
@@ -198,7 +198,7 @@ function EngineeringShowcase() {
 
             {/* Simulated Glassmorphic Blueprint Display */}
             <div className="relative z-10 flex-grow flex flex-col items-center justify-center py-12 px-4 border border-slate-100 rounded-2xl bg-slate-50/30 backdrop-blur-[2px] shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
-              {/* Dynamic Neon Sign Glow Chamber */}
+              {/* Dynamic Neon Sign Glow Stage */}
               <div className="text-center relative">
                 {/* Glowing Aura Effect */}
                 <div 
@@ -428,7 +428,7 @@ function SkuShowcase() {
 
   const readyMadeSkus = [
     { id: 'open', title: 'Open / Открыто', price: '1 900 ₽', oldPrice: '2 800 ₽', color: '#FF007F', secondaryColor: '#00DFFF', glow: 'rgba(255, 0, 127, 0.4)', textClass: 'uppercase tracking-widest font-black', bgClass: 'bg-[#FF007F]/5 border-[#FF007F]/20' },
-    { id: 'coffee', title: 'Coffee Icon', price: '7 500 ₽', oldPrice: '9 900 ₽', color: '#FFB800', secondaryColor: '#FFB800', glow: 'rgba(255, 184, 0, 0.4)', textClass: 'italic font-serif font-semibold', bgClass: 'bg-[#FFB800]/5 border-[#FFB800]/20' },
+    { id: 'coffee', title: 'Coffee Icon', price: '7 500 ₽', oldPrice: '9 900 ₽', color: '#00F5A0', secondaryColor: '#00F5A0', glow: 'rgba(0, 245, 160, 0.4)', textClass: 'italic font-serif font-semibold', bgClass: 'bg-[#00F5A0]/5 border-[#00F5A0]/20' },
     { id: 'heart', title: 'Neon Heart', price: '1 490 ₽', oldPrice: '2 200 ₽', color: '#FF0055', secondaryColor: '#FF0055', glow: 'rgba(255, 0, 85, 0.4)', textClass: 'uppercase font-light tracking-widest', bgClass: 'bg-[#FF0055]/5 border-[#FF0055]/20' },
     { id: 'bolt', title: 'Lightning Bolt', price: '1 290 ₽', oldPrice: '1 900 ₽', color: '#00DFFF', secondaryColor: '#00DFFF', glow: 'rgba(0, 223, 255, 0.4)', textClass: 'uppercase font-black italic', bgClass: 'bg-[#00DFFF]/5 border-[#00DFFF]/20' },
     { id: 'lips', title: 'Hot Lips', price: '1 890 ₽', oldPrice: '2 700 ₽', color: '#FF007F', secondaryColor: '#FF007F', glow: 'rgba(255, 0, 127, 0.4)', textClass: 'font-serif font-black tracking-[-0.05em]', bgClass: 'bg-[#FF007F]/5 border-[#FF007F]/20' },

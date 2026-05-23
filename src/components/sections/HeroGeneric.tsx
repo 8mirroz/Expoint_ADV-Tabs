@@ -223,19 +223,19 @@ export default function HeroGeneric({
             {ctaText && (
               <Link
                 href={ctaHref}
-                className="geist-button-primary h-[52px] group"
+                className="geist-button-primary min-h-[52px] h-auto px-5 py-2.5 group"
               >
-                <span>{ctaText}</span>
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <span className="text-center break-words leading-tight">{ctaText}</span>
+                <ArrowRight className="ml-2 h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" />
               </Link>
             )}
             {secondaryCtaText && secondaryCtaHref && (
               <Link
                 href={secondaryCtaHref}
-                className="geist-button-secondary h-[52px]"
+                className="geist-button-secondary min-h-[52px] h-auto px-5 py-2.5"
               >
-                <span>{secondaryCtaText}</span>
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <span className="text-center break-words leading-tight">{secondaryCtaText}</span>
+                <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
               </Link>
             )}
           </div>

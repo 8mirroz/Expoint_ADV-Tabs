@@ -40,13 +40,20 @@ interface CalculatorContainerProps {
   surface?: 'page' | 'section';
 }
 
-const productOptions: { id: CalculatorProductType; label: string; description: string }[] = [
-  { id: 'volumetric-letters', label: 'Объемные световые буквы', description: 'Расчет за сантиметр высоты и количество символов.' },
-  { id: 'lightbox', label: 'Световой короб', description: 'Расчет по площади, форме и сценарию монтажа.' },
-  { id: 'flex-neon', label: 'Гибкий неон', description: 'Расчет по длине контура, цвету свечения и подложке.' },
-  { id: 'metal-letters', label: 'Нержавеющие буквы', description: 'Премиальная фасадная и интерьерная айдентика.' },
-  { id: 'pylon-signs', label: 'Стела / навигация', description: 'Проектная оценка инженерной конструкции.' },
-  { id: 'roof-installations', label: 'Крышная установка', description: 'Крупноформатный проект с инженерной проверкой.' },
+const LOCKED_PRODUCT_TYPE: CalculatorProductType = 'volumetric-letters';
+const DIMENSION_LIMITS = {
+  widthMm: { min: 300, max: 15000 },
+  heightMm: { min: 100, max: 3000 },
+  depthMm: { min: 20, max: 800 },
+} as const;
+
+const productOptions: Array<{ id: CalculatorProductType; label: string; description: string; available: boolean }> = [
+  { id: 'volumetric-letters', label: 'Объемные световые буквы', description: 'Полный расчет букв: высота, количество символов, подсветка и монтаж.', available: true },
+  { id: 'lightbox', label: 'Световой короб', description: 'Расчет по площади, форме и сценарию монтажа.', available: false },
+  { id: 'flex-neon', label: 'Гибкий неон', description: 'Расчет по длине контура, цвету свечения и подложке.', available: false },
+  { id: 'metal-letters', label: 'Нержавеющие буквы', description: 'Премиальная фасадная и интерьерная айдентика.', available: false },
+  { id: 'pylon-signs', label: 'Стела / навигация', description: 'Проектная оценка инженерной конструкции.', available: false },
+  { id: 'roof-installations', label: 'Крышная установка', description: 'Крупноформатный проект с инженерной проверкой.', available: false },
 ];
 
 const segmentOptions: { id: BusinessSegment; label: string }[] = [
@@ -96,33 +103,28 @@ type ResumeStatus = 'fresh' | 'resumed' | 'stale';
 const stepMeta: Record<CalculatorStep, { index: string; title: string; body: string }> = {
   product: {
     index: '01',
-    title: 'Тип и сегмент',
+    title: 'Тип',
     body: 'Определяем тип конструкции и бизнес-контекст, чтобы применить корректные допущения и pricing anchors.',
   },
   geometry: {
     index: '02',
-    title: 'Габариты и визуал',
+    title: 'Размер',
     body: 'Фиксируем текст, размеры, материалы и сценарий свечения. Предпросмотр и смета обновляются сразу.',
   },
   services: {
     index: '03',
-    title: 'Монтаж и согласование',
-    body: 'Добавляем монтажный доступ, срочность и проверку по 902-ПП. Это влияет на финальную упаковку сделки.',
+    title: 'Монтаж',
+    body: 'Фиксируем сценарий монтажа букв, срочность и проверки по 902-ПП. Это напрямую влияет на финальную смету.',
   },
   quote: {
     index: '04',
-    title: 'Коммерческая смета',
-    body: 'Сравните пакеты Start / Business / Premium и сохраните выбранный setup в quote cart.',
+    title: 'Смета',
+    body: 'Сравните пакеты производства объемных букв и сохраните выбранный setup в quote cart.',
   },
 };
 
-function productFromService(serviceId?: string): CalculatorProductType {
-  if (serviceId === 'lightbox' || serviceId === 'lightboxes') return 'lightbox';
-  if (serviceId === 'flex-neon' || serviceId === 'neon') return 'flex-neon';
-  if (serviceId === 'metal-letters') return 'metal-letters';
-  if (serviceId === 'pylon-signs' || serviceId === 'wayfinding') return 'pylon-signs';
-  if (serviceId === 'roof-installations') return 'roof-installations';
-  return 'volumetric-letters';
+function productFromService(): CalculatorProductType {
+  return LOCKED_PRODUCT_TYPE;
 }
 
 function formatRub(value: number): string {
@@ -141,6 +143,15 @@ function getOptionLabel<T extends string>(options: Array<{ id: T; label: string 
 
 function getStepIndex(step: CalculatorStep): number {
   return stepOrder.indexOf(step);
+}
+
+function clampNumber(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+function normalizeDimension(value: number, min: number, max: number): number {
+  if (!Number.isFinite(value)) return min;
+  return clampNumber(Math.round(value), min, max);
 }
 
 function renderProductIcon(type: CalculatorProductType, active: boolean) {
@@ -251,6 +262,9 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
         });
         nextResumeStatus = 'stale';
       } else {
+        if (resumedDraft.config.productType !== LOCKED_PRODUCT_TYPE) {
+          salesEngine.patchConfig({ productType: LOCKED_PRODUCT_TYPE });
+        }
         nextResumeStatus = 'resumed';
       }
     } else {
@@ -270,15 +284,25 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
 
   const updateConfig = <K extends keyof CalculatorConfig>(key: K, value: CalculatorConfig[K]) => {
     setIsSaved(false);
+    if (key === 'productType') {
+      salesEngine.patchConfig({ productType: LOCKED_PRODUCT_TYPE });
+      return;
+    }
     salesEngine.patchConfig({ [key]: value } as Partial<CalculatorConfig>);
   };
 
   const updateText = (text: string) => {
     setIsSaved(false);
+    const normalizedText = (text || ' ').slice(0, 64);
     salesEngine.patchConfig({
-      text,
-      quantity: Math.max(1, text.replace(/\s/g, '').length),
+      text: normalizedText,
+      quantity: Math.max(1, normalizedText.replace(/\s/g, '').length),
     });
+  };
+
+  const updateDimension = (key: 'widthMm' | 'heightMm' | 'depthMm', rawValue: string) => {
+    const nextValue = normalizeDimension(Number(rawValue), DIMENSION_LIMITS[key].min, DIMENSION_LIMITS[key].max);
+    updateConfig(key, nextValue);
   };
 
   const handleSaveToCart = () => {
@@ -332,7 +356,7 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
   const summaryItems = [
     {
       label: 'Конструкция',
-      value: getOptionLabel(productOptions, estimate.config.productType),
+      value: getOptionLabel(productOptions, LOCKED_PRODUCT_TYPE),
     },
     {
       label: 'Сегмент',
@@ -354,29 +378,41 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
 
   const renderProductStep = () => (
     <div className="space-y-6">
-      <OptionGroup title="Тип конструкции">
+      <OptionGroup title="Тип буквенной конструкции">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {productOptions.map((item) => {
-            const isActive = estimate.config.productType === item.id;
+            const isActive = LOCKED_PRODUCT_TYPE === item.id;
+            const isAvailable = item.available;
             return (
               <button
                 key={item.id}
                 type="button"
-                onClick={() => updateConfig('productType', item.id)}
+                onClick={isAvailable ? () => updateConfig('productType', item.id) : undefined}
+                aria-disabled={!isAvailable}
+                title={isAvailable ? undefined : 'Этот тип конструкции временно недоступен'}
                 className={`flex flex-col h-full rounded-2xl border p-4 text-left transition-all duration-300 relative group overflow-hidden ${
                   isActive
                     ? 'border-accent bg-accent/[0.04] shadow-[0_0_20px_rgba(0,245,160,0.1)]'
-                    : 'border-white/10 bg-white/[0.01] hover:border-accent/40 hover:bg-white/[0.03] hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)]'
+                    : isAvailable
+                      ? 'border-white/10 bg-white/[0.01] hover:border-accent/40 hover:bg-white/[0.03] hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)]'
+                      : 'border-white/8 bg-white/[0.01] opacity-55 cursor-not-allowed'
                 }`}
               >
                 {isActive && (
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-50 pointer-events-none" />
                 )}
+                {!isAvailable && (
+                  <div className="absolute top-0 right-0 bg-white/10 text-white/70 px-3 py-1 rounded-bl-xl text-[9px] font-black uppercase tracking-wider border-l border-b border-white/10">
+                    Недоступно
+                  </div>
+                )}
 
                 <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 ${
                   isActive 
                     ? 'bg-accent/15 text-accent shadow-[0_0_15px_rgba(0,245,160,0.2)]' 
-                    : 'bg-white/[0.03] text-white/50 group-hover:text-accent group-hover:bg-accent/5'
+                    : isAvailable
+                      ? 'bg-white/[0.03] text-white/50 group-hover:text-accent group-hover:bg-accent/5'
+                      : 'bg-white/[0.03] text-white/35'
                 }`}>
                   {renderProductIcon(item.id, isActive)}
                 </div>
@@ -386,7 +422,7 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
                     <span className={`block text-sm font-black transition-colors duration-300 ${isActive ? 'text-accent' : 'text-white'}`}>
                       {item.label}
                     </span>
-                    <span className="mt-1.5 block text-xs leading-relaxed text-white/50 font-medium">
+                    <span className={`mt-1.5 block text-xs leading-relaxed font-medium ${isAvailable ? 'text-white/50' : 'text-white/35'}`}>
                       {item.description}
                     </span>
                   </div>
@@ -404,24 +440,6 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
         </div>
       </OptionGroup>
 
-      <OptionGroup title="Сегмент бизнеса">
-        <div className="grid grid-cols-2 gap-2 md:grid-cols-5">
-          {segmentOptions.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => updateConfig('businessSegment', item.id)}
-              className={`rounded-xl border px-3 py-3 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-                estimate.config.businessSegment === item.id
-                  ? 'border-accent bg-accent text-background shadow-[0_0_12px_rgba(0,245,160,0.25)]'
-                  : 'border-white/10 bg-white/[0.01] text-white/60 hover:border-white/30 hover:text-white hover:bg-white/[0.03]'
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-      </OptionGroup>
     </div>
   );
 
@@ -448,13 +466,13 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
               type="text"
               value={estimate.config.text}
               onChange={(event) => updateText(event.target.value)}
-              placeholder="НАЗВАНИЕ ВЫВЕСКИ"
+              placeholder="НАЗВАНИЕ БУКВ"
               className="w-full bg-transparent pl-8 pr-4 py-2 text-xl font-black uppercase tracking-wider text-white placeholder:text-white/20 outline-none transition-all"
             />
           </div>
           
           <p className="mt-2.5 text-[10px] text-white/40 leading-relaxed">
-            Будет отображаться на живом чертеже-превью ниже. Поддерживает кириллицу, латиницу и цифры.
+            Будет отображаться на живом чертеже букв ниже. Поддерживает кириллицу, латиницу, цифры и ограничение до 64 символов.
           </p>
         </div>
 
@@ -462,25 +480,28 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
           <Input
             label="Ширина, мм"
             type="number"
-            min={100}
+            min={DIMENSION_LIMITS.widthMm.min}
+            max={DIMENSION_LIMITS.widthMm.max}
             value={estimate.config.widthMm}
-            onChange={(event) => updateConfig('widthMm', Number(event.target.value))}
+            onChange={(event) => updateDimension('widthMm', event.target.value)}
             className="rounded-2xl bg-white/[0.01] border-white/10 hover:border-white/20 focus:border-accent text-white"
           />
           <Input
             label="Высота, мм"
             type="number"
-            min={100}
+            min={DIMENSION_LIMITS.heightMm.min}
+            max={DIMENSION_LIMITS.heightMm.max}
             value={estimate.config.heightMm}
-            onChange={(event) => updateConfig('heightMm', Number(event.target.value))}
+            onChange={(event) => updateDimension('heightMm', event.target.value)}
             className="rounded-2xl bg-white/[0.01] border-white/10 hover:border-white/20 focus:border-accent text-white"
           />
           <Input
             label="Глубина, мм"
             type="number"
-            min={20}
+            min={DIMENSION_LIMITS.depthMm.min}
+            max={DIMENSION_LIMITS.depthMm.max}
             value={estimate.config.depthMm}
-            onChange={(event) => updateConfig('depthMm', Number(event.target.value))}
+            onChange={(event) => updateDimension('depthMm', event.target.value)}
             className="rounded-2xl bg-white/[0.01] border-white/10 hover:border-white/20 focus:border-accent text-white"
           />
         </div>
@@ -699,8 +720,8 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
       <div className="rounded-[28px] border border-outline bg-surface p-5">
         <p className="verge-mono-label mb-3 text-on-surface-variant">Логика выдачи</p>
         <p className="text-sm leading-relaxed text-on-surface-variant">
-          Пакеты считаются из одной и той же расчетной базы. Отличается упаковка решения, уровень материалов,
-          инженерное сопровождение и допустимый риск для проекта.
+          Пакеты считаются из одной и той же базы расчета объемных букв. Отличается уровень материалов,
+          инженерное сопровождение и сервисный контур проекта.
         </p>
       </div>
     </div>
@@ -745,7 +766,7 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
 
                       <div>
                         <p className="text-[9px] font-bold uppercase tracking-widest text-white/30">Шаг {meta.index}</p>
-                        <p className={`text-xs font-black transition-all duration-300 whitespace-nowrap ${
+                        <p className={`text-[10px] md:text-[11px] font-black leading-tight transition-all duration-300 whitespace-nowrap ${
                           active ? 'text-accent' : completed ? 'text-white/80' : 'text-white/40'
                         }`}>
                           {meta.title}
@@ -769,9 +790,9 @@ export function CalculatorContainer({ serviceId, surface = 'page' }: CalculatorC
           </div>
 
           {resumeStatus === 'stale' && (
-            <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4" data-testid="stale-recovery-banner">
-              <p className="text-sm font-bold text-amber-900">Не удалось восстановить прошлую смету.</p>
-              <p className="mt-1 text-sm text-amber-800">
+            <div className="rounded-2xl border border-emerald-300 bg-emerald-50 p-4" data-testid="stale-recovery-banner">
+              <p className="text-sm font-bold text-emerald-900">Не удалось восстановить прошлую смету.</p>
+              <p className="mt-1 text-sm text-emerald-800">
                 Мы открыли новый предварительный расчет по выбранному типу конструкции. Проверьте параметры перед сохранением setup в корзину.
               </p>
               <div className="mt-3 flex flex-wrap gap-2">

@@ -18,26 +18,27 @@ const ZenIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 const copy = {
-  description: { ru: 'Промышленное производство визуальных коммуникаций. Проектируем будущее вашего бренда в городском ландшафте.', be: 'Прамысловая вытворчасць візуальных камунікацый. Праектуем будучыню вашага брэнда ў гарадскім ландшафце.', kk: 'Көрнекі коммуникациялардың өнеркәсіптік өндірісі. Қалалық ортада брендіңіздің болашағын жобалаймыз.', en: 'Industrial production of visual communications. We engineer your brand future in the urban landscape.', zh: '工业级视觉 коммуникация 生产。我们在城市空间中设计您的品牌未来。', ce: 'Визуалан коммуникацин промышленни кхоллам. Шун брендан кхана шаьржин ландшафта проект йо.', tt: 'Визуаль коммуникацияләрнең индустриаль производствосы. Шәһәр мохитендә брендыгызның киләчәген проектлыйбыз.' },
-  hardware: { ru: 'Изделия', be: 'Вырабы', kk: 'Өнімдер', en: 'Hardware', zh: '产品', ce: 'Изделеш', tt: 'Эшләнмәләр' },
-  system: { ru: 'Система', be: 'Сістэма', kk: 'Жүйе', en: 'System', zh: '系统', ce: 'Система', tt: 'Система' },
-  headquarters: { ru: 'Штаб-квартира', be: 'Штаб-кватэра', kk: 'Штаб-пәтер', en: 'Headquarters', zh: '总部', ce: 'Штаб-квартира', tt: 'Штаб-фатир' },
-  privacy: { ru: 'Политика конфиденциальности', be: 'Палітыка прыватнасці', kk: 'Құпиялылық саясаты', en: 'Privacy Policy', zh: '隐私政策', ce: 'Конфиденциальностан политика', tt: 'Хосусыйлык сәясәте' },
-  terms: { ru: 'Условия сервиса', be: 'Умовы сэрвісу', kk: 'Қызмет шарттары', en: 'Service Terms', zh: '服务条款', ce: 'Сервисан шарт', tt: 'Сервис шартлары' },
+  description: { ru: 'Промышленное производство визуальных коммуникаций. Проектируем будущее вашего бренда в городском ландшафте.', be: 'Прамысловая вытворчасць візуальных камунікацый. Праектуем будучыню вашага брэнда ў гарадскім ландшафце.', kk: 'Көрнекі коммуникациялардың өнеркәсіптік өндірісі. Қалалық ортада брендіңіздің болашағын жобалаймыз.', en: 'Industrial production of visual communications. We engineer your brand future in the urban landscape.', ko: '산업용 비주얼 커뮤니케이션 제작. 도시 공간 속에서 브랜드의 미래를 설계합니다.', zh: '工业级视觉传达生产。我们在城市景观中设计您品牌的未来。', hi: 'दृश्य संचार का औद्योगिक उत्पादन। हम शहरी परिदृश्य में आपके ब्रांड का भविष्य डिज़ाइन करते हैं।', ce: 'Визуалан коммуникацин промышленни кхоллам. Шун брендан кхана шаьржин ландшафта проект йо.', tt: 'Визуаль коммуникацияләрнең индустриаль производствосы. Шәһәр мохитендә брендыгызның киләчәген проектлыйбыз.' },
+  hardware: { ru: 'Изделия', be: 'Вырабы', kk: 'Өнімдер', en: 'Hardware', ko: '제품', zh: '产品', hi: 'उत्पाद', ce: 'Изделеш', tt: 'Эшләнмәләр' },
+  system: { ru: 'Система', be: 'Сістэма', kk: 'Жүйе', en: 'System', ko: '시스템', zh: '系统', hi: 'सिस्टम', ce: 'Система', tt: 'Система' },
+  headquarters: { ru: 'Штаб-квартира', be: 'Штаб-кватэра', kk: 'Штаб-пәтер', en: 'Headquarters', ko: '본사', zh: '总部', hi: 'मुख्यालय', ce: 'Штаб-квартира', tt: 'Штаб-фатир' },
+  privacy: { ru: 'Политика конфиденциальности', be: 'Палітыка прыватнасці', kk: 'Құпиялылық саясаты', en: 'Privacy Policy', ko: '개인정보 처리방침', zh: '隐私政策', hi: 'गोपनीयता नीति', ce: 'Конфиденциальностан политика', tt: 'Хосусыйлык сәясәте' },
+  terms: { ru: 'Условия сервиса', be: 'Умовы сэрвісу', kk: 'Қызмет шарттары', en: 'Service Terms', ko: '서비스 약관', zh: '服务条款', hi: 'सेवा शर्तें', ce: 'Сервисан шарт', tt: 'Сервис шартлары' },
+  productionComplex: { ru: 'Производственный комплекс', be: 'Вытворчы комплекс', kk: 'Өндірістік кешен', en: 'Production complex', ko: '생산 단지', zh: '生产综合体', hi: 'उत्पादन परिसर', ce: 'Кхолламан комплекс', tt: 'Җитештерү комплексы' },
+  rightsReserved: { ru: 'Все права защищены', be: 'Усе правы абаронены', kk: 'Барлық құқықтар қорғалған', en: 'All rights reserved', ko: '모든 권리 보유', zh: '保留所有权利', hi: 'सर्वाधिकार सुरक्षित', ce: 'Дерриг хьакъ дийцарна', tt: 'Барлык хокуклар сакланган' },
 } as const;
 
 const hardwareItems = [
-  { label: 'Объемные буквы', href: '/services/volumetric-letters' },
-  { label: 'Неон', href: '/services/neon' },
-  { label: 'Лайтбоксы', href: '/services/lightboxes' },
-  { label: 'Индивидуальные решения', href: '/services' },
+  { label: { ru: 'Объемные буквы', en: 'Channel letters', ko: '입체 문자', zh: '立体字', hi: 'वॉल्यूमेट्रिक अक्षर' }, href: '/services/volumetric-letters' },
+  { label: { ru: 'Неон', en: 'Neon', ko: '네온', zh: '霓虹', hi: 'नियॉन' }, href: '/services/neon' },
+  { label: { ru: 'Лайтбоксы', en: 'Lightboxes', ko: '라이트박스', zh: '灯箱', hi: 'लाइटबॉक्स' }, href: '/services/lightboxes' },
+  { label: { ru: 'Дизайн', en: 'Design', ko: '디자인', zh: '设计', hi: 'डिज़ाइन' }, href: '/services' },
 ] as const;
 
 const systemItems = [
-  { label: 'Портфолио', href: '/#cases' },
-  { label: 'Процесс', href: '/#process' },
-  { label: '902-ПП', href: '/compliance' },
-  { label: 'Конфигуратор', href: '/calculator' },
+  { label: { ru: 'Кейсы', en: 'Cases', ko: '사례', zh: '案例', hi: 'केसेस' }, href: '/cases' },
+  { label: { ru: '902-ПП', en: '902-PP', ko: '902-PP', zh: '902-ПП', hi: '902-ПП' }, href: '/compliance' },
+  { label: { ru: 'Конфигуратор', en: 'Configurator', ko: '구성기', zh: '配置器', hi: 'कॉन्फिगरेटर' }, href: '/calculator' },
 ] as const;
 
 const socialLinks = [
@@ -89,9 +90,9 @@ export default function Footer() {
             <h4 className="font-mono text-xs font-bold text-on-surface/50 uppercase tracking-[0.2em]">{t(locale, copy.hardware)}</h4>
             <ul className="flex flex-col gap-4">
               {hardwareItems.map((item) => (
-                <li key={item.label}>
+                <li key={item.href}>
                   <Link href={item.href} className="text-sm font-semibold uppercase tracking-wider text-on-surface-variant hover:text-accent transition-colors flex items-center w-fit">
-                    {item.label}
+                    {t(locale, item.label)}
                   </Link>
                 </li>
               ))}
@@ -103,9 +104,9 @@ export default function Footer() {
             <h4 className="font-mono text-xs font-bold text-on-surface/50 uppercase tracking-[0.2em]">{t(locale, copy.system)}</h4>
             <ul className="flex flex-col gap-4">
               {systemItems.map((item) => (
-                <li key={item.label}>
+                <li key={item.href}>
                   <Link href={item.href} className="text-sm font-semibold uppercase tracking-wider text-on-surface-variant hover:text-accent transition-colors flex items-center w-fit">
-                    {item.label}
+                    {t(locale, item.label)}
                   </Link>
                 </li>
               ))}
@@ -125,7 +126,7 @@ export default function Footer() {
                     Москва,<br/>
                     Полимерная 8
                   </h3>
-                  <p className="text-sm text-on-surface-variant/70 mt-2">Производственный комплекс</p>
+                  <p className="text-sm text-on-surface-variant/70 mt-2">{t(locale, copy.productionComplex)}</p>
                 </div>
               </div>
               <div className="flex flex-col gap-2 mt-4">
@@ -144,7 +145,7 @@ export default function Footer() {
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-outline/10">
           <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-8 items-center">
             <p className="text-[10px] sm:text-xs font-mono text-on-surface-variant/50 uppercase tracking-[0.1em] md:tracking-[0.2em]">
-              © {new Date().getFullYear()} БУКВА СВЕТ — ALL RIGHTS RESERVED
+              © {new Date().getFullYear()} БУКВА СВЕТ — {t(locale, copy.rightsReserved).toUpperCase()}
             </p>
             <div className="hidden md:flex gap-6 items-center">
               <div className="h-px w-6 bg-outline/20" />

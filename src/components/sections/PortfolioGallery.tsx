@@ -40,7 +40,7 @@ export default function PortfolioGallery() {
               <span>Production Archive</span>
             </div>
             <h2 className="text-5xl lg:text-7xl font-headline font-black uppercase tracking-tighter leading-[0.85] text-white">
-              Наши <span className="text-orange-500">будни.</span>
+              Наши <span className="text-emerald-400">будни.</span>
             </h2>
           </div>
           <div className="h-px grow bg-white/5 mx-12 hidden md:block mb-4" />
@@ -56,7 +56,7 @@ export default function PortfolioGallery() {
               transition={{ delay: index * 0.05 }}
               className="group"
             >
-              <Card className="aspect-square overflow-hidden bg-slate-900 border-white/5 relative group-hover:border-orange-500/50 transition-all duration-500">
+              <Card className="aspect-square overflow-hidden bg-slate-900 border-white/5 relative group-hover:border-emerald-400/50 transition-all duration-500">
                 <Image
                   src={`/img/${img}`}
                   alt={`Project ${index + 1}`}
@@ -65,7 +65,7 @@ export default function PortfolioGallery() {
                   sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 16vw"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-transparent opacity-60" />
-                <div className="absolute bottom-2 left-3 text-[8px] font-mono text-white/20 uppercase tracking-widest group-hover:text-orange-500 transition-colors">
+                <div className="absolute bottom-2 left-3 text-[8px] font-mono text-white/20 uppercase tracking-widest group-hover:text-emerald-400 transition-colors">
                   IMG_REF_{index + 1024}
                 </div>
               </Card>

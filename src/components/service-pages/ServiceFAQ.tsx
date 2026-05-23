@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Info } from 'lucide-react';
+import { Info, Send } from 'lucide-react';
 import { useModalStore } from '@/store/useModalStore';
 import { FAQAccordion } from '@/components/ui/FAQAccordion';
 import { FAQItem } from '@/lib/services/types';
@@ -49,9 +49,10 @@ export default function ServiceFAQ({ items, title = 'Частые вопросы
             
             <button 
               onClick={() => openModal({ context: `FAQ Консультация: ${title}`, source: 'service_faq_support_card' })}
-              className="w-full py-4 bg-[var(--ds-accent)] text-black rounded-full font-black uppercase tracking-widest text-[9px] flex items-center justify-center gap-2 border border-[var(--ds-accent)] shadow-[var(--ds-glow-accent)] hover:shadow-[var(--ds-glow-accent-lg)] hover:-translate-y-0.5 active:scale-95 transition-all duration-300 cursor-pointer relative z-10"
+              className="group w-full py-4 rounded-full bg-[#0088CC] text-white font-semibold tracking-[0.02em] text-[12px] inline-flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,136,204,0.4)] transition-all duration-300 hover:bg-[#0088CC]/90 hover:shadow-[0_0_30px_rgba(0,136,204,0.6)] hover:-translate-y-0.5 active:scale-95 cursor-pointer relative z-10"
             >
-              Задать вопрос инженеру
+              <Send className="h-4 w-4" />
+              Обсудить с инженером
             </button>
           </div>
         </div>
