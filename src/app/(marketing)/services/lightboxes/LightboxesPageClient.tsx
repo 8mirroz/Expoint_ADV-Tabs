@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ArrowRight, CheckCircle2, Clock, FileUp, Sparkles, Zap,
@@ -67,7 +67,9 @@ export default function LightboxesPageClient() {
         title="Конструктор стоимости" 
         description="Введите размеры светового короба и выберите сценарий исполнения. Калькулятор мгновенно рассчитает площади и покажет диапазон цен."
       >
-        <CalculatorContainer serviceId="lightbox" />
+        <Suspense fallback={<div className="rounded-3xl border border-outline bg-surface p-8 text-on-surface">Загрузка калькулятора...</div>}>
+          <CalculatorContainer serviceId="lightbox" />
+        </Suspense>
       </ServiceCalculatorShell>
       <EngineeringShowcase />
       <PricingPackages packages={lightboxesData.packages} />

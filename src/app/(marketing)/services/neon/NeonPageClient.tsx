@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { Suspense, useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ArrowRight, CheckCircle2, Clock, FileUp, Sparkles, Zap,
@@ -66,7 +66,9 @@ export default function NeonPageClient() {
         title="Конструктор стоимости" 
         description="Введите текст, выберите размер и сценарий свечения. Покажем честный ориентир без цены ниже минимального кастомного чека."
       >
-        <CalculatorContainer serviceId="neon" />
+        <Suspense fallback={<div className="rounded-3xl border border-outline bg-surface p-8 text-on-surface">Загрузка калькулятора...</div>}>
+          <CalculatorContainer serviceId="neon" />
+        </Suspense>
       </ServiceCalculatorShell>
       <EngineeringShowcase />
       <SkuShowcase />

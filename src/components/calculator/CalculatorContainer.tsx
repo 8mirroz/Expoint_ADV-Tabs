@@ -123,7 +123,7 @@ const stepMeta: Record<CalculatorStep, { index: string; title: string; body: str
   },
 };
 
-function productFromService(): CalculatorProductType {
+function productFromService(_serviceType?: string | null): CalculatorProductType {
   return LOCKED_PRODUCT_TYPE;
 }
 
